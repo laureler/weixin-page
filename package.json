@@ -1,18 +1,28 @@
 {
-  "name": "wechat-auth",
+  "name": "south-wechat-project",
   "version": "0.1.0",
   "private": true,
+  "author": "southgis",
+  "description": "south-wechat-project",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "ant-design-vue": "^1.3.7",
+    "axios": "^0.18.0",
+    "element-ui": "^2.6.3",
+    "eruda": "^1.5.4",
+    "js-cookie": "^2.2.0",
+    "jsonp": "^0.2.1",
+    "moment": "^2.24.0",
     "register-service-worker": "^1.6.2",
+    "vant": "^1.6.11",
     "vue": "^2.6.6",
-    "vue-router": "^3.0.1",
+    "vue-router": "^3.0.2",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -27,10 +37,16 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
+    "babel-register": "^6.26.0",
+    "chromedriver": "^2.46.0",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
-    "vue-template-compiler": "^2.5.21"
+    "selenium-server": "^3.141.59",
+    "vue-axios": "^2.1.4",
+    "vue-template-compiler": "^2.5.21",
+    "webpack": "^4.29.6",
+    "webpack-merge": "^4.2.1"
   }
 }
