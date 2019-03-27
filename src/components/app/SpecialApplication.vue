@@ -440,7 +440,7 @@
                     } else {
                         // 允许预约时段，判断可预约数
                         let kyys = yyxxinfo[0].ZYYS - yyxxinfo[0].YYYS
-                        if (kyys === 0) {
+                        if (kyys && kyys === 0) {
                             Toast('可预约数量为0！')
                             return
                         } else {
@@ -454,6 +454,7 @@
         },
     }
 </script>
+
 <style lang="css" scoped>
 
 	/*@import "../../css/elem UI.css";*/
