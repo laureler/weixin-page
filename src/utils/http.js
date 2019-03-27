@@ -10,13 +10,8 @@ let activeId = sessionStorage.getItem('activeId');
 // todo base_URL 需要全部起作用
 // 新增request请求
 const REQUEST_TIMEOUT = 300000;
-// const BASE_URL = 'https://www.easy-mock.com/mock/5b72965c17ef106fc4044779/pubWeb/wechatmock';
-// const BASE_URL = 'http://gybdc.gaoyao.gov.cn/formengineWebService/public';
-// const BASE_URL = 'http://172.16.42.85:8080/formengineWebService/public';
-// const BASE_URL = 'http://192.168.10.29:8080/pubWeb/public/doIntranetRequest';
-// const BASE_URL = 'http://172.16.42.85:8080/pubWeb/public/doIntranetRequest/';
-// const BASE_URL = '/api/WSYY';
-const BASE_URL = '/pubWeb/public/doIntranetRequest';
+const BASE_URL = 'http://118.24.70.239:7300/mock/5c9af379365f9600200deb72/WSYY';
+// const BASE_URL = '/pubWeb/public/doIntranetRequest';
 
 const HEADERS = {
   'X-Requested-With': 'XMLHttpRequest',

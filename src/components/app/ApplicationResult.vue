@@ -62,6 +62,26 @@
 	</div>
 </template>
 
+<script>
+	import Head from './head.vue'
+
+	export default {
+		components: {
+			'page-head': Head,
+		},
+		data() {
+			return {
+				item: {},
+				key: '',
+			}
+		},
+		mounted() {
+			this.item = JSON.parse(this.$route.query.response)[0];
+			this.key = this.$route.query.key;
+		},
+	}
+</script>
+
 <style lang="css" scoped>
 
 	@import "../../css/elem UI.css";
@@ -87,27 +107,27 @@
 	}
 
 	.titlep {
-        margin-top: 0;
-        margin-left: 0.225rem;
-        font-size: 16px;
-        line-height: 16px;
-    }
+		margin-top: 0;
+		margin-left: 0.225rem;
+		font-size: 16px;
+		line-height: 16px;
+	}
 
-    .borderLeft {
-        border-left: 3px solid #f77f5a;
-        float: left;
-        height: 15px;
-    }
+	.borderLeft {
+		border-left: 3px solid #f77f5a;
+		float: left;
+		height: 15px;
+	}
 
-    .title {
-        height: 40px;
-        padding: 10px 10px;
-        font-weight: bold;
-        color: #252525;
-        letter-spacing: 1px;
-        border-bottom:1px solid #e9e9e9;
-    }
-    .cul {
+	.title {
+		height: 40px;
+		padding: 10px 10px;
+		font-weight: bold;
+		color: #252525;
+		letter-spacing: 1px;
+		border-bottom:1px solid #e9e9e9;
+	}
+	.cul {
 		margin-top: 0.1rem;
 		margin-left: 0.3rem;
 		margin-right: 0.3rem;
@@ -121,29 +141,7 @@
 		padding: 0.3rem 0;
 	}
 	.contain{
-	    padding:0.25rem;
-	    font-size: 0.375rem;
+		padding:0.25rem;
+		font-size: 0.375rem;
 	}
 </style>
-
-<script>
-	import Head from './head.vue'
-
-	import { request } from '../../utils/http.js'
-
-	export default {
-		components: {
-			'page-head': Head,
-		},
-		data() {
-			return {
-				item: {},
-				key: '',
-			}
-		},
-		mounted() {
-			this.item = JSON.parse(this.$route.query.response)[0];
-			this.key = this.$route.query.key;
-		},
-	}
-</script>

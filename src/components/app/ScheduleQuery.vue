@@ -2,52 +2,94 @@
 	<div style="display:flex;flex-direction:column">
 		<page-head title="进度查询"></page-head>
 		<!--<div>-->
-			<!--<img src="../../../public/images/wechatstatic/bg_top1.png" style="width:100%"></img>-->
+		<!--<img src="../../../public/images/wechatstatic/bg_top1.png" style="width:100%"></img>-->
 		<!--</div>-->
 		<!--<el-checkbox class="Ocheckbox" v-model="checked" label="通过登记号" disabled></el-checkbox>-->
-    <div class="search-div">
-      <div class="Cdiv">
-        <!--<div class="reg">业务登记号：</div>-->
-        <input placeholder="请输入业务登记号" v-model="djbh" type="text" class="Cinput"/>
-        <el-button v-on:click="query" class="schequery" icon="el-icon-search"></el-button>
-      </div>
-    </div>
-
-    <div style="font-size:0.42rem;color:#252525;margin-top:0.3rem;margin-left: 0.5rem">查询结果</div>
-    <hr style="width:9.5rem;border:none;border-bottom:1px solid #e5e5e5;margin-top: 0.35rem;margin-bottom: 0.35rem"/>
-    <div v-show="fail" style="font-size:0.42rem;color:#999999;margin-left: 0.5rem">{{resultmsg}}</div>
-    <div v-show="show" class="cContent">
-			<div v-show="success" class="container" v-for="result in results" :key="result.id">
-				<div>收件编号：{{result.jid}}</div>
-				<div>业务类型：{{result.jtitle}}</div>
-				<div>房地坐落：{{result.zl}}</div>
-				<div class="redColor">业务状态：{{result.ywjd}}</div>
+		<div class="search-div">
+			<div class="Cdiv">
+				<!--<div class="reg">业务登记号：</div>-->
+				<input placeholder="请输入业务登记号" v-model="djbh" type="text" class="Cinput"/>
+				<el-button v-on:click="query" class="schequery" icon="el-icon-search"></el-button>
 			</div>
+		</div>
+
+		<div style="font-size:0.42rem;color:#252525;margin-top:0.3rem;margin-left: 0.5rem">查询结果</div>
+		<hr style="width:9.5rem;border:none;border-bottom:1px solid #e5e5e5;margin-top: 0.35rem;margin-bottom: 0.35rem"/>
+		<div v-show="!isShow" style="font-size:0.42rem;color:#999999;margin-left: 0.5rem">{{resultmsg}}</div>
+		<div v-show="isShow" class="container" v-for="result in results" :key="result.id">
+			<div>收件编号：{{result.jid}}</div>
+			<div>业务类型：{{result.jtitle}}</div>
+			<div>房地坐落：{{result.zl}}</div>
+			<div class="redColor">业务状态：{{result.ywjd}}</div>
 		</div>
 	</div>
 </template>
 
+<script>
+    import Head from './head.vue'
+
+    import { request } from '../../utils/http.js'
+
+    export default {
+        components: {
+            'page-head': Head,
+        },
+        data () {
+            return {
+                isShow: false,
+                results: {},
+                djbh: '',
+                checked: true,
+                resultmsg: '未查询到结果',
+            }
+        },
+        methods: {
+            query () {
+                const that = this
+                request({
+                    url: '/GetYWJD',
+                    data: { strJson: JSON.stringify({ djbh: that.djbh }) },
+                    success (response) {
+                        console.log(response)
+                        if (Number(response.resultcode) === 1) {
+                            that.isShow = !that.isShow;
+                            that.results = response.result;
+                        } else {
+                            that.isShow = false;
+                            // that.resultmsg = '获取失败！'
+                        }
+                    },
+                    fail (error) {
+                    },
+                })
+            },
+        },
+    }
+</script>
+
 <style lang="css" scoped>
 
-  .search-div{
-    background: #f0f5f8;
-    height: 2rem;
-  }
+	.search-div {
+		background: #f0f5f8;
+		height: 2rem;
+	}
 
 	.schequery {
-    margin: 0 auto;
-    border: none;
-    color: #6cccff;
-    margin-top: -0.1rem;
-    padding-left: 0.1rem;
-    height: 1rem;
+		margin: 0 auto;
+		border: none;
+		color: #6cccff;
+		margin-top: -0.1rem;
+		padding-left: 0.1rem;
+		height: 1rem;
 	}
-  .schequery:focus {
-    background: white;
-  }
-  .schequery:hover {
-    background: white;
-  }
+
+	.schequery:focus {
+		background: white;
+	}
+
+	.schequery:hover {
+		background: white;
+	}
 
 	.reg {
 		width: 30%
@@ -77,12 +119,12 @@
 	}
 
 	.Cdiv {
-		padding:0.3rem 0rem 0.3rem 0.3rem;
+		padding: 0.3rem 0rem 0.3rem 0.3rem;
 		display: flex;
 		font-size: 0.375rem;
-    margin: 0.25rem 0.25rem 0.25rem 0.25rem;
-    background-color:#ffffff;
-    height: 1.5rem;
+		margin: 0.25rem 0.25rem 0.25rem 0.25rem;
+		background-color: #ffffff;
+		height: 1.5rem;
 	}
 
 	.Cinput {
@@ -90,55 +132,8 @@
 		border: none;
 		font-size: 0.375rem;
 		outline: none;
-    border-right:1px solid #e5e5e5;
-    height: 1rem;
-    margin-right: 0.31rem;
+		border-right: 1px solid #e5e5e5;
+		height: 1rem;
+		margin-right: 0.31rem;
 	}
 </style>
-
-<script>
-	import Head from './head.vue'
-
-	import { request } from '../../utils/http.js'
-
-	export default {
-		components: {
-			'page-head': Head,
-		},
-		data() {
-			return {
-				show: false,
-				success: false,
-				fail: true,
-				results: [],
-				djbh: '',
-				checked: true,
-				resultmsg: '未查询到结果',
-			}
-		},
-		methods: {
-			query() {
-				const that = this;
-				request({
-					url: '/GetYWJD',
-					data: { strJson: JSON.stringify({ djbh: that.djbh }) },
-					success(response) {
-						console.log(response);
-						if (response.resultcode === 1 || response.resultcode === "1") {
-							that.show = true;
-							that.fail = false;
-							that.success = true;
-							that.results = response.result
-            } else {
-							that.show = true;
-							that.fail = true;
-							// that.resultmsg = '获取失败！'
-						}
-					},
-					fail(error) {
-					},
-				})
-			},
-		},
-	}
-</script>

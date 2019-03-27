@@ -1,4 +1,3 @@
-/*eslint semi: ["error", "never", { "beforeStatementContinuationChars": "never"}] */
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router/router'

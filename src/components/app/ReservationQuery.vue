@@ -13,15 +13,6 @@
 	</div>
 </template>
 
-<style lang="css" scoped>
-
-	@import "../../css/elem UI.css";
-	.olabel b {
-		color: #d7342e
-	}
-
-</style>
-
 <script>
 	import Head from './head.vue'
 
@@ -76,3 +67,12 @@
 		},
 	}
 </script>
+
+<style lang="css" scoped>
+
+	@import "../../css/elem UI.css";
+	.olabel b {
+		color: #d7342e
+	}
+
+</style>

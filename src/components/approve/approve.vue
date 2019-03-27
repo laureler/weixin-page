@@ -1,25 +1,15 @@
 <template>
     <div class="approve">
-        <!--<sg-step :title="title" :active="active" class="approve_step"></sg-step>-->
-        <!--<step1_1></step1_1>-->
         <router-view></router-view>
-        <!-- <button @click="next">下一步</button> -->
-
     </div>
-
 </template>
 
 <script>
-// import sgStep from '../sgStep'
 
     export default {
-        components:{
-            // sgStep
-        },
+        components:{},
         data() {
-            return {
-                title:['上传身份证','实人检测','认证结果']
-            }
+            return {}
         },
         computed:{
             active(){
@@ -28,18 +18,12 @@
         }
     }
 
-
 </script>
 
 <style scoped lang="less">
 .approve{
     width:100%;
-    height:  calc(~'100% - 20px');
-
+    height:100%;
     background:#f3f3f3;
-    .approve_step{
-        margin-bottom:20px;
-    }
-
 }
 </style>

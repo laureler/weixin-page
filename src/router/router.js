@@ -109,56 +109,29 @@ const router = new Router({
             name: 'SpecialApplication',
             component: resolve => require(['@/components/app/SpecialApplication'], resolve)
         },
-        {
-            path: '/samsg',
-            name: 'SpeApplMsg',
-            component: resolve => require(['@/components/app/SpeApplMsg'], resolve)
-        },
-        // 准备开启验证
+        // 准备开启人脸核身验证
         {
             path: '/preApprove',
-            name: '',
-            component: resolve => require(['@/messageApprove/preApprove'], resolve)
+            name: 'preApprove',
+            component: resolve => require(['@/components/approve/preApprove'], resolve)
         },
-        // 人脸识别接口 /approve/strp1
-        // 人脸识别接口 /approve/strp2
-        // 人脸识别接口 /approve/strp3
+        // 人脸识别接口1 /approve/step1
+        // 人脸识别接口2 /approve/step2
+        // 人脸识别接口3 /approve/step3
         {
             path: '/approve',
             name: 'approve',
             component: resolve => require(['@/components/approve/approve'], resolve),
             children: [
                 {
-                    path: '/step1',
-                    name: 'step1',
-                    component: resolve => require(['@/components/approve/step1'], resolve)
-                },
-                {
-                    path: '/step2',
-                    name: 'step2',
-                    component: resolve => require(['@/components/approve/step2'], resolve)
-                },
-                {
-                    path: '/step3',
-                    name: 'step3',
-                    component: resolve => require(['@/components/approve/step3'], resolve)
-                }
-            ]
-        },
-        {
-            path: '/approvenew',
-            name: 'approvenew',
-            component: resolve => require(['@/components/approve/approvenew'], resolve),
-            children: [
-                {
                     path: '',
-                    name: 'step1new',
-                    component: resolve => require(['@/components/approve/step1new'], resolve)
+                    name: 'approveStep1',
+                    component: resolve => require(['@/components/approve/approveStep1'], resolve)
                 },
                 {
-                    path: '/step2new',
-                    name: 'step2new',
-                    component: resolve => require(['@/components/approve/step2new'], resolve)
+                    path: '/approveStep2',
+                    name: 'approveStep2',
+                    component: resolve => require(['@/components/approve/approveStep2'], resolve)
                 }
             ]
         },
@@ -172,44 +145,19 @@ const router = new Router({
                 {
                     path: '',
                     name: 'messageStep1',
-                    component: resolve => require(['@/components/messageApprove/step1'], resolve)
+                    component: resolve => require(['@/components/messageApprove/messageStep1'], resolve)
                 },
                 // 默认路径第二步
                 {
                     path: '/messageStep2',
                     name: 'messageStep2',
-                    component: resolve => require(['@/components/messageApprove/step2'], resolve)
+                    component: resolve => require(['@/components/messageApprove/messageStep2'], resolve)
                 },
                 // 默认路径第三步
                 {
                     path: '/messageStep3',
                     name: 'messageStep3',
-                    component: resolve => require(['@/components/messageApprove/step3'], resolve)
-                }
-            ]
-        },
-        {
-            path: '/messageApprovenew',
-            name: 'messageApprovenew',
-            component: resolve => require(['@/components/messageApprove/messageApprovenew'], resolve),
-            children: [
-                // 默认路径
-                {
-                    path: '',
-                    name: 'messageStep1new',
-                    component: resolve => require(['@/components/messageApprove/step1new'], resolve)
-                },
-                // 默认路径第二步
-                {
-                    path: '/messageStep2',
-                    name: 'messageStep2',
-                    component: resolve => require(['@/components/messageApprove/step2'], resolve)
-                },
-                // 默认路径第三步
-                {
-                    path: '/messageStep3',
-                    name: 'messageStep3',
-                    component: resolve => require(['@/components/messageApprove/step3'], resolve)
+                    component: resolve => require(['@/components/messageApprove/messageStep3'], resolve)
                 }
             ]
         },

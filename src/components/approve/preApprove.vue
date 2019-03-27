@@ -89,7 +89,7 @@ Vue.use(Popup);
               var _this=this;
               if(this.isCheck){
                 if(this.$store.state.callbackUrl){
-                  this.$router.push({path:'/approvenew'});
+                  this.$router.push({path:'/approve'});
                   sessionStorage.setItem('token',this.uuid(20,16));
                   //人脸识别首页初始化配置（针对ios系统）
                   this.$fetch('/pubWeb/public/getWeChatConfig?url='+window.location.href.split('#')[0]).then(res=>{
@@ -102,7 +102,7 @@ Vue.use(Popup);
                 if(token){
                   //若有token 则不扫码 同时 取token为变量赋值
                   sessionStorage.setItem('token', token);
-                  _this.$router.push({path:'/approvenew', query: {token: token}})
+                  _this.$router.push({path:'/approve', query: {token: token}})
                 }else {
                   this.$fetch('/pubWeb/public/getWeChatConfig?url='+window.location.href.split('#')[0]).then(res=>{
                     wx.config(res);
@@ -114,7 +114,7 @@ Vue.use(Popup);
                         success: function (res) {
                           var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
                           sessionStorage.setItem('token',result);
-                          _this.$router.push({path:'/approvenew'})
+                          _this.$router.push({path:'/approve'})
                         }
                       });
                     });

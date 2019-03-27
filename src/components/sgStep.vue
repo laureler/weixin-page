@@ -66,7 +66,6 @@
     z-index:2;
 }
 .sg_step_num_item{
-
     height:100/2px;
     position:relative;
 
@@ -101,7 +100,6 @@
     margin-top:30/2px;
 }
 .sg_step_line{
-
     width:590/2px;
     display:flex;
     flex-direction:row;
