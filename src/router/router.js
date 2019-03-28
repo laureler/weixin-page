@@ -109,6 +109,11 @@ const router = new Router({
             name: 'SpecialApplication',
             component: resolve => require(['@/components/app/SpecialApplication'], resolve)
         },
+        {
+            path: '/samsg',
+            name: 'SpeApplMsg',
+            component: resolve => require(['@/components/app/SpeApplMsg'], resolve)
+        },
         // 准备开启人脸核身验证
         {
             path: '/preApprove',

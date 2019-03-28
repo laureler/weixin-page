@@ -5,6 +5,7 @@ import store from './store/store'
 import './registerServiceWorker'
 
 import FastClick from 'fastclick'
+import '@/assets/lib-flexible/flexible.js'   //移动端屏幕适配
 // todo 重构请求方式为标准的 post请求
 import {request, post, fetch, patch, put} from './utils/http'
 // todo 是否用使用 引入changeBottom指令

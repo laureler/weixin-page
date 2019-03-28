@@ -1,4 +1,5 @@
 <template lang="html">
+	<!-- 开发商预约信息提交页面 -->
 	<div style="display:flex;flex-direction:column">
 		<page-head title="开发商预约申请"></page-head>
 		<div class=box-body>
