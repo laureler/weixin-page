@@ -41,8 +41,8 @@
             goback () {
                 this.$store.state.messageStep -= 1
                 this.$router.push({ path: '/messageStep2', query: { token: uiScript.getParam('token') } })
-            }
-        },
+                    ,            }
+        }
         mounted () {
             this.$store.state.messageStep = 3
             var tokenValue = uiScript.getParam('token')

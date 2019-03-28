@@ -120,9 +120,8 @@ const router = new Router({
             name: 'preApprove',
             component: resolve => require(['@/components/approve/preApprove'], resolve)
         },
-        // 人脸识别接口1 /approve/step1
-        // 人脸识别接口2 /approve/step2
-        // 人脸识别接口3 /approve/step3
+        // 人脸识别接口1 /approve/approveStep1
+        // 人脸识别接口2 /approve/approveStep2
         {
             path: '/approve',
             name: 'approve',

@@ -22,7 +22,11 @@
   import {request} from '../../utils/http'
   import RouterList from "@/components/template/routerList";
   import RouterHeader from "@/components/template/routerHeader";
-  //微信导航 列表页面
+
+  /*
+  * 微信导航 列表页面
+  * */
+
   export default {
 
     name: "routerListPage",
@@ -50,7 +54,7 @@
         var _this = this
 
         request({
-          url: 'http://118.24.70.239:7300/mock/5be91c1ff5bc707c7b645802/example/getDetailHtmlById',
+          url: '/pubWeb/public/getDetailHtmlById',
           data: {
             itemId:item.id,
           },

@@ -7,53 +7,6 @@
 	</div>
 </template>
 
-<style lang="css">
-	.detail-title {
-		font-size: 0.6rem;
-		text-align: center;
-		margin-top: 0.375rem;
-	}
-
-	.detail-time {
-		font-size: 0.375rem;
-		text-align: center;
-		margin-top: 0.375rem;
-	}
-
-	* {
-		margin: 0;
-		padding: 0;
-	}
-
-	.detail-content p {
-		line-height: 1.5;
-		font-size: 0.48rem;
-		margin: 0.12rem 0px !important;
-		word-wrap: break-word;
-	}
-
-	.detail-content p span {
-		line-height: 1.5;
-	}
-
-	.detail-content img {
-		font-size: 0.2em;
-	}
-
-	.detail-content table {
-		table-layout: fixed;
-	}
-
-	.detail-content {
-		padding: 0.3rem;
-		overflow: hidden;
-	}
-  .detail-content>p *{
-    max-width:100%;
-  }
-
-</style>
-
 <script>
 
 	import Head from './head.vue'
@@ -109,3 +62,50 @@
 		},
 	}
 </script>
+
+<style lang="css">
+	.detail-title {
+		font-size: 0.6rem;
+		text-align: center;
+		margin-top: 0.375rem;
+	}
+
+	.detail-time {
+		font-size: 0.375rem;
+		text-align: center;
+		margin-top: 0.375rem;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+	}
+
+	.detail-content p {
+		line-height: 1.5;
+		font-size: 0.48rem;
+		margin: 0.12rem 0px !important;
+		word-wrap: break-word;
+	}
+
+	.detail-content p span {
+		line-height: 1.5;
+	}
+
+	.detail-content img {
+		font-size: 0.2em;
+	}
+
+	.detail-content table {
+		table-layout: fixed;
+	}
+
+	.detail-content {
+		padding: 0.3rem;
+		overflow: hidden;
+	}
+	.detail-content>p *{
+		max-width:100%;
+	}
+
+</style>

@@ -87,7 +87,7 @@
                 success (response) {
                     if (response) {
                         // result 查询信息存在的时候
-                        if (response.resultcode === 1 || response.resultcode === '1') {
+                        if (Number(response.resultcode) === 1) {
                             _this.isSuccess = true
                             _this.infos = response.result || ''
                             watermark(null, _this.infos[0].mark)

@@ -99,7 +99,7 @@
                 var formData = new FormData()
                 formData.append('token', sessionStorage.getItem('token'))  //扫码的值
                 formData.append('openId', Cookies.get('openid'))  //openid
-                formData.append('fullName', _this.data_name)  //// 验证填入的姓名
+                formData.append('fullName', _this.data_name)  // 验证填入的姓名
                 formData.append('idNumber', _this.data_id)  //验证填入的身份证号
                 formData.append('verifyResult', verify_result)
                 //
