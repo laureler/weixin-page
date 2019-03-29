@@ -75,7 +75,7 @@
     }
 </script>
 
-<style scoped lang="less">
+<style lang="less" scoped>
 	.space_between {
 		background-color: #eff7f7;
 		height: 8px;

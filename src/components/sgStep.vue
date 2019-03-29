@@ -48,7 +48,7 @@
     }
 </script>
 
-<style scoped lang="less">
+<style lang="less" scoped>
 .sg_step{
     width:100%;
     height:100/2px;

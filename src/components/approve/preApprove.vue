@@ -149,7 +149,7 @@
     }
 </script>
 
-<style scoped lang="less">
+<style lang="less" type="text/less" scoped>
 	.space_between {
 		background-color: #eff7f7;
 		height: 8px;
@@ -157,116 +157,112 @@
 	}
 
 	.home {
+		.home_title {
+			width: 750/75rem;
+			height: 310/75rem;
+			/*background: burlywood;*/
+		}
 
-	.home_title {
-		width: 750/75rem;
-		height: 310/75rem;
-	/ / background: burlywood;
-	}
+		.homt_button {
+			width: 690/2px;
+			height: 88/2px;
+			margin: 40/2px 30/2px;
+			border: none;
+			/*background: #338cfd;*/
+			background: linear-gradient(to right, #2db6ff, #2edbfd);
+			border-radius: 44/11px;
+			font-size: 36/2px;
+			color: #fff;
+		}
 
-	.homt_button {
-		width: 690/2px;
-		height: 88/2px;
-		margin: 40/2px 30/2px;
-		border: none;
-		/*background: #338cfd;*/
-		background: linear-gradient(to right, #2db6ff, #2edbfd);
-		border-radius: 44/11px;
-		font-size: 36/2px;
-		color: #fff;
+		.home_approve_container {
+			position: relative;
+		}
 
-	}
+		.message_check_box {
+			width: 80/2px;
+			height: 80/2px;
+			position: absolute;
+			top: -15/2px;
+			left: 90/2px;
+		}
 
-	.home_approve_container {
-		position: relative;
-	}
+		.message_check {
+			display: block;
+			padding: 18/2px;
+			border: 2/2px solid #9a9a9a;
+			position: absolute;
+			top: 20/2px;
+			right: 20/2px;
+		}
 
-	.message_check_box {
-		width: 80/2px;
-		height: 80/2px;
-		position: absolute;
-		top: -15/2px;
-		left: 90/2px;
-	}
+		.message_isCheck {
+			padding: 20/2px;
+			border: none;
+			background-image: url('../../../public/images/home/icon_gouxuan@2x.png');
+			background-repeat: no-repeat;
+			background-size: 40/2px 40/2px;
+		}
 
-	.message_check {
-		display: block;
-		padding: 18/2px;
-		border: 2/2px solid #9a9a9a;
-		position: absolute;
-		top: 20/2px;
-		right: 20/2px;
-	}
+		.home_bottom {
+			height: 0.8rem;
+			width: 352/73.75rem;
+			position: fixed;
+			bottom: 50/73.75rem;
+			left: 0px;
+			right: 0px;
+			margin-left: auto;
+			margin-right: auto;
+			display: block;
+		}
 
-	.message_isCheck {
-		padding: 20/2px;
-		border: none;
-		background-image: url('../../../public/images/home/icon_gouxuan@2x.png');
-		background-repeat: no-repeat;
-		background-size: 40/2px 40/2px;
-	}
+		.home_approve {
+			height: 50/2px;
+			width: 750/2px;
+			line-height: 50/2px;
+			text-align: center;
+			.approve_font {
+				color: #338cfd;
+			}
+		}
 
-	.home_bottom {
-		height: 0.8rem;
-		width: 352/73.75rem;
-		position: fixed;
-		bottom: 50/73.75rem;
-		left: 0px;
-		right: 0px;
-		margin-left: auto;
-		margin-right: auto;
-		display: block;
-	}
+		.home_popup {
+			width: 600/2px;
+			height: 700/2px;
+			border-radius: 5/2px;
+		}
 
-	.home_approve {
-		height: 50/2px;
-		width: 750/2px;
-		line-height: 50/2px;
-		text-align: center;
+		.popup_title {
+			height: 100/2px;
+			line-height: 100/2px;
+			border-bottom: 1/2px solid #e4e4e4;
+			text-align: center;
+			font-size: 30/2px;
+		}
 
-	.approve_font {
-		color: #338cfd;
-	}
+		.popup_content {
+			padding: 0 30/2px;
+			height: 500/2px;
+			border-bottom: 1/2px solid #e4e4e4;
+			overflow-y: auto;
+		}
 
-	}
-	.home_popup {
-		width: 600/2px;
-		height: 700/2px;
-		border-radius: 5/2px;
-	}
+		.popup_bottom {
+			height: 98/2px;
+			line-height: 98/2px;
+			text-align: center;
+			font-size: 30/2px;
+			color: #338cfd;
+		}
 
-	.popup_title {
-		height: 100/2px;
-		line-height: 100/2px;
-		border-bottom: 1/2px solid #e4e4e4;
-		text-align: center;
-		font-size: 30/2px;
-	}
+		.hint {
+			margin: 50px;
+		}
 
-	.popup_content {
-		padding: 0 30/2px;
-		height: 500/2px;
-		border-bottom: 1/2px solid #e4e4e4;
-		overflow-y: auto;
-	}
-
-	.popup_bottom {
-		height: 98/2px;
-		line-height: 98/2px;
-		text-align: center;
-		font-size: 30/2px;
-		color: #338cfd;
-	}
-
-	.hint {
-		margin: 50px;
-	}
-
-	.hint_info {
-		font-size: 14px;
-		text-align: center;
-	}
-
+		.hint_info {
+			font-size: 14px;
+			text-align: center;
+		}
 	}
 
 </style>

@@ -25,12 +25,15 @@ module.exports = {
         hotOnly: true
     },
 
+    chainWebpack: config => {
+        config
+            .plugin('webpack-bundle-analyzer')
+            .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+    },
+
     configureWebpack: config => {
         if (process.env.NODE_ENV === 'production') {
             // 为生产环境修改配置...
-            config.plugins.push(
-                new BundleAnalyzerPlugin()
-            );
 
         } else {
             // 为开发环境修改配置...

@@ -20,7 +20,7 @@
 
 </script>
 
-<style scoped lang="less">
+<style lang="less" scoped>
 .approve{
     width:100%;
     height:100%;

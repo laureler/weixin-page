@@ -6,7 +6,8 @@
   "description": "south-wechat-project",
   "scripts": {
     "dev": "vue-cli-service serve --open",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --mode config/prod.env.js",
+    "analyz": "set NODE_ENV=production npm_config_report=true && npm run build",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
@@ -23,7 +24,8 @@
     "vant": "^1.6.11",
     "vue": "^2.6.6",
     "vue-router": "^3.0.2",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",
@@ -47,6 +49,7 @@
     "vue-axios": "^2.1.4",
     "vue-template-compiler": "^2.5.21",
     "webpack": "^4.29.6",
+    "webpack-bundle-analyzer": "^3.1.0",
     "webpack-merge": "^4.2.1"
   }
 }

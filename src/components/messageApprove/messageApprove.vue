@@ -23,7 +23,7 @@
 
 </script>
 
-<style lang="less" scoped>
+<style lang="less" type="text/less" scoped>
 	.approve {
 		width: 100%;
 		height: calc(~ '100%');

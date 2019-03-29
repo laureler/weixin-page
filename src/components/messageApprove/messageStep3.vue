@@ -40,9 +40,8 @@
             // 返回上一步
             goback () {
                 this.$store.state.messageStep -= 1
-                this.$router.push({ path: '/messageStep2', query: { token: uiScript.getParam('token') } })
-                    ,            }
-        }
+                this.$router.push({ path: '/messageStep2', query: { token: uiScript.getParam('token') } })}
+        },
         mounted () {
             this.$store.state.messageStep = 3
             var tokenValue = uiScript.getParam('token')
@@ -57,7 +56,7 @@
     }
 </script>
 
-<style scoped lang="less">
+<style lang="less" type="text/less" scoped>
 	.step3 {
 
 		.step3_background {
