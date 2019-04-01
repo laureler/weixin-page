@@ -9,7 +9,7 @@
 <script>
   /* 导航栏数据列表模板 */
   export default {
-    props: ["iconUrl","context"],
+    props: ["iconUrl", "context"],
     data: function () {
       return {}
     },
@@ -30,7 +30,7 @@
       //     }
       //   )
       // }
-    },
+    }
 
   }
 </script>

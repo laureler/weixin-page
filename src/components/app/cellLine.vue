@@ -9,7 +9,7 @@
 
 <script>
   export default {
-    name: "cellLine",
+    name: 'cellLine',
     props: ['title', 'label'],
     data: function () {
       return {
