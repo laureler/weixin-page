@@ -22,6 +22,7 @@
     "fastclick": "^1.0.6",
     "js-cookie": "^2.2.0",
     "jsonp": "^0.2.1",
+    "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "register-service-worker": "^1.6.2",
     "vant": "^1.6.11",

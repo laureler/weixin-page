@@ -1,7 +1,6 @@
 // vue.config.ts 配置说明
 
 const path = require('path')
-const webpack = require('webpack');
 const env_prod = process.env.NODE_ENV === 'production';
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -25,7 +24,8 @@ module.exports = {
     chainWebpack: config => {
         if (env_prod) {
             config.plugin('webpack-bundle-analyzer')
-                .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+                .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin);
+
             config.module
                 .rule("image-webpack-loader")
                 .test(/\.(gif|png|jpe?g|svg)$/i)
@@ -36,7 +36,7 @@ module.exports = {
                 }))
                 .end();
         }
-        config.output.filename('[name].[hash].js').end();
+        config.output.filename('./assets/js/[name].[hash].js').end();
         // 添加别名
         config.resolve.alias
             .set('@', resolve('src'))
@@ -45,14 +45,19 @@ module.exports = {
             .set('layout', resolve('src/layout'))
             .set('base', resolve('src/base'))
             .set('static', resolve('src/static'));
+
     },
 
     configureWebpack: config => {
+
         if (env_prod) {
             // 为生产环境修改配置...
             return {
                 plugins: [
-                    new MiniCssExtractPlugin(),
+                    new MiniCssExtractPlugin({
+                        filename: './assets/css/[name].[hash].css',
+                        chunkFilename: './assets/css/[id].[hash].css'
+                    }),
                     // 压缩：去除空格注释
                     new UglifyJSPlugin({
                         uglifyOptions: {
@@ -81,7 +86,10 @@ module.exports = {
             // 为开发环境修改配置...
             return {
                 plugins: [
-                    new MiniCssExtractPlugin()
+                    new MiniCssExtractPlugin({
+                        filename: './assets/css/[name].css',
+                        chunkFilename: './assets/css/[id].css'
+                    })
                 ]
             }
         }
@@ -91,17 +99,16 @@ module.exports = {
     // css相关配置
     css: {
         // 是否使用css分离插件 生产环境下是true,开发环境下是false
-        extract: env_prod ? {
-            filename: '[name].[hash].css',
-            chunkFilename: '[id].[hash].css'
-        } : {
-            filename: '[name].css',
-            chunkFilename: '[id].css'
-        },
+        extract: env_prod,
         // 开启 CSS source maps?
         sourceMap: false,
         // css预设器配置项
-        loaderOptions: {},
+        loaderOptions: {
+            less:{
+                test: /\.less$/,
+                loader: "style-loader!css-loader!less-loader",
+            },
+        },
         // 启用 CSS modules for all css / pre-processor files.
         modules: false
     },
