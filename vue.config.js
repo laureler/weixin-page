@@ -84,7 +84,7 @@ module.exports = {
                 }),
 
                 // 压缩：去除空格注释
-                new UglifyJSPlugin({
+                /*new UglifyJSPlugin({
                     uglifyOptions: {
                         output: {
                             // 最紧凑的输出
@@ -109,7 +109,7 @@ module.exports = {
                         cache: true,
                         parallel: true,
                     }
-                }),
+                }),*/
 
                 // 使用 ParallelUglifyPlugin 并行压缩输出的 JS 代码
                 /*new ParallelUglifyPlugin({
@@ -142,7 +142,58 @@ module.exports = {
                     threshold: 10240,
                     minRatio: 0.8
                 })
-            ]
+            ];
+            // 将每个依赖包打包成单独的js文件
+            let optimization = {
+                runtimeChunk: 'single',
+                splitChunks: {
+                    chunks: 'all',
+                    maxInitialRequests: Infinity,
+                    minSize: 20000,
+                    cacheGroups: {
+                        vendor: {
+                            test: /[\\/]node_modules[\\/]/,
+                            name (module) {
+                                // get the name. E.g. node_modules/packageName/not/this/part.js
+                                // or node_modules/packageName
+                                const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
+                                // npm package names are URL-safe, but some servers don't like @ symbols
+                                return `npm.${packageName.replace('@', '')}`
+                            }
+                        }
+                    }
+                },
+                minimizer: [
+                    new UglifyJSPlugin({
+                        uglifyOptions: {
+                            output: {
+                                // 最紧凑的输出
+                                beautify: false,
+                                // 删除所有的注释
+                                comments: false,
+                            },
+                            compress: {
+                                // 在UglifyJs删除没有用到的代码时不输出警告
+                                warnings: false,
+                                // 删除所有的 `console` 语句，可以兼容ie浏览器
+                                drop_console: true,
+                                // 删除debugger
+                                drop_debugger: true,
+                                // 内嵌定义了但是只用到一次的变量
+                                collapse_vars: true,
+                                ie8: false,
+                                // 提取出出现多次但是没有定义成变量去引用的静态值
+                                reduce_vars: true,
+                            },
+                            cache: true,
+                            parallel: true,
+                        }
+                    })
+                ]
+            }
+            Object.assign(config, {
+                optimization
+            });
         } else {
             // 为开发环境修改配置...
             return {
@@ -184,7 +235,7 @@ module.exports = {
     },
 
     pluginOptions: {
-        splitChunks: {
+        /*splitChunks: {
             chunkGroups: {
                 vendor: {
                     chunks: 'initial',
@@ -201,6 +252,6 @@ module.exports = {
                     enforce: true
                 }
             }
-        }
+        }*/
     }
 }

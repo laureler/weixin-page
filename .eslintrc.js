@@ -9,10 +9,12 @@ module.exports = {
     ],
     rules: {
         // 关闭语句强制分号结尾
-        "semi": [0],
+        "semi": 'off',
         'no-tabs': 'off',
-        "quotes": ["off"], // 引号类型
-        "indent": ["off", 2],
+        "quotes": 'off', // 引号类型
+        "indent": 'off',
+        'eqeqeq': 'off',
+        'comma-dangle': 'off',
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
     },

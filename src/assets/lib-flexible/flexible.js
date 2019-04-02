@@ -1,5 +1,4 @@
-
-;(function(win, lib) {
+(function(win, lib) {
     var doc = win.document;
     var docEl = doc.documentElement;
     var metaEl = doc.querySelector('meta[name="viewport"]');
@@ -69,7 +68,7 @@
     function refreshRem(){
         var width = docEl.getBoundingClientRect().width;
         // var width = docEl.getBoundingClientRect().width * 1.5;
-        
+
         if (width / dpr > 540) {
             width = 540 * dpr;
         }

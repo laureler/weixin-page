@@ -1,5 +1,4 @@
 export default function(value) {
     value=Number(value);
-            return value.toFixed(2);
-
+    return value.toFixed(2);
 }
