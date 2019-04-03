@@ -75,8 +75,7 @@
                     data: { strJson: JSON.stringify(that.item) },
                     success (response) {
                         console.log(that.item)
-                        console.log(response)
-                        if (response.resultcode == 1 || response.resultcode == '1') {
+                        if (Number(response.resultcode) === 1) {
                             that.$router.push({
                                 path: '/appr',
                                 query: { response: JSON.stringify(response.yyinfo), key: 2 },

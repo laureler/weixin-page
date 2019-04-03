@@ -3,10 +3,14 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-	<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+
+	<script src="./jweixin-1.2.0.js"></script>
+
+	<% if (process.env.NODE_ENV == 'development') { %>
+	<!-- 开发模式下引用 -->
 	<script src="//cdn.bootcss.com/eruda/1.4.2/eruda.min.js"></script>
 	<script>eruda.init();</script>
-
+	<% } %>
 
 	<title></title>
 	<style>
@@ -43,7 +47,6 @@
 <div id="app-box"></div>
 </body>
 <script>
-
     window.onload=function(e){
         var _body=document.getElementsByTagName('body')[0];
         _body.style.height=_body.clientHeight+"px";
@@ -54,10 +57,8 @@
         //  console.log(_html.clientHeight)
         if(_html.clientHeight == 603){
             _body.style.height=_html.clientHeight-49+"px";
-
         }else{
             _body.style.height=_html.clientHeight+"px";
-
         }
     }
 </script>

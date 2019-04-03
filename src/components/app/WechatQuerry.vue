@@ -32,22 +32,6 @@
 	</div>
 </template>
 
-<style lang="css" scoped>
-
-	@import "../../css/elem UI.css";
-
-	.content {
-		margin-bottom: 0.075rem;
-		font-size: 0.375rem;
-	}
-
-	.collapse-content {
-		margin-top: 0.2rem;
-	}
-
-
-</style>
-
 <script>
 
     import Head from './head.vue'
@@ -125,7 +109,7 @@
                     data: { strJson: JSON.stringify({ openid }) },
                     success (response) {
                         console.log(response)
-                        if (response.resultcode == 1 || response.resultcode == '1') {
+                        if (Number(response.resultcode) === 1) {
                             that.items = []
                             that.personalSer = []
                             that.developerSer = []
@@ -149,3 +133,18 @@
         },
     }
 </script>
+
+<style lang="css" scoped>
+
+	@import "../../css/elem UI.css";
+
+	.content {
+		margin-bottom: 0.075rem;
+		font-size: 0.375rem;
+	}
+
+	.collapse-content {
+		margin-top: 0.2rem;
+	}
+
+</style>

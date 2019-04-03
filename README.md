@@ -1,5 +1,7 @@
 # wechat-auth
 
+    基于Vue Cli3的微信公众号重构
+
 ## Project setup
 ```
 npm install
