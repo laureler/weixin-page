@@ -66,10 +66,18 @@
 							<p class="title">开发商预约</p>
 						</div>
 					</el-col>
+				</el-row>
+				<el-row class="home-row">
 					<el-col :span="8">
-						<div class="home-item last" @click="open('/routerHomePage')">
+						<div class="home-item" @click="open('/routerHomePage')">
 							<p class="iconfont icon-yuyue orange"></p>
 							<p class="title">导航功能</p>
+						</div>
+					</el-col>
+					<el-col :span="8">
+						<div class="home-item last" @click="open('/personalHome')">
+							<p class="iconfont icon-yuyue orange"></p>
+							<p class="title">个人中心首页</p>
 						</div>
 					</el-col>
 				</el-row>
