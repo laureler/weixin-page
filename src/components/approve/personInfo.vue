@@ -69,7 +69,6 @@
         },
         components: { 'page-head': header },
         mounted () {
-            console.log('enter personInfo:' + this.$store.state.cardCode + ':' + this.$store.state.cardName)
             /*let param = {
 			  'qlr': this.$store.state.cardCode,
 			  'zjhm': this.$store.state.cardName
@@ -77,10 +76,19 @@
             // todo 若store没有经过 commit cardCode 也就不会有这个属性值 在逻辑不确定的情况下，可能会出现空值的问题。
             // todo 在此改为参数了 但是name放在最后面 需要修改。
             let _this = this
-            let param = {
-                'qlr': this.$route.query.name,
-                'zjhm': this.$route.query.id
-            }
+            let param = {};
+            if (_this.$store.getters.getFaceCheck) {
+            	// 如果已经进行过统一身份认证，则直接使用预存储的身份信息
+	            param = {
+		            'qlr': _this.$store.getters.getPersonCardInfo.cardName,
+		            'zjhm': _this.$store.getters.getPersonCardInfo.cardCode
+	            }
+			} else {
+	            param = {
+		            'qlr': _this.$route.query.name,
+		            'zjhm': _this.$route.query.id
+	            }
+			};
             request({
                 url: '/GetPersonDataInfo',
                 data: { strJson: JSON.stringify(param) },
@@ -88,12 +96,12 @@
                     if (response) {
                         // result 查询信息存在的时候
                         if (Number(response.resultcode) === 1) {
-                            _this.isSuccess = true
-                            _this.infos = response.result || ''
-                            watermark(null, _this.infos[0].mark)
+                            _this.isSuccess = true;
+                            _this.infos = response.result || '';
+                            watermark(null, _this.infos[0].mark);
                         } else {
-                            _this.isSuccess = false
-                            _this.resultmsg = response.resultmsg
+                            _this.isSuccess = false;
+                            _this.resultmsg = response.resultmsg;
                         }
                     }
                 },

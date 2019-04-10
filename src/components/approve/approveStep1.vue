@@ -102,37 +102,12 @@
 				formData.append('fullName', _this.data_name);  // 验证填入的姓名
 				formData.append('idNumber', _this.data_id);  //验证填入的身份证号
 				formData.append('verifyResult', verify_result);
-				//
 				_this.$post('/pubWeb/public/faceRecognition/setAuthenticationResult', formData, config).then(data => {
 					//如果存在callbackUrl，则按callbackUrl重定向处理
 					if (_this.$store.state.callbackUrl) {
 						//如果callbackUrl是WeChatRemoteCheck接口则请求PDF数据给用户
 						if (_this.$store.state.callbackUrl == '/pubWeb/public/system/WeChatRemoteCheck') {
-							let strJson = JSON.stringify({
-								'qlr': _this.data_name,
-								'zjhm': _this.data_id,
-								'returnbyte': true
-							});
-							var stringUrl = _this.$store.state.callbackUrl;
-							paramData = {
-								'strJson': strJson
-							};
-							let config = { headers: { 'Content-Type': 'multipart/form-data' } };
-							_this.$post(stringUrl, paramData, config).then(rs => {
-								switch (rs.status) {
-									case '-1' || undefined:
-										alert('服务器出错');
-										break;
-									case '0':
-										alert('没有权限下载');
-										break;
-									case '1':
-										window.location.href = stringUrl + +'?strJson=' + encodeURIComponent(strJson);
-										break;
-								}
-							}).catch(e => {
-								alert('服务器出错');
-							});
+							_this.getGrantDeep();
 						} else if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/personInfo') {
 							_this.$router.push({
 								path: '/approveStep2',
@@ -155,6 +130,37 @@
 					});
 				});
 			},
+			/*
+				下载个人产权证明
+			 */
+			getGrantDeep() {
+				const _this = this;
+				let strJson = JSON.stringify({
+					'qlr': _this.data_name,
+					'zjhm': _this.data_id,
+					'returnbyte': true
+				});
+				var stringUrl = _this.$store.state.callbackUrl;
+				let paramData = {
+					'strJson': strJson
+				};
+				let config = { headers: { 'Content-Type': 'multipart/form-data' } };
+				_this.$post(stringUrl, paramData, config).then(rs => {
+					switch (rs.status) {
+						case '-1' || undefined:
+							alert('服务器出错');
+							break;
+						case '0':
+							alert('没有权限下载');
+							break;
+						case '1':
+							window.location.href = stringUrl +'?strJson=' + encodeURIComponent(strJson);
+							break;
+					}
+				}).catch(e => {
+					alert('服务器出错');
+				});
+			},
 			WeChatFaceCheck () {
 				var _this = this;
 				wx.invoke('checkIsSupportFaceDetect', {}, function (res) {
@@ -162,12 +168,16 @@
 					if (res.err_code == 0) { // 检测成功
 						var info = { 'request_verify_pre_info': '{"name":"' + _this.data_name + '","id_card_number":"' + _this.data_id + '"}' };
 						wx.invoke('requestWxFacePictureVerifyUnionVideo', info, function (res) {
+							// 人脸识别成功，判断是不是从个人中心首页进来的
+							if (_this.$route.query.isPersonalHomeCheck) {
+								_this.$store.commit('SET_FACE_CHECK', true);
+								_this.$router.push({ path: '/personalHome' });
+							}
 							console.log(res);
 							if (res.hasOwnProperty('err_code')) {
 								if (res.err_code == 0) {
 									_this.successToDo(_this, res.verify_result);
-								}
-								else if (res.err_code == 90100) {
+								} else if (res.err_code == 90100) {
 									return;
 								} else {
 									_this.$router.push({
@@ -179,11 +189,9 @@
 									console.log(res);
 									if (res.err_code == 0) {
 										_this.successToDo(_this, res.verify_result);
-									}
-									else if (res.err_code == 90100) {
+									} else if (res.err_code == 90100) {
 										return;
-									}
-									else {
+									} else {
 										_this.$router.push({
 											path: '/approveStep2', query: { isSuccess: 0 }
 										});
@@ -248,6 +256,13 @@
 			_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
 				wx.config(res);
 			});
+			// 如果是个人设置过来，直接获取已保存的信息
+			if (_this.$route.query.isPersonalHomeCheck) {
+				_this.data_name = _this.$store.getters.getPersonCardInfo.cardName;
+				_this.data_id = _this.$store.getters.getPersonCardInfo.cardCode;
+				// 对信息进行加*处理显示
+				_this.checkInfo(_this.data_name, _this.data_id);
+			}
 		}
 	};
 </script>

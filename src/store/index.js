@@ -15,13 +15,18 @@ export default new Vuex.Store({
 		cardName: '',
 		stepUrl: '',
 		showDialog: false,
-		faceCheckFlag: false	// 是否已经进行人脸识别
+		faceCheck: ''	// 人脸识别状态
 	},
 	mutations: {
 		[types.SET_STEP] (state, res) {
 			state.step = res;
 			// let tempJson = JSON.stringify(res);
 			// window.sessionStorage.setItem('step', tempJson);
+		},
+		[types.SET_FACE_CHECK] (state, res) {
+			// 使用sessionStorage解决页面刷新数据丢书的问题
+			sessionStorage.setItem("faceCheck", res);
+			state.faceCheck = res;
 		},
 		[types.SET_MESSAGESTEP] (state, res) {
 			state.messagestep = res;
@@ -30,9 +35,11 @@ export default new Vuex.Store({
 			state.callbackUrl = res;
 		},
 		[types.CARD_CODE] (state, res) {
+			sessionStorage.setItem("cardCode", res);
 			state.cardCode = res;
 		},
 		[types.CARD_NAME] (state, res) {
+			sessionStorage.setItem("cardName", res);
 			state.cardName = res;
 		},
 		[types.GET_STEP_URL] (state, res) {
@@ -41,6 +48,35 @@ export default new Vuex.Store({
 		[types.DIALOG_CTRL] (state, res) {
 			state.showDialog = res;
 		}
+	},
+	getters: {
+		getFaceCheck(state) {
+			if (state.faceCheck) {
+				return state.faceCheck;
+			} else if (sessionStorage.getItem('faceCheck')) {
+				 return sessionStorage.getItem('faceCheck');
+			} else {
+				return false;
+			}
+		},
 
+		getPersonCardInfo(state) {
+			if (state.cardCode) {
+				return {
+					cardCode: state.cardCode,
+					cardName: state.cardName
+				};
+			} else if (sessionStorage.getItem('cardCode')) {
+				return {
+					cardCode: sessionStorage.getItem('cardCode'),
+					cardName: sessionStorage.getItem('cardName')
+				}
+			} else {
+				return {
+					cardCode: '',
+					cardName: ''
+				};
+			}
+		}
 	}
 });

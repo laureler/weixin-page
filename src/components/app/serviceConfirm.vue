@@ -80,7 +80,7 @@
 					return;
 				} else {
 					// 条件满足，开始发送短信
-					this.$fetch('/pubWeb/system/public/jidSmsCode?jid=' + _this.searchParam + '&number=' + _this.phoneNumber)
+					this.$fetch('/pubWeb/system/public/jidsmsCode?jid=' + _this.searchParam + '&number=' + _this.phoneNumber)
 						.then(response => {
 							if (response) {
 								// 短信发送成功

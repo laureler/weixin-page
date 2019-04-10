@@ -36,7 +36,6 @@
         // 挂载生命周期钩子函数
         mounted: function () {
             var _this = this
-            // _this.$post('http://172.16.42.126:8080/pubWeb/public/wechatRouterList').then(data=>{
             _this.$post('/pubWeb/public/wechatRouterList').then(data => {
                 _this.dataList = data
             }).catch(error => {

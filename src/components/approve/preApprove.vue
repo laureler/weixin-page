@@ -48,105 +48,126 @@
 </template>
 
 <script>
-    import Vue from 'vue'
-    import { Popup } from 'vant'
-    import approveHead from '../app/head'
-    import tenBottom from '../app/TencentBottom.vue'
-    import { GenerateUUID } from '../../utils/uuidgenerator.js'
+	import Vue from 'vue';
+	import { Popup } from 'vant';
+	import approveHead from '../app/head';
+	import tenBottom from '../app/TencentBottom.vue';
+	import { GenerateUUID } from '../../utils/uuidgenerator.js';
 
-    import { request } from '../../utils/http'
+	import { request } from '../../utils/http';
 
-    Vue.use(Popup)
-    export default {
-        data () {
-            return {
-                // 当有token的时候，不执行扫码过程，默认读取页面url的token作为扫码之后的值
-                token: '',
-                isCheck: false,
-                uuid: GenerateUUID,
-                show: false,
-                //认证提示信息
-                mark: '',
-                //返回具体认证错误信息
-                resultmsg: ''
-            }
-        },
-        components: {
-            approveHead, tenBottom
-        },
-        methods: {
-            goBack () {
-                this.$router.go(-1)
-            },
-            check () {
-                this.isCheck = !this.isCheck
-            },
-            showDialog () {
-                this.show = true
-            },
-            hideDialog () {
-                this.show = false
-            },
-            goCheck () {
-                var _this = this
-                if (this.isCheck) {
-                    if (this.$store.state.callbackUrl) {
-                        this.$router.push({ path: '/approve' })
-                        sessionStorage.setItem('token', this.uuid(20, 16))
-                        //人脸识别首页初始化配置（针对ios系统）
-                        this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
-                            wx.config(res)
-                            console.log(res)
-                        })
-                        return
-                    }
-                    const token = uiScript.getParam('token') || ''
-                    if (token) {
-                        //若有token 则不扫码 同时 取token为变量赋值
-                        sessionStorage.setItem('token', token)
-                        _this.$router.push({ path: '/approve', query: { token: token } })
-                    } else {
-                        this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
-                            wx.config(res)
-                            console.log(res)
-                            wx.ready(function () {
-                                wx.scanQRCode({
-                                    needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-                                    scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有
-                                    success: function (res) {
-                                        var result = res.resultStr // 当needResult 为 1 时，扫码返回的结果
-                                        sessionStorage.setItem('token', result)
-                                        _this.$router.push({ path: '/approve' })
-                                    }
-                                })
-                            })
-                        })
-                    }
-                }
-            }
-        },
-        mounted () {
-            const _this = this
-            let callbackUrl = uiScript.getParam('callbackUrl') || ''
-            this.$store.commit('CALLBACK_URL', callbackUrl)
-            let param = {}
-            request({
-                url: '/GetFaceConfigInfo',
-                data: { strJson: JSON.stringify(param) },
-                success (response) {
-                    if (Number(response.resultcode) === 1) {
-                        let check_mark = '<span style="color: red">&nbsp;&nbsp;' +
-                            response.mark.match(RegExp(/肇庆市高要区不动产登记中心一楼大厅五号绿色窗口/)).toString() + '&nbsp;&nbsp;</span>'
-                        _this.mark = response.mark.replace(/肇庆市高要区不动产登记中心一楼大厅五号绿色窗口/, check_mark)
-                    } else if (Number(response.resultcode) === 0) {
-                        _this.resultmsg = response.resultmsg
-                    }
-                },
-                fail (err) {
-                },
-            })
-        }
-    }
+	Vue.use(Popup);
+	export default {
+		data () {
+			return {
+				// 当有token的时候，不执行扫码过程，默认读取页面url的token作为扫码之后的值
+				token: '',
+				isCheck: false,
+				uuid: GenerateUUID,
+				show: false,
+				//认证提示信息
+				mark: '',
+				//返回具体认证错误信息
+				resultmsg: ''
+			};
+		},
+		components: {
+			approveHead, tenBottom
+		},
+		methods: {
+			goBack () {
+				this.$router.go(-1);
+			},
+			check () {
+				this.isCheck = !this.isCheck;
+			},
+			showDialog () {
+				this.show = true;
+			},
+			hideDialog () {
+				this.show = false;
+			},
+			goCheck () {
+				var _this = this;
+				// 这个判断是否从个人中心入口进来
+				const isPersonalHomeCheck = _this.$route.query.isPersonalHomeCheck;
+				if (this.isCheck) {
+					if (this.$store.state.callbackUrl) {
+						if (isPersonalHomeCheck) {
+							_this.$router.push({ path: '/approve', query: { isPersonalHomeCheck: isPersonalHomeCheck} });
+						} else {
+							_this.$router.push({ path: '/approve' });
+						}
+						sessionStorage.setItem('token', this.uuid(20, 16));
+						//人脸识别首页初始化配置（针对ios系统）
+						_this.$fetch('pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
+							wx.config(res);
+							console.log(res);
+						});
+						return;
+					}
+					const token = uiScript.getParam('token') || '';
+					if (token) {
+						//若有token 则不扫码 同时 取token为变量赋值
+						sessionStorage.setItem('token', token);
+						if (isPersonalHomeCheck) {
+							_this.$router.push({
+								path: '/approve',
+								query: { token: token, isPersonalHomeCheck: isPersonalHomeCheck }
+							});
+						} else {
+							_this.$router.push({ path: '/approve', query: { token: token } });
+						}
+					} else {
+						this.$fetch('pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
+							wx.config(res);
+							console.log(res);
+							wx.ready(function () {
+								wx.scanQRCode({
+									needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+									scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有
+									success: function (res) {
+										var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+										sessionStorage.setItem('token', result);
+										if (isPersonalHomeCheck) {
+											// 如果是个人设置过来，则带参数去人脸识别页面
+											_this.$router.push({
+												path: '/approve',
+												query: { isPersonalHomeCheck: isPersonalHomeCheck }
+											});
+										} else {
+											_this.$router.push({ path: '/approve' });
+										}
+									}
+								});
+							});
+						});
+					}
+				}
+			}
+		},
+		mounted () {
+			const _this = this;
+			let callbackUrl = uiScript.getParam('callbackUrl') || '';
+			this.$store.commit('CALLBACK_URL', callbackUrl);
+			let param = {};
+			request({
+				url: '/GetFaceConfigInfo',
+				data: { strJson: JSON.stringify(param) },
+				success (response) {
+					if (Number(response.resultcode) === 1) {
+						let check_mark = '<span style="color: red">&nbsp;&nbsp;' +
+							response.mark.match(RegExp(/肇庆市高要区不动产登记中心一楼大厅五号绿色窗口/)).toString() + '&nbsp;&nbsp;</span>';
+						_this.mark = response.mark.replace(/肇庆市高要区不动产登记中心一楼大厅五号绿色窗口/, check_mark);
+					} else if (Number(response.resultcode) === 0) {
+						_this.resultmsg = response.resultmsg;
+					}
+				},
+				fail (err) {
+				},
+			});
+		}
+	};
 </script>
 
 <style lang="less" type="text/less" scoped>

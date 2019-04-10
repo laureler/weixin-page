@@ -10,8 +10,8 @@ let activeId = sessionStorage.getItem('activeId');
 // todo base_URL 需要全部起作用
 // 新增request请求
 const REQUEST_TIMEOUT = 300000;
-const BASE_URL = 'http://118.24.70.239:7300/mock/5c9af379365f9600200deb72/WSYY';
-// const BASE_URL = '/pubWeb/public/doIntranetRequest';
+// const BASE_URL = 'http://118.24.70.239:7300/mock/5c9af379365f9600200deb72/WSYY';
+const BASE_URL = '/pubWeb/public/doIntranetRequest';
 
 const HEADERS = {
 	'X-Requested-With': 'XMLHttpRequest',

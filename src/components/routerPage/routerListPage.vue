@@ -81,7 +81,6 @@
       let config = {headers: {'Content-Type': 'multipart/form-data'}};
       var formData = new FormData();
       formData.append("parentId",parsedItem.id)
-      // _this.$post('http://172.16.42.126:8080/pubWeb/public/wechatRouterListById',formData,config)
       _this.$post('/pubWeb/public/wechatRouterListById',formData,config)
         .then(response=>{
           if(_this.$route.query.item == undefined){
