@@ -44,7 +44,9 @@
 <script>
 
 	import headNavBar from './headNavBar';
+
 	import { isWx } from '../../utils/ua';
+	import Cookies from 'js-cookie';
 
 	export default {
 		components: {

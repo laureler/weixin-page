@@ -13,7 +13,7 @@
 				type="number"
 				placeholder="请输入验证码"
 			>
-				<van-button slot="button" size="small" type="primary" @click="getVerificationCode"
+				<van-button slot="button" size="small" type="default" @click="getSmsCode" class="btn-color"
 							:disabled="curCount!=0">{{smsCodeBtnValue}}
 				</van-button>
 			</van-field>
@@ -91,7 +91,7 @@
 				}
 			},
 			// 发送短信获取验证码
-			getVerificationCode () {
+			getSmsCode () {
 				const _this = this;
 				if (_this.phoneNumber === '') {
 					Toast('请输入手机号码！');
@@ -143,5 +143,8 @@
 </script>
 
 <style scoped>
+	.btn-color {
+		color: #1989FA;
+	}
 
 </style>

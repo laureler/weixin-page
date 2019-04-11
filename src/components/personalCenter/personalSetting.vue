@@ -5,7 +5,7 @@
 		<div class="personal-info-content">
 			<van-cell-group>
 				<van-field id="phoneNumber" label="手机号码" placeholder="请输入手机号码" v-model.trim="showPhoneNumber"
-						   type="text" :class="fieldColor"
+						   type="text" :error="isChanged"
 						   :disabled="isAlter" clearable/>
 				<van-field
 					v-model="smsCode"
@@ -15,7 +15,7 @@
 					type="number"
 					placeholder="请输入验证码"
 				>
-					<van-button slot="button" size="small" type="primary" @click="getVerificationCode"
+					<van-button slot="button" size="small" type="default" @click="getSmsCode" class="blue-color"
 								:disabled="curCount!=0">{{smsCodeBtnValue}}
 					</van-button>
 				</van-field>
@@ -66,7 +66,8 @@
 				alterBtn: '修改信息',
 				isAlter: 'disabled',	// 启动修改
 				allowEdit: 'disabled',	// 允许修改姓名证件号码
-				fieldColor: {},	// 更改修改后label颜色
+				modifiedClass: {},	// 更改修改后label颜色
+				isChanged: false,
 				showSmsCheck: false,	// 是否显示短信验证
 				smsCode: '',	// 短信验证码
 				smsCodeBtnValue: '获取验证码',	// 验证码按钮值
@@ -131,7 +132,7 @@
 					this.$post('/pubWeb/system/public/savePhoneNumberByOpenId', params, config).then(response => {
 						if (response) {
 							Toast('保存成功！');
-							_this.fieldColor = { 'color': 'greed' };
+							_this.isChanged = true;
 						} else {
 							Toast('验证码无效！');
 							return false;
@@ -171,7 +172,6 @@
 					message: '删除信息绑定后将无法查看个人信息！'
 				}).then(() => {
 					const openId = isWx() ? Cookies.get('openid') : '';
-					// const openId = 'ZYK18125742635';
 					const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 					let params = {
 						openId: openId
@@ -203,7 +203,7 @@
 				});
 			},
 			// 发送短信获取验证码
-			getVerificationCode () {
+			getSmsCode () {
 				const _this = this;
 				if (this.checkPhoneInfo(_this.showPhoneNumber)) {
 					// 条件满足，开始发送短信
@@ -311,6 +311,10 @@
 
 	.change-cell {
 		text-align: left;
+	}
+
+	.blue-color {
+		color: #1989FA;
 	}
 
 </style>
