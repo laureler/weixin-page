@@ -1,7 +1,7 @@
 <template>
-	<!-- 个人信息设置页面 -->
+	<!-- 个人信息设置之身份信息 -->
 	<div>
-		<page-head title="个人信息设置"></page-head>
+		<head-nav-bar title="个人信息设置"></head-nav-bar>
 		<van-cell-group>
 			<van-field id="cerNumber" label="证件号码" placeholder="请输入身份证号码" v-model.trim="cerNumber" type="text" clearable
 					   required/>
@@ -22,15 +22,15 @@
 
 <script>
 
-	import { Toast } from 'vant';
-	import Head from '../app/head';
+	import { Toast, Dialog } from 'vant';
+	import headNavBar from './headNavBar';
 
 	import { isWx } from '../../utils/ua';
 	import Cookies from 'js-cookie';
 
 	export default {
 		components: {
-			'page-head': Head
+			'head-nav-bar': headNavBar
 		},
 		data () {
 			return {
@@ -76,11 +76,14 @@
 						if (response) {
 							_this.$store.commit('CARD_CODE', _this.cerNumber);
 							_this.$store.commit('CARD_NAME', _this.name);
-							Toast('个人信息设置成功！');
-							setTimeout(() => {
+							Dialog.confirm({
+								title: '提示',
+								message: '个人信息设置成功，开始人脸识别！'
+							}).then(() => {
 								// 进入人脸核身页面
 								_this.$router.push({ path: '/preApprove', query: { isPersonalHomeCheck: true } });
-							}, 1500);
+							}).catch(() => {
+							});
 						} else {
 							Toast('服务器异常！');
 						}

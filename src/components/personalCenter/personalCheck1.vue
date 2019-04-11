@@ -1,7 +1,7 @@
 <template>
 	<!-- 个人信息设置之手机验证 -->
 	<div style="display:flex;flex-direction:column;">
-		<page-head title="个人信息设置"></page-head>
+		<head-nav-bar title="个人信息设置"></head-nav-bar>
 		<van-cell-group>
 			<van-field id="phoneNumber" label="手机号码" placeholder="请输入手机号码" v-model.trim="phoneNumber" type="number"
 					   clearable/>
@@ -25,15 +25,16 @@
 </template>
 
 <script>
-	import Head from '../app/head';
-	import { Toast } from 'vant';
+
+	import headNavBar from './headNavBar';
+	import { Toast, Dialog } from 'vant';
 
 	import { isWx } from '../../utils/ua';
 	import Cookies from 'js-cookie';
 
 	export default {
 		components: {
-			'page-head': Head
+			'head-nav-bar': headNavBar
 		},
 		data () {
 			return {
@@ -67,13 +68,17 @@
 					const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 					this.$post('/pubWeb/system/public/savePhoneNumberByOpenId', params, config).then(response => {
 						if (response) {
-							Toast('手机号码设置成功！');
-							setTimeout(() => {
+							Dialog.confirm({
+								title: '提示',
+								message: '手机号码设置成功，开始个人身份信息设置！'
+							}).then(() => {
+								// 进入个人身份信息设置
 								_this.$router.push({
 									path: '/personalCheck2',
 									query: { phoneNumber: _this.phoneNumber }
 								});
-							}, 1500);
+							}).catch(() => {
+							});
 						} else {
 							Toast('验证码无效！');
 						}
@@ -130,8 +135,8 @@
 						_this.$router.push({ path: '/preApprove', query: { isPersonalHomeCheck: true } });
 					}
 				}).catch(error => {
-				console.log(error);
-			});
+					console.log(error);
+				});
 		}
 	};
 

@@ -1,15 +1,14 @@
 <template>
 	<!-- 个人信息设置页面 -->
 	<div class="personal-setting">
-		<page-head title="个人信息设置"></page-head>
+		<head-nav-bar title="个人信息设置"></head-nav-bar>
 		<div class="personal-info-content">
 			<van-cell-group>
 				<van-field id="phoneNumber" label="手机号码" placeholder="请输入手机号码" v-model.trim="showPhoneNumber"
-						   type="text"
+						   type="text" :class="fieldColor"
 						   :disabled="isAlter" clearable/>
 				<van-field
 					v-model="smsCode"
-					center
 					clearable
 					v-show="showSmsCheck"
 					label="短信验证码"
@@ -21,12 +20,12 @@
 					</van-button>
 				</van-field>
 				<van-field id="name" label="姓名" placeholder="请输入姓名" v-model.trim="name" type="text"
-						   :disabled="allowEdit"
-						   clearable/>
+						   :disabled="allowEdit" label-align="left"
+						   clearable />
 				<van-cell id="sex" title="性别" :value="sex" @click="selectSex" data-type="list" value-class="change-cell"
 						  is-link/>
 				<van-field id="cerNumber" label="证件号码" placeholder="请输入身份证号码" v-model.trim="showCerNumber" type="text"
-						   :disabled="allowEdit" clearable/>
+						   :disabled="allowEdit" clearable />
 			</van-cell-group>
 		</div>
 		<div class="personal-set-btn">
@@ -44,14 +43,14 @@
 <script>
 
 	import { Toast, Dialog } from 'vant';
-	import Head from '../app/head';
+	import headNavBar from './headNavBar';
 
 	import { isWx } from '../../utils/ua';
 	import Cookies from 'js-cookie';
 
 	export default {
 		components: {
-			'page-head': Head
+			'head-nav-bar': headNavBar
 		},
 		data () {
 			return {
@@ -67,6 +66,7 @@
 				alterBtn: '修改信息',
 				isAlter: 'disabled',	// 启动修改
 				allowEdit: 'disabled',	// 允许修改姓名证件号码
+				fieldColor: {},	// 更改修改后label颜色
 				showSmsCheck: false,	// 是否显示短信验证
 				smsCode: '',	// 短信验证码
 				smsCodeBtnValue: '获取验证码',	// 验证码按钮值
@@ -82,13 +82,13 @@
 					this.closeSaveActive();
 				}
 			},
-			openSaveActive() {
+			openSaveActive () {
 				this.showPhoneNumber = this.phoneNumber;
 				this.isAlter = false;
 				this.alterBtn = '保存';
 				this.showSmsCheck = !this.showSmsCheck;
 			},
-			closeSaveActive() {
+			closeSaveActive () {
 				if (!this.checkPhoneInfo(this.showPhoneNumber)) {
 					// 手机号码格式不正确
 					return;
@@ -114,7 +114,7 @@
 					if (_this.phoneNumber === _this.showPhoneNumber) {
 						// 如果没有修改手机号码，则直接运行保存
 						return true;
-					};
+					}
 					if (_this.sendSmsNumber === '') {
 						Toast('请获取验证码！');
 						return false;
@@ -123,7 +123,6 @@
 						Toast('验证码不能为空！');
 						return false;
 					}
-					;
 					let params = {
 						openId: openId,
 						phoneNumber: _this.showPhoneNumber,
@@ -132,6 +131,7 @@
 					this.$post('/pubWeb/system/public/savePhoneNumberByOpenId', params, config).then(response => {
 						if (response) {
 							Toast('保存成功！');
+							_this.fieldColor = { 'color': 'greed' };
 						} else {
 							Toast('验证码无效！');
 							return false;
@@ -167,8 +167,8 @@
 			unboundInfo () {
 				const _this = this;
 				Dialog.confirm({
-					title: '提示',
-					message: '确认解除绑定?'
+					title: '警告',
+					message: '删除信息绑定后将无法查看个人信息！'
 				}).then(() => {
 					const openId = isWx() ? Cookies.get('openid') : '';
 					// const openId = 'ZYK18125742635';
@@ -189,7 +189,7 @@
 									wx.closeWindow();
 								}).catch(() => {
 									_this.$router.push({
-										path: '/personalHome'
+										path: '/personalCheck'
 									});
 								});
 							}, 1500);

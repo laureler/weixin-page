@@ -77,7 +77,7 @@
 					<el-col :span="8">
 						<div class="home-item last" @click="open('/personalHome')">
 							<p class="iconfont icon-yuyue orange"></p>
-							<p class="title">个人中心首页</p>
+							<p class="title">个人中心</p>
 						</div>
 					</el-col>
 				</el-row>
