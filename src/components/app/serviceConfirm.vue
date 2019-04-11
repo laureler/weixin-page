@@ -1,40 +1,33 @@
 <template>
-	<!-- 模板根节点 -->
-	<div style="display:flex;flex-direction:column">
-		<!-- 头部标题 start -->
-		<page-head :title="tyitleValue"></page-head>
-		<!-- 头部标题 end -->
-
-		<!-- 搜索栏 start-->
+	<!-- 业务确认页面 -->
+	<div class="service-confirm">
+		<page-head title="业务确认"></page-head>
 		<div class="search-div">
-			<div class="Cdiv Cdiv-display">
-				<!--<div class="reg">业务登记号：</div>-->
-				<input placeholder="请输入业务登记号" v-model.trim="searchParam" type="text" class="com-input Cinput"/>
-				<el-button @click="search" class="schequery" icon="el-icon-search"></el-button>
-			</div>
-			<div>
-				<!--手机号码身份验证-->
-				<div class="Cdiv">
-					<input placeholder="请输入手机号码" v-model.trim="phoneNumber" type="Number" class="com-input"/>
-				</div>
-				<div class="Cdiv">
-					<input placeholder="请输入验证码" v-model.trim="verificationCode" type="Number" class="com-input"/>
-					<el-button class="check-btn" :disabled="curCount!=0" @click="getVerificationCode">
-						{{verificationCodeBtn}}
-					</el-button>
-				</div>
-			</div>
+			<van-search
+				v-model="searchParam"
+				placeholder="请输入业务登记号"
+				show-action
+				@search="search"
+				background="#f0f5f8"
+			>
+				<div slot="action" @click="search" class="btn-color">搜索</div>
+			</van-search>
 		</div>
-		<!-- 搜索栏 end-->
-
-		<!-- 查询结果 start-->
-		<!--<div class="resultPanel" v-show="searchResultIsShow">
-		  <div style="font-size:0.42rem;color:#252525;margin-top:0.3rem;margin-left: 0.5rem">查询结果</div>
-		  <hr style="width:9.5rem;border:none;border-bottom:1px solid #e5e5e5;margin-top: 0.35rem;margin-bottom: 0.35rem"/>
-		  <div style="font-size:0.42rem;color:#999999;margin-left: 0.5rem">未查询到结果</div>
-		</div>-->
-		<!-- 查询结果 start-->
-
+		<van-cell-group>
+			<van-field id="phoneNumber" placeholder="请输入手机号码" v-model.trim="phoneNumber" type="number"
+					   clearable/>
+			<van-field
+				v-model="smsCode"
+				center
+				clearable
+				type="number"
+				placeholder="请输入验证码"
+			>
+				<van-button slot="button" size="small" type="default" @click="getSmsCode" class="btn-color"
+							:disabled="curCount!=0">{{smsCodeBtnValue}}
+				</van-button>
+			</van-field>
+		</van-cell-group>
 	</div>
 </template>
 
@@ -51,22 +44,18 @@
 				// 手机号码
 				phoneNumber: '',
 				// 验证码按钮值
-				verificationCodeBtn: '获取验证码',
+				smsCodeBtnValue: '获取验证码',
 				// 验证码
-				verificationCode: '',
+				smsCode: '',
 				// 设置倒计时大小 默认60秒
 				countdownSize: 60,
 				// 倒计时，当前剩余秒数
 				curCount: 0,
-				// 菜单标题内容
-				tyitleValue: '业务确认',
-				// 是否展示搜索结果内容
-				// searchResultIsShow:false
 			};
 		},
 		methods: {
 			// 发送短信获取验证码
-			getVerificationCode () {
+			getSmsCode () {
 				const _this = this;
 				if (_this.phoneNumber == '') {
 					Toast('请输入手机号码！');
@@ -96,29 +85,29 @@
 
 					// 页面倒计时和禁用按钮效果
 					_this.curCount = _this.countdownSize;
-					_this.verificationCodeBtn = '倒计时 ' + _this.curCount + 'S';
+					_this.smsCodeBtnValue = '倒计时 ' + _this.curCount + 'S';
 					var TimerObj = setInterval(() => {
 						if (_this.curCount > 0) {
 							_this.curCount--;
-							_this.verificationCodeBtn = '倒计时 ' + _this.curCount + 'S';
+							_this.smsCodeBtnValue = '倒计时 ' + _this.curCount + 'S';
 						} else {
 							// 禁用时间结束，关闭轮询，释放按钮
 							clearInterval(TimerObj);
-							_this.verificationCodeBtn = '获取验证码';
+							_this.smsCodeBtnValue = '获取验证码';
 						}
 					}, 1000);
 				}
 			},
 			search: function () {
 				const _this = this;
-				if (this.verificationCode === '') {
+				if (this.smsCode === '') {
 					Toast('请输入验证码！');
 					return;
 				}
 				if (_this.searchParam !== '') {
 					// 开始进行业务确认，查询
 					this.$fetch('/formengineWebService/public/getConfigDataByJid?jid=' + _this.searchParam +
-						'&number=' + _this.phoneNumber + '&code=' + _this.verificationCode
+						'&number=' + _this.phoneNumber + '&code=' + _this.smsCode
 					).then(response => {
 						if (response) {
 							// 参数约定 以token为名称，值为业务编号
@@ -149,56 +138,8 @@
 </script>
 
 <style scoped>
-	.search-div {
-		background: #f0f5f8;
-		height: auto;
-	}
-
-	.schequery {
-		margin: 0 auto;
-		border: none;
-		color: #6cccff;
-		margin-top: -0.1rem;
-		padding-left: 0.1rem;
-		height: 1rem;
-	}
-
-	.schequery:focus {
-		background: white;
-	}
-
-	.schequery:hover {
-		background: white;
-	}
-
-	.Cdiv {
-		padding: 0.3rem 0rem 0.3rem 0.3rem;
-		font-size: 0.375rem;
-		margin: 0.25rem 0.25rem 0.25rem 0.25rem;
-		background-color: #ffffff;
-		height: 1.5rem;
-	}
-
-	.Cdiv-display {
-		display: flex;
-	}
-
-	.com-input {
-		border: none;
-		font-size: 0.375rem;
-		outline: none;
-		height: 1rem;
-		margin-right: 0.31rem;
-	}
-
-	.Cinput {
-		width: 85%;
-		border-right: 1px solid #e5e5e5;
-	}
-
-	.check-btn {
-		float: right;
-		margin-right: 10px;
+	.btn-color {
+		color: #1989FA;
 	}
 
 </style>
