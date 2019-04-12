@@ -68,7 +68,7 @@
 					const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 					this.$post('/pubWeb/system/public/savePhoneNumberByOpenId', params, config).then(response => {
 						if (response) {
-							Dialog.confirm({
+							Dialog.alert({
 								title: '提示',
 								message: '手机号码设置成功，开始个人身份信息设置！'
 							}).then(() => {
@@ -77,7 +77,6 @@
 									path: '/personalCheck2',
 									query: { phoneNumber: _this.phoneNumber }
 								});
-							}).catch(() => {
 							});
 						} else {
 							Toast('验证码无效！');

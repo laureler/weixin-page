@@ -1,7 +1,7 @@
 <template>
 	<div class="personal-business">
 		<head-nav-bar title="信息确认"></head-nav-bar>
-		<div class="businessList">
+		<div class="businessList" v-if="businessDataArray.length!==0">
 			<van-collapse v-model="active" v-for="(businessItem, index) in businessDataArray" accordion>
 				<van-collapse-item :name="index">
 					<div slot="title" class="">
@@ -38,6 +38,10 @@
 				</van-collapse-item>
 			</van-collapse>
 		</div>
+		<div v-else class="no-data-note">
+			<!--没有数据给予提示-->
+			{{noDataNote}}
+		</div>
 	</div>
 </template>
 
@@ -54,8 +58,9 @@
 		},
 		data () {
 			return {
-				businessDataArray: null,
+				businessDataArray: [],
 				active: 0,
+				noDataNote: '当前没有正在进行的业务！'
 			}
 		},
 		watch: {
@@ -97,5 +102,12 @@
 		font-size: 16px;
 		padding-bottom: 10px !important;
 		color: #000;
+	}
+
+	.no-data-note {
+		font-size: 20px;
+		text-align: center;
+		padding-top: 50px;
+		background-color: white;
 	}
 </style>
