@@ -1,6 +1,6 @@
 # wechat-auth
 
-    基于Vue Cli3的微信公众号重构
+    基于Vue Cli3的微信公众号项目
 
 ## Project setup
 ```
@@ -15,6 +15,11 @@ npm run serve
 ### Compiles and minifies for production
 ```
 npm run build:dll
+
+或
+
+npm run dll
+npm run build
 ```
 
 ### Run your tests
