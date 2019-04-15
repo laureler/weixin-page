@@ -35,7 +35,7 @@
 				</van-field>
 			</van-cell-group>
 		</div>
-		<div class="personal-sign-in-btn">
+		<div style="margin-top: 50px;">
 			<van-button size="large" class="blueButton new-btn" @click="checkInfo">注册账号</van-button>
 		</div>
 	</div>
@@ -111,7 +111,7 @@
 				};
 				_this.$post('/pubWeb/public/saveUserInfo', params, config).then(response => {
 					if (response) {
-						Toast('保存成功！');
+						Toast('注册成功！');
 						setTimeout(() => {
 							// 验证结束，进入个人中心
 							_this.$store.commit('SET_VERIFY_STATE', true);
@@ -172,11 +172,6 @@
 	.personal-sign-in {
 		width: 100%;
 		height: 100%;
-	}
-
-	.sign-in-info {
-		overflow-y: auto;
-		height: calc(100% - 150px);
 	}
 
 	.new-btn {
