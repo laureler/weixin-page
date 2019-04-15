@@ -201,6 +201,14 @@ const router = new Router({
 			}
 		},
 		{
+			path: '/personalSetting',
+			name: 'personalSetting',
+			component: resolve => require(['@/components/personalCenter/personalSetting'], resolve),
+			meta: {
+				isPersonalHomePage: true
+			}
+		},
+		{
 			path: '/associativeAccount',
 			name: 'associativeAccount',
 			component: resolve => require(['@/components/personalCenter/associativeAccount'], resolve),
