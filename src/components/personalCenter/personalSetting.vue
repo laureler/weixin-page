@@ -5,7 +5,7 @@
 		<div class="personal-info-content">
 			<van-cell-group>
 				<van-field id="phoneNumber" label="手机号码" placeholder="请输入手机号码" v-model.trim="showPhoneNumber"
-						   type="text" :error="isChanged"
+						   type="text" :error="isChanged" :class="newClass"
 						   :disabled="isAlter" clearable/>
 				<van-field
 					v-model="smsCode"
@@ -19,13 +19,15 @@
 								:disabled="curCount!=0">{{smsCodeBtnValue}}
 					</van-button>
 				</van-field>
-				<van-field id="name" label="姓名" placeholder="请输入姓名" v-model.trim="name" type="text"
-						   :disabled="allowEdit" label-align="left"
-						   clearable />
-				<van-cell id="sex" title="性别" :value="sex" @click="selectSex" data-type="list" value-class="change-cell"
-						  is-link/>
-				<van-field id="cerNumber" label="证件号码" placeholder="请输入身份证号码" v-model.trim="showCerNumber" type="text"
-						   :disabled="allowEdit" clearable />
+				<div :class="">
+					<van-field id="name" label="姓名" placeholder="请输入姓名" v-model.trim="name" type="text"
+							   :disabled="allowEdit" label-align="left"
+							   clearable />
+					<van-cell id="sex" title="性别" :value="sex" @click="selectSex" data-type="list" value-class="change-cell"
+							  is-link/>
+					<van-field id="cerNumber" label="证件号码" placeholder="请输入身份证号码" v-model.trim="showCerNumber" type="text"
+							   :disabled="allowEdit" clearable />
+				</div>
 			</van-cell-group>
 		</div>
 		<div class="personal-set-btn">
@@ -75,6 +77,8 @@
 				smsCodeBtnValue: '获取验证码',	// 验证码按钮值
 				countdownSize: 60,	// 设置倒计时大小 默认60秒
 				curCount: 0,	// 倒计时，当前剩余秒数
+
+				newClass: ''
 			};
 		},
 		methods: {
@@ -134,6 +138,7 @@
 					this.$post('/pubWeb/system/public/savePhoneNumberByOpenId', params, config).then(response => {
 						if (response) {
 							Toast('保存成功！');
+							_this.newClass = 'alter-input-color';
 							_this.isChanged = true;
 						} else {
 							Toast('验证码无效！');
@@ -178,7 +183,7 @@
 					let params = {
 						openId: openId
 					};
-					_this.$post('/pubWeb/public/faceRecognition/deleteAuthenticatedUserInfo', params, config).then(response => {
+					_this.$post(ctx2 + '/pubWeb/public/faceRecognition/deleteAuthenticatedUserInfo', params, config).then(response => {
 						if (response) {
 							Toast('解除绑定成功！');
 							_this.$store.commit('SET_VERIFY_STATE', false);
@@ -302,8 +307,16 @@
 		margin-bottom: 15px;
 	}
 
+	.alter-input-color /deep/ .van-field__control {
+		color: #1989FA !important;
+	}
+
+	.alter-input-color /deep/ .van-cell__value {
+		color: #1989FA !important;
+	}
+
 	.new-btn {
-		border-radius: 8px;
+		border-radius: 5px;
 		margin-top: 10px !important;
 	}
 
