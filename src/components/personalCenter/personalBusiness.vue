@@ -82,6 +82,8 @@
 	.personal-business {
 		background: #f3f3f3;
 	}
+
+	/*使用deep深入覆盖vant样式*/
 	.businessList /deep/ .van-cell__title {
 		max-width: none !important;
 	}

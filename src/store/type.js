@@ -1,6 +1,6 @@
 //mutations
 export const SET_STEP = 'SET_STEP'; // 保存认证步骤
-export const SET_FACE_CHECK = 'SET_FACE_CHECK'; // 人脸识别状态
+export const SET_VERIFY_STATE = 'SET_VERIFY_STATE'; // 个人认证状态
 export const SET_MESSAGESTEP = 'SET_MESSAGESTEP'; // 短信认证步骤
 export const CALLBACK_URL = 'CALLBACK_URL'; // 回调地址
 export const CARD_CODE = 'CARD_CODE'; // 身份证id

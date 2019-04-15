@@ -185,38 +185,30 @@ const router = new Router({
 		 * 个人中心
 		 */
 		{
-			path: '/personalHome',
-			name: 'personalHome',
-			component: resolve => require(['@/components/personalCenter/personalHome'], resolve),
+			path: '/personalCenter',
+			name: 'personalCenter',
+			component: resolve => require(['@/components/personalCenter/personalCenter'], resolve),
 			meta: {
 				isPersonalHomePage: true
 			}
 		},
-		// 个人信息设置
 		{
-			path: '/personalCheck',
-			component: resolve => require(['@/components/personalCenter/personalCheck'], resolve),
-			children: [
-				{
-					path: '',
-					name: 'personalCheck1',
-					component: resolve => require(['@/components/personalCenter/personalCheck1'], resolve)
-				},
-				{
-					path: '/personalCheck2',
-					name: 'personalCheck2',
-					component: resolve => require(['@/components/personalCenter/personalCheck2'], resolve)
-				},
-			]
-		},
-		// 个人设置信息修改页面
-		{
-			path: '/personalSetting',
-			name: 'personalSetting',
-			component: resolve => require(['@/components/personalCenter/personalSetting'], resolve),
+			path: '/personalBusiness',
+			name: 'personalBusiness',
+			component: resolve => require(['@/components/personalCenter/personalBusiness'], resolve),
 			meta: {
 				isPersonalHomePage: true
 			}
+		},
+		{
+			path: '/associativeAccount',
+			name: 'associativeAccount',
+			component: resolve => require(['@/components/personalCenter/associativeAccount'], resolve),
+		},
+		{
+			path: '/signInAccount',
+			name: 'signInAccount',
+			component: resolve => require(['@/components/personalCenter/signInAccount'], resolve),
 		},
 	]
 });
@@ -224,12 +216,12 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
 	// 如果是要进入个人中心首页或相关页面，需要验证配置和人脸识别
 	if (to.meta.isPersonalHomePage) {
-		if ((/^true$/i).test(store.getters.getFaceCheck)) {
+		if ((/^true$/i).test(store.getters.getVerifyState)) {
 			// 完成人脸识别表示已完成个人设置
 			next();
 		} else {
 			// 开始个人设置
-			next({ path: '/personalCheck' });
+			next({ path: '/preApprove', query: { isPersonalHomeCheck: true } });
 		}
 	}
 	next();

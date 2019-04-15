@@ -170,8 +170,9 @@
 						wx.invoke('requestWxFacePictureVerifyUnionVideo', info, function (res) {
 							// 人脸识别成功，判断是不是从个人中心首页进来的
 							if (_this.$route.query.isPersonalHomeCheck) {
-								_this.$store.commit('SET_FACE_CHECK', true);
-								_this.$router.push({ path: '/personalHome' });
+								_this.$store.commit('CARD_CODE', _this.data_id);
+								_this.$store.commit('CARD_NAME', _this.data_name);
+								_this.$router.push({ path: '/associativeAccount' });
 							}
 							console.log(res);
 							if (res.hasOwnProperty('err_code')) {
@@ -256,13 +257,7 @@
 			_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
 				wx.config(res);
 			});
-			// 如果是个人设置过来，直接获取已保存的信息
-			if (_this.$route.query.isPersonalHomeCheck) {
-				_this.data_name = _this.$store.getters.getPersonCardInfo.cardName;
-				_this.data_id = _this.$store.getters.getPersonCardInfo.cardCode;
-				// 对信息进行加*处理显示
-				_this.checkInfo(_this.data_name, _this.data_id);
-			}
+
 		}
 	};
 </script>

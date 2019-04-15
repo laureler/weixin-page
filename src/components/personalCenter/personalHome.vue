@@ -35,9 +35,6 @@
 
 		},
 		methods: {
-			open (path) {
-				this.$router.push(path);
-			},
 			/*
 				获取tab-bar下标
 			 */

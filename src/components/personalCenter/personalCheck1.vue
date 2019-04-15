@@ -103,8 +103,7 @@
 					this.$fetch('/pubWeb/system/public/smsCode?number=' + _this.phoneNumber)
 						.then(response => {
 							_this.sendSmsNumber = _this.phoneNumber;
-						})
-						.catch(error => {
+						}).catch(error => {
 							console.log(error);
 						});
 
@@ -145,5 +144,4 @@
 	.btn-color {
 		color: #1989FA;
 	}
-
 </style>

@@ -4,7 +4,7 @@
 		<head-nav-bar title="个人中心"></head-nav-bar>
 		<div class="personal-center-content">
 			<!-- 两端对齐 -->
-			<div v-for="(column, key) in columns" class="content-tab-div">
+			<div v-for="(column, key) in columns" class="content-tab-div" @click="open(column.path)">
 				<div>
 					<img src="../../../public/images/wechatstatic/personal-center.png" class="img"/>
 				</div>
@@ -35,7 +35,7 @@
 			return {
 				columns: [
 					{
-						title: '标题',
+						title: '住房证明查询',
 						subTitle: '副标题',
 						path: '',
 						icon: ''
@@ -47,7 +47,7 @@
 						icon: ''
 					},
 					{
-						title: '标题',
+						title: '我的不动产',
 						subTitle: '副标题',
 						path: '',
 						icon: ''
@@ -59,24 +59,26 @@
 						icon: ''
 					},
 					{
-						title: '标题',
+						title: '我的业务',
 						subTitle: '副标题',
-						path: '',
+						path: '/personalBusiness',
 						icon: ''
 					},
 					{
-						title: '标题',
+						title: '个人设置',
 						subTitle: '副标题',
-						path: '',
+						path: '/personalSetting',
 						icon: ''
 					},
 				],
 			}
 		},
-		mounted () {
-
-		},
 		methods: {
+			open (path) {
+				this.$router.push(path);
+			},
+		},
+		mounted () {
 		},
 	}
 </script>

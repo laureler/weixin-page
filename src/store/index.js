@@ -15,7 +15,7 @@ export default new Vuex.Store({
 		cardName: '',
 		stepUrl: '',
 		showDialog: false,
-		faceCheck: ''	// 人脸识别状态
+		finishedVerify: ''	// 完成验证
 	},
 	mutations: {
 		[types.SET_STEP] (state, res) {
@@ -23,10 +23,10 @@ export default new Vuex.Store({
 			// let tempJson = JSON.stringify(res);
 			// window.sessionStorage.setItem('step', tempJson);
 		},
-		[types.SET_FACE_CHECK] (state, res) {
+		[types.SET_VERIFY_STATE] (state, res) {
 			// 使用sessionStorage解决页面刷新数据丢书的问题
-			sessionStorage.setItem("faceCheck", res);
-			state.faceCheck = res;
+			sessionStorage.setItem("finishedVerify", res);
+			state.finishedVerify = res;
 		},
 		[types.SET_MESSAGESTEP] (state, res) {
 			state.messagestep = res;
@@ -50,11 +50,11 @@ export default new Vuex.Store({
 		}
 	},
 	getters: {
-		getFaceCheck(state) {
-			if (state.faceCheck) {
-				return state.faceCheck;
-			} else if (sessionStorage.getItem('faceCheck')) {
-				 return sessionStorage.getItem('faceCheck');
+		getVerifyState(state) {
+			if (state.finishedVerify) {
+				return state.finishedVerify;
+			} else if (sessionStorage.getItem('finishedVerify')) {
+				 return sessionStorage.getItem('finishedVerify');
 			} else {
 				return false;
 			}

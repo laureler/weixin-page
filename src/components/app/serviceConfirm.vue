@@ -57,7 +57,7 @@
 			// 发送短信获取验证码
 			getSmsCode () {
 				const _this = this;
-				if (_this.phoneNumber == '') {
+				if (_this.phoneNumber === '') {
 					Toast('请输入手机号码！');
 					return;
 				} else if (!(/^1[3|4|5|7|8]\d{9}$/.test(_this.phoneNumber))) {

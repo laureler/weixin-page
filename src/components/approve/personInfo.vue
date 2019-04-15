@@ -77,7 +77,7 @@
             // todo 在此改为参数了 但是name放在最后面 需要修改。
             let _this = this
             let param = {};
-            if (_this.$store.getters.getFaceCheck) {
+            if (_this.$store.getters.getVerifyState) {
             	// 如果已经进行过统一身份认证，则直接使用预存储的身份信息
 	            param = {
 		            'qlr': _this.$store.getters.getPersonCardInfo.cardName,

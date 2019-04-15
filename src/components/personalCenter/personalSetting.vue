@@ -62,12 +62,14 @@
 				sendSmsNumber: '',	// 发送短信的号码
 				showPhoneNumber: '',	//显示的手机号码
 				sex: '男',
+
 				columns: ['男', '女'],  // 当前下拉框需要展示的数据
 				alterBtn: '修改信息',
 				isAlter: 'disabled',	// 启动修改
 				allowEdit: 'disabled',	// 允许修改姓名证件号码
 				modifiedClass: {},	// 更改修改后label颜色
 				isChanged: false,
+
 				showSmsCheck: false,	// 是否显示短信验证
 				smsCode: '',	// 短信验证码
 				smsCodeBtnValue: '获取验证码',	// 验证码按钮值
@@ -150,8 +152,8 @@
 					};
 					_this.$post('/pubWeb/public/faceRecognition/saveAuthenticatedUserInfo', params, config).then(response => {
 						if (response) {
-							_this.$store.commit('CARD_CODE', { cardCode: _this.cerNumber });
-							_this.$store.commit('CARD_NAME', { cardName: _this.name });
+							_this.$store.commit('CARD_CODE', _this.cerNumber);
+							_this.$store.commit('CARD_NAME', _this.name);
 							Toast('保存成功！');
 						} else {
 							Toast('服务器异常！');
@@ -179,7 +181,7 @@
 					_this.$post('/pubWeb/public/faceRecognition/deleteAuthenticatedUserInfo', params, config).then(response => {
 						if (response) {
 							Toast('解除绑定成功！');
-							_this.$store.commit('SET_FACE_CHECK', false);
+							_this.$store.commit('SET_VERIFY_STATE', false);
 							setTimeout(() => {
 								Dialog.confirm({
 									title: '提示',

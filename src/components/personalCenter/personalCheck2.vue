@@ -76,6 +76,7 @@
 						if (response) {
 							_this.$store.commit('CARD_CODE', _this.cerNumber);
 							_this.$store.commit('CARD_NAME', _this.name);
+
 							Dialog.alert({
 								title: '提示',
 								message: '个人信息设置成功，开始人脸识别！'
@@ -86,7 +87,6 @@
 						} else {
 							Toast('服务器异常！');
 						}
-						;
 					}).catch(error => {
 					console.log(error);
 				});
