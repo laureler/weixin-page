@@ -5,7 +5,7 @@
 		<div class="personal-info-content">
 			<van-cell-group>
 				<van-field id="phoneNumber" label="手机号码" placeholder="请输入手机号码" v-model.trim="showPhoneNumber"
-						   type="text" :error="isChanged" :class="newClass"
+						   type="text" :class="newClass"
 						   :disabled="isAlter" clearable/>
 				<van-field
 					v-model="smsCode"
@@ -30,7 +30,7 @@
 				</div>
 			</van-cell-group>
 		</div>
-		<div class="personal-set-btn">
+		<div style="margin-top: 50px;">
 			<van-button size="large" class="blueButton new-btn" @click="alterInfo">{{alterBtn}}</van-button>
 			<van-button size="large" class="blueButton new-btn red-btn" @click="unboundInfo">解除个人信息绑定</van-button>
 		</div>
@@ -70,7 +70,6 @@
 				isAlter: 'disabled',	// 启动修改
 				allowEdit: 'disabled',	// 允许修改姓名证件号码
 				modifiedClass: {},	// 更改修改后label颜色
-				isChanged: false,
 
 				showSmsCheck: false,	// 是否显示短信验证
 				smsCode: '',	// 短信验证码
@@ -135,11 +134,10 @@
 						phoneNumber: _this.showPhoneNumber,
 						code: _this.smsCode
 					};
-					this.$post('/pubWeb/system/public/savePhoneNumberByOpenId', params, config).then(response => {
+					this.$post(ctx2 + '/pubWeb/system/public/savePhoneNumberByOpenId', params, config).then(response => {
 						if (response) {
 							Toast('保存成功！');
 							_this.newClass = 'alter-input-color';
-							_this.isChanged = true;
 						} else {
 							Toast('验证码无效！');
 							return false;
@@ -299,12 +297,6 @@
 	.personal-setting {
 		width: 100%;
 		height: 100%;
-	}
-
-	.personal-info-content {
-		overflow-y: auto;
-		height: calc(100% - 200px);
-		margin-bottom: 15px;
 	}
 
 	.alter-input-color /deep/ .van-field__control {

@@ -7,7 +7,7 @@
 				账号信息
 			</div>
 			<van-cell-group>
-				<van-field id="accountName" label="账号" placeholder="请输入ibase账号" v-model.trim="accountName" type="text" clearable />
+				<van-field id="accountName" label="账号" placeholder="请输入账号名" v-model.trim="accountName" type="text" clearable />
 				<van-field id="password" label="密码" placeholder="请输入密码" v-model.trim="password" type="text" clearable />
 			</van-cell-group>
 
@@ -29,7 +29,7 @@
 					type="number"
 					placeholder="请输入验证码"
 				>
-					<van-button slot="button" size="small" type="default" @click="getSmsCode" class="blue-color"
+					<van-button slot="button" size="small" type="default" @click="sendSmsCode" class="blue-color"
 								:disabled="curCount!=0">{{smsCodeBtnValue}}
 					</van-button>
 				</van-field>
@@ -43,7 +43,7 @@
 
 <script>
 
-	import { Toast, Dialog } from 'vant';
+	import { Toast } from 'vant';
 	import headNavBar from './headNavBar';
 
 	import { isWx } from '../../utils/ua';
@@ -86,6 +86,7 @@
 						Toast('请输入正确的身份证号码！');
 						return;
 					}
+
 					this.saveInfo();
 				}
 			},
@@ -109,7 +110,7 @@
 					phoneNumber: _this.sendSmsNumber,
 					code: _this.smsCode,
 				};
-				_this.$post('/pubWeb/public/saveUserInfo', params, config).then(response => {
+				_this.$post(ctx2 + '/pubWeb/public/saveUserInfo', params, config).then(response => {
 					if (response) {
 						Toast('注册成功！');
 						setTimeout(() => {
@@ -123,7 +124,7 @@
 				});
 			},
 			// 发送短信获取验证码
-			getSmsCode () {
+			sendSmsCode () {
 				const _this = this;
 				if (_this.phoneNumber === '') {
 					Toast('请输入手机号码！');
@@ -158,7 +159,6 @@
 		},
 		mounted () {
 			let cardInfo = this.$store.getters.getPersonCardInfo;
-			console.log(cardInfo);
 			if (cardInfo.cardName) {
 				this.username = cardInfo.cardName;
 				this.cerNumber = cardInfo.cardCode;
@@ -175,7 +175,7 @@
 	}
 
 	.new-btn {
-		border-radius: 8px;
+		border-radius: 5px;
 	}
 
 	.title-bg-div {

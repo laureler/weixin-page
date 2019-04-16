@@ -37,7 +37,7 @@
 				const _this = this;
 				Dialog.confirm({
 					title: '提示',
-					message: '确认关联ibase账号？'
+					message: '确认关联该账号？'
 				}).then(() => {
 					const openId = isWx() ? Cookies.get('openid') : '';
 					const config = { headers: { 'Content-Type': 'multipart/form-data' } };
@@ -58,7 +58,10 @@
 		},
 		//在$el被替换的时候调用钩子函数
 		mounted () {
-			const _this = this
+			const _this = this;
+			/*
+			* 已完成人脸识别，直接使用身份信息获取ibase账号
+			* */
 			let cardName = _this.$store.getters.getPersonCardInfo.cardName;
 			let cardCode = _this.$store.getters.getPersonCardInfo.cardCode;
 			// 获取用户 ibase 账号列表

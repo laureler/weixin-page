@@ -10,12 +10,12 @@
 				</div>
 				<div class="content-text content-title">
 					<span>
-						{{column.title}}-{{key+1}}
+						{{column.title}}
 					</span>
 				</div>
 				<div class="content-text content-sub-title">
 					<span>
-						{{column.subTitle}}-{{key+1}}
+						{{column.subTitle}}
 					</span>
 				</div>
 			</div>
