@@ -43,6 +43,8 @@
 				searchParam: '',
 				// 手机号码
 				phoneNumber: '',
+				// 发送短信的手机号码
+				sendSmsNumber: '',
 				// 验证码按钮值
 				smsCodeBtnValue: '获取验证码',
 				// 验证码
@@ -74,6 +76,7 @@
 							if (response) {
 								// 短信发送成功
 								Toast('短信发送成功！');
+								_this.sendSmsNumber = _this.phoneNumber;
 							} else {
 								Toast('手机号跟业务登记号不匹配!');
 								_this.curCount = 0;
@@ -100,6 +103,10 @@
 			},
 			search: function () {
 				const _this = this;
+				if (_this.sendSmsNumber === '') {
+					Toast('请获取短信验证码！');
+					return;
+				}
 				if (this.smsCode === '') {
 					Toast('请输入验证码！');
 					return;
