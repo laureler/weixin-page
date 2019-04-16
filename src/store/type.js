@@ -7,3 +7,4 @@ export const CARD_CODE = 'CARD_CODE'; // 身份证id
 export const CARD_NAME = 'CARD_NAME'; // 身份证名称
 export const GET_STEP_URL = 'GET_STEP_URL'; // 获取步骤当前地址
 export const DIALOG_CTRL = 'DIALOG_CTRL'; // 控制弹窗是否显示
+export const IBASE_ACCOUNT_ID = 'IBASE_ACCOUNT_ID'; // 存储关联的ibase账号ID

@@ -15,7 +15,8 @@ export default new Vuex.Store({
 		cardName: '',
 		stepUrl: '',
 		showDialog: false,
-		finishedVerify: ''	// 完成验证
+		finishedVerify: '', // 完成验证
+		ibaseAccountId: ''	// 存储绑定的ibase账号ID
 	},
 	mutations: {
 		[types.SET_STEP] (state, res) {
@@ -47,7 +48,11 @@ export default new Vuex.Store({
 		},
 		[types.DIALOG_CTRL] (state, res) {
 			state.showDialog = res;
-		}
+		},
+		[types.IBASE_ACCOUNT_ID] (state, res) {
+			sessionStorage.setItem("ibaseAccountId", res);
+			state.ibaseAccountId = res;
+		},
 	},
 	getters: {
 		getVerifyState(state) {
@@ -59,7 +64,6 @@ export default new Vuex.Store({
 				return false;
 			}
 		},
-
 		getPersonCardInfo(state) {
 			if (state.cardCode) {
 				return {
@@ -76,6 +80,15 @@ export default new Vuex.Store({
 					cardCode: '',
 					cardName: ''
 				};
+			}
+		},
+		getIbaseAccountId(state) {
+			if (state.ibaseAccountId) {
+				return state.ibaseAccountId;
+			} else if (sessionStorage.getItem('ibaseAccountId')) {
+				return sessionStorage.getItem('ibaseAccountId');
+			} else {
+				return '';
 			}
 		}
 	}

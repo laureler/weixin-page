@@ -41,13 +41,15 @@
 				}).then(() => {
 					const openId = isWx() ? Cookies.get('openid') : '';
 					const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+					let accountId = _this.accountDataArray[index].accountId;
 					let param = {
-						id: _this.accountDataArray[index].accountID,
+						id: accountId,
 						openId: openId,
 					}
 					_this.$post('/pubWeb/public/associativeIbaseAccountById', param, config).then(response => {
 						// 验证结束，进入个人中心
 						_this.$store.commit('SET_VERIFY_STATE', true);
+						_this.$store.commit('IBASE_ACCOUNT_ID', accountId);
 						_this.$router.push({ path: '/personalCenter' });
 					}).catch(error => {
 						console.log(error);
@@ -71,7 +73,9 @@
 						// 如果只有一个ibase账号，则默认关联直接跳转
 						if (dataList.length === 1)  {
 							Toast('关联ibase账号成功！');
-							_this.setTimeout(() => {
+							_this.$store.commit('SET_VERIFY_STATE', true);
+							_this.$store.commit('IBASE_ACCOUNT_ID', dataList[0].accountId);
+							setTimeout(() => {
 								_this.$router.push({ path: '/personalCenter' });
 							}, 1000);
 						}

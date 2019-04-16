@@ -113,9 +113,10 @@
 				_this.$post(ctx2 + '/pubWeb/public/saveUserInfo', params, config).then(response => {
 					if (response) {
 						Toast('注册成功！');
+						_this.$store.commit('IBASE_ACCOUNT_ID', response.accountId);
+						_this.$store.commit('SET_VERIFY_STATE', true);
+						// 验证结束，进入个人中心
 						setTimeout(() => {
-							// 验证结束，进入个人中心
-							_this.$store.commit('SET_VERIFY_STATE', true);
 							_this.$router.push({ path: '/personalCenter' });
 						}, 1000);
 					}
