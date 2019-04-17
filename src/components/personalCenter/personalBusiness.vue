@@ -4,7 +4,7 @@
 		<div class="businessList" v-if="businessDataArray.length!==0">
 			<van-collapse v-model="active" v-for="(businessItem, index) in businessDataArray" accordion>
 				<van-collapse-item :name="index">
-					<div slot="title" class="">
+					<div slot="title">
 						<p class="busyness-title">
 							当前业务{{businessItem.ywh}}
 						</p>
@@ -16,25 +16,6 @@
 						<p class="business-content-title">业务内容</p>
 						<p>{{businessItem.ywContent}}</p>
 					</div>
-					<!--
-					<div v-if="typeof outerItem[0][Object.keys(outerItem[0])]=='string'">
-						&lt;!&ndash;如果第二层是对象&ndash;&gt;
-						<van-cell-group v-for="(innerItem, index) in outerItem">
-							<van-cell :value="innerItem[Object.keys(innerItem)[0]]" :title="Object.keys(innerItem)[0]"/>
-						</van-cell-group>
-					</div>
-					<div v-else>
-						&lt;!&ndash;第二层是数组&ndash;&gt;
-						<van-tabs>
-							<van-tab v-for="(valueTab,indexTab) in outerItem[0][Object.keys(outerItem[0])[0]]"
-									 :title="(Object.keys(outerItem[0])[0])+(indexTab+1)">
-								<van-cell-group v-for="(innerTabItem, innerTabkey, innerTabIndex)  in valueTab">
-									<van-cell :value="innerTabItem" :title="innerTabkey"/>
-								</van-cell-group>
-							</van-tab>
-						</van-tabs>
-					</div>
-					-->
 				</van-collapse-item>
 			</van-collapse>
 		</div>
@@ -60,10 +41,8 @@
 			return {
 				businessDataArray: [],
 				active: 0,
-				noDataNote: '当前没有正在进行的业务！'
+				noDataNote: '当前没有正在进行的业务！',
 			}
-		},
-		watch: {
 		},
 		methods: {},
 		//在$el被替换的时候调用钩子函数
@@ -86,6 +65,14 @@
 	/*使用deep深入覆盖vant样式*/
 	.businessList /deep/ .van-cell__title {
 		max-width: none !important;
+	}
+
+	.businessList /deep/ .van-collapse-item__title--expanded {
+		 color: #1989FA !important;
+	 }
+
+	.businessList /deep/ .van-collapse-item__title--expanded .busyness-start-time {
+		color: #1989FA !important;
 	}
 
 	.busyness-title {
@@ -112,4 +99,5 @@
 		padding-top: 50px;
 		background-color: white;
 	}
+
 </style>
