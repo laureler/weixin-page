@@ -49,7 +49,7 @@
 					{
 						title: '我的不动产',
 						subTitle: '副标题',
-						path: '',
+						path: '/personInfo',
 						icon: ''
 					},
 					{
@@ -65,7 +65,7 @@
 						icon: ''
 					},
 					{
-						title: '个人设置',
+						title: '个人信息',
 						subTitle: '副标题',
 						path: '/personalSetting',
 						icon: ''
@@ -100,7 +100,6 @@
 
 	.content-text {
 		width: 100%;
-		height: auto;
 		padding: 2px 0;
 		text-align: center;
 	}
