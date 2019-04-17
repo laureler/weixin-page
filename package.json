@@ -8,10 +8,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "build:prod": "vue-cli-service build --mode production",
-    "build:dll": "dll && build",
     "build:test": "vue-cli-service build --mode test",
-    "analyz": "set NODE_ENV=production npm_config_report=true && npm run build",
-    "dll": "webpack -p --progress --config ./webpack.dll.conf.js",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
