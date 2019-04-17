@@ -15,10 +15,10 @@ const env_prod = process.env.NODE_ENV === 'production';
 
 module.exports = {
 
-	publicPath: env_prod ? './' : '/',
+	publicPath: env_prod ? '/pubWeb/public/' : '/',
 	// 打包后输出路径
 	outputDir: 'dist',
-	assetsDir: 'static',
+	assetsDir: '',
 	// 保存时是不是用esLint-loader 来lint 代码
 	lintOnSave: true,
 
@@ -37,13 +37,12 @@ module.exports = {
 				}))
 				.end();
 		}
-		config.output.filename('./js/[name].[hash].js').end();
 		// 添加别名
 		config.resolve.alias
 			.set('@', resolve('src'))
 			.set('assets', resolve('src/assets'))
-			.set('components', resolve('src/components'))
-			.set('public', resolve('public'));
+			.set('public', resolve('public'))
+			.set('vue$', 'vue/dist/vue.esm.js')
 
 	},
 
