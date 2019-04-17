@@ -2,7 +2,7 @@
 	<div>
 		<!--<img src="../../../static/images/wechatstatic/bg_top1.png" class="img"/>-->
 		<div style="position: relative; height: 150px">
-			<img src="../../../static/images/wechatstatic/bg_top.png" class="img" />
+			<img src="../../../public/images/wechatstatic/bg_top.png" class="img" />
 			<span class="title_name">{{getTitleValue()}}</span>
 		</div>
 		<transition name="fade">
