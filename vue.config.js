@@ -13,14 +13,12 @@ function resolve (dir) {
 
 const env_prod = process.env.NODE_ENV === 'production';
 
-console.log(process.env.NODE_ENV);
-
 module.exports = {
 
 	publicPath: env_prod ? './' : '/',
 	// 打包后输出路径
 	outputDir: 'dist',
-	assetsDir: 'assets',
+	assetsDir: 'static',
 	// 保存时是不是用esLint-loader 来lint 代码
 	lintOnSave: true,
 
@@ -28,8 +26,18 @@ module.exports = {
 		if (env_prod) {
 			config.plugin('webpack-bundle-analyzer')
 				.use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin);
+
+			config.module
+				.rule("image-webpack-loader")
+				.test(/\.(gif|png|jpe?g|svg)$/i)
+				.use("file-loader")
+				.loader("image-webpack-loader")
+				.tap(() => ({
+					disable: !env_prod
+				}))
+				.end();
 		}
-		config.output.filename('./assets/js/[name].[hash].js').end();
+		config.output.filename('./js/[name].[hash].js').end();
 		// 添加别名
 		config.resolve.alias
 			.set('@', resolve('src'))
@@ -45,8 +53,8 @@ module.exports = {
 			// 为生产环境修改配置...
 			plugins: [
 				new MiniCssExtractPlugin({
-					filename: './assets/css/[name].[hash].css',
-					chunkFilename: './assets/css/[id].[hash].css'
+					filename: './css/[name].[hash].css',
+					chunkFilename: './css/[id].[hash].css'
 				}),
 
 				new OptimizeCSSAssetsPlugin(),
@@ -118,8 +126,8 @@ module.exports = {
 			// 为开发环境修改配置...
 			plugins: [
 				new MiniCssExtractPlugin({
-					filename: './assets/css/[name].css',
-					chunkFilename: './assets/css/[id].css'
+					filename: './css/[name].css',
+					chunkFilename: './css/[id].css'
 				}),
 			];
 		}
@@ -151,25 +159,4 @@ module.exports = {
 		open: true, // 配置自动启动浏览器
 		hotOnly: true
 	},
-
-	pluginOptions: {
-		/*splitChunks: {
-			chunkGroups: {
-				vendor: {
-					chunks: 'initial',
-					test: path.resolve(__dirname, 'node_modules'),
-					name: 'vendors',
-					enforce: true,
-				}
-			},
-			cacheGroups: {
-				styles: {
-					name: 'styles',
-					test: /\.css$/,
-					chunks: 'all',
-					enforce: true
-				}
-			}
-		}*/
-	}
 };
