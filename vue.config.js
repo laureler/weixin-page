@@ -4,8 +4,8 @@ const path = require('path');
 const webpack = require('webpack');
 const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 function resolve (dir) {
 	return path.join(__dirname, dir);
@@ -15,10 +15,10 @@ const env_prod = process.env.NODE_ENV === 'production';
 
 module.exports = {
 
-	publicPath: env_prod ? '/pubWeb/public/' : '/',
+	publicPath: env_prod ? './' : '/',
 	// 打包后输出路径
 	outputDir: 'dist',
-	assetsDir: '',
+	assetsDir: 'wechatstatic',
 	// 保存时是不是用esLint-loader 来lint 代码
 	lintOnSave: true,
 
@@ -56,22 +56,11 @@ module.exports = {
 					chunkFilename: './css/[id].[hash].css'
 				}),
 
-				new OptimizeCSSAssetsPlugin(),
+				new CopyWebpackPlugin([
+					{ from: './public/images', to: './wechatstatic' },
+				]),
 
-				// 告诉webpack公共库文件已经编译好了
-				new webpack.DllReferencePlugin({
-					context: process.cwd(),
-					manifest: require('./public/vendor/vendor-manifest.json')
-				}),
-				// 将 dll 注入到 生成的 html 模板中
-				new AddAssetHtmlPlugin({
-					// dll文件位置
-					filepath: path.resolve(__dirname, './public/vendor/*.js'),
-					// dll 引用路径
-					publicPath: './vendor',
-					// dll最终输出的目录
-					outputPath: './vendor'
-				}),
+				new OptimizeCSSAssetsPlugin(),
 
 				// 使用 ParallelUglifyPlugin 并行压缩输出的 JS 代码
 				new ParallelUglifyPlugin({
