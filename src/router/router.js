@@ -45,6 +45,12 @@ const router = new Router({
 			name: 'ApplicationResult',
 			component: resolve => require(['@/components/app/ApplicationResult'], resolve)
 		},
+		// 个人预约界面
+		{
+			path: '/apprd',
+			name: 'ApplicationRemind',
+			component: resolve => require(['@/components/app/ApplicationRemind'], resolve)
+		},
 		{
 			path: '/schq',
 			name: 'ScheduleQuery',

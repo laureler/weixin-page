@@ -3,58 +3,62 @@
 		<page-head title="预约成功"></page-head>
 		<div class="box-content">
 			<div v-if="key == 1" class="contentTip">
-			    <div style="background-color:#ffffff">
-			        <div class="title">
-				        <div class="borderLeft"></div>
-					    <div class="titlep">您已预约成功！</div>
-			        </div>
-			        <div>
-                        <ul class="cul">
-			                <li class="cli">
-				                <div>办理时间：</div>
-				                <div>{{ item.YYRQ  }}  {{ item.YYSD }}</div>
-			                </li>
-                            <li class="cli">
-				                <div>办理地址：</div>
-				                <div>{{ item.WDDZ }}</div>
-			                </li>
-			                <li class="cli">
-				                <div>办理业务：</div>
-				                <div>{{ item.YYSX }}</div>
-			                </li>
-		                </ul>
-			        </div>
-			    </div>
-			    <div class="contain">
-                     请申请人在预约时段内，凭手机取号信息到办事大厅扫描预约二维码进行确认，并等待叫号。（
-					<span style="color:red">扫码确认必须到现场，请勿提前扫码，过号不办理</span>
-					）
-			    </div>
+				<div style="background-color:#ffffff">
+					<div class="title">
+						<div class="borderLeft"></div>
+						<div class="titlep">您已预约成功！</div>
+					</div>
+					<div>
+						<ul class="cul">
+							<li class="cli">
+								<div>预约号：</div>
+								<div>{{ item.YYH }}</div>
+							</li>
+							<li class="cli">
+								<div>办理时间：</div>
+								<div>{{ item.YYRQ }} {{ item.YYSD }}</div>
+							</li>
+							<li class="cli">
+								<div>办理事项：</div>
+								<div>{{ item.YYSX }}</div>
+							</li>
+							<li class="cli">
+								<div>办理地址：</div>
+								<div>{{ item.WDDZ }}</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!--<div class="contain">
+				  请申请人在预约时段内，凭手机取号信息到办事大厅扫描预约二维码进行确认，并等待叫号。（
+				  <span style="color:red">扫码确认必须到现场，请勿提前扫码，过号不办理</span>
+				  ）
+				</div>-->
 			</div>
 			<div v-if="key == 2" class="contentTip">
-			    <div style="background-color:#ffffff">
-			        <div class="title">
-				        <div class="borderLeft"></div>
-					    <div class="titlep">您已预约成功！</div>
-			        </div>
-			        <div>
-                        <ul class="cul">
-			                <li class="cli">
-				                <div>办理时间：</div>
-				                <div>{{ item.YYRQ  }}  {{ item.YYSD }}</div>
-			                </li>
-                            <li class="cli">
-				                <div>办理地址：</div>
-				                <div>{{ item.WDDZ }}</div>
-			                </li>
-			                <li class="cli">
-				                <div>办理业务：</div>
-				                <div>{{ item.YYSX }}</div>
-			                </li>
-		                </ul>
-			        </div>
-			    </div>
-			    <div class="contain">
+				<div style="background-color:#ffffff">
+					<div class="title">
+						<div class="borderLeft"></div>
+						<div class="titlep">您已预约成功！</div>
+					</div>
+					<div>
+						<ul class="cul">
+							<li class="cli">
+								<div>办理时间：</div>
+								<div>{{ item.YYRQ }} {{ item.YYSD }}</div>
+							</li>
+							<li class="cli">
+								<div>办理地址：</div>
+								<div>{{ item.WDDZ }}</div>
+							</li>
+							<li class="cli">
+								<div>办理业务：</div>
+								<div>{{ item.YYSX }}</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="contain">
 					请申请人在预约时段内，凭手机预约信息或者预约纪录直接去窗口办理。
 				</div>
 			</div>
@@ -62,33 +66,13 @@
 	</div>
 </template>
 
-<script>
-	import Head from './head.vue'
-
-	export default {
-		components: {
-			'page-head': Head,
-		},
-		data() {
-			return {
-				item: {},
-				key: '',
-			}
-		},
-		mounted() {
-			this.item = JSON.parse(this.$route.query.response)[0];
-			this.key = this.$route.query.key;
-		},
-	}
-</script>
-
 <style lang="css" scoped>
 
 	@import "../../css/elem UI.css";
 
 	.box-content {
 		padding: 0 0 0.3rem;
-		margin-top:0.25rem;
+		margin-top: 0.25rem;
 	}
 
 	.box-card {
@@ -125,8 +109,9 @@
 		font-weight: bold;
 		color: #252525;
 		letter-spacing: 1px;
-		border-bottom:1px solid #e9e9e9;
+		border-bottom: 1px solid #e9e9e9;
 	}
+
 	.cul {
 		margin-top: 0.1rem;
 		margin-left: 0.3rem;
@@ -135,13 +120,36 @@
 
 	.cli {
 		font-size: 0.375rem;
-		height:45px;
+		height: 45px;
 		display: flex;
 		justify-content: space-between;
 		padding: 0.3rem 0;
 	}
-	.contain{
-		padding:0.25rem;
+
+	.contain {
+		padding: 0.25rem;
 		font-size: 0.375rem;
 	}
 </style>
+
+<script>
+	import Head from './head.vue'
+
+	import {request} from '../../utils/http.js'
+
+	export default {
+		components: {
+			'page-head': Head,
+		},
+		data() {
+			return {
+				item: {},
+				key: '',
+			}
+		},
+		mounted() {
+			this.item = JSON.parse(this.$route.query.response)[0];
+			this.key = this.$route.query.key;
+		},
+	}
+</script>
