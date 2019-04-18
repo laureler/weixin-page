@@ -51,6 +51,13 @@ const router = new Router({
 			name: 'ApplicationRemind',
 			component: resolve => require(['@/components/app/ApplicationRemind'], resolve)
 		},
+		//新的进度查询
+		{
+			path:'/newschq',
+			name:'NewScheduleQuery',
+			component: resolve => require(['@/components/app/NewScheduleQuery'], resolve)
+		},
+		//进度查询
 		{
 			path: '/schq',
 			name: 'ScheduleQuery',
@@ -91,6 +98,13 @@ const router = new Router({
 			name: 'WechatQuerry',
 			component: resolve => require(['@/components/app/WechatQuerry'], resolve)
 		},
+		//新的办事指南
+		{
+			name: 'newgui',
+			path: '/newgui',
+			component: resolve => require(['@/components/app/NewGuide'], resolve)
+		},
+		// 办事指南
 		{
 			name: 'gui',
 			path: '/gui',

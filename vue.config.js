@@ -5,7 +5,6 @@ const webpack = require('webpack');
 const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 function resolve (dir) {
 	return path.join(__dirname, dir);
@@ -37,6 +36,8 @@ module.exports = {
 				}))
 				.end();
 		}
+
+		config.output.filename('./js/[name].[hash].js').end();
 		// 添加别名
 		config.resolve.alias
 			.set('@', resolve('src'))
@@ -55,10 +56,6 @@ module.exports = {
 					filename: './css/[name].[hash].css',
 					chunkFilename: './css/[id].[hash].css'
 				}),
-
-				new CopyWebpackPlugin([
-					{ from: './public/images', to: './wechatstatic' },
-				]),
 
 				new OptimizeCSSAssetsPlugin(),
 
