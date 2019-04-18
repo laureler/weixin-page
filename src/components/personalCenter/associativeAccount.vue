@@ -70,7 +70,7 @@
 			* */
 			let cardName = _this.$store.getters.getPersonCardInfo.cardName;
 			let cardCode = _this.$store.getters.getPersonCardInfo.cardCode;
-			_this.$post('/pubWeb/public/faceRecognition/getLinkedAccounts?cardName=' + cardName + '&cardCode=' + cardCode)
+			_this.$post('http://192.168.10.103:7300/mock/5cb6cd4eb2e5a100170bf2ac/wechat/pubWeb/public/faceRecognition/getLinkedAccounts?cardName=' + cardName + '&cardCode=' + cardCode)
 				.then(dataList => {
 					console.log(dataList);
 					if (dataList && dataList.length > 0) {

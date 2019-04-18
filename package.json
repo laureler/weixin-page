@@ -6,7 +6,7 @@
   "description": "south-wechat-project",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --mode analyz",
     "analyz": "vue-cli-service build --mode analyz",
     "build:prod": "vue-cli-service build --mode production",
     "build:test": "vue-cli-service build --mode test",

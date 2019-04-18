@@ -51,13 +51,7 @@ const router = new Router({
 			name: 'ApplicationRemind',
 			component: resolve => require(['@/components/app/ApplicationRemind'], resolve)
 		},
-		//新的进度查询
-		{
-			path:'/newschq',
-			name:'NewScheduleQuery',
-			component: resolve => require(['@/components/app/NewScheduleQuery'], resolve)
-		},
-		//进度查询
+		// 进度查询
 		{
 			path: '/schq',
 			name: 'ScheduleQuery',
@@ -243,7 +237,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
 	// 如果是要进入个人中心首页或相关页面，需要验证配置和人脸识别
-	if (to.meta.isPersonalHomePage) {
+	/*if (to.meta.isPersonalHomePage) {
 		if ((/^true$/i).test(store.getters.getVerifyState)) {
 			// 完成人脸识别表示已完成个人设置
 			next();
@@ -251,7 +245,7 @@ router.beforeEach((to, from, next) => {
 			// 开始个人设置
 			next({ path: '/preApprove', query: { isPersonalHomeCheck: true } });
 		}
-	}
+	}*/
 	next();
 });
 
