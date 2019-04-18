@@ -12,10 +12,11 @@ function resolve (dir) {
 }
 
 const env_prod = process.env.NODE_ENV === 'production';
+const env_analyz = process.env.IS_ANALYZ === 'analyz';
 
 module.exports = {
 
-	publicPath: env_prod ? './' : '/',
+	publicPath: env_prod ? '/pubWeb/public/weChatPublic/' : '/',
 	// 打包后输出路径
 	outputDir: 'dist',
 	assetsDir: 'wechatstatic',
@@ -23,7 +24,7 @@ module.exports = {
 	lintOnSave: true,
 
 	chainWebpack: config => {
-		if (env_prod) {
+		if (env_analyz) {
 			config.plugin('webpack-bundle-analyzer')
 				.use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin);
 
