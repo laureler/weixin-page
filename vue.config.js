@@ -15,11 +15,10 @@ const env_prod = process.env.NODE_ENV === 'production';
 const env_analyz = process.env.IS_ANALYZ === 'analyz';
 
 module.exports = {
-
-	publicPath: env_prod ? '/pubWeb/public/weChatPublic/' : '/',
+	publicPath: '/pubWeb/public/weChatPublic/',
 	// 打包后输出路径
-	outputDir: 'dist',
-	assetsDir: 'wechatstatic',
+	outputDir: 'dist/pubWeb/public/weChatPublic/',
+	assetsDir: 'weChatPublic',
 	// 保存时是不是用esLint-loader 来lint 代码
 	lintOnSave: true,
 
