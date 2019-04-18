@@ -14,11 +14,6 @@ npm run serve
 
 ### Compiles and minifies for production
 ```
-npm run build:dll
-
-或
-
-npm run dll
 npm run build
 ```
 

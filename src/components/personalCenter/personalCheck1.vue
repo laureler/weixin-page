@@ -126,7 +126,7 @@
 		mounted () {
 			const _this = this;
 			const openId = isWx() ? Cookies.get('openid') : '';
-			_this.$fetch('/pubWeb/public/faceRecognition/getAuthenticatedUserInfo?openId=' + openId)
+			_this.$post('/pubWeb/public/faceRecognition/getAuthenticatedUserInfo?openId=' + openId)
 				.then(response => {
 					// 如果已经完成个人设置，则直接前往人脸识别
 					if (response) {
