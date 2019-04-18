@@ -19,6 +19,7 @@
 
     import Head from './head.vue'
     import { request } from '../../utils/http'
+    import { Toast, Dialog } from 'vant'
     import cellLine from './cellLine.vue'
 
     export default {
@@ -58,7 +59,12 @@
                     },
                     fail (error) {
                         if(error.status == '404'){
-                            alert("找不到该接口！");
+                            Dialog.alert({
+                                title: '错误提示：',
+                                message: '找不到该接口！'
+                            }).then(() => {
+                                // on close
+                            });
                             return;
                         }
                     },
@@ -117,14 +123,19 @@
                 }
             } else {
                 request({
-                    url: '/pubWeb/public/doIntranetRequest/GetTitleList',
+                    url: '/pubWeb/public/doIntranetRequest/',
                     //data: { strJson: JSON.stringify({ bname: decodeURI(that.$route.query.response) }) },
                     success (data) {
                         that.datas = data.noInfo;
                     },
                     fail (error) {
                         if(error.status == '404'){
-                            alert("找不到该接口！");
+                            Dialog.alert({
+                                title: '错误提示：',
+                                message: '找不到该接口！'
+                            }).then(() => {
+                                // on close
+                            });
                             return;
                         }
                     },
