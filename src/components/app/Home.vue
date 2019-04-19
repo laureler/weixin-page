@@ -61,15 +61,29 @@
 						</div>
 					</el-col>
 					<el-col :span="8">
-						<div class="home-item" @click="open('/spea')">
+						<div class="home-item last" @click="open('/spea')">
 							<p class="iconfont icon-yuyue orange"></p>
 							<p class="title">开发商预约</p>
 						</div>
 					</el-col>
+				</el-row>
+				<el-row class="home-row">
 					<el-col :span="8">
-						<div class="home-item last" @click="open('/routerHomePage')">
+						<div class="home-item" @click="open('/routerHomePage')">
 							<p class="iconfont icon-yuyue orange"></p>
 							<p class="title">导航功能</p>
+						</div>
+					</el-col>
+					<el-col :span="8">
+						<div class="home-item" @click="open('/newgui')">
+							<p class="iconfont icon-jindu blue"></p>
+							<p class="title">新的办事指南</p>
+						</div>
+					</el-col>
+					<el-col :span="8">
+						<div class="home-item last" @click="open('/newschq')">
+							<p class="iconfont icon-jindu blue"></p>
+							<p class="title">新的进度查询</p>
 						</div>
 					</el-col>
 				</el-row>
