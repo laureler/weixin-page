@@ -52,19 +52,14 @@
             query () {
                 const that = this
                 request({
-                    url: '/pubWeb/public/doIntranetRequest/GetTitleList',
+                    url: '/GetTitleList',
                     data:{strJson:JSON.stringify({filter:decodeURI(that.searchData),bname:decodeURI(that.$route.query.response)})},
                     success (data) {
                         that.datas = data.noInfo;
                     },
                     fail (error) {
                         if(error.status == '404'){
-                            Dialog.alert({
-                                title: '错误提示：',
-                                message: '找不到该接口！'
-                            }).then(() => {
-                                // on close
-                            });
+                            Toast("找不到该接口！");
                             return;
                         }
                     },
@@ -123,19 +118,14 @@
                 }
             } else {
                 request({
-                    url: '/pubWeb/public/doIntranetRequest/',
-                    //data: { strJson: JSON.stringify({ bname: decodeURI(that.$route.query.response) }) },
+                    url: '/GetTitleList',
+                    data: { strJson: JSON.stringify({ bname: decodeURI(that.$route.query.response) }) },
                     success (data) {
                         that.datas = data.noInfo;
                     },
                     fail (error) {
                         if(error.status == '404'){
-                            Dialog.alert({
-                                title: '错误提示：',
-                                message: '找不到该接口！'
-                            }).then(() => {
-                                // on close
-                            });
+                            Toast("找不到该接口！");
                             return;
                         }
                     },
