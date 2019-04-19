@@ -1,7 +1,7 @@
 <template>
 	<!-- 个人信息设置页面 -->
 	<div class="personal-sign-in">
-		<head-nav-bar title="注册账号"></head-nav-bar>
+		<page-head title="注册账号"></page-head>
 		<div class="sign-in-info">
 			<div class="title-bg-div">
 				账号信息
@@ -44,14 +44,14 @@
 <script>
 
 	import { Toast } from 'vant';
-	import headNavBar from './headNavBar';
+	import head from '../app/head';
 
 	import { isWx } from '../../utils/ua';
 	import Cookies from 'js-cookie';
 
 	export default {
 		components: {
-			'head-nav-bar': headNavBar
+			'page-head': head
 		},
 		data () {
 			return {
@@ -110,7 +110,7 @@
 					phoneNumber: _this.sendSmsNumber,
 					code: _this.smsCode,
 				};
-				_this.$post(ctx2 + '/pubWeb/public/saveUserInfo', params, config).then(response => {
+				_this.$post('/pubWeb/public/saveUserInfo', params, config).then(response => {
 					if (response) {
 						Toast('注册成功！');
 						_this.$store.commit('IBASE_ACCOUNT_ID', response.accountId);

@@ -1,7 +1,7 @@
 <template>
 	<!-- 个人信息设置之手机验证 -->
 	<div style="display:flex;flex-direction:column;">
-		<head-nav-bar title="个人信息设置"></head-nav-bar>
+		<page-head title="个人信息设置"></page-head>
 		<van-cell-group>
 			<van-field id="phoneNumber" label="手机号码" placeholder="请输入手机号码" v-model.trim="phoneNumber" type="number"
 					   clearable/>
@@ -26,7 +26,7 @@
 
 <script>
 
-	import headNavBar from './headNavBar';
+	import head from '../app/head';
 	import { Toast, Dialog } from 'vant';
 
 	import { isWx } from '../../utils/ua';
@@ -34,7 +34,7 @@
 
 	export default {
 		components: {
-			'head-nav-bar': headNavBar
+			'page-head': head
 		},
 		data () {
 			return {

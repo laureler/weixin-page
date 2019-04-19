@@ -1,9 +1,9 @@
 <template>
 	<div class="personal-ibase-account">
-		<head-nav-bar title="选择账户"></head-nav-bar>
+		<page-head title="选择账户"></page-head>
 		<div class="ibaseAccountList" v-if="accountDataArray.length!==0">
 			<van-cell-group v-for="(accountItem, index) in accountDataArray">
-				<van-cell :title="accountItem.accountName"  :label="accountItem.username" @click="associativeAccount(index)" />
+				<van-cell :title="accountItem.loginName" @click="associativeAccount(index)" />
 			</van-cell-group>
 		</div>
 	</div>
@@ -11,7 +11,7 @@
 
 <script>
 
-	import headNavBar from './headNavBar';
+	import Head from '../app/head';
 	import { Dialog, Toast } from 'vant'
 
 	import { isWx } from '../../utils/ua';
@@ -19,7 +19,7 @@
 
 	export default {
 		components: {
-			'head-nav-bar': headNavBar,
+			'page-head': Head,
 		},
 		data () {
 			return {
@@ -41,16 +41,20 @@
 				}).then(() => {
 					const openId = isWx() ? Cookies.get('openid') : '';
 					const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-					let accountId = _this.accountDataArray[index].accountId;
+					let userId = _this.accountDataArray[index].userId;
 					let param = {
-						id: accountId,
+						userId: userId,
 						openId: openId,
 					}
-					_this.$post('/pubWeb/public/associativeIbaseAccountById', param, config).then(response => {
-						// 验证结束，进入个人中心
-						_this.$store.commit('SET_VERIFY_STATE', true);
-						_this.$store.commit('IBASE_ACCOUNT_ID', accountId);
-						_this.$router.push({ path: '/personalCenter' });
+					_this.$post('/pubWeb/public/faceRecognition/updateAccountWxOpenId', param, config).then(response => {
+						if (response) {
+							// 关联成功，，进入个人中心
+							_this.$store.commit('SET_VERIFY_STATE', true);
+							_this.$store.commit('IBASE_ACCOUNT_ID', userId);
+							_this.$router.push({ path: '/personalCenter' });
+						} else {
+							Toast('关联ibase账号失败，请重试！');
+						}
 					}).catch(error => {
 						console.log(error);
 					});
@@ -66,27 +70,32 @@
 			* */
 			let cardName = _this.$store.getters.getPersonCardInfo.cardName;
 			let cardCode = _this.$store.getters.getPersonCardInfo.cardCode;
-			// 获取用户 ibase 账号列表
-			_this.$fetch('/formengineWebService/public/getIbaseAccountData?cardName=' + cardName + '&cardCode=' + cardCode)
+			const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+			let param = {
+				realName: cardName,
+				cardNumber: cardCode
+			}
+			_this.$post('/pubWeb/public/faceRecognition/getLinkedAccounts', param, config)
 				.then(dataList => {
 					if (dataList && dataList.length > 0) {
 						// 如果只有一个ibase账号，则默认关联直接跳转
 						if (dataList.length === 1)  {
 							Toast('关联ibase账号成功！');
 							_this.$store.commit('SET_VERIFY_STATE', true);
-							_this.$store.commit('IBASE_ACCOUNT_ID', dataList[0].accountId);
+							_this.$store.commit('IBASE_ACCOUNT_ID', dataList[0].userId);
 							setTimeout(() => {
 								_this.$router.push({ path: '/personalCenter' });
 							}, 1000);
+						} else {
+							_this.accountDataArray = dataList;
 						}
-						_this.accountDataArray = dataList
 					} else {
 						// 如果没有ibase账号，则到注册页面
 						_this.$router.push({ path: '/signInAccount' });
 					}
 				}).catch(error => {
-					console.log(error);
-				});
+				console.log(error);
+			});
 		}
 	}
 </script>

@@ -1,7 +1,7 @@
 <template>
 	<!-- 个人信息设置之身份信息 -->
 	<div>
-		<head-nav-bar title="个人信息设置"></head-nav-bar>
+		<page-head title="个人信息设置"></page-head>
 		<van-cell-group>
 			<van-field id="cerNumber" label="证件号码" placeholder="请输入身份证号码" v-model.trim="cerNumber" type="text" clearable
 					   required/>
@@ -23,14 +23,14 @@
 <script>
 
 	import { Toast, Dialog } from 'vant';
-	import headNavBar from './headNavBar';
+	import head from '../app/head';
 
 	import { isWx } from '../../utils/ua';
 	import Cookies from 'js-cookie';
 
 	export default {
 		components: {
-			'head-nav-bar': headNavBar
+			'page-head': head
 		},
 		data () {
 			return {
