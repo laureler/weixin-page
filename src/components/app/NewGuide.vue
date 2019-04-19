@@ -4,12 +4,12 @@
         <div class="search-div">
             <div class="s-div">
                 <input v-model="searchData" type="text" class="s-input"/>
-                <el-button v-on:click="query" class="s-query" icon="el-icon-search"></el-button>
+                <el-button v-on:click="query(queryData)" class="s-query" icon="el-icon-search"></el-button>
             </div>
         </div>
 		<div class="contain">
 			<van-cell-group>
-				<cell-line @click.native="open(index)" v-for="(item,index) in datas" :title="item.TITLE"/>
+				<cell-line @click.native="open(index)" v-for="(item,index) in datas" :title="item.title"/>
 			</van-cell-group>
 		</div>
 	</div>
@@ -19,7 +19,7 @@
 
     import Head from './head.vue'
     import { request } from '../../utils/http'
-    import { Toast, Dialog } from 'vant'
+    import { Toast } from 'vant'
     import cellLine from './cellLine.vue'
 
     export default {
@@ -29,33 +29,21 @@
         },
         data () {
             return {
-                //当前页码
-                currentPage: 1,
-                items: [],
                 // 全部数据
                 datas: [],
-                //标题名称
-                pageSize: 10,
-                totalDataNumber: 0,
                 //查询条件
                 searchData:''
             }
         },
-        // 计算属性
-        computed: {
-            calcItems: function () {
-                var _this = this
-                return _this.datas.slice(_this.pageSize * (_this.currentPage - 1), _this.pageSize * _this.currentPage)
-            }
-        },
         methods: {
-            query () {
-                const that = this
+            query (queryData) {
+                const that = this;
                 request({
                     url: '/GetTitleList',
-                    data:{strJson:JSON.stringify({filter:decodeURI(that.searchData),bname:decodeURI(that.$route.query.response)})},
+                    data: {strJson:JSON.stringify({filter:decodeURI(that.searchData),bname:decodeURI(that.$route.query.response)})},
                     success (data) {
-                        that.datas = data.noInfo;
+                        var tempData = JSON.stringify(data.noInfo).toLowerCase();
+                        that.datas = JSON.parse(tempData);
                     },
                     fail (error) {
                         if(error.status == '404'){
@@ -66,73 +54,43 @@
                 })
             },
             open (index) {
-                var url =  this.datas[index].APP_URL;
+                var url = '';
+
+                var sUserAgent = navigator.userAgent.toLowerCase();
+                var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+                var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+                var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+                var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+                var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+                var bIsAndroid = sUserAgent.match(/android/i) == "android";
+                var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+                var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+            
+                if (!(bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM)) {
+                    url = this.datas[index].pc_url;
+                }else{
+                    url = this.datas[index].app_url;
+                }
                 window.location.href = url;
-            },
-            loadData (pageNum, pageSize) {
-                const that = this
-                that.items = []
-                for (let i = 0; i < that.datas.length; i++) {
-                    if (i >= (parseInt(pageNum) - 1) * pageSize && i < parseInt(pageNum) * parseInt(pageSize)) {
-                        that.items.push(that.datas[i])
-                    }
-                }
-            },
-            handleCurrentChange (val) {
-                const that = this
-                that.currentPage = val
-                that.loadData(val, that.pageSize)
-                that.$store.commit('changeCurrent', {
-                    currentPage: val,
-                })
-            },
-            record () {
-                const that = this
-                this.$store.commit(mutationTypes.GET_RECORD, {
-                    datas: that.datas,
-                    bname: that.bname,
-                })
-                that.$store.commit('changeState', {
-                    bname: that.bname,
-                    datas: that.datas,
-                })
-                that.$store.commit('changeCurrent', {
-                    currentPage: that.currentPage,
-                })
-            },
-        },
-        mounted () {
-            const that = this
-            if (that.$store.state.bname == that.$route.query.response && that.$store.state.datas.length > 0 && !that.$route.params.id) {
-                const num = that.$store.state.currentPage
-                that.datas = that.$store.state.datas
-                that.totalDataNumber = that.datas.length
-                that.bname = that.$store.state.bname
-                if (num) {
-                    that.currentPage = num
-                }
-                for (let i = 0; i < that.datas.length; i++) {
-                    if (i >= (that.currentPage - 1) * that.pageSize && i < that.currentPage * that.pageSize) {
-                        that.items.push(that.datas[i])
-                    }
-                }
-            } else {
-                request({
-                    url: '/GetTitleList',
-                    data: { strJson: JSON.stringify({ bname: decodeURI(that.$route.query.response) }) },
-                    success (data) {
-                        that.datas = data.noInfo;
-                    },
-                    fail (error) {
-                        if(error.status == '404'){
-                            Toast("找不到该接口！");
-                            return;
-                        }
-                    },
-                })
             }
         },
-    }
+        mounted () {
+            const that = this;
+            request({
+                url: '/GetTitleList',
+                success (data) {
+                    var tempData = JSON.stringify(data.noInfo).toLowerCase();
+                    that.datas = JSON.parse(tempData);
+                },
+                fail (error) {
+                    if(error.status == '404'){
+                        Toast("找不到该接口！");
+                        return;
+                    }
+                },
+            })
+        },
+    };
 </script>
 
 <style lang="css" scoped>
@@ -145,7 +103,7 @@
 
 	.contain {
 		background-color: #ffffff;
-		margin-top: 1.95rem;
+		margin-top: 1.65rem;
 	}
 
 	.paging {
@@ -155,7 +113,7 @@
     .search-div {
 		background: #f0f5f8;
         width: 100%;
-		height: 2rem;
+		height: 1.7rem;
         position: fixed;
         top: 1.2rem;
         left: 0;
@@ -180,18 +138,18 @@
 	}
 
 	.s-div {
-		padding: 0.3rem 0rem 0.3rem 0.3rem;
+		padding: 0.15rem 0rem 0.15rem 0.15rem;
 		display: flex;
-		font-size: 0.375rem;
 		margin: 0.25rem 0.25rem 0.25rem 0.25rem;
 		background-color: #ffffff;
-		height: 1.5rem;
+		height: 1.2rem;
 	}
 
 	.s-input {
 		width: 85%;
 		border: none;
-		font-size: 0.375rem;
+		font-size: 13px;
+        color: #333;
 		outline: none;
 		border-right: 1px solid #e5e5e5;
 		height: 1rem;
