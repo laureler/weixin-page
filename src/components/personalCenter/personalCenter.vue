@@ -37,7 +37,7 @@
 					{
 						title: '住房证明查询',
 						subTitle: '',
-						path: '/houseCertifyDownload',
+						path: '',
 						icon: ''
 					},
 					{

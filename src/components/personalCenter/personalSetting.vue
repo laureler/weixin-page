@@ -57,10 +57,10 @@
 					title: '警告',
 					message: '删除信息绑定后将无法查看个人信息！'
 				}).then(() => {
-					const openId = isWx() ? Cookies.get('openid') : '';
 					const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+					const ibaseId = _this.$store.getters.getIbaseAccountId;
 					let params = {
-						openId: openId
+						ibaseId: ibaseId
 					};
 					_this.$post('/pubWeb/public/faceRecognition/deleteAuthenticatedUserInfo', params, config).then(response => {
 						if (response) {
@@ -97,8 +97,8 @@
 		},
 		mounted () {
 			const _this = this;
-			const openId = isWx() ? Cookies.get('openid') : '';
-			_this.$fetch('/pubWeb/public/faceRecognition/getAuthenticatedUserInfo?openId=' + openId)
+			const ibaseId = _this.$store.getters.getIbaseAccountId;
+			_this.$fetch('/pubWeb/public/faceRecognition/getAuthenticatedUserInfo?ibaseId=' + ibaseId)
 				.then(response => {
 					if (response) {
 						_this.phoneNumber = response.phone;
