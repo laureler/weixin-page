@@ -1,7 +1,7 @@
 <template>
 	<!-- 个人信息设置页面 -->
 	<div class="personal-setting">
-		<head-nav-bar title="个人信息"></head-nav-bar>
+		<page-head title="个人信息"></page-head>
 		<div class="personal-info-content">
 			<van-cell-group>
 				<van-field id="phoneNumber" label="手机号码" placeholder="请输入手机号码" v-model.trim="showPhoneNumber"
@@ -26,14 +26,14 @@
 <script>
 
 	import { Toast, Dialog } from 'vant';
-	import headNavBar from './headNavBar';
+	import Head from '../app/head';
 
 	import { isWx } from '../../utils/ua';
 	import Cookies from 'js-cookie';
 
 	export default {
 		components: {
-			'head-nav-bar': headNavBar
+			'page-head': Head
 		},
 		data () {
 			return {
@@ -62,7 +62,7 @@
 					let params = {
 						openId: openId
 					};
-					_this.$post(ctx2 + '/pubWeb/public/faceRecognition/deleteAuthenticatedUserInfo', params, config).then(response => {
+					_this.$post('/pubWeb/public/faceRecognition/deleteAuthenticatedUserInfo', params, config).then(response => {
 						if (response) {
 							Toast('解除绑定成功！');
 							_this.$store.commit('SET_VERIFY_STATE', false);

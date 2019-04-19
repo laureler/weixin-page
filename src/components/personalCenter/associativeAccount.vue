@@ -1,6 +1,6 @@
 <template>
 	<div class="personal-ibase-account">
-		<head-nav-bar title="选择账户"></head-nav-bar>
+		<page-head title="选择账户"></page-head>
 		<div class="ibaseAccountList" v-if="accountDataArray.length!==0">
 			<van-cell-group v-for="(accountItem, index) in accountDataArray">
 				<van-cell :title="accountItem.loginName" @click="associativeAccount(index)" />
@@ -11,7 +11,7 @@
 
 <script>
 
-	import headNavBar from './headNavBar';
+	import Head from '../app/head';
 	import { Dialog, Toast } from 'vant'
 
 	import { isWx } from '../../utils/ua';
@@ -19,7 +19,7 @@
 
 	export default {
 		components: {
-			'head-nav-bar': headNavBar,
+			'page-head': Head,
 		},
 		data () {
 			return {
@@ -70,9 +70,13 @@
 			* */
 			let cardName = _this.$store.getters.getPersonCardInfo.cardName;
 			let cardCode = _this.$store.getters.getPersonCardInfo.cardCode;
-			_this.$post('http://192.168.10.103:7300/mock/5cb6cd4eb2e5a100170bf2ac/wechat/pubWeb/public/faceRecognition/getLinkedAccounts?cardName=' + cardName + '&cardCode=' + cardCode)
+			const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+			let param = {
+				realName: cardName,
+				cardNumber: cardCode
+			}
+			_this.$post('/pubWeb/public/faceRecognition/getLinkedAccounts', param, config)
 				.then(dataList => {
-					console.log(dataList);
 					if (dataList && dataList.length > 0) {
 						// 如果只有一个ibase账号，则默认关联直接跳转
 						if (dataList.length === 1)  {
@@ -83,7 +87,7 @@
 								_this.$router.push({ path: '/personalCenter' });
 							}, 1000);
 						} else {
-							_this.accountDataArray = dataList
+							_this.accountDataArray = dataList;
 						}
 					} else {
 						// 如果没有ibase账号，则到注册页面

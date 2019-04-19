@@ -1,6 +1,6 @@
 <template>
 	<div class="personal-business">
-		<head-nav-bar title="信息确认"></head-nav-bar>
+		<page-head title="信息确认"></page-head>
 		<div class="businessList" v-if="businessDataArray.length!==0">
 			<van-collapse v-model="active" v-for="(businessItem, index) in businessDataArray" accordion>
 				<van-collapse-item :name="index">
@@ -28,14 +28,14 @@
 
 <script>
 
-	import headNavBar from './headNavBar';
+	import Head from '../app/head';
 
 	import { isWx } from '../../utils/ua';
 	import Cookies from 'js-cookie';
 
 	export default {
 		components: {
-			'head-nav-bar': headNavBar,
+			'page-head': Head,
 		},
 		data () {
 			return {

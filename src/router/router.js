@@ -238,12 +238,17 @@ const router = new Router({
 			name: 'signInAccount',
 			component: resolve => require(['@/components/personalCenter/signInAccount'], resolve),
 		},
+		{
+			path: '/houseCertifyDownload',
+			name: 'houseCertifyDownload',
+			component: resolve => require(['@/components/personalCenter/houseCertifyDownload'], resolve),
+		},
 	]
 });
 
 router.beforeEach((to, from, next) => {
 	// 如果是要进入个人中心首页或相关页面，需要验证配置和人脸识别
-	/*if (to.meta.isPersonalHomePage) {
+	if (to.meta.isPersonalHomePage) {
 		if ((/^true$/i).test(store.getters.getVerifyState)) {
 			// 完成人脸识别表示已完成个人设置
 			next();
@@ -251,7 +256,7 @@ router.beforeEach((to, from, next) => {
 			// 开始个人设置
 			next({ path: '/preApprove', query: { isPersonalHomeCheck: true } });
 		}
-	}*/
+	}
 	next();
 });
 
