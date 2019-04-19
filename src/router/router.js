@@ -224,6 +224,11 @@ const router = new Router({
 			name: 'signInAccount',
 			component: resolve => require(['@/components/personalCenter/signInAccount'], resolve),
 		},
+		{
+			path: '/houseCertifyDownload',
+			name: 'houseCertifyDownload',
+			component: resolve => require(['@/components/personalCenter/houseCertifyDownload'], resolve),
+		},
 	]
 });
 

@@ -47,7 +47,7 @@
 					message: '确认下载个人住房证明？'
 				}).then(() => {
 					const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-					var stringUrl = ctx2 + '/pubWeb/public/system/WeChatRemoteCheck';
+					var stringUrl = '/pubWeb/public/system/WeChatRemoteCheck';
 					let strJson = JSON.stringify({
 						username: _this.loginName,
 						password: _this.password,

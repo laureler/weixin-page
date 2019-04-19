@@ -1,7 +1,7 @@
 <template>
 	<!-- 个人中心首页 -->
 	<div class="personal-center">
-		<head-nav-bar title="个人中心"></head-nav-bar>
+		<page-head title="个人中心"></page-head>
 		<div class="personal-center-content">
 			<!-- 两端对齐 -->
 			<div v-for="(column, key) in columns" class="content-tab-div" @click="open(column.path)">
@@ -25,11 +25,11 @@
 
 <script>
 
-	import headNavBar from './headNavBar'
+	import Head from '../app/head'
 
 	export default {
 		components: {
-			'head-nav-bar': headNavBar,
+			'page-head': Head,
 		},
 		data () {
 			return {
@@ -37,7 +37,7 @@
 					{
 						title: '住房证明查询',
 						subTitle: '副标题',
-						path: '',
+						path: '/houseCertifyDownload',
 						icon: ''
 					},
 					{
