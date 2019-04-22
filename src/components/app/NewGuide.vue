@@ -4,7 +4,7 @@
         <div class="search-div">
             <div class="s-div">
                 <input v-model="searchData" type="text" class="s-input"/>
-                <el-button v-on:click="query(queryData)" class="s-query" icon="el-icon-search"></el-button>
+                <el-button v-on:click="query" class="s-query" icon="el-icon-search"></el-button>
             </div>
         </div>
 		<div class="contain">
@@ -36,14 +36,13 @@
             }
         },
         methods: {
-            query (queryData) {
+            query () {
                 const that = this;
                 request({
                     url: '/GetTitleList',
                     data: {strJson:JSON.stringify({filter:decodeURI(that.searchData),bname:decodeURI(that.$route.query.response)})},
                     success (data) {
-                        var tempData = JSON.stringify(data.noInfo).toLowerCase();
-                        that.datas = JSON.parse(tempData);
+                        that.datas = data.noInfo;
                     },
                     fail (error) {
                         if(error.status == '404'){
@@ -79,8 +78,7 @@
             request({
                 url: '/GetTitleList',
                 success (data) {
-                    var tempData = JSON.stringify(data.noInfo).toLowerCase();
-                    that.datas = JSON.parse(tempData);
+                    that.datas = data.noInfo;
                 },
                 fail (error) {
                     if(error.status == '404'){
