@@ -46,7 +46,7 @@
 				showPhoneNumber: '',	//显示的手机号码
 				sex: '男',
 
-				isAllowEdit: 'disabled',	// 允许修改姓名证件号码
+				isAllowEdit: 'disabled',	// 允许个人信息？
 			};
 		},
 		methods: {
@@ -58,11 +58,10 @@
 					message: '删除信息绑定后将无法查看个人信息！'
 				}).then(() => {
 					const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-					const ibaseId = _this.$store.getters.getIbaseAccountId;
-					let params = {
-						ibaseId: ibaseId
-					};
-					_this.$post('/pubWeb/public/faceRecognition/deleteAuthenticatedUserInfo', params, config).then(response => {
+					let formData = new FormData();
+					formData.append('userId', _this.$store.getters.getIbaseAccountId);
+					formData.append('openId', '');	// 传空表示解除绑定
+					_this.$post('/pubWeb/public/faceRecognition/updateAccountWxOpenId', formData, config).then(response => {
 						if (response) {
 							Toast('解除绑定成功！');
 							_this.$store.commit('SET_VERIFY_STATE', false);
@@ -97,8 +96,7 @@
 		},
 		mounted () {
 			const _this = this;
-			const ibaseId = _this.$store.getters.getIbaseAccountId;
-			_this.$fetch('/pubWeb/public/faceRecognition/getAuthenticatedUserInfo?ibaseId=' + ibaseId)
+			_this.$fetch('/pubWeb/public/faceRecognition/getAccountUserInfo?userId=' + _this.$store.getters.getIbaseAccountId)
 				.then(response => {
 					if (response) {
 						_this.phoneNumber = response.phone;
