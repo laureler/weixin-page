@@ -39,8 +39,8 @@
 					title: '提示',
 					message: '确认关联该账号？'
 				}).then(() => {
-					const openId = isWx() ? Cookies.get('openid') : '';
-					// const openId = Cookies.get('openid') || 'zyk';
+					// const openId = isWx() ? Cookies.get('openid') : '';
+					const openId = Cookies.get('openid') || 'zyk';
 					const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 					let userId = _this.accountDataArray[index].userId;
 					let formData = new FormData();

@@ -7,7 +7,7 @@
 				账号信息
 			</div>
 			<van-cell-group>
-				<van-field id="loginName" label="账号" placeholder="ibase账号名" @onblur="onblurAccount"
+				<van-field id="loginName" label="账号" placeholder="ibase账号名"
 						   v-model.trim="loginName" type="text" :error-message="accountHintInfo" clearable />
 				<van-field id="password" label="密码" placeholder="密********码" v-model.trim="password" type="password" clearable />
 			</van-cell-group>
@@ -71,19 +71,19 @@
 		},
 		data () {
 			return {
-				loginName: 'zyk',	// 账号
-				password: '123456',	// 密码
+				loginName: '',	// 账号
+				password: '',	// 密码
 
 				sex: '男',
 				columns: ['男', '女'],
 				username: '',
 				cerNumber: '',  // 证件号码
 				cardAddress: '',	// 证件地址
-				mAddress: 'acaacsasc',	// 详细地址
-				phoneNumber: '13169962271',
-				sendSmsNumber: '13169962271',	// 发送短信的号码
+				mAddress: '',	// 详细地址
+				phoneNumber: '',
+				sendSmsNumber: '',	// 发送短信的号码
 
-				smsCode: '5656',	// 短信验证码
+				smsCode: '',	// 短信验证码
 				smsCodeBtnValue: '获取验证码',	// 验证码按钮值
 				countdownSize: 60,	// 设置倒计时大小 默认60秒
 				curCount: 0,	// 倒计时，当前剩余秒数
@@ -104,9 +104,6 @@
 			};
 		},
 		methods: {
-			onblurAccount() {
-				console.log("失去焦点");
-			},
 			checkInfo () {
 				if (this.loginName === '' || this.password === '' || this.username === '' || this.cerNumber === '' ||
 					this.cardAddress === '' || this.phoneNumber === '' || this.sex === '' || this.mAddress === '') {
@@ -160,11 +157,14 @@
 							formData.append('phone', _this.sendSmsNumber);
 							formData.append('code', _this.smsCode);
 
+							// 注册并关联微信
 							_this.$post('/pubWeb/public/faceRecognition/weChatOnlineRegister', formData, config).then(response => {
 								if (Number(response.code) === 0) {
 									Toast('注册成功！');
+
 									_this.$store.commit('IBASE_ACCOUNT_ID', response.result);
 									_this.$store.commit('SET_VERIFY_STATE', true);
+
 									// 验证结束，进入个人中心
 									setTimeout(() => {
 										_this.$router.push({ path: '/personalCenter' });
@@ -185,7 +185,7 @@
 						console.log(error);
 					});
 			},
-			// 显示选择证件地址
+			// 重置证件地址选项
 			showOrHideAreaPopup() {
 				this.countGetArea = 1;
 				this.showAreaList = this.provinceData;
@@ -208,7 +208,6 @@
 				} else {
 					code = _this.areaList.city_list[index].split('-')[0];
 				}
-				console.log(code);
 				_this.getAreaData(code, _this.countGetArea);
 
 				_this.countGetArea++;
@@ -276,7 +275,6 @@
 				选择性别
 			 */
 			selectSex () {
-				// todo 允不允许修改证件号码信息？
 				if (this.allowEdit === 'disabled') {
 					// 不允许的话也不允许修改性别
 					return;
@@ -290,8 +288,6 @@
 
 		},
 		mounted () {
-			const  _this = this;
-
 			let cardInfo = this.$store.getters.getPersonCardInfo;
 			if (cardInfo.cardName) {
 				this.username = cardInfo.cardName;
@@ -300,7 +296,7 @@
 			/*
 				获取省级信息
 			 */
-			_this.getAreaData('provinces', 0);
+			this.getAreaData('provinces', 0);
 		}
 	};
 

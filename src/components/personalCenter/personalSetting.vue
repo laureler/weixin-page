@@ -55,7 +55,7 @@
 				const _this = this;
 				Dialog.confirm({
 					title: '警告',
-					message: '删除信息绑定后将无法查看个人信息！'
+					message: '解除信息绑定后将无法查看个人信息！'
 				}).then(() => {
 					const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 					let formData = new FormData();
