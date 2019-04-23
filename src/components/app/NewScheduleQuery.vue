@@ -10,14 +10,24 @@
 		    <van-button size="large" class="blueButton" @click="query()">查询</van-button>
         </div>
 
-		<div style="font-size:0.42rem;color:#252525;margin-top:5rem;margin-left: 0.5rem">查询结果</div>
-		<hr style="width:9.5rem;border:none;border-bottom:1px solid #e5e5e5;margin-top: 0.35rem;margin-bottom: 0.35rem"/>
-		<div v-show="!isShow" style="font-size:0.42rem;color:#999999;margin-left: 0.5rem">{{resultmsg}}</div>
+		<div class="content-title">查询结果</div>
+		<div v-show="!isShow" class="error-message-hint">{{resultmsg}}</div>
 		<div v-show="isShow" class="container" v-for="result in results" :key="result.id">
 			<div>收件编号：{{result.jid}}</div>
 			<div>业务类型：{{result.jtitle}}</div>
 			<div>房地坐落：{{result.zl}}</div>
-			<div class="redColor">业务状态：{{result.ywjd}}</div>
+			<div class="redColor">
+				业务状态：{{result.ywjd}}
+				<van-button v-if="isShowLogisticsBtn" size="small" class="search-logistics-btn" @click="searchLogistics">查询物流</van-button>
+			</div>
+		</div>
+		<div v-show="isShowLogisticsInfo">
+			<div class="content-title">物流进度</div>
+			<van-cell-group :border="false">
+				<div v-for="logistics in logisticsData">
+					<van-cell :title="logistics.procdatetime" :value="logistics.description" :border="false" value-class="logistics-new-cell" />
+				</div>
+			</van-cell-group>
 		</div>
 	</div>
 </template>
@@ -36,33 +46,91 @@
                 isShow: false,
                 results: {},
                 checked: true,
-                resultmsg: '未查询到结果',
+                resultmsg: '',
                 sqrxm: '',
-                djbh: ''
+                djbh: '',
+
+				isShowLogisticsBtn: false,
+				isShowLogisticsInfo: false,
+				logisticsNumber: '',	// 物流编号
+				logisticsData: [],	// 物流信息
+
             }
         },
         methods: {
+        	// 查询物流信息
+			searchLogistics() {
+				const _this = this;
+
+				request({
+					url: '/queryMail',
+					data: { strJson: JSON.stringify({ receiptNo: _this.logisticsNumber})},
+					success(response) {
+						if (Number(response.resultcode) === 1) {
+							_this.logisticsData = response.result;
+							_this.isShowLogisticsInfo = true;
+						} else {
+							_this.dialogAlert('错误提示', response.resultmsg);
+						}
+					},
+					fail(error) {
+						_this.dialogAlert('错误提示', error);
+					}
+				})
+			},
+			dialogAlert(title, message) {
+				Dialog.alert({
+					title: title,
+					message: message
+				}).then(() => {
+				});
+			},
+			// 查询业务进度
             query () {
-                const that = this
+                const that = this;
+
+                if (that.djbh === '' || that.sqrxm === '') {
+					Toast('请完善输入信息！');
+					return;
+				}
+
+				that.isShow = false;
+				that.isShowLogisticsInfo = false;
+
                 request({
                     url: '/GetYWJD',
                     data: { strJson: JSON.stringify({ djbh: that.djbh, sqrxm: that.sqrxm }) },
                     success (response) {
                         if (Number(response.resultcode) === 1) {
-                            that.isShow = !that.isShow;
+                            that.isShow = true;
                             that.results = response.result;
+
+                            // 如果业务进度是已寄证，则获取物流编号
+                            if (response.result[0].ywjd === '已寄证') {
+								that.isShowLogisticsBtn = true;
+                            	request({
+									url: '/GetMailNo',
+									data: { strJson: JSON.stringify({ jid: that.djbh }) },
+									success(response) {
+										if (Number(response.resultcode) === 1) {
+											that.logisticsNumber = response.result;
+										} else {
+											that.dialogAlert('错误提示', response.resultmsg);
+										}
+									},
+									fail(error) {
+										that.dialogAlert('错误提示', error);
+									}
+								})
+							}
                         } else {
                             that.isShow = false;
+                            that.resultmsg = response.resultmsg || '未查询到结果';
                         }
                     },
                     fail (error) {
                         if(error.status == '404'){
-                            Dialog.alert({
-                                title: '错误提示：',
-                                message: '找不到该接口！'
-                            }).then(() => {
-                                // on close
-                            });
+							that.dialogAlert('错误提示：', '找不到该接口！');
                             return;
                         }
                     },
@@ -75,7 +143,6 @@
 <style lang="css" scoped>
 	.search-div {
         width: 100%;
-        position: fixed;
         top: 1.2rem;
         left: 0;
         background-color: #fff;
@@ -83,7 +150,6 @@
     }
 
     .container {
-		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 		margin-top: 0.15rem;
 		font-size: 0.375rem;
 		padding-top: 0.15rem;
@@ -94,4 +160,27 @@
 	.redColor {
 		color: red
 	}
+
+	.error-message-hint {
+		font-size: 16px;
+		color: #999999;
+		margin: 15px;
+	}
+
+	.search-logistics-btn {
+		margin-left: 50px;
+		border-radius: 5px;
+	}
+
+	.content-title {
+		font-size:16px;
+		color:#252525;
+		padding: 10px 15px;
+		border-bottom: 1px solid #ebedf0;
+	}
+
+	.logistics-new-cell {
+		text-align: left;
+	}
+
 </style>

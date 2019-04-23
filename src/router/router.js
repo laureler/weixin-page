@@ -255,6 +255,12 @@ const router = new Router({
 			name: 'houseCertifyDownload',
 			component: resolve => require(['@/components/personalCenter/houseCertifyDownload'], resolve),
 		},
+
+		{
+			path: '/showRealEstateInfo',
+			name: 'QRcodeShowRealEstateInfo',
+			component: resolve => require(['@/components/app/QRcodeShowRealEstateInfo'], resolve),
+		},
 	]
 });
 
