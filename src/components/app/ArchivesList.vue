@@ -6,7 +6,7 @@
 			<div>权利人：{{result.qlrmc}}</div>
 			<div>
                 <div style="width:78%;white-space:wrap;">坐落：{{result.zl}}</div>
-                <van-button slot="button" size="small" plain type="danger" @click="queryArchives(result.rid)" class="query-btn">查档</van-button>
+                <van-button slot="button" size="small" plain @click="queryArchives(result.rid)" class="query-btn">查档</van-button>
             </div>
 			<div>面积：{{result.mj}}</div>
 		</div>

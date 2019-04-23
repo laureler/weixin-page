@@ -1,8 +1,8 @@
 <template lang="html">
 	<div style="display:flex;flex-direction:column">
 		<page-head title="在线查档"></page-head>
-        <van-row gutter="20">
-            <van-col span="12" v-for="item in datas" @click.native="open(item.url,item.name,item.inter)">
+        <van-row type="flex" justify="center" v-for="item in datas" style="margin:50px 0;">
+            <van-col span="12" @click.native="open(item.url,item.name,item.inter)">
                 <div class="nav-block">
                     <img :src="item.iconSrc"/>
                     <div class="title">{{item.name}}</div>
@@ -60,15 +60,13 @@
     }
 
     .nav-block {
-        width: 90%;
-        /* height: 100px; */
+        width: 100%;
         border: 1px solid #ebedf0;
-        margin: 10px;
     }
 
     .nav-block img{
         width: 100%;
-        height: 100px;
+        height: 120px;
     }
 
     .nav-block .title {
