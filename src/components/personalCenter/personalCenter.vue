@@ -67,7 +67,6 @@
 			},
 		},
 		mounted () {
-			console.log(this.$store.getters.getIbaseAccountId);
 		},
 	}
 </script>

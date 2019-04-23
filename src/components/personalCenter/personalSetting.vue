@@ -102,7 +102,9 @@
 						_this.phoneNumber = response.phone;
 						_this.name = response.name;
 						_this.sex = response.sex;
-						_this.cerNumber = response.id;
+
+						let id = response.id.split(',')[1];
+						_this.cerNumber = id;
 						// 给显示的手机号码和身份证信息加*号
 						_this.alterShowInfo(_this.phoneNumber, _this.cerNumber);
 					}

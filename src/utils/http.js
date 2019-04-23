@@ -10,7 +10,7 @@ let activeId = sessionStorage.getItem('activeId');
 // todo base_URL 需要全部起作用
 // 新增request请求
 const REQUEST_TIMEOUT = 300000;
-// const BASE_URL = 'http://118.24.70.239:7300/mock/5c9af379365f9600200deb72/WSYY';
+// const BASE_URL = 'http://192.168.10.103:7300/mock/5cb6cd4eb2e5a100170bf2ac/wechat';
 const BASE_URL = '/pubWeb/public/doIntranetRequest';
 
 const HEADERS = {
@@ -117,7 +117,7 @@ export const request = (
  */
 export function fetch (url, params = {}) {
 	return new Promise((resolve, reject) => {
-		axios.get(url, {
+		axios.get(ctx2+url, {
 			params: params
 		})
 			.then(response => {
@@ -138,7 +138,7 @@ export function fetch (url, params = {}) {
 
 export function post (url, data = {}) {
 	return new Promise((resolve, reject) => {
-		axios.post(url, data)
+		axios.post(ctx2+url, data)
 			.then(response => {
 				resolve(response.data);
 			}, err => {
