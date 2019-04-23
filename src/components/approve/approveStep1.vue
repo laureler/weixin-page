@@ -163,18 +163,18 @@
 			},
 			WeChatFaceCheck () {
 				var _this = this;
-				/*wx.invoke('checkIsSupportFaceDetect', {}, function (res) {
+				wx.invoke('checkIsSupportFaceDetect', {}, function (res) {
 					console.log(res);
 					if (res.err_code == 0) { // 检测成功
 						var info = { 'request_verify_pre_info': '{"name":"' + _this.data_name + '","id_card_number":"' + _this.data_id + '"}' };
-						wx.invoke('requestWxFacePictureVerifyUnionVideo', info, function (res) {*/
+						wx.invoke('requestWxFacePictureVerifyUnionVideo', info, function (res) {
 							// 人脸识别成功，判断是不是从个人中心首页进来的
 							if (_this.$route.query.isPersonalHomeCheck) {
 								_this.$store.commit('CARD_CODE', _this.data_id);
 								_this.$store.commit('CARD_NAME', _this.data_name);
 								_this.$router.push({ path: '/associativeAccount' });
 							}
-							/*console.log(res);
+							console.log(res);
 							if (res.hasOwnProperty('err_code')) {
 								if (res.err_code == 0) {
 									_this.successToDo(_this, res.verify_result);
@@ -209,7 +209,7 @@
 					} else {
 						alert(res.err_msg);
 					}
-				});*/
+				});
 			},
 			nextPage () {
 				if (this.checkID_number()) {
