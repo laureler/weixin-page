@@ -41,21 +41,9 @@
 						icon: ''
 					},
 					{
-						title: '标题',
-						subTitle: '',
-						path: '',
-						icon: ''
-					},
-					{
 						title: '我的不动产',
 						subTitle: '',
 						path: '/personInfo',
-						icon: ''
-					},
-					{
-						title: '标题',
-						subTitle: '',
-						path: '',
 						icon: ''
 					},
 					{
