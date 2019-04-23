@@ -32,7 +32,8 @@
                 // 全部数据
                 datas: [],
                 //查询条件
-                searchData:''
+                searchData:'',
+                bname: ''
             }
         },
         methods: {
@@ -53,40 +54,30 @@
                 })
             },
             open (index) {
-                var url = '';
-
-                var sUserAgent = navigator.userAgent.toLowerCase();
-                var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
-                var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
-                var bIsMidp = sUserAgent.match(/midp/i) == "midp";
-                var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
-                var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
-                var bIsAndroid = sUserAgent.match(/android/i) == "android";
-                var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
-                var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
-            
-                if (!(bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM)) {
-                    url = this.datas[index].pc_url;
-                }else{
-                    url = this.datas[index].app_url;
-                }
+                var url = this.datas[index].app_url;
                 window.location.href = url;
             }
         },
         mounted () {
             const that = this;
-            request({
-                url: '/GetTitleList',
-                success (data) {
-                    that.datas = data.noInfo;
-                },
-                fail (error) {
-                    if(error.status == '404'){
-                        Toast("找不到该接口！");
-                        return;
-                    }
-                },
-            })
+            if (that.$store.state.bname == that.$route.query.response && that.$store.state.datas.length > 0 && !that.$route.params.id) {
+                that.datas = that.$store.state.datas
+                that.bname = that.$store.state.bname
+            } else {
+                request({
+                    url: '/GetTitleList',
+                    data: { strJson: JSON.stringify({ bname: decodeURI(that.$route.query.response) }) },
+                    success (data) {
+                        that.datas = data.noInfo;
+                    },
+                    fail (error) {
+                        if(error.status == '404'){
+                            Toast("找不到该接口！");
+                            return;
+                        }
+                    },
+                })
+            }
         },
     };
 </script>
@@ -146,7 +137,7 @@
 	.s-input {
 		width: 85%;
 		border: none;
-		font-size: 13px;
+		font-size: 0.373333rem;
         color: #333;
 		outline: none;
 		border-right: 1px solid #e5e5e5;

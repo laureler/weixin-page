@@ -75,6 +75,12 @@ const router = new Router({
 			name: 'ArchivesList',
 			component: resolve => require(['@/components/app/ArchivesList'], resolve)
 		},
+		//档案详情
+		{
+			path: '/arcd',
+			name: 'ArchiveDetail',
+			component: resolve => require(['@/components/app/ArchiveDetail'], resolve)
+		},
 		{
 			path: '/resq',
 			name: 'ReservationQuery',
