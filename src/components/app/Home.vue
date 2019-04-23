@@ -75,9 +75,9 @@
 						</div>
 					</el-col>
 					<el-col :span="8">
-						<div class="home-item" @click="open('/newgui')">
-							<p class="iconfont icon-jindu blue"></p>
-							<p class="title">新的办事指南</p>
+						<div class="home-item" @click="open('/oqarc')">
+							<p class="iconfont icon-yuyue orange"></p>
+							<p class="title">在线查档</p>
 						</div>
 					</el-col>
 					<el-col :span="8">

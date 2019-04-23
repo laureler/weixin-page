@@ -2,7 +2,7 @@
 	<div style="display:flex;flex-direction:column">
 		<page-head title="在线查档"></page-head>
         <van-row gutter="20">
-            <van-col span="12" v-for="item in datas" @click.native="open(item.url)">
+            <van-col span="12" v-for="item in datas" @click.native="open(item.url,item.name,item.inter)">
                 <div class="nav-block">
                     <img :src="item.iconSrc"/>
                     <div class="title">{{item.name}}</div>
@@ -27,20 +27,25 @@
                     {
                         name: '住房证明',
                         iconSrc: './images/onlineQueryArchives/house_prove.jpg',
-                        url: ''
+                        url: '/arcd',
+                        //个人无房证明查询接口
+                        inter: '/FirstHouseQuery'
                     },
                     {
                         name: '不动产登记资料查询',
                         iconSrc: './images/onlineQueryArchives/query_archives.jpg',
-                        url: '/arcl'
+                        url: '/arcl',
+                        //个人产权信息查询接口
+                        inter: '/GetPersonDataInfo'
                     }
                 ]
             }
         },
         methods: {
-            open(url){
+            open(url,name,inter){
                 this.$router.push({
-                    path: url
+                    path: url,
+                    query: {inter:inter,title: name,filter: {strJson: JSON.stringify({qlr: '', zjhm: ''})}}
                 })
             }
             
