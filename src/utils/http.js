@@ -117,7 +117,7 @@ export const request = (
  */
 export function fetch (url, params = {}) {
 	return new Promise((resolve, reject) => {
-		axios.get(ctx2+url, {
+		axios.get(url, {
 			params: params
 		})
 			.then(response => {
@@ -138,7 +138,7 @@ export function fetch (url, params = {}) {
 
 export function post (url, data = {}) {
 	return new Promise((resolve, reject) => {
-		axios.post(ctx2+url, data)
+		axios.post(url, data)
 			.then(response => {
 				resolve(response.data);
 			}, err => {
