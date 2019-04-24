@@ -82,7 +82,7 @@
 								message: '个人信息设置成功，开始人脸识别！'
 							}).then(() => {
 								// 进入人脸核身页面
-								_this.$router.push({ path: '/preApprove', query: { isPersonalHomeCheck: true } });
+								_this.$router.push({ path: '/preApprovenew', query: { isPersonalHomeCheck: true } });
 							});
 						} else {
 							Toast('服务器异常！');

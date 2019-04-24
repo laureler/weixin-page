@@ -61,7 +61,7 @@
         methods: {
             uuid: GenerateUUID,
             next () {
-                this.$router.push({ path: '/preApprove', query: { token: uiScript.getParam('token') } })
+                this.$router.push({ path: '/preApprovenew', query: { token: uiScript.getParam('token') } })
             }
         },
         //在$el被替换的时候调用钩子函数

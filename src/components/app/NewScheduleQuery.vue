@@ -1,6 +1,7 @@
 <template lang="html">
 	<div style="display:flex;flex-direction:column">
 		<page-head title="进度查询"></page-head>
+		<div class="space_between"></div>
         <div class="search-div">
             <van-cell-group>
                 <van-field v-model="djbh" :value="djbh" type="text" clearable placeholder="请输入业务受理号"/>
@@ -10,24 +11,39 @@
 		    <van-button size="large" class="blueButton" @click="query()">查询</van-button>
         </div>
 
-		<div class="content-title">查询结果</div>
-		<div v-show="!isShow" class="error-message-hint">{{resultmsg}}</div>
-		<div v-show="isShow" class="container" v-for="result in results" :key="result.id">
-			<div>收件编号：{{result.jid}}</div>
-			<div>业务类型：{{result.jtitle}}</div>
-			<div>房地坐落：{{result.zl}}</div>
-			<div class="redColor">
-				业务状态：{{result.ywjd}}
-				<van-button v-if="isShowLogisticsBtn" size="small" class="search-logistics-btn" @click="searchLogistics">查询物流</van-button>
-			</div>
+		<div v-show="!isShow">
+			<div class="content-title">查询结果</div>
+			<div class="error-message-hint">{{resultmsg}}</div>
 		</div>
-		<div v-show="isShowLogisticsInfo">
-			<div class="content-title">物流进度</div>
-			<van-cell-group :border="false">
-				<div v-for="logistics in logisticsData">
-					<van-cell :title="logistics.procdatetime" :value="logistics.description" :border="false" value-class="logistics-new-cell" />
+		<div v-show="isShow">
+			<div class="business-content" v-for="result in results" :key="result.id">
+				<div class="business-info-title">
+					业务状态：<span>{{ result.ywjd }}</span>
 				</div>
-			</van-cell-group>
+				<van-cell-group :border="false" style="font-size: 14px;">
+					<van-field :value="'收件编号：'+result.jid" :border="false" disabled/>
+					<van-field :value="'业务类型：'+result.jtitle" :border="false" disabled/>
+					<van-field :value="'房地坐落：'+result.zl" :border="false" disabled/>
+				</van-cell-group>
+			</div>
+			<div v-if="isShowLogisticsInfo">
+				<div class="space_between"></div>
+				<div class="business-info-title">
+					物流查询：
+				</div>
+				<van-steps
+					direction="vertical"
+					:active="0"
+					active-color="#619DE0"
+				>
+					<template v-for="logistics in logisticsData">
+						<van-step>
+							<p style="font-size: 16px;">{{ logistics.description }}</p>
+							<p>{{ logistics.procdatetime }}</p>
+						</van-step>
+					</template>
+				</van-steps>
+			</div>
 		</div>
 	</div>
 </template>
@@ -45,12 +61,10 @@
             return {
                 isShow: false,
                 results: {},
-                checked: true,
                 resultmsg: '',
                 sqrxm: '',
                 djbh: '',
 
-				isShowLogisticsBtn: false,
 				isShowLogisticsInfo: false,
 				logisticsNumber: '',	// 物流编号
 				logisticsData: [],	// 物流信息
@@ -94,7 +108,6 @@
 					return;
 				}
 
-				that.isShow = false;
 				that.isShowLogisticsInfo = false;
 
                 request({
@@ -107,13 +120,14 @@
 
                             // 如果业务进度是已寄证，则获取物流编号
                             if (response.result[0].ywjd === '已寄证') {
-								that.isShowLogisticsBtn = true;
                             	request({
 									url: '/GetMailNo',
 									data: { strJson: JSON.stringify({ jid: that.djbh }) },
 									success(response) {
 										if (Number(response.resultcode) === 1) {
 											that.logisticsNumber = response.result;
+
+											that.searchLogistics();
 										} else {
 											that.dialogAlert('错误提示', response.resultmsg);
 										}
@@ -137,6 +151,8 @@
                 })
             },
         },
+		mounted() {
+		}
     }
 </script>
 
@@ -149,27 +165,16 @@
         padding-bottom: 5px;
     }
 
-    .container {
-		margin-top: 0.15rem;
-		font-size: 0.375rem;
-		padding-top: 0.15rem;
-		padding-left: 0.45rem;
-		padding-bottom: 0.3rem;
-	}
-
-	.redColor {
-		color: red
+	.space_between {
+		background-color: #eff7f7;
+		height: 8px;
+		margin: 0;
 	}
 
 	.error-message-hint {
 		font-size: 16px;
 		color: #999999;
 		margin: 15px;
-	}
-
-	.search-logistics-btn {
-		margin-left: 50px;
-		border-radius: 5px;
 	}
 
 	.content-title {
@@ -179,8 +184,32 @@
 		border-bottom: 1px solid #ebedf0;
 	}
 
-	.logistics-new-cell {
+	.logistics-label-cell {
+		font-size: 14px;
+	}
+
+	.logistics-value-cell {
 		text-align: left;
+		font-size: 14px;
+	}
+
+	/*使用deep深入覆盖vant样式*/
+	.business-content /deep/ .van-cell__title {
+		max-width: 70px !important;
+	}
+
+	.business-content /deep/ .van-cell {
+		font-size: 14px !important;
+	}
+
+	.business-info-title {
+		font-size: 16px;
+		padding: 10px 15px;
+		border-bottom: 1px solid #ebedf0;
+	 }
+
+	.business-info-title span {
+		color: #619DE0;
 	}
 
 </style>
