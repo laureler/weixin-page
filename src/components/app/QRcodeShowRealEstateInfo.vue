@@ -7,7 +7,7 @@
 			{{ errorMessage }}
 		</div>
 
-		<van-popup v-model="isShow" v-if="realEstateInfo" position="bottom" :overlay="false">
+		<van-popup v-model="isShowInfo" v-if="realEstateInfo" position="bottom" :overlay="false">
 			<div class="basic-title-div">
 				<div style="display: inline-block;">
 					<span class="basic-new-title">基本信息</span>
@@ -15,31 +15,27 @@
 					<span class="basic-hint">注意保管好个人隐私信息</span>
 				</div>
 				<div style="display: inline-block;float: right;">
-					<van-icon name="clear" color="#999999" size="20px" @click="" />
+					<van-icon name="clear" color="#D8D8D8" size="26px" @click="closeInfoWindow" />
 				</div>
 			</div>
-			<!--<van-cell title="基本信息" value="注意保管好个人隐私信息" title-class="basic-new-title" value-class="basic-hint">
-				<van-icon name="cross" color="#999999" size="18px" @click="" />
-			</van-cell>-->
 			<van-cell-group class="basic-info" :border="false">
 				<van-field :value="'权证号码：'+realEstateInfo.ysxlh" :border="false" />
 				<van-field :value="'不动产状态：'+ realEstateInfo.zt" :border="false" />
-				<van-field :value="realEstateArea[0]" :border="false" />
-				<van-field :value="realEstateArea[1]" :border="false"/>
+				<van-field :value="'面积：' + realEstateInfo.mj" :border="false" />
 				<van-field :value="'坐落：'+realEstateInfo.zl" :border="false" />
 			</van-cell-group>
 			<div style="text-align: center;width: 100%">
 				<div class="basic-btn-div">
-					<van-button class="basic-info-btn" @click="btnClick">宗地图</van-button>
+					<van-button class="basic-info-btn" @click="btnClick(0)">宗地图</van-button>
 				</div>
 				<div v-if="isHouse" class="basic-btn-div">
-					<van-button class="basic-info-btn" @click="btnClick">分户图</van-button>
+					<van-button class="basic-info-btn" @click="btnClick(1)">分户图</van-button>
 				</div>
 			</div>
 		</van-popup>
 
 		<van-popup v-model="isShowPhoto">
-			<img id="zdt" :src="popupImage">
+			<img :src="popupImage">
 		</van-popup>
 	</div>
 </template>
@@ -56,25 +52,28 @@
 			return {
 				realEstateInfo: {},	// 不动产位置信息
 				isShow: true,
+				isShowInfo: true,
 				errorMessage: '',	// 查询产权证书信息失败信息
 				mapObject: {},	// 保存map和marker对象
-				realEstateArea: [],	// 不动产面积数据
-				mapData: [],	// 宗地图和分户图数据
+				mapData: {},	// 宗地图和分户图数据
 
 				isHouse: false,
-				isShowPhoto: false,
+				isShowPhoto: false,	// 显示宗地图或分户图
 				popupImage: ''
 			}
 		},
 		methods: {
-			btnClick(event) {
-				if (event.path[0].id === 'zdt') {
-					this.popupImage = this.mapData[0];
-					this.isShowPhoto = true;
+			btnClick(index) {
+				// 0表示宗地图，1表示分户图
+				if (index === 0) {
+					this.popupImage = this.mapData.zdt;
 				} else {
-					this.popupImage = this.mapData[0];
-					this.isShowPhoto = true;
+					this.popupImage = this.mapData.fht;
 				}
+				this.isShowPhoto = true;
+			},
+			closeInfoWindow() {
+				this.isShowInfo = false;
 			},
 			// 获取宗地图和分户图数据
 			getZdtAndFhtInfo() {
@@ -110,8 +109,9 @@
 				let marker = new BMap.Marker(point);        // 创建标注
 				map.addOverlay(marker);                     // 将标注添加到地图中
 
-				// 禁止拖拽
-				marker.disableDragging();
+				marker.addEventListener('click', function () {
+					_this.isShowInfo = !_this.isShowInfo;
+				});
 
 			},
 		},
@@ -125,9 +125,8 @@
 				success(response) {
 					if (Number(response.resultcode) === 1) {
 						_this.realEstateInfo = response.result;
-						_this.realEstateArea = response.result.mj.split('/');
-						_this.realEstateArea[0] = _this.realEstateArea[0].trim().replace(/ /, '：');
-						_this.realEstateArea[1] = _this.realEstateArea[1].trim().replace(/ /, '：');
+						// todo 这里需要判断不动产是房屋还是其他，先默认房屋
+						_this.isHouse = true;
 
 						baiduMap.init().then(BMap => {
 							_this.initMap();
@@ -137,7 +136,6 @@
 						});
 
 						_this.getZdtAndFhtInfo();
-						_this.isHouse = true;
 					} else {
 						_this.isShow = false;
 						_this.errorMessage = response.resultmsg;
@@ -169,18 +167,6 @@
 	.basic-info /deep/ .van-cell {
 		font-size: 14px !important;
 		padding: 3px 3px 3px 15px !important;
-	}
-
-	.basic-info /deep/ .van-cell__title {
-		max-width: 200px !important;
-	}
-
-	.basic-info /deep/ .van-cell__value {
-		color: #323233;
-	}
-
-	.basic-new-cell {
-		text-align: left;
 	}
 
 	.basic-btn-div {
