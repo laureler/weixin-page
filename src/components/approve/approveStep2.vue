@@ -44,7 +44,7 @@
         },
         methods: {
             reApprove () {
-                this.$router.push({ path: '/approve' })
+                this.$router.push({ path: '/approvenew' })
             },
             complete () {
                 if (this.$store.callbackUrl == undefined) {

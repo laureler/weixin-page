@@ -155,14 +155,14 @@ const router = new Router({
 		},
 		// 准备开启人脸核身验证
 		{
-			path: '/preApprove',
+			path: '/preApprovenew',
 			name: 'preApprove',
 			component: resolve => require(['@/components/approve/preApprove'], resolve),
 		},
 		// 人脸识别接口1 /approve/approveStep1
 		// 人脸识别接口2 /approve/approveStep2
 		{
-			path: '/approve',
+			path: '/approvenew',
 			component: resolve => require(['@/components/approve/approve'], resolve),
 			children: [
 				{
@@ -278,7 +278,7 @@ router.beforeEach((to, from, next) => {
 			next();
 		} else {
 			// 开始个人设置
-			next({ path: '/preApprove', query: { isPersonalHomeCheck: true } });
+			next({ path: '/preApprovenew', query: { isPersonalHomeCheck: true } });
 		}
 	}
 	next();
