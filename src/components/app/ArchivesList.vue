@@ -1,15 +1,17 @@
 <template lang="html">
 	<div style="display:flex;flex-direction:column">
 		<page-head :title="title"></page-head>
-        <div v-show="!isShow" style="font-size:0.42rem;color:#999999;margin-left: 0.5rem">{{resultmsg}}</div>
-		<div v-show="isShow" class="container" v-for="result in results" :key="result.id">
-			<div>权利人：{{result.qlrmc}}</div>
-			<div>
-                <div style="width:78%;white-space:wrap;">坐落：{{result.zl}}</div>
-                <van-button slot="button" size="small" plain @click="queryArchives(result.rid)" class="query-btn">查档</van-button>
+        <div class="content">
+            <div v-show="!isShow" style="font-size:0.42rem;color:#999999;margin-left: 0.5rem">{{resultmsg}}</div>
+            <div v-show="isShow" class="container" v-for="result in results" :key="result.id">
+                <div>权利人：{{result.qlrmc}}</div>
+                <div>
+                    <div style="width:78%;white-space:wrap;">坐落：{{result.zl}}</div>
+                    <van-button slot="button" size="small" plain @click="queryArchives(result.rid)" class="query-btn">查档</van-button>
+                </div>
+                <div>面积：{{result.mj}}</div>
             </div>
-			<div>面积：{{result.mj}}</div>
-		</div>
+        </div>
     </div>
 </template>
 
@@ -35,6 +37,7 @@
             }
         },
         methods: {
+            //查档按钮点击事件
             queryArchives(rid){
                 this.$router.push({
                     path: '/arcd',
@@ -73,6 +76,15 @@
 </script>
 
 <style lang="css" scoped>
+    .content{
+        position: absolute;
+        top: 1.2rem;
+        width: 100%;
+        height: calc(100% - 1.2rem);
+        left: 0;
+        overflow-y: auto;
+    }
+
 	.container {
 		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 		margin-top: 0.15rem;

@@ -108,6 +108,8 @@
 						//如果callbackUrl是WeChatRemoteCheck接口则请求PDF数据给用户
 						if (_this.$store.state.callbackUrl == '/pubWeb/public/system/WeChatRemoteCheck') {
 							_this.getGrantDeep();
+						} else if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/GetPersonDataInfo') {
+							_this.getArchiveDataInfoPage();
 						} else if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/personInfo') {
 							_this.$router.push({
 								path: '/approveStep2',
@@ -130,9 +132,14 @@
 					});
 				});
 			},
-			/*
-				下载个人产权证明
-			 */
+			// 跳转至 不动产登记资料查询
+			getArchiveDataInfoPage(){
+                this.$router.push({
+                    path: '/arcl',
+                    query: {inter: '/GetPersonDataInfo',title: '不动产登记资料查询',filter: {strJson: JSON.stringify({qlr: this.data_name, zjhm: this.data_id})}}
+                })
+			},
+			// 下载个人产权证明
 			getGrantDeep() {
 				const _this = this;
 				let strJson = JSON.stringify({
