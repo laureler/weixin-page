@@ -8,12 +8,25 @@
 		</div>
 
 		<van-popup v-model="isShow" v-if="realEstateInfo" position="bottom" :overlay="false">
-			<van-cell title="基本信息" value="注意保管好个人隐私信息" title-class="basic-new-title" value-class="basic-hint"/>
+			<div class="basic-title-div">
+				<div style="display: inline-block;">
+					<span class="basic-new-title">基本信息</span>
+					<van-icon name="info-o" color="red" size="12px" />
+					<span class="basic-hint">注意保管好个人隐私信息</span>
+				</div>
+				<div style="display: inline-block;float: right;">
+					<van-icon name="clear" color="#999999" size="20px" @click="" />
+				</div>
+			</div>
+			<!--<van-cell title="基本信息" value="注意保管好个人隐私信息" title-class="basic-new-title" value-class="basic-hint">
+				<van-icon name="cross" color="#999999" size="18px" @click="" />
+			</van-cell>-->
 			<van-cell-group class="basic-info" :border="false">
-				<van-cell :title="'权证号码：'+realEstateInfo.ysxlh" :value="'不动产状态：' +
-					realEstateInfo.zt" :border="false" value-class="basic-new-cell"/>
-				<van-cell :title="realEstateArea[0]" :value="realEstateArea[1]" :border="false" value-class="basic-new-cell"/>
-				<van-field :value="'坐落：'+realEstateInfo.zl" />
+				<van-field :value="'权证号码：'+realEstateInfo.ysxlh" :border="false" />
+				<van-field :value="'不动产状态：'+ realEstateInfo.zt" :border="false" />
+				<van-field :value="realEstateArea[0]" :border="false" />
+				<van-field :value="realEstateArea[1]" :border="false"/>
+				<van-field :value="'坐落：'+realEstateInfo.zl" :border="false" />
 			</van-cell-group>
 			<div style="text-align: center;width: 100%">
 				<div class="basic-btn-div">
@@ -36,72 +49,7 @@
 	import { request } from '../../utils/http.js'
 	import { baiduMap } from '../../utils/map'
 
-	import Vue from 'vue';
 	const Base64_decode = require('js-base64').Base64.decode
-	Vue.component('InfoWindowBtnComponent')
-
-	var InfoWindowBtnComponent = Vue.extend({
-		template: '<div @click="btnClick" v-html="btn"></div>',
-		props: ['isHouse', 'mapObject'],
-		data() {
-			return {
-				btn: '<a id="zdtBtn" style="border: 1px solid #999999;border-radius: 5px;margin-right: 10px;padding: 5px;">宗地图</a>',
-				fhtBtn: '<a id="fhtBtn" style="border: 1px solid #999999;border-radius: 5px;margin-right: 10px;padding: 5px;">分户图</a>',
-				mapData: {},	// 宗地图和分户图数据
-			}
-		},
-		methods: {
-			// 生成图片窗口
-			windowMap(content, id) {
-				let map = this.mapObject.map;
-				let opts = {
-					width : 283,
-					height: 155,
-				}
-
-				let infoWindow = new BMap.InfoWindow(content, opts);
-				map.openInfoWindow(infoWindow);
-				document.getElementById(id).onload = function (){
-					infoWindow.redraw();
-				}
-			},
-			btnClick(event) {
-				// this.$emit('changeValue', 'isShowPhoto');
-				// this.$parent.isShowPhoto = true;
-				if (event.path[0].id === 'zdt') {
-					// this.$parent.popupImage = this.mapData.zdt;
-				} else {
-					// this.$parent.popupImage = this.mapData.fht;
-
-					// let content = '<img id="fht" src="' + Base64_decode(this.mapData.fht) +'" style="height: 80%; width: 80%;">';
-					// this.windowMap(content, 'fht');
-				}
-			},
-		},
-		mounted() {
-			const  _this = this;
-
-			if (_this.isHouse) {
-				_this.btn += _this.fhtBtn;
-			}
-			const ysxlh = uiScript.getParam('ysxlh') || '';
-			// 获取宗地图和分户图数据
-			request({
-				url: '/GetBdcMapInfo',
-				data: { strJson: JSON.stringify({ ysxlh: ysxlh }) },
-				success(response) {
-					if (Number(response.resultcode) === 1) {
-						_this.mapData = response.result;
-					} else {
-						console.log('获取宗地图和分户图数据失败：' + response.resultmsg);
-					}
-				},
-				fail(error) {
-					console.log(error);
-				}
-			})
-		},
-	})
 
 	export default {
 		data () {
@@ -111,6 +59,7 @@
 				errorMessage: '',	// 查询产权证书信息失败信息
 				mapObject: {},	// 保存map和marker对象
 				realEstateArea: [],	// 不动产面积数据
+				mapData: [],	// 宗地图和分户图数据
 
 				isHouse: false,
 				isShowPhoto: false,
@@ -120,8 +69,11 @@
 		methods: {
 			btnClick(event) {
 				if (event.path[0].id === 'zdt') {
+					this.popupImage = this.mapData[0];
 					this.isShowPhoto = true;
 				} else {
+					this.popupImage = this.mapData[0];
+					this.isShowPhoto = true;
 				}
 			},
 			// 获取宗地图和分户图数据
@@ -144,63 +96,6 @@
 					}
 				})
 			},
-			// 添加信息窗口
-			addInfoWindow() {
-				let title = '<p style="font-weight: bold">基本信息</p>';
-				let info = this.realEstateInfo;
-				let content = '<div id="infoContent">权证号码：' + info.ysxlh + '<br>' +
-					'面积：' + info.mj + '<br>' +
-					'不动产状态：' + info.zt + '<br>' +
-					'坐落：' + info.zl + '<br>' +
-					'注意保管好个人隐私信息。' + '<br><br></div>' +
-					'<div id="infoContentBtn"></div>';
-
-				var opts = {
-					width : 283,
-					height: 155,
-					title : title
-				}
-
-				// 判断不动产是房屋还是。。
-				let isHouse = true;
-				let infoWindow = '',
-					infoBtn = '',
-					map = this.mapObject.map;
-
-				infoWindow = new BMap.InfoWindow(content, opts);  // 创建信息窗口对象
-				map.openInfoWindow(infoWindow, map.getCenter());      // 打开信息窗口
-				if (document.getElementById('infoContentBtn')) {
-					infoBtn = new InfoWindowBtnComponent({propsData: {isHouse: isHouse, mapObject: this.mapObject}}).$mount();
-					document.getElementById('infoContentBtn').appendChild(infoBtn.$el);
-				} else {
-					setTimeout(() => {
-						infoBtn = new InfoWindowBtnComponent({propsData: {isHouse: isHouse, mapObject: this.mapObject}}).$mount();
-						document.getElementById('infoContentBtn').appendChild(infoBtn.$el);
-					}, 500);
-				}
-
-				/*new Promise((resolve, reject) => {
-					infoWindow = new BMap.InfoWindow(content, opts);  // 创建信息窗口对象
-					map.openInfoWindow(infoWindow, map.getCenter());      // 打开信息窗口
-					resolve();
-				}).then(() => {
-					console.log('appendChild');
-					console.log(document.getElementById('infoContentBtn'));
-					if (document.getElementById('infoContentBtn')) {
-						infoBtn = new InfoWindowBtnComponent({propsData: {isHouse: isHouse, mapObject: this.mapObject}}).$mount();
-						document.getElementById('infoContentBtn').appendChild(infoBtn.$el);
-					} else {
-						setTimeout(() => {
-							infoBtn = new InfoWindowBtnComponent({propsData: {isHouse: isHouse, mapObject: this.mapObject}}).$mount();
-							console.log(document.getElementById('infoContentBtn'));
-							document.getElementById('infoContentBtn').appendChild(infoBtn.$el);
-						}, 500);
-					}
-				}).catch((error) => {
-					console.error(error);
-				});*/
-
-			},
 			// 初始化地图
 			initMap() {
 				const _this = this;
@@ -217,17 +112,6 @@
 
 				// 禁止拖拽
 				marker.disableDragging();
-
-				this.mapObject = {
-					map: map,
-					marker: marker
-				}
-
-				marker.addEventListener('click', function () {
-					_this.addInfoWindow();
-				});
-
-				_this.addInfoWindow();
 
 			},
 		},
@@ -247,7 +131,12 @@
 
 						baiduMap.init().then(BMap => {
 							_this.initMap();
+						}).catch(error => {
+							console.log('百度地图初始化失败！');
+							console.log(error);
 						});
+
+						_this.getZdtAndFhtInfo();
 						_this.isHouse = true;
 					} else {
 						_this.isShow = false;
@@ -279,7 +168,7 @@
 
 	.basic-info /deep/ .van-cell {
 		font-size: 14px !important;
-		padding: 10px 3px 10px 15px !important;
+		padding: 3px 3px 3px 15px !important;
 	}
 
 	.basic-info /deep/ .van-cell__title {
@@ -294,14 +183,6 @@
 		text-align: left;
 	}
 
-	.basic-new-title {
-		color: #000;
-	}
-
-	.basic-hint {
-		font-size: 12px;
-	}
-
 	.basic-btn-div {
 		display: inline-block;
 		width: 50%;
@@ -313,6 +194,22 @@
 		width: calc(100% - 20px);
 		text-align: center;
 		background-color: #E6EDF3;
+	}
+
+	.basic-title-div {
+		padding: 15px;
+		border-bottom: 1px solid #ebedf0;
+	}
+
+	.basic-new-title {
+		font-size: 16px;
+		color: #000;
+		margin-right: 5px;
+	}
+
+	.basic-hint {
+		font-size: 12px;
+		margin-left: 5px;
 	}
 
 </style>
