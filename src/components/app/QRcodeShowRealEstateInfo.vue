@@ -45,8 +45,6 @@
 	import { request } from '../../utils/http.js'
 	import { baiduMap } from '../../utils/map'
 
-	const Base64_decode = require('js-base64').Base64.decode
-
 	export default {
 		data () {
 			return {
