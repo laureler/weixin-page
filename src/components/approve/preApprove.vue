@@ -100,7 +100,7 @@
 						}
 						sessionStorage.setItem('token', this.uuid(20, 16));
 						//人脸识别首页初始化配置（针对ios系统）
-						_this.$fetch('pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
+						_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
 							wx.config(res);
 							console.log(res);
 						});
@@ -119,7 +119,7 @@
 							_this.$router.push({ path: '/approve', query: { token: token } });
 						}
 					} else {
-						this.$fetch('pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
+						this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
 							wx.config(res);
 							console.log(res);
 							wx.ready(function () {
