@@ -132,6 +132,8 @@
 		margin: 0.25rem 0.25rem 0.25rem 0.25rem;
 		background-color: #ffffff;
 		height: 1.2rem;
+        border-radius: 5px;
+        border: 1px solid #E5E5E5;
 	}
 
 	.s-input {
@@ -141,7 +143,6 @@
         color: #333;
 		outline: none;
 		border-right: 1px solid #e5e5e5;
-		height: 1rem;
 		margin-right: 0.31rem;
 	}
 </style>
