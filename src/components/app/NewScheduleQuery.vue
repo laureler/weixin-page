@@ -11,38 +11,40 @@
 		    <van-button size="large" class="blueButton" @click="query()">查询</van-button>
         </div>
 
-		<div v-show="!isShow">
-			<div class="content-title">查询结果</div>
-			<div class="error-message-hint">{{resultmsg}}</div>
-		</div>
-		<div v-show="isShow">
-			<div class="business-content" v-for="result in results" :key="result.id">
-				<div class="business-info-title">
-					业务状态：<span>{{ result.ywjd }}</span>
-				</div>
-				<van-cell-group :border="false" style="font-size: 14px;">
-					<van-field :value="'收件编号：'+result.jid" :border="false" disabled/>
-					<van-field :value="'业务类型：'+result.jtitle" :border="false" disabled/>
-					<van-field :value="'房地坐落：'+result.zl" :border="false" disabled/>
-				</van-cell-group>
+		<div v-if="isStartSearch">
+			<div v-show="!isShow">
+				<div class="content-title">查询结果</div>
+				<div class="error-message-hint">{{resultmsg}}</div>
 			</div>
-			<div v-if="isShowLogisticsInfo">
-				<div class="space_between"></div>
-				<div class="business-info-title">
-					物流查询：
+			<div v-show="isShow">
+				<div class="business-content" v-for="result in results" :key="result.id">
+					<div class="business-info-title">
+						业务状态：<span>{{ result.ywjd }}</span>
+					</div>
+					<van-cell-group :border="false" style="font-size: 14px;">
+						<van-field :value="'收件编号：'+result.jid" :border="false" disabled/>
+						<van-field :value="'业务类型：'+result.jtitle" :border="false" disabled/>
+						<van-field :value="'房地坐落：'+result.zl" :border="false" disabled/>
+					</van-cell-group>
 				</div>
-				<van-steps
-					direction="vertical"
-					:active="0"
-					active-color="#619DE0"
-				>
-					<template v-for="logistics in logisticsData">
-						<van-step>
-							<p style="font-size: 16px;">{{ logistics.description }}</p>
-							<p>{{ logistics.procdatetime }}</p>
-						</van-step>
-					</template>
-				</van-steps>
+				<div v-if="isShowLogisticsInfo">
+					<div class="space_between"></div>
+					<div class="business-info-title">
+						物流查询：
+					</div>
+					<van-steps
+						direction="vertical"
+						:active="0"
+						active-color="#619DE0"
+					>
+						<template v-for="logistics in logisticsData">
+							<van-step>
+								<p style="font-size: 16px;">{{ logistics.description }}</p>
+								<p>{{ logistics.procdatetime }}</p>
+							</van-step>
+						</template>
+					</van-steps>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -64,6 +66,8 @@
                 resultmsg: '',
                 sqrxm: '',
                 djbh: '',
+
+				isStartSearch: false,
 
 				isShowLogisticsInfo: false,
 				logisticsNumber: '',	// 物流编号
@@ -114,6 +118,7 @@
                     url: '/GetYWJD',
                     data: { strJson: JSON.stringify({ djbh: that.djbh, sqrxm: that.sqrxm }) },
                     success (response) {
+                    	that.isStartSearch = true;
                         if (Number(response.resultcode) === 1) {
                             that.isShow = true;
                             that.results = response.result;
@@ -182,15 +187,6 @@
 		color:#252525;
 		padding: 10px 15px;
 		border-bottom: 1px solid #ebedf0;
-	}
-
-	.logistics-label-cell {
-		font-size: 14px;
-	}
-
-	.logistics-value-cell {
-		text-align: left;
-		font-size: 14px;
 	}
 
 	/*使用deep深入覆盖vant样式*/

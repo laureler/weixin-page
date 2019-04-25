@@ -1,6 +1,9 @@
 <template lang="html">
 	<div class="head-box" :class="{ sticky: checkIOS }">
 		<header class="head-box-inner" :class="{ sticky: checkIOS }">
+			<div class="title-icon">
+				<van-icon name="arrow-left" left-text="返回" color="#1989FA" size="20px" @click="goBack"/>
+			</div>
 			<div class="back-btn">
 				<!--<i class="el-icon-arrow-left" @click="goBack()"></i>-->
 			</div>
@@ -91,6 +94,12 @@
 
 	.empty-block {
 		height: 1.2rem;
+	}
+
+	.title-icon {
+		position: absolute;
+		margin-top: 7px;
+		margin-left: 5px;
 	}
 
 </style>

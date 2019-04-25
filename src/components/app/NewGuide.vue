@@ -4,7 +4,7 @@
         <div class="search-div">
             <div class="s-div">
                 <input v-model="searchData" type="text" class="s-input"/>
-                <el-button v-on:click="query" class="s-query" icon="el-icon-search"></el-button>
+				<van-icon name="search" size="20px" color="#6cccff" v-on:click="query" class="s-query" ></van-icon>
             </div>
         </div>
 		<div class="contain">
@@ -84,8 +84,6 @@
 
 <style lang="css" scoped>
 
-	@import "../../css/elem UI.css";
-
 	.van-cell__title {
 		width: 100% !important;
 	}
@@ -110,12 +108,7 @@
 	}
 
 	.s-query {
-		margin: 0 auto;
-		border: none;
-		color: #6cccff;
-		margin-top: -0.1rem;
-		padding-left: 0.1rem;
-		height: 1rem;
+		padding: 10px 15px;
 	}
 
 	.s-query:focus {

@@ -137,8 +137,6 @@
 
 <style lang="css" scoped>
 
-	@import "../../css/elem UI.css";
-
 	.van-cell__title {
 		width: 100% !important;
 	}

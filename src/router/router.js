@@ -153,6 +153,11 @@ const router = new Router({
 			name: 'SpeApplMsg',
 			component: resolve => require(['@/components/app/SpeApplMsg'], resolve)
 		},
+		{
+			path: '/onlineReservation',
+			name: 'OnlineReservation',
+			component: resolve => require(['@/components/app/OnlineReservation'], resolve)
+		},
 		// 准备开启人脸核身验证
 		{
 			path: '/preApprovenew',

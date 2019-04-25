@@ -23,16 +23,17 @@
 			<van-button size="large" class="blueButton" @click="submit()">提交</van-button>
 			<div style="height: 20px"></div>
 		</div>
-		<el-dialog
+		<van-dialog
 			title="提示"
 			:visible.sync="dialogVisible"
 			width="70%">
+
 			<span>确定提交？</span>
 			<span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitSure()">确 定</el-button>
-      </span>
-		</el-dialog>
+				<van-button @click="dialogVisible = false">取 消</van-button>
+				<van-button type="primary" @click="submitSure()">确 定</van-button>
+		  </span>
+		</van-dialog>
 	</div>
 </template>
 
@@ -113,8 +114,6 @@
 </script>
 
 <style lang="css" scoped>
-
-	@import "../../css/elem UI.css";
 
 	.title {
 		height: 40px;

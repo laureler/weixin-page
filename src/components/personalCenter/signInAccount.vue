@@ -17,10 +17,10 @@
 			</div>
 			<van-cell-group>
 				<van-field id="username" label="姓名" placeholder="真实姓名" v-model.trim="username" type="text"
-						    label-align="left" clearable />
+						   label-align="left" clearable />
 				<van-field id="cerNumber" label="身份证号" placeholder="身份证号码" v-model.trim="cerNumber" type="text" clearable />
 				<van-field id="cardAddress" label="证件地址" placeholder="证件地址"
-						   v-model.trim="cardAddress" type="text" @click="showOrHideAreaPopup" clearable />
+						   v-model.trim="cardAddress" type="text" @click="showOrHideAreaPopup" clearable readonly/>
 				<!--证件地址选择弹出框-->
 				<van-popup v-model="isSelectedAreaPopup" position="bottom">
 					<van-picker show-toolbar :columns="showAreaList"  @confirm="onChangeArea" @cancel="showOrHideAreaPopup"/>
@@ -106,7 +106,7 @@
 		methods: {
 			checkInfo () {
 				if (this.loginName === '' || this.password === '' || this.username === '' || this.cerNumber === '' ||
-						this.cardAddress === '' || this.phoneNumber === '' || this.sex === '' || this.mAddress === '') {
+					this.cardAddress === '' || this.phoneNumber === '' || this.sex === '' || this.mAddress === '') {
 					Toast('请完善个人信息！');
 					return;
 				} else {
@@ -139,26 +139,32 @@
 							* 验证通过，保存信息
 							* */
 							const openId = isWx() ? Cookies.get('openid') : '';
+							// const openId = Cookies.get('openid') || 'zyk';
 							const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-							let idAddress = _this.cardAddress.replace(/\//g, '::');
-							let params = {
-								wxOpenId: openId,
-								mLoginName: _this.loginName,
-								mUserPassword: sha1(_this.password),
+							const idAddress = _this.cardAddress.replace(/\//g, '::');
 
-								mRealName: _this.username,
-								typeNumb: _this.cerNumber,
-								cardAddress: idAddress,
-								mAddress: _this.mAddress,
-								mUserSex: _this.sex,
+							let formData = new FormData();
+							formData.append('wxOpenId', openId);
+							formData.append('loginName', _this.loginName);
+							formData.append('password', sha1(_this.password));
 
-								mPhone: _this.sendSmsNumber,
-							};
-							_this.$post('/pubWeb/public/faceRecognition/weChatOnlineRegister?code=' + _this.smsCode, params, config).then(response => {
+							formData.append('realName', _this.username);
+							formData.append('typeNumb', '身份证,' + _this.cerNumber);
+							formData.append('cardAddress', idAddress);
+							formData.append('address', _this.mAddress);
+							formData.append('sex', _this.sex);
+
+							formData.append('phone', _this.sendSmsNumber);
+							formData.append('code', _this.smsCode);
+
+							// 注册并关联微信
+							_this.$post('/pubWeb/public/faceRecognition/weChatOnlineRegister', formData, config).then(response => {
 								if (Number(response.code) === 0) {
 									Toast('注册成功！');
+
 									_this.$store.commit('IBASE_ACCOUNT_ID', response.result);
 									_this.$store.commit('SET_VERIFY_STATE', true);
+
 									// 验证结束，进入个人中心
 									setTimeout(() => {
 										_this.$router.push({ path: '/personalCenter' });
@@ -179,7 +185,7 @@
 						console.log(error);
 					});
 			},
-			// 显示选择证件地址
+			// 重置证件地址选项
 			showOrHideAreaPopup() {
 				this.countGetArea = 1;
 				this.showAreaList = this.provinceData;
@@ -202,7 +208,6 @@
 				} else {
 					code = _this.areaList.city_list[index].split('-')[0];
 				}
-				console.log(code);
 				_this.getAreaData(code, _this.countGetArea);
 
 				_this.countGetArea++;
@@ -270,7 +275,6 @@
 				选择性别
 			 */
 			selectSex () {
-				// todo 允不允许修改证件号码信息？
 				if (this.allowEdit === 'disabled') {
 					// 不允许的话也不允许修改性别
 					return;
@@ -284,8 +288,6 @@
 
 		},
 		mounted () {
-			const  _this = this;
-
 			let cardInfo = this.$store.getters.getPersonCardInfo;
 			if (cardInfo.cardName) {
 				this.username = cardInfo.cardName;
@@ -294,7 +296,7 @@
 			/*
 				获取省级信息
 			 */
-			_this.getAreaData('provinces', 0);
+			this.getAreaData('provinces', 0);
 		}
 	};
 

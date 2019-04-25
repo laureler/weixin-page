@@ -1,92 +1,92 @@
 <template>
 	<div>
-		<!--<img src="../../../static/images/wechatstatic/bg_top1.png" class="img"/>-->
+		<!--<img src="../../../public/images/wechatstatic/bg_top1.png" class="img"/>-->
 		<div style="position: relative; height: 150px">
-			<img src="../../../public/images/wechatstatic/bg_top.png" class="img" />
+			<img src="../../../public/images/wechatstatic/bg_top.png" class="img"/>
 			<span class="title_name">{{getTitleValue()}}</span>
 		</div>
 		<transition name="fade">
 			<div v-show="inited" class="row-box">
-				<el-row class="home-row">
-					<el-col :span="8">
-						<div class="home-item" @click="open('/apprd')">
+				<van-row class="home-row">
+					<van-col :span="8">
+						<div class="home-item" @click="open('/appl')">
 							<p class="iconfont icon-yuyue green"></p>
 							<p class="title">在线预约</p>
 						</div>
-					</el-col>
-					<el-col :span="8">
+					</van-col>
+					<van-col :span="8">
 						<div class="home-item" @click="open('/resq')">
 							<p class="iconfont icon-chaxun blue"></p>
 							<p class="title">预约查询</p>
 						</div>
-					</el-col>
-					<el-col :span="8">
+					</van-col>
+					<van-col :span="8">
 						<div class="home-item last" @click="open('/canr')">
 							<p class="iconfont icon-quxiaoyuyue red"></p>
 							<p class="title">取消预约</p>
 						</div>
-					</el-col>
-				</el-row>
-				<el-row class="home-row">
-					<el-col :span="8">
+					</van-col>
+				</van-row>
+				<van-row class="home-row">
+					<van-col :span="8">
 						<div class="home-item" @click="open('/wtnum')">
 							<p class="iconfont icon-quhao orange"></p>
 							<p class="title">排队取号</p>
 						</div>
-					</el-col>
-					<el-col :span="8">
+					</van-col>
+					<van-col :span="8">
 						<div class="home-item" @click="open('/qupr')">
 							<p class="iconfont icon-paidui green"></p>
 							<p class="title">排队进度</p>
 						</div>
-					</el-col>
-					<el-col :span="8">
+					</van-col>
+					<van-col :span="8">
 						<div class="home-item last" @click="open('/schq')">
 							<p class="iconfont icon-jindu blue"></p>
 							<p class="title">进度查询</p>
 						</div>
-					</el-col>
-				</el-row>
-				<el-row class="home-row">
-					<el-col :span="8">
+					</van-col>
+				</van-row>
+				<van-row class="home-row">
+					<van-col :span="8">
 						<div class="home-item" @click="open('/wecq')">
 							<p class="iconfont icon-wodedangxuan blue"></p>
 							<p class="title">我的预约</p>
 						</div>
-					</el-col>
-					<el-col :span="8">
+					</van-col>
+					<van-col :span="8">
 						<div class="home-item" @click="open('/poli')">
 							<p class="iconfont icon-zhengce green"></p>
 							<p class="title">政务资讯</p>
 						</div>
-					</el-col>
-					<el-col :span="8">
+					</van-col>
+					<van-col :span="8">
 						<div class="home-item last" @click="open('/spea')">
 							<p class="iconfont icon-yuyue orange"></p>
 							<p class="title">开发商预约</p>
 						</div>
-					</el-col>
-				</el-row>
-				<el-row class="home-row">
-					<el-col :span="8">
+					</van-col>
+				</van-row>
+				<van-row class="home-row">
+					<van-col :span="8">
 						<div class="home-item" @click="open('/routerHomePage')">
 							<p class="iconfont icon-yuyue orange"></p>
 							<p class="title">导航功能</p>
 						</div>
-					</el-col>
-					<el-col :span="8">
-						<div class="home-item" @click="open('/oqarc')">
+					</van-col>
+					<van-col :span="8">
+						<div class="home-item" @click="open('/personalCenter')">
 							<p class="iconfont icon-yuyue orange"></p>
 							<p class="title">在线查档</p>
 						</div>
-					</el-col>
-					<el-col :span="8">
+					</van-col>
+					<van-col :span="8">
 						<div class="home-item last" @click="open('/newschq')">
 							<p class="iconfont icon-jindu blue"></p>
 							<p class="title">新的进度查询</p>
 						</div>
-					</el-col>
-				</el-row>
+					</van-col>
+				</van-row>
 			</div>
 		</transition>
 		<footer v-show="inited" class="home-footer">
@@ -99,46 +99,44 @@
 
 <script>
 
-	import { request } from '../../utils/http.js'
+    const place_title = require('../../utils/place-title.js')
 
-	const place_title = require('../../utils/place-title.js')
-
-	export default {
-		data() {
-			return {
-				inited: false,
-				getDate: '',
-				place: place_title
-			}
-		},
-		mounted() {
-			const that = this;
-			setTimeout(() => {
-				that.inited = true;
-			}, 300);
-			const myDate = new Date();
-			that.getDate = myDate.getFullYear();
-		},
-		methods: {
-			open(path) {
-				this.$router.push(path)
-			},
-			//轮询公众号名称
-			getTitleValue(){
-				var newVar = window.titleValue === undefined ? '不动产登记中心':window.titleValue;
-				var timeNumber = setInterval(function () {
-					// flash data
-					if(newVar !== '不动产登记中心'){
-						clearInterval(timeNumber)
-					}
-					else {
-						newVar =  window.titleValue === undefined ? '不动产登记中心':window.titleValue;
-					}
-				},300);
-				return newVar;
-			}
-		},
-	}
+    export default {
+        data () {
+            return {
+                inited: false,
+                getDate: '',
+                place: place_title
+            }
+        },
+        mounted () {
+            const that = this
+            setTimeout(() => {
+                that.inited = true
+            }, 300)
+            const myDate = new Date()
+            that.getDate = myDate.getFullYear()
+        },
+        methods: {
+            open (path) {
+                this.$router.push(path)
+            },
+            //轮询公众号名称
+            getTitleValue () {
+                var newVar = window.titleValue === undefined ? '不动产登记中心' : window.titleValue
+                var timeNumber = setInterval(function () {
+                    // flash data
+                    if (newVar !== '不动产登记中心') {
+                        clearInterval(timeNumber)
+                    }
+                    else {
+                        newVar = window.titleValue === undefined ? '不动产登记中心' : window.titleValue
+                    }
+                }, 300)
+                return newVar
+            }
+        },
+    }
 </script>
 <style lang="css" scoped>
 	span.title_name {
@@ -152,6 +150,7 @@
 		width: 100%;
 		text-align: center;
 	}
+
 	.home-footer {
 		display: flex;
 		justify-content: center;

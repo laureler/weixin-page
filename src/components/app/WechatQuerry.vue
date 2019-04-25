@@ -5,10 +5,8 @@
 			<van-collapse v-model="activeName" accordion>
 				<van-collapse-item class="collapse-content" v-for="(item,index) in items" :key="item.id" :name="index">
 					<div slot="title">
-						<div>
-							<span>预约状态：</span>
-							<span style="color:red">{{item.zt}}</span>
-						</div>
+						<span>预约状态：</span>
+						<span style="color:red">{{item.zt}}</span>
 					</div>
 					<van-cell-group>
 						<van-cell title="业务类型：" :value="item.cerType"></van-cell>
@@ -28,24 +26,9 @@
 				</van-collapse-item>
 			</van-collapse>
 		</div>
+		<!-- todo 如果没有预约信息显示一片空白？ -->
 	</div>
 </template>
-
-<style lang="css" scoped>
-
-	@import "../../css/elem UI.css";
-
-	.content {
-		margin-bottom: 0.075rem;
-		font-size: 0.375rem;
-	}
-
-	.collapse-content {
-		margin-top: 0.2rem;
-	}
-
-
-</style>
 
 <script>
 
@@ -169,3 +152,20 @@
 		},
 	}
 </script>
+
+<style lang="css" scoped>
+
+	.content {
+		margin-bottom: 0.075rem;
+		font-size: 0.375rem;
+	}
+
+	.collapse-content {
+		margin-top: 0.2rem;
+	}
+
+	.collapse-content /deep/ .van-cell__title {
+		max-width: none !important;
+	}
+
+</style>

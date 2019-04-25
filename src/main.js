@@ -20,10 +20,6 @@ import overwritePrototype from '@/utils/overwritePrototype';
 // vue 路由
 import axios from 'axios';
 import VueAxios from 'vue-axios';
-// 引入elementUI组件 todo 修改组建为mint-ui
-import ElementUI from 'element-ui';
-// 引入elementUI组件css样式
-import 'element-ui/lib/theme-chalk/index.css';
 // 引入 Vant (mobile-vue组件库)
 import Vant from 'vant';
 import 'vant/lib/index.css';
@@ -31,7 +27,6 @@ import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 import jsonp from 'jsonp';
 
-Vue.use(ElementUI);
 Vue.use(Vant);
 Vue.use(Antd);
 Vue.use(VueAxios, axios);

@@ -1,7 +1,7 @@
 <template>
 	<!-- 个人信息设置页面 -->
 	<div class="personal-setting">
-		<page-head title="个人信息"></page-head>
+		<page-head title="个人设置"></page-head>
 		<div class="personal-info-content">
 			<van-cell-group>
 				<van-field id="phoneNumber" label="手机号码" placeholder="请输入手机号码" v-model.trim="showPhoneNumber"
@@ -46,7 +46,7 @@
 				showPhoneNumber: '',	//显示的手机号码
 				sex: '男',
 
-				isAllowEdit: 'disabled',	// 允许修改姓名证件号码
+				isAllowEdit: 'disabled',	// 允许个人信息？
 			};
 		},
 		methods: {
@@ -55,14 +55,13 @@
 				const _this = this;
 				Dialog.confirm({
 					title: '警告',
-					message: '删除信息绑定后将无法查看个人信息！'
+					message: '解除信息绑定后将无法查看个人信息！'
 				}).then(() => {
-					const openId = isWx() ? Cookies.get('openid') : '';
 					const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-					let params = {
-						openId: openId
-					};
-					_this.$post('/pubWeb/public/faceRecognition/deleteAuthenticatedUserInfo', params, config).then(response => {
+					let formData = new FormData();
+					formData.append('userId', _this.$store.getters.getIbaseAccountId);
+					formData.append('openId', '');	// 传空表示解除绑定
+					_this.$post('/pubWeb/public/faceRecognition/updateAccountWxOpenId', formData, config).then(response => {
 						if (response) {
 							Toast('解除绑定成功！');
 							_this.$store.commit('SET_VERIFY_STATE', false);
@@ -97,20 +96,21 @@
 		},
 		mounted () {
 			const _this = this;
-			const openId = isWx() ? Cookies.get('openid') : '';
-			_this.$fetch('/pubWeb/public/faceRecognition/getAuthenticatedUserInfo?openId=' + openId)
+			_this.$fetch('/pubWeb/public/faceRecognition/getAccountUserInfo?userId=' + _this.$store.getters.getIbaseAccountId)
 				.then(response => {
 					if (response) {
 						_this.phoneNumber = response.phone;
 						_this.name = response.name;
 						_this.sex = response.sex;
-						_this.cerNumber = response.id;
+
+						let id = response.id.split(',')[1];
+						_this.cerNumber = id;
 						// 给显示的手机号码和身份证信息加*号
 						_this.alterShowInfo(_this.phoneNumber, _this.cerNumber);
 					}
 				}).catch(error => {
-					console.log(error);
-				});
+				console.log(error);
+			});
 		}
 	};
 
