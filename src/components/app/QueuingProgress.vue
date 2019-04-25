@@ -101,8 +101,6 @@
 
 <style lang="css" scoped>
 
-	@import "../../css/elem UI.css";
-
 	.box-body {
 		width: 100%;
 		font-size: 16px;

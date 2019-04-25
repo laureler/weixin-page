@@ -1,7 +1,7 @@
 <template>
 	<!-- 个人信息设置页面 -->
 	<div class="personal-setting">
-		<page-head title="个人信息"></page-head>
+		<page-head title="个人设置"></page-head>
 		<div class="personal-info-content">
 			<van-cell-group>
 				<van-field id="phoneNumber" label="手机号码" placeholder="请输入手机号码" v-model.trim="showPhoneNumber"

@@ -32,7 +32,7 @@
     import Head from './head.vue'
 
     import { request } from '../../utils/http'
-    import { Dialog, Toast } from 'vant'
+    import { Dialog } from 'vant'
     import Vue from 'vue'
 
     Vue.use(Dialog)
@@ -48,54 +48,50 @@
             }
         },
         mounted () {
-
-            let response = this.$route.query.response
-            var jsonResponse = JSON.parse(response)
+            let response = this.$route.query.response;
+            var jsonResponse = JSON.parse(response);
             if (jsonResponse['yyfs'] == undefined) {
-                jsonResponse['yyfs'] = 2
+                jsonResponse['yyfs'] = 2;
             }
-            this.item = jsonResponse
+            this.item = jsonResponse;
         },
         methods: {
             submit () {
-                const that = this
+                const that = this;
                 Dialog.confirm({
                     title: '提示',
                     message: '确定提交?'
                 }).then(() => {
                     that.submitSure()
                 }).catch(() => {
-
-                })
+                });
             },
             submitSure () {
-                const that = this
+                const that = this;
                 request({
                     url: '/SubmitTSYYInfo',
                     data: { strJson: JSON.stringify(that.item) },
                     success (response) {
-                        console.log(that.item)
+                        console.log(that.item);
                         if (Number(response.resultcode) === 1) {
                             that.$router.push({
                                 path: '/appr',
                                 query: { response: JSON.stringify(response.yyinfo), key: 2 },
                             })
                         } else {
-                            alert(response.resultmsg)
+                            alert(response.resultmsg);
                         }
                     },
                     fail (error) {
                     },
                 })
-                that.dialogVisible = false
+                that.dialogVisible = false;
             },
         },
     }
 </script>
 
 <style lang="css" scoped>
-
-	@import "../../css/elem UI.css";
 
 	.title {
 		height: 40px;

@@ -263,20 +263,6 @@
                     }, fail (error) {
                     },
                 })
-                /*request({
-				  url: '/GetTSYYRQSD',
-				  data: {strJson: JSON.stringify(param)},
-				  success(response) {
-					_this.select2Data = [];
-					_this.select2Value = '';
-					_this.select3Value = '';
-					_this.select4Value = '';
-					_this.select2Data.push(response)
-					_this.selShow1 = false;
-				  },
-				  fail(error) {
-				  },
-				})*/
             },
             // 当第二个选项改变的时候触发，目的是为了修改第三个。
             select2 () {
@@ -423,7 +409,6 @@
                     that.select1Data.push(response)
                 },
                 fail (error) {
-
                 },
             })
 
@@ -457,7 +442,6 @@
 
 <style lang="css" scoped>
 
-	/*@import "../../css/elem UI.css";*/
 	.rightInput {
 		text-align: right !important;
 	}

@@ -5,10 +5,8 @@
 			<van-collapse v-model="activeName" accordion>
 				<van-collapse-item class="collapse-content" v-for="(item,index) in items" :key="item.id" :name="index">
 					<div slot="title">
-						<div>
-							<span>预约状态：</span>
-							<span style="color:red">{{item.zt}}</span>
-						</div>
+						<span>预约状态：</span>
+						<span style="color:red">{{item.zt}}</span>
 					</div>
 					<van-cell-group>
 						<van-cell title="业务类型：" :value="item.cerType"></van-cell>
@@ -89,7 +87,6 @@
                     url: '/CancelYYInfoByID',
                     data: { strJson: JSON.stringify(form) },
                     success (response) {
-                        console.log(response)
                         if (Number(response.resultcode) === 1) {
                             alert(response.resultmsg)
                             that.requestQuery()
@@ -108,7 +105,6 @@
                     url: '/SearchYYInfoListByOpenId',
                     data: { strJson: JSON.stringify({ openid }) },
                     success (response) {
-                        console.log(response)
                         if (Number(response.resultcode) === 1) {
                             that.items = []
                             that.personalSer = []
@@ -122,7 +118,6 @@
                             }
                             that.items.push(...that.personalSer)
                             that.items.push(...that.developerSer)
-                            console.log(that.items)
                         }
                         that.inited = true
                     },
@@ -136,8 +131,6 @@
 
 <style lang="css" scoped>
 
-	@import "../../css/elem UI.css";
-
 	.content {
 		margin-bottom: 0.075rem;
 		font-size: 0.375rem;
@@ -145,6 +138,10 @@
 
 	.collapse-content {
 		margin-top: 0.2rem;
+	}
+
+	.collapse-content /deep/ .van-cell__title {
+		max-width: none !important;
 	}
 
 </style>

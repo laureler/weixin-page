@@ -14,13 +14,12 @@
 		<div style="height: 20px"></div>
 		<van-button size="large" class="blueButton" @click="yes()">取消预约</van-button>
 		<div style="height: 20px"></div>
-		<!--<el-button @click="yes" style="margin-top:0.3rem;margin-left:0.225rem;margin-right:0.225rem" type="primary">查询-->
 	</div>
 </template>
 
 <script>
     import Head from './head.vue'
-    import { Toast, Dialog } from 'vant'
+    import { Dialog } from 'vant'
     import Vue from 'vue'
 
     Vue.use(Dialog)
@@ -33,7 +32,6 @@
         },
         data () {
             return {
-                show: false,
                 result: '',
                 form: {
                     yyr: '',
@@ -48,23 +46,22 @@
             yes () {
                 const that = this
                 if (that.form.yyr !== '' && that.form.zjhm !== '' && that.form.yyid !== '' && that.form.yyh !== '') {
-                    const openid = isWx() ? Cookies.get('openid') : ''
-                    that.form = { ...that.form, wxh: openid }
+                    const openid = isWx() ? Cookies.get('openid') : '';
+                    that.form = { ...that.form, wxh: openid };
                     request({
                         url: '/CancelYYInfoByID',
                         data: { strJson: JSON.stringify(that.form) },
                         success (response) {
-                            console.log(response)
-                            if (Number(response.resultcode) === '1') {
+                            console.log(response);
+                            if (Number(response.resultcode) === 1) {
                                 Dialog.alert({
                                     message: response.resultmsg
                                 }).then(() => {
                                     // on close
                                 })
                             } else {
-                                that.result = response.resultmsg
+                                that.result = response.resultmsg;
                             }
-                            that.show = true
                         },
                         fail (error) {
                         },
@@ -83,8 +80,6 @@
 </script>
 
 <style lang="css" scoped>
-
-	@import "../../css/elem UI.css";
 
 	.olabel b {
 		color: #d7342e
