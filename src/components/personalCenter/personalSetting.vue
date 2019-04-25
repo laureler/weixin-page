@@ -74,7 +74,7 @@
 									wx.closeWindow();
 								}).catch(() => {
 									_this.$router.push({
-										path: '/preApprove'
+										path: '/preApprovenew'
 									});
 								});
 							}, 1500);

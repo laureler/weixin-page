@@ -130,7 +130,7 @@
 				.then(response => {
 					// 如果已经完成个人设置，则直接前往人脸识别
 					if (response) {
-						_this.$router.push({ path: '/preApprove', query: { isPersonalHomeCheck: true } });
+						_this.$router.push({ path: '/preApprovenew', query: { isPersonalHomeCheck: true } });
 					}
 				}).catch(error => {
 					console.log(error);

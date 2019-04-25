@@ -94,13 +94,13 @@
 				if (this.isCheck) {
 					if (this.$store.state.callbackUrl) {
 						if (isPHC) {
-							_this.$router.push({ path: '/approve', query: { isPersonalHomeCheck: isPHC} });
+							_this.$router.push({ path: '/approvenew', query: { isPersonalHomeCheck: isPHC} });
 						} else {
-							_this.$router.push({ path: '/approve' });
+							_this.$router.push({ path: '/approvenew' });
 						}
 						sessionStorage.setItem('token', this.uuid(20, 16));
 						//人脸识别首页初始化配置（针对ios系统）
-						_this.$fetch('pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
+						_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
 							wx.config(res);
 							console.log(res);
 						});
@@ -112,14 +112,14 @@
 						sessionStorage.setItem('token', token);
 						if (isPHC) {
 							_this.$router.push({
-								path: '/approve',
+								path: '/approvenew',
 								query: { token: token, isPersonalHomeCheck: isPHC }
 							});
 						} else {
-							_this.$router.push({ path: '/approve', query: { token: token } });
+							_this.$router.push({ path: '/approvenew', query: { token: token } });
 						}
 					} else {
-						_this.$fetch('pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
+						_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
 							wx.config(res);
 							console.log(res);
 							wx.ready(function () {
@@ -132,11 +132,11 @@
 										if (isPHC) {
 											// 如果是个人设置过来，则带参数去人脸识别页面
 											_this.$router.push({
-												path: '/approve',
+												path: '/approvenew',
 												query: { isPersonalHomeCheck: isPHC }
 											});
 										} else {
-											_this.$router.push({ path: '/approve' });
+											_this.$router.push({ path: '/approvenew' });
 										}
 									}
 								});
