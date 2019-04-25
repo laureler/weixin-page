@@ -93,8 +93,6 @@
 
 <script>
 
-    import { request } from '../../utils/http.js'
-
     const place_title = require('../../utils/place-title.js')
 
     export default {
