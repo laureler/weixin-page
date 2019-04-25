@@ -1,10 +1,6 @@
 <template lang="html">
 	<div style="display:flex;flex-direction:column">
 		<page-head title="进度查询"></page-head>
-		<!--<div>-->
-		<!--<img src="../../../public/images/wechatstatic/bg_top1.png" style="width:100%"></img>-->
-		<!--</div>-->
-		<!--<el-checkbox class="Ocheckbox" v-model="checked" label="通过登记号" disabled></el-checkbox>-->
 
 		<!-- 弹出层开始 -->
 		<van-popup v-model="showPopup" position="right" :overlay="false" style="height: 100%;width: 100%;background-color: #8d99ab">
