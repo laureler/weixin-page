@@ -1,31 +1,34 @@
 // vue.config.ts 配置说明
 
 const path = require('path');
-const webpack = require('webpack');
+
 const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 function resolve (dir) {
 	return path.join(__dirname, dir);
 }
 
-const env_prod = process.env.NODE_ENV === 'production';
+// const env_analyz = process.env.IS_ANALYZ === 'analyz';
+const env_build = process.env.NODE_ENV === 'production';
 
 module.exports = {
-
-	publicPath: env_prod ? '/pubWeb/public/' : '/',
+	publicPath: '/pubWeb/public/weChatPublic/',
 	// 打包后输出路径
-	outputDir: 'dist',
-	assetsDir: '',
+	outputDir: 'dist/pubWeb/public/weChatPublic/',
+	assetsDir: 'weChatPublic',
 	// 保存时是不是用esLint-loader 来lint 代码
 	lintOnSave: true,
 
 	chainWebpack: config => {
-		if (env_prod) {
+
+		if (process.env.IS_ANALYZ === 'analyz') {
 			config.plugin('webpack-bundle-analyzer')
 				.use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin);
+		}
+
+		if (env_build) {
 
 			config.module
 				.rule("image-webpack-loader")
@@ -33,10 +36,12 @@ module.exports = {
 				.use("file-loader")
 				.loader("image-webpack-loader")
 				.tap(() => ({
-					disable: !env_prod
+					disable: !env_build
 				}))
 				.end();
 		}
+
+		config.output.filename('./js/[name].[hash].js').end();
 		// 添加别名
 		config.resolve.alias
 			.set('@', resolve('src'))
@@ -48,7 +53,7 @@ module.exports = {
 
 	configureWebpack: config => {
 
-		if (env_prod) {
+		if (env_build) {
 			// 为生产环境修改配置...
 			plugins: [
 				new MiniCssExtractPlugin({
@@ -57,21 +62,6 @@ module.exports = {
 				}),
 
 				new OptimizeCSSAssetsPlugin(),
-
-				// 告诉webpack公共库文件已经编译好了
-				new webpack.DllReferencePlugin({
-					context: process.cwd(),
-					manifest: require('./public/vendor/vendor-manifest.json')
-				}),
-				// 将 dll 注入到 生成的 html 模板中
-				new AddAssetHtmlPlugin({
-					// dll文件位置
-					filepath: path.resolve(__dirname, './public/vendor/*.js'),
-					// dll 引用路径
-					publicPath: './vendor',
-					// dll最终输出的目录
-					outputPath: './vendor'
-				}),
 
 				// 使用 ParallelUglifyPlugin 并行压缩输出的 JS 代码
 				new ParallelUglifyPlugin({
@@ -136,7 +126,7 @@ module.exports = {
 	// css相关配置
 	css: {
 		// 是否使用css分离插件 生产环境下是true,开发环境下是false
-		extract: env_prod,
+		extract: env_build,
 		// 开启 CSS source maps?
 		sourceMap: false,
 		// css预设器配置项

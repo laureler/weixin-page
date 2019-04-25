@@ -1,7 +1,7 @@
 <template>
 	<!-- 个人信息设置页面 -->
 	<div class="personal-sign-in">
-		<head-nav-bar title="注册账号"></head-nav-bar>
+		<page-head title="注册账号"></page-head>
 		<div class="sign-in-info">
 			<div class="title-bg-div">
 				账号信息
@@ -17,20 +17,20 @@
 			</div>
 			<van-cell-group>
 				<van-field id="username" label="姓名" placeholder="真实姓名" v-model.trim="username" type="text"
-						    label-align="left" clearable />
+						   label-align="left" clearable />
 				<van-field id="cerNumber" label="身份证号" placeholder="身份证号码" v-model.trim="cerNumber" type="text" clearable />
-				<van-field id="showCardAddress" label="证件地址" placeholder="证件地址"
-						   v-model.trim="showCardAddress" type="text" @click="showOrHideAreaPopup" clearable />
+				<van-field id="cardAddress" label="证件地址" placeholder="证件地址"
+						   v-model.trim="cardAddress" type="text" @click="showOrHideAreaPopup" clearable readonly/>
 				<!--证件地址选择弹出框-->
 				<van-popup v-model="isSelectedAreaPopup" position="bottom">
-					<van-area :area-list="areaList" @confirm="confirmAddress" @cancel="showOrHideAreaPopup" />
+					<van-picker show-toolbar :columns="showAreaList"  @confirm="onChangeArea" @cancel="showOrHideAreaPopup"/>
 				</van-popup>
 
-				<van-field id="mAddress" label="详细地址" placeholder="联系人详细地址" v-model.trim="mAddress" type="text" clearable />
+				<van-field id="mAddress" label="详细地址" placeholder="请输入详细地址" v-model.trim="mAddress" type="text" clearable />
 				<van-cell id="sex" title="性别" :value="sex" @click="selectSex" data-type="list" value-class="change-cell"
 						  is-link/>
 				<!-- 性别选择弹框 -->
-				<van-popup v-model="showPopup" position="bottom">
+				<van-popup v-model="isSexPopup" position="bottom">
 					<van-picker show-toolbar :columns="columns" @confirm="confirmSex" @cancel="selectSex"/>
 				</van-popup>
 
@@ -58,15 +58,16 @@
 <script>
 
 	import { Toast } from 'vant';
-	import headNavBar from './headNavBar';
+	import Head from '../app/head';
 
 	import { isWx } from '../../utils/ua';
-	import areaList from '../../assets/js/area';
 	import Cookies from 'js-cookie';
+
+	const sha1 = require('sha1');
 
 	export default {
 		components: {
-			'head-nav-bar': headNavBar
+			'page-head': Head
 		},
 		data () {
 			return {
@@ -78,7 +79,6 @@
 				username: '',
 				cerNumber: '',  // 证件号码
 				cardAddress: '',	// 证件地址
-				showCardAddress: '',	// 证件地址
 				mAddress: '',	// 详细地址
 				phoneNumber: '',
 				sendSmsNumber: '',	// 发送短信的号码
@@ -88,9 +88,17 @@
 				countdownSize: 60,	// 设置倒计时大小 默认60秒
 				curCount: 0,	// 倒计时，当前剩余秒数
 
-				showPopup: false,
+				isSexPopup: false,
 
-				areaList,	// 省市区信息
+				areaList: {
+					province_list: [],
+					city_list: [],
+					county_list: []
+				},	// 省市区信息
+				provinceData: [],	// 省份name数据
+				showAreaList: [],	// 省市区显示信息列表
+				countGetArea: 1,	// 跟踪省市区，1表示已获取省数据
+				selectedArea: [],	// 用户选中的证件地址
 				isSelectedAreaPopup: false,
 				accountHintInfo: '',	// 账户唯一性提示信息
 			};
@@ -98,7 +106,7 @@
 		methods: {
 			checkInfo () {
 				if (this.loginName === '' || this.password === '' || this.username === '' || this.cerNumber === '' ||
-						this.cardAddress === '' || this.phoneNumber === '' || this.sex === '' || this.mAddress === '') {
+					this.cardAddress === '' || this.phoneNumber === '' || this.sex === '' || this.mAddress === '') {
 					Toast('请完善个人信息！');
 					return;
 				} else {
@@ -125,32 +133,38 @@
 				// 验证账号名是否唯一
 				_this.$fetch('/mainWeb/public/system/register/verifyUserName?loginName=' + _this.loginName)
 					.then(response => {
-						response = response.result;
 						if (response) {
 							_this.accountHintInfo = '';
 							/*
 							* 验证通过，保存信息
 							* */
 							const openId = isWx() ? Cookies.get('openid') : '';
+							// const openId = Cookies.get('openid') || 'zyk';
 							const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-							let params = {
-								wxOpenId: openId,
-								mLoginName: _this.loginName,
-								mUserPassword: _this.password,
+							const idAddress = _this.cardAddress.replace(/\//g, '::');
 
-								mRealName: _this.username,
-								typeNumb: _this.cerNumber,
-								cardAddress: _this.cardAddress,
-								mAddress: _this.mAddress,
-								mUserSex: _this.sex,
+							let formData = new FormData();
+							formData.append('wxOpenId', openId);
+							formData.append('loginName', _this.loginName);
+							formData.append('password', sha1(_this.password));
 
-								mPhone: _this.sendSmsNumber,
-							};
-							_this.$post('/pubWeb/public/faceRecognition/weChatOnlineRegister?code=' + _this.smsCode, params, config).then(response => {
+							formData.append('realName', _this.username);
+							formData.append('typeNumb', '身份证,' + _this.cerNumber);
+							formData.append('cardAddress', idAddress);
+							formData.append('address', _this.mAddress);
+							formData.append('sex', _this.sex);
+
+							formData.append('phone', _this.sendSmsNumber);
+							formData.append('code', _this.smsCode);
+
+							// 注册并关联微信
+							_this.$post('/pubWeb/public/faceRecognition/weChatOnlineRegister', formData, config).then(response => {
 								if (Number(response.code) === 0) {
 									Toast('注册成功！');
+
 									_this.$store.commit('IBASE_ACCOUNT_ID', response.result);
 									_this.$store.commit('SET_VERIFY_STATE', true);
+
 									// 验证结束，进入个人中心
 									setTimeout(() => {
 										_this.$router.push({ path: '/personalCenter' });
@@ -171,28 +185,58 @@
 						console.log(error);
 					});
 			},
-			// 显示选择证件地址
+			// 重置证件地址选项
 			showOrHideAreaPopup() {
+				this.countGetArea = 1;
+				this.showAreaList = this.provinceData;
+				this.areaList.city_list = [];
+				this.areaList.county_list = [];
 				this.isSelectedAreaPopup = !this.isSelectedAreaPopup;
 			},
-			confirmAddress(value) {
-				console.log(value);
-				this.cardAddress = '';
-				this.showCardAddress = '';
-				for (let i = 0, len = value.length; i < len; i++) {
-					if (i < len - 1) {
-						this.cardAddress += value[i].name + '::'
-						if (i===0 && /市/.test(value[i].name)) {
-							// 如果省级名称是市，则不显示省级名称
-							continue;
-						}
-						this.showCardAddress += value[i].name + '/'
-					} else {
-						this.cardAddress += value[i].name
-						this.showCardAddress += value[i].name
-					}
+			onChangeArea(value, index) {
+				const _this = this;
+				_this.selectedArea.push(value);
+				// 3表示已获取区数据
+				if (_this.countGetArea === 3) {
+					_this.cardAddress = _this.selectedArea[0] + '/' +  _this.selectedArea[1] + '/' + _this.selectedArea[2];
+					_this.showOrHideAreaPopup();
+					return;
 				}
-				this.isSelectedAreaPopup = !this.isSelectedAreaPopup;
+				let code = '';
+				if (_this.countGetArea === 1) {
+					code = _this.areaList.province_list[index].split('-')[0];
+				} else {
+					code = _this.areaList.city_list[index].split('-')[0];
+				}
+				_this.getAreaData(code, _this.countGetArea);
+
+				_this.countGetArea++;
+			},
+			// 获取市、区数据，index:0是省，1是市，2是区
+			getAreaData(code, index) {
+				const _this = this;
+				_this.$fetch('/mainWeb/public/system/register/getsuCitysOrArea?type=' + code)
+					.then(data => {
+						if (data) {
+							let list = '';
+							_this.showAreaList = [];
+							if (index === 1) {
+								list = _this.areaList.city_list;
+							} else if (index === 2) {
+								list = _this.areaList.county_list;
+							} else {
+								list = _this.areaList.province_list;
+							}
+							for (var i = 0, len = data.length; i < len; i++) {
+								list.push(data[i].code + '-' + data[i].lname);
+								_this.showAreaList.push(data[i].lname);
+								_this.provinceData.push(data[i].lname);
+							}
+						}
+					})
+					.catch(error => {
+						console.log(error);
+					});
 			},
 			// 发送短信获取验证码
 			sendSmsCode () {
@@ -231,16 +275,15 @@
 				选择性别
 			 */
 			selectSex () {
-				// todo 允不允许修改证件号码信息？
 				if (this.allowEdit === 'disabled') {
 					// 不允许的话也不允许修改性别
 					return;
 				}
-				this.showPopup = !this.showPopup;
+				this.isSexPopup = !this.isSexPopup;
 			},
 			confirmSex (value, index) {
 				this.sex = value;
-				this.showPopup = false;
+				this.isSexPopup = false;
 			},
 
 		},
@@ -250,6 +293,10 @@
 				this.username = cardInfo.cardName;
 				this.cerNumber = cardInfo.cardCode;
 			}
+			/*
+				获取省级信息
+			 */
+			this.getAreaData('provinces', 0);
 		}
 	};
 

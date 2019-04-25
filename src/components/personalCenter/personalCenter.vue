@@ -1,7 +1,7 @@
 <template>
 	<!-- 个人中心首页 -->
 	<div class="personal-center">
-		<head-nav-bar title="个人中心"></head-nav-bar>
+		<page-head title="个人中心"></page-head>
 		<div class="personal-center-content">
 			<!-- 两端对齐 -->
 			<div v-for="(column, key) in columns" class="content-tab-div" @click="open(column.path)">
@@ -25,48 +25,36 @@
 
 <script>
 
-	import headNavBar from './headNavBar'
+	import Head from '../app/head'
 
 	export default {
 		components: {
-			'head-nav-bar': headNavBar,
+			'page-head': Head,
 		},
 		data () {
 			return {
 				columns: [
 					{
 						title: '住房证明查询',
-						subTitle: '副标题',
-						path: '',
-						icon: ''
-					},
-					{
-						title: '标题',
-						subTitle: '副标题',
+						subTitle: '',
 						path: '',
 						icon: ''
 					},
 					{
 						title: '我的不动产',
-						subTitle: '副标题',
+						subTitle: '',
 						path: '/personInfo',
 						icon: ''
 					},
 					{
-						title: '标题',
-						subTitle: '副标题',
-						path: '',
-						icon: ''
-					},
-					{
 						title: '我的业务',
-						subTitle: '副标题',
+						subTitle: '',
 						path: '/personalBusiness',
 						icon: ''
 					},
 					{
 						title: '个人信息',
-						subTitle: '副标题',
+						subTitle: '',
 						path: '/personalSetting',
 						icon: ''
 					},
@@ -79,7 +67,6 @@
 			},
 		},
 		mounted () {
-			console.log(this.$store.getters.getIbaseAccountId);
 		},
 	}
 </script>

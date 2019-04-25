@@ -90,17 +90,17 @@
 			goCheck () {
 				var _this = this;
 				// 这个判断是否从个人中心入口进来
-				const isPersonalHomeCheck = _this.$route.query.isPersonalHomeCheck;
+				const isPHC = _this.$route.query.isPersonalHomeCheck;
 				if (this.isCheck) {
 					if (this.$store.state.callbackUrl) {
-						if (isPersonalHomeCheck) {
-							_this.$router.push({ path: '/approve', query: { isPersonalHomeCheck: isPersonalHomeCheck} });
+						if (isPHC) {
+							_this.$router.push({ path: '/approvenew', query: { isPersonalHomeCheck: isPHC} });
 						} else {
-							_this.$router.push({ path: '/approve' });
+							_this.$router.push({ path: '/approvenew' });
 						}
 						sessionStorage.setItem('token', this.uuid(20, 16));
 						//人脸识别首页初始化配置（针对ios系统）
-						_this.$fetch('pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
+						_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
 							wx.config(res);
 							console.log(res);
 						});
@@ -110,16 +110,16 @@
 					if (token) {
 						//若有token 则不扫码 同时 取token为变量赋值
 						sessionStorage.setItem('token', token);
-						if (isPersonalHomeCheck) {
+						if (isPHC) {
 							_this.$router.push({
-								path: '/approve',
-								query: { token: token, isPersonalHomeCheck: isPersonalHomeCheck }
+								path: '/approvenew',
+								query: { token: token, isPersonalHomeCheck: isPHC }
 							});
 						} else {
-							_this.$router.push({ path: '/approve', query: { token: token } });
+							_this.$router.push({ path: '/approvenew', query: { token: token } });
 						}
 					} else {
-						this.$fetch('pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
+						_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
 							wx.config(res);
 							console.log(res);
 							wx.ready(function () {
@@ -129,14 +129,14 @@
 									success: function (res) {
 										var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
 										sessionStorage.setItem('token', result);
-										if (isPersonalHomeCheck) {
+										if (isPHC) {
 											// 如果是个人设置过来，则带参数去人脸识别页面
 											_this.$router.push({
-												path: '/approve',
-												query: { isPersonalHomeCheck: isPersonalHomeCheck }
+												path: '/approvenew',
+												query: { isPersonalHomeCheck: isPHC }
 											});
 										} else {
-											_this.$router.push({ path: '/approve' });
+											_this.$router.push({ path: '/approvenew' });
 										}
 									}
 								});
