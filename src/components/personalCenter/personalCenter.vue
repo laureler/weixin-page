@@ -36,37 +36,25 @@
 				columns: [
 					{
 						title: '住房证明查询',
-						subTitle: '副标题',
-						path: '/houseCertifyDownload',
-						icon: ''
-					},
-					{
-						title: '标题',
-						subTitle: '副标题',
+						subTitle: '',
 						path: '',
 						icon: ''
 					},
 					{
 						title: '我的不动产',
-						subTitle: '副标题',
+						subTitle: '',
 						path: '/personInfo',
 						icon: ''
 					},
 					{
-						title: '标题',
-						subTitle: '副标题',
-						path: '',
-						icon: ''
-					},
-					{
 						title: '我的业务',
-						subTitle: '副标题',
+						subTitle: '',
 						path: '/personalBusiness',
 						icon: ''
 					},
 					{
 						title: '个人信息',
-						subTitle: '副标题',
+						subTitle: '',
 						path: '/personalSetting',
 						icon: ''
 					},
@@ -79,7 +67,6 @@
 			},
 		},
 		mounted () {
-			console.log(this.$store.getters.getIbaseAccountId);
 		},
 	}
 </script>

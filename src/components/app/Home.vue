@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<!--<img src="../../../static/images/wechatstatic/bg_top1.png" class="img"/>-->
+		<!--<img src="../../../public/images/wechatstatic/bg_top1.png" class="img"/>-->
 		<div style="position: relative; height: 150px">
 			<img src="../../../public/images/wechatstatic/bg_top.png" class="img" />
 			<span class="title_name">{{getTitleValue()}}</span>
@@ -102,43 +102,44 @@
 	import { request } from '../../utils/http.js'
 
 	const place_title = require('../../utils/place-title.js')
+    const place_title = require('../../utils/place-title.js')
 
-	export default {
-		data() {
-			return {
-				inited: false,
-				getDate: '',
-				place: place_title
-			}
-		},
-		mounted() {
-			const that = this;
-			setTimeout(() => {
-				that.inited = true;
-			}, 300);
-			const myDate = new Date();
-			that.getDate = myDate.getFullYear();
-		},
-		methods: {
-			open(path) {
-				this.$router.push(path)
-			},
-			//轮询公众号名称
-			getTitleValue(){
-				var newVar = window.titleValue === undefined ? '不动产登记中心':window.titleValue;
-				var timeNumber = setInterval(function () {
-					// flash data
-					if(newVar !== '不动产登记中心'){
-						clearInterval(timeNumber)
-					}
-					else {
-						newVar =  window.titleValue === undefined ? '不动产登记中心':window.titleValue;
-					}
-				},300);
-				return newVar;
-			}
-		},
-	}
+    export default {
+        data () {
+            return {
+                inited: false,
+                getDate: '',
+                place: place_title
+            }
+        },
+        mounted () {
+            const that = this
+            setTimeout(() => {
+                that.inited = true
+            }, 300)
+            const myDate = new Date()
+            that.getDate = myDate.getFullYear()
+        },
+        methods: {
+            open (path) {
+                this.$router.push(path)
+            },
+            //轮询公众号名称
+            getTitleValue () {
+                var newVar = window.titleValue === undefined ? '不动产登记中心' : window.titleValue
+                var timeNumber = setInterval(function () {
+                    // flash data
+                    if (newVar !== '不动产登记中心') {
+                        clearInterval(timeNumber)
+                    }
+                    else {
+                        newVar = window.titleValue === undefined ? '不动产登记中心' : window.titleValue
+                    }
+                }, 300)
+                return newVar
+            }
+        },
+    }
 </script>
 <style lang="css" scoped>
 	span.title_name {
@@ -152,6 +153,7 @@
 		width: 100%;
 		text-align: center;
 	}
+
 	.home-footer {
 		display: flex;
 		justify-content: center;

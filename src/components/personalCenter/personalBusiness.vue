@@ -48,8 +48,7 @@
 		//在$el被替换的时候调用钩子函数
 		mounted () {
 			const _this = this
-			const openId = isWx() ? Cookies.get('openid') : '';
-			_this.$fetch('/formengineWebService/public/getBusinessDataByJid?openId=' + openId).then(response => {
+			_this.$fetch('/formengineWebService/public/getBusinessDataByJid?userId=' + _this.$store.getters.getIbaseAccountId).then(response => {
 				_this.businessDataArray = response
 			})
 		}
@@ -68,8 +67,8 @@
 	}
 
 	.businessList /deep/ .van-collapse-item__title--expanded {
-		 color: #1989FA !important;
-	 }
+		color: #1989FA !important;
+	}
 
 	.businessList /deep/ .van-collapse-item__title--expanded .busyness-start-time {
 		color: #1989FA !important;

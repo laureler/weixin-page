@@ -40,13 +40,13 @@
 					message: '确认关联该账号？'
 				}).then(() => {
 					const openId = isWx() ? Cookies.get('openid') : '';
+					// const openId = Cookies.get('openid') || 'zyk';
 					const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 					let userId = _this.accountDataArray[index].userId;
-					let param = {
-						userId: userId,
-						openId: openId,
-					}
-					_this.$post('/pubWeb/public/faceRecognition/updateAccountWxOpenId', param, config).then(response => {
+					let formData = new FormData();
+					formData.append('userId', userId);
+					formData.append('openId', openId);
+					_this.$post('/pubWeb/public/faceRecognition/updateAccountWxOpenId', formData, config).then(response => {
 						if (response) {
 							// 关联成功，，进入个人中心
 							_this.$store.commit('SET_VERIFY_STATE', true);
@@ -69,13 +69,8 @@
 			* 已完成人脸识别，直接使用身份信息获取ibase账号
 			* */
 			let cardName = _this.$store.getters.getPersonCardInfo.cardName;
-			let cardCode = _this.$store.getters.getPersonCardInfo.cardCode;
-			const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-			let param = {
-				realName: cardName,
-				cardNumber: cardCode
-			}
-			_this.$post('/pubWeb/public/faceRecognition/getLinkedAccounts', param, config)
+			let cardNumber = _this.$store.getters.getPersonCardInfo.cardCode;
+			_this.$fetch('/pubWeb/public/faceRecognition/getLinkedAccounts?cardName=' + cardName + '&cardNumber=' + cardNumber)
 				.then(dataList => {
 					if (dataList && dataList.length > 0) {
 						// 如果只有一个ibase账号，则默认关联直接跳转
@@ -94,8 +89,8 @@
 						_this.$router.push({ path: '/signInAccount' });
 					}
 				}).catch(error => {
-					console.log(error);
-				});
+				console.log(error);
+			});
 		}
 	}
 </script>

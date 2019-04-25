@@ -26,7 +26,7 @@
 
 <script>
 
-	import Head from '../app/head';
+	import head from '../app/head';
 	import { Toast, Dialog } from 'vant';
 
 	import { isWx } from '../../utils/ua';
@@ -34,7 +34,7 @@
 
 	export default {
 		components: {
-			'page-head': Head
+			'page-head': head
 		},
 		data () {
 			return {

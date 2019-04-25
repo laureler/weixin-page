@@ -23,14 +23,14 @@
 <script>
 
 	import { Toast, Dialog } from 'vant';
-	import Head from '../app/head';
+	import head from '../app/head';
 
 	import { isWx } from '../../utils/ua';
 	import Cookies from 'js-cookie';
 
 	export default {
 		components: {
-			'page-head': Head
+			'page-head': head
 		},
 		data () {
 			return {

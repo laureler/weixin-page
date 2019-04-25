@@ -6,7 +6,7 @@
   "description": "south-wechat-project",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --mode analyz",
+    "build": "vue-cli-service build",
     "analyz": "vue-cli-service build --mode analyz",
     "build:test": "vue-cli-service build --mode test",
     "lint": "vue-cli-service lint",
@@ -49,7 +49,6 @@
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
     "file-loader": "^3.0.1",
-    "html-webpack-plugin": "^3.2.0",
     "image-webpack-loader": "^4.6.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",

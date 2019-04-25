@@ -264,7 +264,6 @@
 			_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
 				wx.config(res);
 			});
-
 		}
 	};
 </script>
