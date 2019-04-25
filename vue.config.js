@@ -10,7 +10,8 @@ function resolve (dir) {
 	return path.join(__dirname, dir);
 }
 
-const env_analyz = process.env.IS_ANALYZ === 'analyz';
+// const env_analyz = process.env.IS_ANALYZ === 'analyz';
+const env_build = process.env.NODE_ENV === 'production';
 
 module.exports = {
 	publicPath: '/pubWeb/public/weChatPublic/',
@@ -21,9 +22,13 @@ module.exports = {
 	lintOnSave: true,
 
 	chainWebpack: config => {
-		if (env_analyz) {
+
+		if (process.env.IS_ANALYZ === 'analyz') {
 			config.plugin('webpack-bundle-analyzer')
 				.use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin);
+		}
+
+		if (env_build) {
 
 			config.module
 				.rule("image-webpack-loader")
@@ -31,7 +36,7 @@ module.exports = {
 				.use("file-loader")
 				.loader("image-webpack-loader")
 				.tap(() => ({
-					disable: !env_analyz
+					disable: !env_build
 				}))
 				.end();
 		}
@@ -48,7 +53,7 @@ module.exports = {
 
 	configureWebpack: config => {
 
-		if (env_analyz) {
+		if (env_build) {
 			// 为生产环境修改配置...
 			plugins: [
 				new MiniCssExtractPlugin({
@@ -121,7 +126,7 @@ module.exports = {
 	// css相关配置
 	css: {
 		// 是否使用css分离插件 生产环境下是true,开发环境下是false
-		extract: env_analyz,
+		extract: env_build,
 		// 开启 CSS source maps?
 		sourceMap: false,
 		// css预设器配置项
