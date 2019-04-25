@@ -36,8 +36,6 @@
 					<div class="redColor">待缴费：{{result.ywjd}}
 						<van-button slot="button" size="small" plain type="danger" @click="startPay" style="margin-left: 40px">缴费</van-button>
 					</div>
-
-					<!--<a-button type="primary">Primary</a-button>-->
 				</template>
 				<template v-else>
 					<div class="redColor">业务状态：{{result.ywjd}}</div>
@@ -128,20 +126,6 @@
 
 	.schequery:hover {
 		background: white;
-	}
-
-	.reg {
-		width: 30%
-	}
-
-	.Ocheckbox {
-		padding: 0.3rem;
-		border-top: 1px solid rgba(0, 0, 0, 0.1);
-	}
-
-	.cContent {
-		font-size: 0.375rem;
-		padding: 0.3rem;
 	}
 
 	.container {
