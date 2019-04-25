@@ -440,13 +440,12 @@
 		},
 	}
 </script>
+
 <style lang="css" scoped>
 
-	/*@import "../../css/elem UI.css";*/
-	.rightInput{
+	.rightInput {
 		text-align: right !important;
 	}
-
 
 	.cinput b {
 		color: #d7342e;
@@ -477,7 +476,8 @@
 	.borderLeftBlue {
 		border-left: 4px solid #5aa8f7;
 	}
-	.tip{
+
+	.tip {
 		font-size: 14px;
 		color: #f77f5a;
 		margin: 0 auto;

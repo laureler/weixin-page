@@ -1,8 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-// import * as api from '../constants/index.js'
 import * as types from './type';
-// import * as http from '../utils/http.js'
 
 Vue.use(Vuex);
 

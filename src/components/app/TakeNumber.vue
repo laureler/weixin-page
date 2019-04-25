@@ -116,8 +116,6 @@
 
 <style lang="css" scoped>
 
-	@import "../../css/elem UI.css";
-
 	.olabel {
 		font-size: 0.375rem;
 		width: 30%;

@@ -68,8 +68,6 @@
 
 <style lang="css" scoped>
 
-	@import "../../css/elem UI.css";
-
 	.box-content {
 		padding: 0 0 0.3rem;
 		margin-top: 0.25rem;
