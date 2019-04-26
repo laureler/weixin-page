@@ -83,7 +83,7 @@
 					<van-col :span="8">
 						<div class="home-item last" @click="open('/newschq')">
 							<p class="iconfont icon-jindu blue"></p>
-							<p class="title">新的进度查询</p>
+							<p class="title">进度查询</p>
 						</div>
 					</van-col>
 				</van-row>

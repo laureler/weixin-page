@@ -108,7 +108,8 @@
 	}
 
 	.s-query {
-		padding: 10px 15px;
+		padding: 5px 10px;
+        color: rgb(181,181,181)!important;
 	}
 
 	.s-query:focus {
@@ -130,12 +131,11 @@
 	}
 
 	.s-input {
-		width: 85%;
+		width: 90%;
 		border: none;
 		font-size: 0.373333rem;
         color: #333;
 		outline: none;
-		border-right: 1px solid #e5e5e5;
 		margin-right: 0.31rem;
 	}
 </style>

@@ -115,7 +115,7 @@
 				that.isShowLogisticsInfo = false;
 
                 request({
-                    url: '/GetYWJD',
+                    url: '/GetYWJD2',
                     data: { strJson: JSON.stringify({ djbh: that.djbh, sqrxm: that.sqrxm }) },
                     success (response) {
                     	that.isStartSearch = true;
