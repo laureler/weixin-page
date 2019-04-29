@@ -9,7 +9,7 @@
 			<div v-show="inited" class="row-box">
 				<van-row class="home-row">
 					<van-col :span="8">
-						<div class="home-item" @click="open('/appl')">
+						<div class="home-item" @click="open('/apprd')">
 							<p class="iconfont icon-yuyue green"></p>
 							<p class="title">在线预约</p>
 						</div>
