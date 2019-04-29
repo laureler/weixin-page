@@ -23,7 +23,7 @@
 			<van-field id="cerNumber" label="证件号码：" clearable required text-align="right" input-align="right" v-model="cerNumber" type="text"/>
 			<van-field id="phoNumber" label="手机号码：" clearable required text-align="right" input-align="right" v-model="phoNumber" type="tel"/>
 			<van-field id="zmh" label="产权证号：" clearable required text-align="right" input-align="right" v-model="zmh" type="text"/>
-			<van-field id="dywzs" label="抵押物清单的不动产宗数：" clearable required text-align="right" input-align="right" v-model="dywzs" type="number"/>
+			<van-field id="dywzs" label="抵押物清单的不动产宗数：" clearable required text-align="right" input-align="right" v-model="dywzs" type="number" v-show="showDYWZS"/>
 		</van-cell-group>
 		<div class="tip">
 			<!--<p class="cp">提示：请申请人在预约时段内，凭手机取号信息到办事大厅扫描预约二维码进行确认，并等待叫号（扫码确认必须到现场，请勿提前扫码，过号不办理）</p>-->
@@ -75,7 +75,8 @@
 				phoNumber: '',  //当前输入的手机号码
 				zmh: '',  // 产权证号
 				dywzs: '',  // 抵押物清单的不动产宗数
-				cerTypeData: ['身份证','港澳台身份证','护照','户口簿','军官证（士兵证）']
+				cerTypeData: ['身份证','港澳台身份证','护照','户口簿','军官证（士兵证）'],
+				showDYWZS: false //默认不展示 抵押物清单的不动产宗数
 			}
 		},
 		//计算属性
@@ -87,7 +88,14 @@
 				// console.log('监听到select1Value变化',oldValue,newValue)
 				this.select1()
 			},
-			select2Value:function () {
+			select2Value:function (newVal, oldValue) {
+				// 符合预约事项就显示不动产宗数
+				if (newVal === '抵押登记' || newVal === '注销登记' || newVal === '注销抵押') {
+					this.showDYWZS = true
+				}else{
+					//否则不显示
+					this.showDYWZS = false
+				}
 				this.select2()
 			},
 			select3Value:function () {
@@ -234,7 +242,7 @@
 				const that = this;
 				const param = {szwd: that.select1Value, yyfs: '2'};
 				request({
-					url: '/GetYYSX',
+					url: '/GetYYSX_ZS',
 					data: {strJson: JSON.stringify(param)},
 					success(response) {
 						that.select2Data = [];
@@ -333,51 +341,101 @@
 				})
 			},
 			check() {
-				if (this.name !== '' && this.cerNumber !== '' && this.phoNumber !== '' && this.zmh !== '' &&
-					this.dywzs !== '' && this.select1Value != '' && this.select2Value != '' && this.select3Value != '' && this.select4Value != '') {
-					let cerType = this.cerTypeValue;
-					if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.phoNumber))) {
-						Toast('手机号码格式不正确！')
-					}
-					else if (cerType == '身份证') {
-						if (!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.cerNumber))) {
-							Toast('身份证格式不正确！')
-						} else {
-							this.resq()
+				if (this.showDYWZS == true){
+					if (this.name !== '' && this.cerNumber !== '' && this.phoNumber !== '' && this.zmh !== ''
+						&& this.dywzs !== '' && this.select1Value != '' && this.select2Value != '' && this.select3Value != '' && this.select4Value != '') {
+						let cerType = this.cerTypeValue;
+						if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.phoNumber))) {
+							Toast('手机号码格式不正确！')
+						}
+						else if (cerType == '身份证') {
+							if (!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.cerNumber))) {
+								Toast('身份证格式不正确！')
+							} else {
+								this.resq()
+							}
+						}
+						else if (cerType == '护照') {
+							if (!(/^[a-zA-Z0-9]{3,21}$/.test(this.cerNumber)) || !(/^(P\d{7})|(G\d{8})$/.test(this.cerNumber))) {
+								Toast('护照号码格式不正确！')
+							} else {
+								this.resq()
+							}
+						}
+						else if (cerType == '港澳台身份证') {
+							const taiwanreg = /^[A-Z][0-9]{9}$/;
+							const xianggangreg = /^[A-Z][0-9]{6}\([0-9A]\)$/;
+							const aomenreg = /^[157][0-9]{6}\([0-9]\)$/;
+							// (/^[a-zA-Z0-9]{5,21}$/.test(this.cerNumber))
+							if (!(taiwanreg.test(this.cerNumber))) {
+								Toast('港澳台身份证号码格式不正确！')
+							} else if (!(xianggangreg.test(this.cerNumber))) {
+								Toast('港澳台身份证号码格式不正确！')
+							} else if (!(aomenreg.test(this.cerNumber))) {
+								Toast('港澳台身份证号码格式不正确！');
+							} else {
+								this.resq()
+							}
+						}
+						else if (cerType == '户口簿') {
+							if (!(/^[a-zA-Z0-9]{3,21}$/.test(this.cerNumber))) {
+								Toast('户口簿号码格式不正确！')
+							} else {
+								this.resq()
+							}
 						}
 					}
-					else if (cerType == '护照') {
-						if (!(/^[a-zA-Z0-9]{3,21}$/.test(this.cerNumber)) || !(/^(P\d{7})|(G\d{8})$/.test(this.cerNumber))) {
-							Toast('护照号码格式不正确！')
-						} else {
-							this.resq()
-						}
-					}
-					else if (cerType == '港澳台身份证') {
-						const taiwanreg = /^[A-Z][0-9]{9}$/;
-						const xianggangreg = /^[A-Z][0-9]{6}\([0-9A]\)$/;
-						const aomenreg = /^[157][0-9]{6}\([0-9]\)$/;
-						// (/^[a-zA-Z0-9]{5,21}$/.test(this.cerNumber))
-						if (!(taiwanreg.test(this.cerNumber))) {
-							Toast('港澳台身份证号码格式不正确！')
-						} else if (!(xianggangreg.test(this.cerNumber))) {
-							Toast('港澳台身份证号码格式不正确！')
-						} else if (!(aomenreg.test(this.cerNumber))) {
-							Toast('港澳台身份证号码格式不正确！');
-						} else {
-							this.resq()
-						}
-					}
-					else if (cerType == '户口簿') {
-						if (!(/^[a-zA-Z0-9]{3,21}$/.test(this.cerNumber))) {
-							Toast('户口簿号码格式不正确！')
-						} else {
-							this.resq()
-						}
+					else {
+						Toast('请完善个人信息！')
 					}
 				}
-				else {
-					Toast('请完善个人信息！')
+				if (this.showDYWZS == false) {
+					if (this.name !== '' && this.cerNumber !== '' && this.phoNumber !== '' && this.zmh !== ''
+						&& this.select1Value != '' && this.select2Value != '' && this.select3Value != '' && this.select4Value != '') {
+						let cerType = this.cerTypeValue;
+						if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.phoNumber))) {
+							Toast('手机号码格式不正确！')
+						}
+						else if (cerType == '身份证') {
+							if (!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.cerNumber))) {
+								Toast('身份证格式不正确！')
+							} else {
+								this.resq()
+							}
+						}
+						else if (cerType == '护照') {
+							if (!(/^[a-zA-Z0-9]{3,21}$/.test(this.cerNumber)) || !(/^(P\d{7})|(G\d{8})$/.test(this.cerNumber))) {
+								Toast('护照号码格式不正确！')
+							} else {
+								this.resq()
+							}
+						}
+						else if (cerType == '港澳台身份证') {
+							const taiwanreg = /^[A-Z][0-9]{9}$/;
+							const xianggangreg = /^[A-Z][0-9]{6}\([0-9A]\)$/;
+							const aomenreg = /^[157][0-9]{6}\([0-9]\)$/;
+							// (/^[a-zA-Z0-9]{5,21}$/.test(this.cerNumber))
+							if (!(taiwanreg.test(this.cerNumber))) {
+								Toast('港澳台身份证号码格式不正确！')
+							} else if (!(xianggangreg.test(this.cerNumber))) {
+								Toast('港澳台身份证号码格式不正确！')
+							} else if (!(aomenreg.test(this.cerNumber))) {
+								Toast('港澳台身份证号码格式不正确！');
+							} else {
+								this.resq()
+							}
+						}
+						else if (cerType == '户口簿') {
+							if (!(/^[a-zA-Z0-9]{3,21}$/.test(this.cerNumber))) {
+								Toast('户口簿号码格式不正确！')
+							} else {
+								this.resq()
+							}
+						}
+					}
+					else {
+						Toast('请完善个人信息！')
+					}
 				}
 			},
 		},
@@ -385,7 +443,7 @@
 		mounted() {
 			const that = this;
 			request({
-				url: '/GetYYBSWD',
+				url: '/GetYYBSWD_ZS',
 				success(response) {
 					that.select1Data.push(response)
 				},
@@ -394,6 +452,7 @@
 		},
 	}
 </script>
+
 <style lang="css" scoped>
 
 	.cinput b {
