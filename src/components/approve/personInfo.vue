@@ -69,6 +69,9 @@
         },
         components: { 'page-head': header },
         mounted () {
+        	let title = this.$route.query.title;
+        	this.title = title ? title : this.title;
+
             /*let param = {
 			  'qlr': this.$store.state.cardCode,
 			  'zjhm': this.$store.state.cardName
