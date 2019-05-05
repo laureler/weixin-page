@@ -170,7 +170,7 @@
 			});
 
 			request({
-				url: '/FirstHouseQuery2',
+				url: '/FirstHouseQuery',
 				data: { strJson: strJson },
 				success(response) {
 					if (Number(response.resultcode) === 1) {
