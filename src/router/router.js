@@ -262,11 +262,10 @@ const router = new Router({
 			component: resolve => require(['@/components/personalCenter/signInAccount'], resolve),
 		},
 		{
-			path: '/houseCertifyDownload',
-			name: 'houseCertifyDownload',
+			path: '/FirstHouseQuery',
+			name: 'FirstHouseQuery',
 			component: resolve => require(['@/components/personalCenter/houseCertifyDownload'], resolve),
 		},
-
 		{
 			path: '/showRealEstateInfo',
 			name: 'QRcodeShowRealEstateInfo',

@@ -1,7 +1,7 @@
 <template>
 	<!-- 个人信息设置页面 -->
 	<div class="personal-setting">
-		<page-head title="个人设置"></page-head>
+		<page-head :title="title"></page-head>
 		<div class="personal-info-content">
 			<van-cell-group>
 				<van-field id="phoneNumber" label="手机号码" placeholder="请输入手机号码" v-model.trim="showPhoneNumber"
@@ -37,6 +37,8 @@
 		},
 		data () {
 			return {
+				title: '个人设置',
+
 				showPopup: false,	// 是否展示数据选择项
 				name: '',
 				cerNumber: '',  // 当前输入的证件号码
@@ -74,7 +76,8 @@
 									wx.closeWindow();
 								}).catch(() => {
 									_this.$router.push({
-										path: '/preApprovenew'
+										path: '/preApprovenew',
+										query: { isPersonalHomeCheck: true }
 									});
 								});
 							}, 1500);
@@ -96,6 +99,9 @@
 		},
 		mounted () {
 			const _this = this;
+
+			this.title = this.$route.query.title;
+
 			_this.$fetch('/pubWeb/public/faceRecognition/getAccountUserInfo?userId=' + _this.$store.getters.getIbaseAccountId)
 				.then(response => {
 					if (response) {

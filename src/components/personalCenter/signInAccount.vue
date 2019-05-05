@@ -146,7 +146,7 @@
 							let formData = new FormData();
 							formData.append('wxOpenId', openId);
 							formData.append('loginName', _this.loginName);
-							formData.append('password', sha1(_this.password));
+							formData.append('password', sha1(_this.password).toUpperCase());
 
 							formData.append('realName', _this.username);
 							formData.append('typeNumb', '身份证,' + _this.cerNumber);

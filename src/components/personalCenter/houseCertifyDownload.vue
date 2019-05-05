@@ -1,91 +1,201 @@
 <template>
 	<div class="house-certify-download">
-		<page-head title="住房证明下载"></page-head>
-		<van-cell-group>
-			<van-field id="loginName" label="账号" placeholder="ibase账号名" v-model.trim="loginName" type="text"  clearable />
-			<van-field id="password" label="密码" placeholder="密********码" v-model.trim="password" type="password" clearable />
-			<van-field id="showUserName" label="姓名" placeholder="权利人姓名" v-model.trim="showUserName" type="text"  clearable />
-			<van-field id="showCerNumber" label="证件号码" placeholder="权利人身份证号" v-model.trim="showCerNumber" type="text"  clearable />
-		</van-cell-group>
-		<div style="margin-top: 50px;">
-			<van-button size="large" class="blueButton new-btn red-btn" @click="certifyDownload">下载</van-button>
-		</div>
+		<page-head :title="title"></page-head>
+		<canvas v-for="n in totalPage" :id="'pdf_canvas' + n" class="pdf-content"></canvas>
+
+		<!--<canvas v-if="isShowPDF" id="pdf_canvas" class="pdf-content"></canvas>-->
+		<!--<div id="pdf" v-show="isShowPDF" style="width: 100%;height: 100%;">
+			&lt;!&ndash;<canvas id="canvas" style="width: 100%;height: 100%;"></canvas>&ndash;&gt;
+			<pdf ref="pdf" :src="pdfURL" ></pdf>
+		</div>-->
 	</div>
 </template>
 
 <script>
 
-	import { Toast, Dialog } from 'vant';
 	import Head from '../app/head';
+
+	import { request } from '../../utils/http';
+	import { Toast } from 'vant'
+
+	import PDFJS from 'pdfjs-dist';
 
 	export default {
 		components: {
-			'page-head': Head
+			'page-head': Head,
+			PDFJS
 		},
 		data () {
 			return {
-				loginName: '',
-				password: '',
-				username: '',
-				showUserName: '',
-				cerNumber: '',
-				showCerNumber: '',
+				title: '住房证明查询',
+
+				totalPage: '',
+				loadedPageCount: 0,
 			};
 		},
 		methods: {
-			// 下载用户住房证明
-			certifyDownload() {
+			showPDF(pdfData) {
 				const _this = this;
-
-				if (_this.loginName === '' || _this.password === '' || _this.username === '' || _this.cerNumber === '') {
-					Toast('请完善信息！');
-					return;
-				}
-
-				Dialog.confirm({
-					title: '提示',
-					message: '确认下载个人住房证明？'
-				}).then(() => {
-					const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-					var stringUrl = '/pubWeb/public/system/WeChatRemoteCheck';
-					let strJson = JSON.stringify({
-						username: _this.loginName,
-						password: _this.password,
-						qlr: _this.username,
-						zjhm: _this.cerNumber,
-					});
-					let params = {
-						'strJson': strJson
-					};
-					_this.$post(stringUrl, params, config).then(rs => {
-						switch (rs.status) {
-							case '-1' || undefined:
-								alert('服务器出错');
-								break;
-							case '0':
-								alert('没有权限下载');
-								break;
-							case '1':
-								window.location.href = stringUrl +'?strJson=' + encodeURIComponent(strJson);
-								break;
-						}
-					}).catch(error => {
-						console.log(error);
-					});
-				}).catch(() => {
+				PDFJS.getDocument({ data: pdfData }).then(pdf => {
+					_this.totalPage = pdf.numPages;	// 总页数
+					// 我是一次加载了所有页，网上一些是一页页加载的，因为我的pdf页数不多
+					for(var i = 1; i <= _this.totalPage; i++) {
+						pdf.getPage(i).then(page => {
+							var scale = 1;	// 缩放倍数，1表示原始大小
+							var viewport = page.getViewport(scale);
+							var canvas = document.getElementById('pdf_canvas' + page.pageNumber);
+							var context = canvas.getContext('2d');
+							canvas.height = viewport.height;
+							canvas.width = viewport.width;
+							var renderContext = {
+								canvasContext: context,
+								viewport: viewport
+							};
+							page.render(renderContext).promise.then(function(){
+								_this.loadedPageCount ++; // 加载一个+1，最后总数和totalPage一样了，表示pdf加载完了
+							});
+						});
+					}
+				}).catch(function(error){
+					console.log(error);
+					Toast('PDF暂时无法移动端预览，请在PC端查看!')
 				});
 			},
+
+			getBlob(base64) {
+				return this.b64toBlob(this.getData(base64), this.getContentType(base64));
+			},
+			getContentType(base64) {
+				return /data:([^;]*);/i.exec(base64)[1];
+			},
+			getData(base64) {
+				return base64.substr(base64.indexOf("base64,") + 7, base64.length);
+			},
+			b64toBlob(b64Data, contentType, sliceSize) {
+				contentType = contentType || '';
+				sliceSize = sliceSize || 512;
+
+				var byteCharacters = atob(b64Data);
+				var byteArrays = [];
+
+				for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+					var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+					var byteNumbers = new Array(slice.length);
+					for (var i = 0; i < slice.length; i++) {
+						byteNumbers[i] = slice.charCodeAt(i);
+					}
+
+					var byteArray = new Uint8Array(byteNumbers);
+
+					byteArrays.push(byteArray);
+				}
+
+				var blob = new Blob(byteArrays, { type: contentType });
+				return blob;
+			},
+
+			renderPage (num) {
+				this.pageRendering = true
+				let _this = this
+				this.pdfDoc.getPage(num).then(function (page) {
+					var viewport = page.getViewport(_this.scale)
+					let canvas = document.getElementById('pdf_canvas')
+					canvas.height = viewport.height
+					canvas.width = viewport.width
+
+					var renderContext = {
+						canvasContext: canvas.getContext('2d'),
+						viewport: viewport
+					}
+					var renderTask = page.render(renderContext)
+
+					renderTask.promise.then(function () {
+						_this.pageRendering = false
+						if (_this.pageNumPending !== null) {
+							// New page rendering is pending
+							this.renderPage(_this.pageNumPending)
+							_this.pageNumPending = null
+						}
+					})
+				})
+			},
+			/*renderPage(pdf, numPages, current){
+				console.log("renderPage");
+				for(var i=1; i<=numPages; i++){
+					pdf.getPage(i).then(page => {
+						let scale = 1.5;
+						let viewport = page.getViewport(scale);
+						let canvas = document.createElement("canvas");
+						let context = canvas.getContext('2d');
+						document.body.appendChild(canvas);
+
+						canvas.height = viewport.height;
+						canvas.width = viewport.width;
+
+						let renderContext = {
+							canvasContext: context,
+							viewport: viewport
+						};
+						page.render(renderContext);
+					});
+				}
+				console.log("renderPage end");
+			},*/
+			convertDataURIToBinary(dataURI) {   // 编码转换
+				var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
+				var base64 = dataURI.substring(base64Index);
+				let raw = window.atob(base64);
+				let rawLength = raw.length;
+				// 转换成pdf.js能直接解析的Uint8Array类型
+				let array = new Uint8Array(new ArrayBuffer(rawLength));
+				for (i = 0; i < rawLength; i++) {
+					array[i] = raw.charCodeAt(i) & 0xff;
+				}
+				return array;
+			}
 		},
 		mounted () {
-			if (this.$store.getters.getVerifyState) {
-				this.username = this.$store.getters.getPersonCardInfo.cardName;
-				this.cerNumber = this.$store.getters.getPersonCardInfo.cardCode;
-				// 给显示的身份证信息加*号
-				if (this.username.length > 2) {
-					this.showUserName = this.username.substr(0, 1) + '*' + this.username.substr(this.username.length - 1, 1);
+			const _this = this;
+
+			this.title = this.$route.query.title;
+
+			let qlr = _this.$store.getters.getPersonCardInfo.cardName;
+			let zjhm = _this.$store.getters.getPersonCardInfo.cardCode;
+
+			let strJson = JSON.stringify({
+				'qlr': qlr,
+				'zjhm': zjhm,
+				'returnbyte': true
+			});
+
+			request({
+				url: '/FirstHouseQuery2',
+				data: { strJson: strJson },
+				success(response) {
+					if (Number(response.resultcode) === 1) {
+						let pdfData = atob(response.cqxx);
+
+						// var downLoad =  document.querySelectorAll('#pdf a')[0];
+						// var blob = _this.getBlob('data:application/pdf;base64,' + response.cqxx);
+						// window.open('/pdf/web/viewer.html?file=' + encodeURIComponent(URL.createObjectURL(blob)))
+						// window.location.href = '/pdf/web/viewer.html?file=' + window.URL.createObjectURL(blob);
+
+						/*PDFJS.getDocument({ data: pdfData }).then(pdf => {
+							var numPages = pdf.numPages;
+							var start = 1;
+							_this.renderPage(pdf, numPages, start);
+						});*/
+
+						_this.showPDF(pdfData);
+					} else {
+						Toast(response.resultmsg);
+					}
+				},
+				fail(error) {
+					console.log(error);
 				}
-				this.showCerNumber = this.cerNumber.substr(0, 4) + '***********' + this.cerNumber.substr(this.cerNumber.length - 3, 3);
-			}
+			})
 		}
 	};
 
@@ -97,8 +207,7 @@
 		height: 100%;
 	}
 
-	.new-btn {
-		border-radius: 5px;
-		margin-top: 10px !important;
+	.pdf-content {
+		width: 100%;
 	}
 </style>
