@@ -74,7 +74,8 @@
 									wx.closeWindow();
 								}).catch(() => {
 									_this.$router.push({
-										path: '/preApprovenew'
+										path: '/preApprovenew',
+										query: { isPersonalHomeCheck: true }
 									});
 								});
 							}, 1500);

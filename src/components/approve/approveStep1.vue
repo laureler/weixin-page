@@ -170,24 +170,22 @@
 						wx.invoke('requestWxFacePictureVerifyUnionVideo', info, function (res) {
 							// 人脸识别成功，判断是不是从个人中心首页进来的
 							if (_this.$route.query.isPersonalHomeCheck) {
-								_this.$store.commit('CARD_CODE', _this.data_id);
-								_this.$store.commit('CARD_NAME', _this.data_name);
-								_this.$router.push({ path: '/associativeAccount' });
-							}
-							console.log(res);
-							if (res.hasOwnProperty('err_code')) {
-								if (res.err_code == 0) {
-									_this.successToDo(_this, res.verify_result);
-								} else if (res.err_code == 90100) {
-									return;
-								} else {
-									_this.$router.push({
-										path: '/approveStep2', query: { isSuccess: 0 }
+								_this.$fetch('/pubWeb/public/faceRecognition/getLinkedAccounts?cardName=' + _this.data_name + '&cardNumber=' + _this.data_id)
+									.then(dataList => {
+										if (dataList.length === 0) {
+											// 如果没有ibase账号，则到注册页面
+											_this.$router.push({ path: '/signInAccount' });
+										} else {
+											_this.$store.commit('CARD_CODE', _this.data_id);
+											_this.$store.commit('CARD_NAME', _this.data_name);
+											_this.$router.push({ path: '/associativeAccount', query: { dataList: dataList } });
+										}
+									}).catch(error => {
+										console.log(error);
 									});
-								}
 							} else {
-								wx.invoke('requestWxFacePictureVerify', info, function (res) {
-									console.log(res);
+								console.log(res);
+								if (res.hasOwnProperty('err_code')) {
 									if (res.err_code == 0) {
 										_this.successToDo(_this, res.verify_result);
 									} else if (res.err_code == 90100) {
@@ -197,7 +195,20 @@
 											path: '/approveStep2', query: { isSuccess: 0 }
 										});
 									}
-								});
+								} else {
+									wx.invoke('requestWxFacePictureVerify', info, function (res) {
+										console.log(res);
+										if (res.err_code == 0) {
+											_this.successToDo(_this, res.verify_result);
+										} else if (res.err_code == 90100) {
+											return;
+										} else {
+											_this.$router.push({
+												path: '/approveStep2', query: { isSuccess: 0 }
+											});
+										}
+									});
+								}
 							}
 						});
 					} else if (res.err_code == 10001) {
@@ -257,6 +268,7 @@
 			_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
 				wx.config(res);
 			});
+
 		}
 	};
 </script>
