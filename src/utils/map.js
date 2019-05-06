@@ -1,6 +1,8 @@
 export const baiduMap = {
 	init() {
-		const BMapURL = 'http://api.map.baidu.com/api?v=3.0&ak=okW4mY38zWSMxao13zYpuqZ4NzokUMYr&s=1&callback=onBMapCallback'
+		// todo 这个ak是百度地图开发者密钥，若正式使用需要重新申请
+		const ak = 'okW4mY38zWSMxao13zYpuqZ4NzokUMYr';
+		const BMapURL = 'http://api.map.baidu.com/api?v=3.0&ak=' + ak + '&s=1&callback=onBMapCallback'
 		return new Promise((resolve, reject) => {
 			// 如果已加载直接返回
 			if (typeof BMap !== 'undefined') {
