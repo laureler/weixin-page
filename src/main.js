@@ -2,6 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import store from './store/index';
 import router from './router/router';
+import './registerServiceWorker';
 
 import FastClick from 'fastclick';
 // 移动端屏幕适配
