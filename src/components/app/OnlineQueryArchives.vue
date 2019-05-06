@@ -8,12 +8,16 @@
                     <img :src="datas[0].iconSrc"/>
                     <div class="title">{{datas[0].name}}</div>
                 </div> -->
-                <van-cell is-link :value="datas[0].name" :icon="datas[0].iconSrc" class="nav-cell house-color"/>
+                <van-cell is-link :value="datas[0].name" class="nav-cell house-color">
+                    <img slot="icon" :src="datas[0].iconSrc" class="van-icon van-icon--image van-cell__left-icon"/>
+                </van-cell>
             </van-col>
         </van-row>
         <van-row type="flex">
             <van-col span="24" @click.native="open(datas[1].url,datas[1].name,datas[1].inter)" class="nav-col">
-                <van-cell is-link :value="datas[1].name" :icon="datas[1].iconSrc" class="nav-cell archives-color"/>
+                <van-cell is-link :value="datas[1].name" class="nav-cell archives-color">
+                    <img slot="icon" :src="datas[1].iconSrc" class="van-icon van-icon--image van-cell__left-icon"/>
+                </van-cell>
             </van-col>
         </van-row>
     </div>
@@ -33,7 +37,7 @@
                 datas:[
                     {
                         name: '住房证明',
-                        iconSrc: 'http://172.16.42.216:3000/pubWeb/public/weChatPublic/images/onlineQueryArchives/zhufang.png',
+                        iconSrc: './images/onlineQueryArchives/zhufang.png',
                         //个人无房证明页面地址
                         url: '/arcd',
                         //个人无房证明查询接口
@@ -41,7 +45,7 @@
                     },
                     {
                         name: '不动产登记资料查询',
-                        iconSrc: 'http://172.16.42.216:3000/pubWeb/public/weChatPublic/images/onlineQueryArchives/budongchan.png',
+                        iconSrc: './images/onlineQueryArchives/budongchan.png',
                         //不动产登记资料查询页面地址
                         url: '/arcl',
                         //个人产权信息查询接口
@@ -54,7 +58,7 @@
             open(url,name,inter){
                 //进入人脸核身
                 this.$router.push({
-                    path: '/preApprove',
+                    path: '/preApprovenew',
                     query: {callbackUrl: inter}
                 })
             }
