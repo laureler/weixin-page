@@ -118,6 +118,7 @@
 					).then(response => {
 						if (response) {
 							// 参数约定 以token为名称，值为业务编号
+							_this.$store.commit('SET_MESSAGEDATA', response);
 							_this.$router.push({ path: '/messageApprove', query: { token: _this.searchParam } });
 						} else {
 							Toast('请输入正确的验证码！');

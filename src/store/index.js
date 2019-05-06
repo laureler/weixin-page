@@ -8,6 +8,7 @@ export default new Vuex.Store({
 	state: {
 		step: 0,	// 认证步骤
 		messageStep: 1,	// 短信认证步骤
+		messageData: [],	// 短信确认数据
 		callbackUrl: '',
 		cardCode: '',
 		cardName: '',
@@ -29,6 +30,9 @@ export default new Vuex.Store({
 		},
 		[types.SET_MESSAGESTEP] (state, res) {
 			state.messagestep = res;
+		},
+		[types.SET_MESSAGEDATA] (state, res) {
+			state.messageData = res;
 		},
 		[types.CALLBACK_URL] (state, res) {
 			state.callbackUrl = res;
