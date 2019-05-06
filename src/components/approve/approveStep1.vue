@@ -178,7 +178,7 @@
 										} else {
 											_this.$store.commit('CARD_CODE', _this.data_id);
 											_this.$store.commit('CARD_NAME', _this.data_name);
-											_this.$router.push({ path: '/associativeAccount', query: { dataList: dataList } });
+											_this.$router.push({ name: 'associativeAccount', params: { dataList: dataList } });
 										}
 									}).catch(error => {
 										console.log(error);
