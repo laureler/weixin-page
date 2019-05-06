@@ -98,19 +98,24 @@
 				const _this = this;
 				//创建地图实例
 				let map = new BMap.Map('container', {enableMapClick: false});
-				//创建一个坐标
-				let zb = _this.realEstateInfo.zb.split(',');
-				let point =new BMap.Point(zb[0], zb[1]);
+				let point = new BMap.Point(_this.realEstateInfo.zb.split(',')[0], _this.realEstateInfo.zb.split(',')[1]);
 				//地图初始化，设置中心点坐标和地图级别
 				map.centerAndZoom(point, 19);
 
-				let marker = new BMap.Marker(point);        // 创建标注
-				map.addOverlay(marker);                     // 将标注添加到地图中
+				let pointArr = [];
+				pointArr.push(point);
+				new BMap.Convertor().translate(pointArr, 1, 5, data => {
+					//坐标转换完之后的回调函数
+					if(data.status === 0) {
+						let marker = new BMap.Marker(data.points[0]);
+						map.addOverlay(marker);
+						map.setCenter(data.points[0]);
 
-				marker.addEventListener('click', function () {
-					_this.isShowInfo = !_this.isShowInfo;
+						marker.addEventListener('click', function () {
+							_this.isShowInfo = !_this.isShowInfo;
+						});
+					}
 				});
-
 			},
 		},
 		mounted() {

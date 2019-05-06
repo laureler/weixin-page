@@ -72,7 +72,7 @@
 		},
 		//在$el被替换的时候调用钩子函数
 		mounted () {
-			let dataList = this.$route.query.dataList;
+			let dataList = this.$route.params.dataList;
 			if (dataList[0].userId) {
 				this.accountDataArray = dataList;
 			} else {

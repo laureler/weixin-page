@@ -66,12 +66,8 @@
         },
         //在$el被替换的时候调用钩子函数
         mounted () {
-            this.$store.state.messageStep = 1
-            var that = this
-            var tokenValue = uiScript.getParam('token')
-            that.$fetch('/formengineWebService/public/getConfigDataByJid?jid=' + tokenValue).then(response => {
-                that.PageData = response
-            })
+			this.$store.commit('SET_MESSAGESTEP', 1);
+            this.PageData = this.$store.state.messageData;
         }
     }
 </script>
