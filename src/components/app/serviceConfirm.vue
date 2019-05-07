@@ -77,6 +77,7 @@
 								// 短信发送成功
 								Toast('短信发送成功！');
 								_this.sendSmsNumber = _this.phoneNumber;
+								_this.smsCodeBtnChange();
 							} else {
 								Toast('手机号跟业务登记号不匹配!');
 								_this.curCount = 0;
@@ -85,21 +86,22 @@
 						.catch(error => {
 							console.log(error);
 						});
-
-					// 页面倒计时和禁用按钮效果
-					_this.curCount = _this.countdownSize;
-					_this.smsCodeBtnValue = '倒计时 ' + _this.curCount + 'S';
-					var TimerObj = setInterval(() => {
-						if (_this.curCount > 0) {
-							_this.curCount--;
-							_this.smsCodeBtnValue = '倒计时 ' + _this.curCount + 'S';
-						} else {
-							// 禁用时间结束，关闭轮询，释放按钮
-							clearInterval(TimerObj);
-							_this.smsCodeBtnValue = '获取验证码';
-						}
-					}, 1000);
 				}
+			},
+			smsCodeBtnChange() {
+				// 页面倒计时和禁用按钮效果
+				this.curCount = this.countdownSize;
+				this.smsCodeBtnValue = '倒计时 ' + this.curCount + 'S';
+				var TimerObj = setInterval(() => {
+					if (this.curCount > 0) {
+						this.curCount--;
+						this.smsCodeBtnValue = '倒计时 ' + this.curCount + 'S';
+					} else {
+						// 禁用时间结束，关闭轮询，释放按钮
+						clearInterval(TimerObj);
+						this.smsCodeBtnValue = '获取验证码';
+					}
+				}, 1000);
 			},
 			search: function () {
 				const _this = this;
