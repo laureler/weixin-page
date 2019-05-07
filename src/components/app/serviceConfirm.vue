@@ -86,8 +86,6 @@
 						.catch(error => {
 							console.log(error);
 						});
-
-
 				}
 			},
 			smsCodeBtnChange() {
