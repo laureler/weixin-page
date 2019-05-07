@@ -41,7 +41,7 @@
                         //个人无房证明页面地址
                         url: '/arcd',
                         //个人无房证明查询接口
-                        inter: '/pubWeb/public/system//FirstHouseQuery'
+                        inter: '/pubWeb/public/system/FirstHouseQuery'
                     },
                     {
                         name: '不动产登记资料查询',
@@ -49,7 +49,7 @@
                         //不动产登记资料查询页面地址
                         url: '/arcl',
                         //个人产权信息查询接口
-                        inter: '/pubWeb/public/weChatPublic//GetPersonDataInfo'
+                        inter: '/pubWeb/public/weChatPublic/GetPersonDataInfo'
                     }
                 ]
             }
