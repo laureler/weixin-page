@@ -107,7 +107,7 @@
 					if (_this.$store.state.callbackUrl) {
 						//如果callbackUrl是WeChatRemoteCheck接口则请求PDF数据给用户
 						if (_this.$store.state.callbackUrl == '/pubWeb/public/system/WeChatRemoteCheck') {
-							console.log("跳转至不动产登记资料查询！");
+							console.log("跳转至住房证明查询！");
 							_this.getGrantDeep();
 						} else if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/GetPersonDataInfo') {
 							console.log("跳转至不动产登记资料查询！");
@@ -122,7 +122,7 @@
 								query: { isSuccess: -10, cardCode: _this.data_id, username: _this.data_name }
 							});
 						} else {
-							console.log(_this.$store.state.callbackUrl);
+							console.log("跳转路径：" + _this.$store.state.callbackUrl);
 						}
 					} else {
 						//默认验证成功页面
