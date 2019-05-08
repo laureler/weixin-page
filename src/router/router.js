@@ -120,6 +120,12 @@ const router = new Router({
 			name: 'OnlineReservation',
 			component: resolve => require(['@/components/app/OnlineReservation'], resolve)
 		},
+		// 登陆验证
+		{
+			path: '/checkUser',
+			name: 'CheckUser',
+			component: resolve => require(['@/components/app/CheckUser'], resolve)
+		},
 		// 准备开启人脸核身验证
 		{
 			path: '/preApprovenew',
