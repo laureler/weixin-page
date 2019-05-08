@@ -135,11 +135,14 @@
 				const _this = this;
 				let strJson = JSON.stringify({
 					'qlr': _this.data_name,
-					'zjhm': _this.data_id,
-					'returnbyte': true
+					'zjhm': _this.data_id
 				});
 				let stringUrl = _this.$store.state.callbackUrl;
-				_this.$fetch(stringUrl + '?strJson=' + strJson).then(rs => {
+				let paramData = {
+					'strJson': strJson
+				};
+				let config = { headers: { 'Content-Type': 'multipart/form-data' } };
+				_this.$post(stringUrl, paramData, config).then(rs => {
 					switch (rs.status) {
 						case '-1' || undefined:
 							alert('服务器出错');
@@ -152,7 +155,7 @@
 							break;
 					}
 				}).catch(e => {
-					alert('服务器出错');
+					alert(e);
 				});
 			},
 			WeChatFaceCheck () {
