@@ -130,9 +130,7 @@
 					});
 				});
 			},
-			/*
-				下载个人产权证明
-			 */
+			// 住房证明查询
 			getGrantDeep() {
 				const _this = this;
 				let strJson = JSON.stringify({
@@ -140,12 +138,8 @@
 					'zjhm': _this.data_id,
 					'returnbyte': true
 				});
-				var stringUrl = _this.$store.state.callbackUrl;
-				let paramData = {
-					'strJson': strJson
-				};
-				let config = { headers: { 'Content-Type': 'multipart/form-data' } };
-				_this.$post(stringUrl, paramData, config).then(rs => {
+				let stringUrl = _this.$store.state.callbackUrl;
+				_this.$fetch(stringUrl + '?strJson=' + strJson).then(rs => {
 					switch (rs.status) {
 						case '-1' || undefined:
 							alert('服务器出错');
