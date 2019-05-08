@@ -9,7 +9,7 @@
 			<div v-show="inited" class="row-box">
 				<van-row class="home-row">
 					<van-col :span="8">
-						<div class="home-item" @click="open('/apprd')">
+						<div class="home-item" @click="open('/appl')">
 							<p class="iconfont icon-yuyue green"></p>
 							<p class="title">在线预约</p>
 						</div>
@@ -61,7 +61,7 @@
 						</div>
 					</van-col>
 					<van-col :span="8">
-						<div class="home-item last" @click="open('/spea')">
+						<div class="home-item" @click="open('/spea')">
 							<p class="iconfont icon-yuyue orange"></p>
 							<p class="title">开发商预约</p>
 						</div>
