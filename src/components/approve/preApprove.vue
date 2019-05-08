@@ -196,11 +196,13 @@
 
 		.message_check_box {
 			width: 40px;
+			height: 25px;
 			display: inline-block;
 		}
 
 		.message_check {
-			padding: 2px 11px;
+			padding: 1px 8px;
+			border-radius: 20px;
 			border: 1px solid #9a9a9a;
 		}
 
@@ -208,7 +210,7 @@
 			border: none;
 			background-image: url('../../../public/images/home/icon_gouxuan@2x.png');
 			background-repeat: no-repeat;
-			background-size: 40/2px 40/2px;
+			background-size: 16px 16px;
 		}
 
 		.home_bottom {
