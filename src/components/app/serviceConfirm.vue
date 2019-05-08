@@ -49,8 +49,8 @@
 				smsCodeBtnValue: '获取验证码',
 				// 验证码
 				smsCode: '',
-				// 设置倒计时大小 默认60秒
-				countdownSize: 60,
+				// 设置倒计时大小 默认90秒
+				countdownSize: 90,
 				// 倒计时，当前剩余秒数
 				curCount: 0,
 			};
@@ -91,11 +91,11 @@
 			smsCodeBtnChange() {
 				// 页面倒计时和禁用按钮效果
 				this.curCount = this.countdownSize;
-				this.smsCodeBtnValue = '倒计时 ' + this.curCount + 'S';
+				this.smsCodeBtnValue = '倒计时' + this.curCount + '秒';
 				var TimerObj = setInterval(() => {
 					if (this.curCount > 0) {
 						this.curCount--;
-						this.smsCodeBtnValue = '倒计时 ' + this.curCount + 'S';
+						this.smsCodeBtnValue = '倒计时' + this.curCount + '秒';
 					} else {
 						// 禁用时间结束，关闭轮询，释放按钮
 						clearInterval(TimerObj);
