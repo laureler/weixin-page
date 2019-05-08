@@ -166,14 +166,13 @@
 								let zsdwbm = jfxx.zsdwbm;	// 执收单位编码
 								that.$fetch('/pubWeb/pub/public/getBaseCode?plainTextData=' + jftzsh + '|' + zsdwbm).then(response => {
 									if (response) {
-										response = response.data;
-
+										// response = response.data;
 										that.payUrl += response;
 									} else {
-										console.log('服务出错！')
+										that.dialogAlert('错误提示', '服务出错！');
 									}
 								}).catch(error => {
-									console.log(error);
+									that.dialogAlert('错误提示', error);
 								});
 							} else {
 								that.isShowPayBtn = false;
@@ -186,7 +185,6 @@
                     fail (error) {
                         if(error.status == '404'){
 							that.dialogAlert('错误提示：', '找不到该接口！');
-                            return;
                         }
                     },
                 })
