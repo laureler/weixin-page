@@ -22,7 +22,7 @@
 					<div class="business-info-title">
 						业务状态：<span>{{ result.ywjd }}</span>
 						<van-button v-if="isShowLogisticsBtn" size="small" class="search-btn first-btn" @click="searchLogistics">物流查询</van-button>
-						<van-button v-if="isShowPayBtn" size="small" class="search-btn" @click="gotoPayPage">缴费</van-button>
+						<van-button v-if="isShowPayBtnZS" size="small" class="search-btn" @click="gotoPayPage">缴费</van-button>
 					</div>
 					<div style="border-bottom: 1px solid #ebedf0;"></div>
 					<van-cell-group :border="false" style="font-size: 14px;">
@@ -79,6 +79,7 @@
 				logisticsData: [],	// 物流信息
 
 				isShowPayBtn: false,	// 显示缴费按钮？
+				isShowPayBtnZS: false,	// 显示缴费按钮？
 				payUrl: 'http://vx.todaytech.com.cn/zsjfpt/index.html#/qrcoderequest?upn=',	// 缴费地址，绝对路径
 
             }
