@@ -61,7 +61,7 @@ export default new Vuex.Store({
 			if (state.finishedVerify) {
 				return state.finishedVerify;
 			} else if (sessionStorage.getItem('finishedVerify')) {
-				 return sessionStorage.getItem('finishedVerify');
+				return sessionStorage.getItem('finishedVerify');
 			} else {
 				return false;
 			}

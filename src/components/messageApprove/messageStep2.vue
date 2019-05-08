@@ -28,15 +28,15 @@
              * 返回上一步
              */
             goback () {
-				this.$store.commit('SET_MESSAGESTEP', this.$store.state.messageStep-1);
-                this.$router.push({ path: '/messageApprove', query: { token: uiScript.getParam('token') } });
+				this.$store.commit('SET_MESSAGESTEP', 1);
+				this.$router.push({ path: '/messageApprove', query: { token: uiScript.getParam('token') } });
             },
             /**
              * 执行下一步
              */
             gonext () {
-				this.$store.commit('SET_MESSAGESTEP', this.$store.state.messageStep+1);
-                this.$router.push({ path: '/messageStep3', query: { token: uiScript.getParam('token') } });
+				this.$store.commit('SET_MESSAGESTEP', 3);
+				this.$router.push({ path: '/messageStep3', query: { token: uiScript.getParam('token') } });
             },
         },
         mounted () {

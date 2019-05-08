@@ -3,13 +3,18 @@
 		<approve-head title="人脸核身"></approve-head>
 		<div class="space_between"></div>
 		<img src="../../../public/images/approve/face_checkout.png" alt="" class="home_title">
-		<button class="homt_button" @click="goCheck">快速验证</button>
+
+		<div style="margin: 20px 0;">
+			<van-button size="large" class="blueButton new-btn" @click="goCheck">快速验证</van-button>
+		</div>
 
 		<div class="home_approve_container">
-			<div class="home_approve">我已认真阅读并同意<span class="approve_font" @click="showDialog">认证授权</span>
+			<div class="home_approve">
 				<div class="message_check_box" @click="check">
 					<span :class="{message_check:true,message_isCheck:isCheck}"></span>
 				</div>
+				我已认真阅读并同意
+				<span class="approve_font" @click="showDialog">认证授权</span>
 				办理业务
 			</div>
 		</div>
@@ -181,48 +186,31 @@
 		.home_title {
 			width: 750/75rem;
 			height: 310/75rem;
-			/*background: burlywood;*/
-		}
-
-		.homt_button {
-			width: 690/2px;
-			height: 88/2px;
-			margin: 40/2px 30/2px;
-			border: none;
-			/*background: #338cfd;*/
-			background: linear-gradient(to right, #2db6ff, #2edbfd);
-			border-radius: 44/11px;
-			font-size: 36/2px;
-			color: #fff;
 		}
 
 		.home_approve_container {
 			position: relative;
+			width: 100%;
+			text-align: center;
 		}
 
 		.message_check_box {
-			width: 80/2px;
-			height: 80/2px;
-			position: absolute;
-			top: -15/2px;
-			left: 90/2px;
+			width: 40px;
+			height: 25px;
+			display: inline-block;
 		}
 
 		.message_check {
-			display: block;
-			padding: 18/2px;
-			border: 2/2px solid #9a9a9a;
-			position: absolute;
-			top: 20/2px;
-			right: 20/2px;
+			padding: 1px 8px;
+			border-radius: 20px;
+			border: 1px solid #9a9a9a;
 		}
 
 		.message_isCheck {
-			padding: 20/2px;
 			border: none;
 			background-image: url('../../../public/images/home/icon_gouxuan@2x.png');
 			background-repeat: no-repeat;
-			background-size: 40/2px 40/2px;
+			background-size: 16px 16px;
 		}
 
 		.home_bottom {
@@ -238,13 +226,8 @@
 		}
 
 		.home_approve {
-			height: 50/2px;
-			width: 750/2px;
-			line-height: 50/2px;
-			text-align: center;
-			.approve_font {
-				color: #338cfd;
-			}
+			height: 25px;
+			line-height: 25px;
 		}
 
 		.home_popup {
@@ -284,6 +267,14 @@
 			font-size: 14px;
 			text-align: center;
 		}
+	}
+
+	.new-btn {
+		border-radius: 4px;
+	}
+
+	.approve_font {
+		color: #338cfd;
 	}
 
 </style>
