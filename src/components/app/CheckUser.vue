@@ -44,7 +44,8 @@
 			}
 		},
 		methods: {
-			checkLogin() {
+			affirmLogin() {
+				// 从哪里来，到哪里去
 				this.$router.push({ path: this.$route.query.isTo });
 			},
 			// 验证用户输入
@@ -56,14 +57,20 @@
 					Toast('请输入验证码！');
 					return;
 				} else {
-					// todo 验证用户登陆信息
-					this.checkLogin();
+					const _this = this;
+					// A0admina0z9356A192B7913B04C54574D18C28D46E6395428AB
+					let code = 'A0' + this.username + 'a0z9' + sha1(this.password).toUpperCase();
+					this.$fetch('cas/login?client_name=iboa2&code=' + code).then(response => {
+						if (Number(response.code) === 0) {
+
+						}
+					});
+					this.affirmLogin();
 				}
 			}
 		},
 		mounted() {
 			// todo 判断需不需要显示验证码
-			this.isNeedCheckCode = true;
 		},
 	}
 </script>
