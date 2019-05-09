@@ -22,7 +22,7 @@
 					<div class="business-info-title">
 						业务状态：<span>{{ result.ywjd }}</span>
 						<van-button v-if="isShowLogisticsBtn" size="small" class="search-btn first-btn" @click="searchLogistics">物流查询</van-button>
-						<van-button v-if="isShowPayBtnZS" size="small" class="search-btn" @click="gotoPayPage">缴费</van-button>
+						<van-button v-if="isShowPayBtn" size="small" class="search-btn" @click="gotoPayPage">缴费</van-button>
 					</div>
 					<div style="border-bottom: 1px solid #ebedf0;"></div>
 					<van-cell-group :border="false" style="font-size: 14px;">
@@ -79,8 +79,7 @@
 				logisticsData: [],	// 物流信息
 
 				isShowPayBtn: false,	// 显示缴费按钮？
-				isShowPayBtnZS: false,	// 显示缴费按钮？
-				payUrl: 'http://vx.todaytech.com.cn/zsjfpt/index.html#/qrcoderequest?upn=',	// 缴费地址，绝对路径
+				payUrl: '',	// 缴费地址，绝对路径
 
             }
         },
@@ -123,10 +122,10 @@
 
 				that.isShow = false;
 
-                if (that.djbh === '' || that.sqrxm === '') {
+                /*if (that.djbh === '' || that.sqrxm === '') {
 					Toast('请完善输入信息！');
 					return;
-				}
+				}*/
 
 				that.isShowLogisticsInfo = false;
 
@@ -163,12 +162,15 @@
 							let jfxx = response.result[0].jfxx
 							if (jfxx.length !== 0 && jfxx.jftzsh !== '') {
 								that.isShowPayBtn = true;	// 有缴费信息，显示缴费按钮
-								let jftzsh = jfxx.jftzsh;	// 缴费通知书号
-								let zsdwbm = jfxx.zsdwbm;	// 执收单位编码
-								that.$fetch('/pubWeb/pub/public/getBaseCode?plainTextData=' + jftzsh + '|' + zsdwbm).then(response => {
+
+								let strJson = {'jid': response.result[0].jid, 'jidtype': 0}
+								let config = { headers: { 'Content-Type': 'multipart/form-data' } };
+								let formData = new FormData();
+								formData.append('strJson', JSON.stringify(strJson));
+								formData.append('lName', '中山市');
+								that.$post('/pubWeb/pub/public/getNoticeNumber', formData, config).then(response => {
 									if (response) {
-										// response = response.data;
-										that.payUrl += response;
+										that.payUrl = response.payUrl;
 									} else {
 										that.dialogAlert('错误提示', '服务出错！');
 									}
