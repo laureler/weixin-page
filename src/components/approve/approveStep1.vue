@@ -130,22 +130,18 @@
 					});
 				});
 			},
-			/*
-				下载个人产权证明
-			 */
+			// 住房证明查询
 			getGrantDeep() {
 				const _this = this;
 				let strJson = JSON.stringify({
-					'qlr': _this.data_name,
-					'zjhm': _this.data_id,
-					'returnbyte': true
-				});
-				var stringUrl = _this.$store.state.callbackUrl;
-				let paramData = {
-					'strJson': strJson
-				};
-				let config = { headers: { 'Content-Type': 'multipart/form-data' } };
-				_this.$post(stringUrl, paramData, config).then(rs => {
+					qlr: _this.data_name,
+					zjhm: _this.data_id
+				}) + '';
+				let stringUrl = _this.$store.state.callbackUrl;
+				let config = { headers: { 'Content-Type': 'charset=UTF-8;multipart/form-data' } };
+				var formData = new FormData();
+				formData.append('strJson', strJson);  //扫码的值
+				_this.$post(stringUrl, formData, config).then(rs => {
 					switch (rs.status) {
 						case '-1' || undefined:
 							alert('服务器出错');
@@ -158,7 +154,7 @@
 							break;
 					}
 				}).catch(e => {
-					alert('服务器出错');
+					alert(e);
 				});
 			},
 			WeChatFaceCheck () {
@@ -252,7 +248,7 @@
 			let openId = Cookies.get('openid');
 
 			if (openId) { // 判断微信用户是否已认证，如果已认证直接进入到人脸识别过程
-				_this.$post('/pubWeb/public/faceRecognition/getAuthenticatedUserInfo?openId=' + openId).then(rs => {
+				_this.$fetch('/pubWeb/public/faceRecognition/getAuthenticatedUserInfo?openId=' + openId).then(rs => {
 					if (rs) {
 						//使用变量保存用户信息，用于后面的验证显示
 						_this.data_name = rs.name;
