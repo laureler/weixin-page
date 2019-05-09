@@ -201,7 +201,7 @@
 		}
 
 		.message_check {
-			padding: 1px 8px;
+			padding: 0 8px;
 			border-radius: 20px;
 			border: 1px solid #9a9a9a;
 		}
