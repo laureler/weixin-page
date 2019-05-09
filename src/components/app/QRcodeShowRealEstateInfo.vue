@@ -25,10 +25,10 @@
 				<van-field :value="'坐落：'+realEstateInfo.zl" :border="false" />
 			</van-cell-group>
 			<div style="text-align: center;width: 100%">
-				<div class="basic-btn-div">
+				<div :class="newBtnClass">
 					<van-button class="basic-info-btn" @click="btnClick(0)">宗地图</van-button>
 				</div>
-				<div v-if="isHouse" class="basic-btn-div">
+				<div v-if="isHouse" :class="newBtnClass">
 					<van-button class="basic-info-btn" @click="btnClick(1)">分户图</van-button>
 				</div>
 			</div>
@@ -45,6 +45,8 @@
 	import { request } from '../../utils/http.js'
 	import { baiduMap } from '../../utils/map'
 
+	import { Dialog } from 'vant'
+
 	export default {
 		data () {
 			return {
@@ -57,7 +59,9 @@
 
 				isHouse: false,
 				isShowPhoto: false,	// 显示宗地图或分户图
-				popupImage: ''
+				popupImage: '',
+
+				newBtnClass: 'basic-btn-div ',
 			}
 		},
 		methods: {
@@ -132,13 +136,17 @@
 						// 不动产类型为 土地和房屋 时才显示分户图
 						if (response.result.bdclx === '土地和房屋') {
 							_this.isHouse = true;
+							_this.newBtnClass += 'new-btn-div';
 						}
 
 						baiduMap.init().then(BMap => {
 							_this.initMap();
 						}).catch(error => {
-							console.log('百度地图初始化失败！');
 							console.log(error);
+							Dialog.alert({
+								message: '百度地图初始化失败，请刷新重试!'
+							}).then({
+							});
 						});
 
 						_this.getZdtAndFhtInfo();
@@ -177,6 +185,10 @@
 
 	.basic-btn-div {
 		display: inline-block;
+		width: 97%;
+	}
+
+	.new-btn-div {
 		width: 50%;
 	}
 
