@@ -161,7 +161,7 @@
 							}
 							// 如果有缴费信息
 							let jfxx = response.result[0].jfxx
-							if (jfxx && jfxx.jftzsh !== '') {
+							if (jfxx.length === 0 && jfxx.jftzsh !== '') {
 								that.isShowPayBtn = true;	// 有缴费信息，显示缴费按钮
 								let jftzsh = jfxx.jftzsh;	// 缴费通知书号
 								let zsdwbm = jfxx.zsdwbm;	// 执收单位编码
