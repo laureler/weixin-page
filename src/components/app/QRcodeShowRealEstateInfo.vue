@@ -128,8 +128,11 @@
 				success(response) {
 					if (Number(response.resultcode) === 1) {
 						_this.realEstateInfo = response.result;
-						// todo 这里需要判断不动产是房屋还是其他，先默认房屋
-						_this.isHouse = true;
+
+						// 不动产类型为 土地和房屋 时才显示分户图
+						if (response.result.bdclx === '土地和房屋') {
+							_this.isHouse = true;
+						}
 
 						baiduMap.init().then(BMap => {
 							_this.initMap();
