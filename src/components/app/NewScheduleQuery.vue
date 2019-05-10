@@ -147,6 +147,7 @@
 
                 request({
                     url: '/GetYWJD2',
+					overwriteMethod: 'get',
                     data: { strJson: JSON.stringify({ djbh: that.djbh, sqrxm: that.sqrxm }) },
                     success (response) {
                     	that.isStartSearch = true;
