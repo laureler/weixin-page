@@ -57,7 +57,7 @@ var axiosFilter = function () {
 };
 export const AxiosFilter = new axiosFilter();
 
-export const request = ({method = 'post',
+export const request = ({ method = 'post',
 							baseURL = BASE_URL,
 							timeout = REQUEST_TIMEOUT,
 							headers,
@@ -67,6 +67,9 @@ export const request = ({method = 'post',
 	if(overwriteMethod != null) {
 		method = overwriteMethod;
 	}
+	const defaultParams = {
+		_: moment().valueOf(),
+	};
 	const params = data ? {
 		...defaultParams,
 		...data,
