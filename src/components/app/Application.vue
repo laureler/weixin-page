@@ -350,18 +350,14 @@
 							this.resq();
 						}
 					} else if (cerType == '港澳台身份证') {
-						const taiwanreg = /^[A-Z][0-9]{9}$/;
-						const xianggangreg = /^[A-Z][0-9]{6}\([0-9A]\)$/;
-						const aomenreg = /^[157][0-9]{6}\([0-9]\)$/;
-						// (/^[a-zA-Z0-9]{5,21}$/.test(this.cerNumber))
-						if (!(taiwanreg.test(this.cerNumber))) {
-							Toast('港澳台身份证号码格式不正确！');
-						} else if (!(xianggangreg.test(this.cerNumber))) {
-							Toast('港澳台身份证号码格式不正确！');
-						} else if (!(aomenreg.test(this.cerNumber))) {
-							Toast('港澳台身份证号码格式不正确！');
-						} else {
+						const aomenreg = /^[157][0-9]{6}\([0-9]\)$/;	// 补充澳门身份证正则
+						const taiwanreg = /^\d{8}|^[a-zA-Z0-9]{10}|^\d{18}$/;	// 台湾身份证正则
+						const GAReg = /^([A-Z]\d{6,10}(\(\w{1}\))?)$/;	// 港澳身份证正则
+						if (taiwanreg.test(this.cerNumber) || GAReg.test(this.cerNumber) || aomenreg.test(this.cerNumber)) {
 							this.resq();
+						} else {
+							Toast('港澳台身份证号码格式不正确！');
+							return;
 						}
 					} else if (cerType == '户口簿') {
 						if (!(/^[a-zA-Z0-9]{3,21}$/.test(this.cerNumber))) {
