@@ -3,9 +3,6 @@
 		<div v-if="isShow" style="height: 100%;">
 			<div id="container" class="map-container"></div>
 		</div>
-		<div v-else class="error-message">
-			{{ errorMessage }}
-		</div>
 
 		<van-popup v-model="isShowInfo" v-if="realEstateInfo" position="bottom" :overlay="false">
 			<div class="basic-title-div">
@@ -52,7 +49,7 @@
 			return {
 				realEstateInfo: {},	// 不动产位置信息
 				isShow: true,
-				isShowInfo: true,
+				isShowInfo: false,
 				errorMessage: '',	// 查询产权证书信息失败信息
 				mapObject: {},	// 保存map和marker对象
 				mapData: {},	// 宗地图和分户图数据
@@ -133,6 +130,8 @@
 					if (Number(response.resultcode) === 1) {
 						_this.realEstateInfo = response.result;
 
+						_this.isShowInfo = true;
+
 						// 不动产类型为 土地和房屋 时才显示分户图
 						if (response.result.bdclx === '土地和房屋') {
 							_this.isHouse = true;
@@ -152,7 +151,10 @@
 						_this.getZdtAndFhtInfo();
 					} else {
 						_this.isShow = false;
-						_this.errorMessage = response.resultmsg;
+						Dialog.alert({
+							message: response.resultmsg
+						}).then({
+						});
 					}
 				},
 				fail(error) {
@@ -168,14 +170,6 @@
 <style scoped>
 	.map-container {
 		height: 100%;
-	}
-
-	.error-message {
-		font-size: 16px;
-		color: #999999;
-		width: 100%;
-		text-align: center;
-		margin-top: 50px;
 	}
 
 	.basic-info /deep/ .van-cell {
