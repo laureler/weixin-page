@@ -70,7 +70,7 @@
 				select4Data: [],
 				/*       imgShow: false, */
 				cerType: '',
-				cerTypeValue: '身份证', //当前选中的身份证类型
+				cerTypeValue: '', //当前选中的身份证类型
 				select1Value: '', //当前选中id='select1'的数据
 				select2Value: '', //预约事项选中项
 				select3Value: '', //预约日期选中项
@@ -78,14 +78,14 @@
 				selShow1: true,
 				selShow2: true,
 				selShow3: true,
-				name: 'zyk',       //预约人名称
+				name: '',       //预约人名称
 				kyys: 0, // 可预约数
 				isCanYY: true,	// 可不可预约时段
 				yysl: 1,        // 预约数量
 				yyfs: '2',       //预约方式
-				cerNumber: '445281199507305310',  //当前输入的证件号码
-				phoNumber: '13169962271',  //当前输入的手机号码
-				orginational: '445281199507305310',
+				cerNumber: '',  //当前输入的证件号码
+				phoNumber: '',  //当前输入的手机号码
+				orginational: '',
 				cerTypeData: ['身份证', '港澳台身份证', '护照', '户口簿', '军官证（士兵证）']
             }
         },
