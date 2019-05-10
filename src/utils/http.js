@@ -63,10 +63,7 @@ export const request = ({ method = 'post',
 							headers,
 							url,
 							data,
-							success, fail, overwriteMethod}) => {
-	if(overwriteMethod != null) {
-		method = overwriteMethod;
-	}
+							success, fail}) => {
 	const defaultParams = {
 		_: moment().valueOf(),
 	};
