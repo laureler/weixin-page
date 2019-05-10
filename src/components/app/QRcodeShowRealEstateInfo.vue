@@ -125,7 +125,7 @@
 			const ysxlh = uiScript.getParam('ysxlh') || '';
 			request({
 				url: '/GetBdcqzhInfo',
-				data: { 'ysxlh': ysxlh },
+				data: { strJson: JSON.stringify({'ysxlh': ysxlh }) },
 				success(response) {
 					if (Number(response.resultcode) === 1) {
 						_this.realEstateInfo = response.result;
