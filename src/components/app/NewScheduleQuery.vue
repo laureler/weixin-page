@@ -71,6 +71,8 @@
                 sqrxm: '',
                 djbh: '',
 
+				jid: '',	// 查询出结果的业务受理号
+
 				isStartSearch: false,
 
 				isShowLogisticsInfo: false,
@@ -79,13 +81,27 @@
 				logisticsData: [],	// 物流信息
 
 				isShowPayBtn: false,	// 显示缴费按钮？
-				payUrl: '',	// 缴费地址，绝对路径
 
             }
         },
         methods: {
 			gotoPayPage() {
-				window.location.href = this.payUrl;
+				const that = this;
+
+				let strJson = {'jid': this.jid, 'jidtype': 0}
+				let config = { headers: { 'Content-Type': 'multipart/form-data' } };
+				let formData = new FormData();
+				formData.append('strJson', JSON.stringify(strJson));
+				formData.append('lName', '中山市');
+				that.$post('/pubWeb/pub/public/getNoticeNumber', formData, config).then(response => {
+					if (response) {
+						window.location.href = response.payUrl;
+					} else {
+						that.dialogAlert('错误提示', '服务出错！');
+					}
+				}).catch(error => {
+					that.dialogAlert('错误提示', error);
+				});
 			},
         	// 查询物流信息
 			searchLogistics() {
@@ -107,7 +123,7 @@
 					fail(error) {
 						_this.dialogAlert('错误提示', error);
 					}
-				})
+				});
 			},
 			dialogAlert(title, message) {
 				Dialog.alert({
@@ -122,10 +138,10 @@
 
 				that.isShow = false;
 
-                /*if (that.djbh === '' || that.sqrxm === '') {
+                if (that.djbh === '' || that.sqrxm === '') {
 					Toast('请完善输入信息！');
 					return;
-				}*/
+				}
 
 				that.isShowLogisticsInfo = false;
 
@@ -137,46 +153,20 @@
                         if (Number(response.resultcode) === 1) {
                             that.isShow = true;
                             that.results = response.result;
+                            that.jid = response.result[0].jid;
 
                             // 如果有物流信息
                             if (response.result[0].jzwlxx && response.result[0].jzwlxx.wlbh) {
 								that.isShowLogisticsBtn = true;
-                            	request({
-									url: '/GetMailNo',
-									data: { strJson: JSON.stringify({ jid: that.djbh }) },
-									success(response) {
-										if (Number(response.resultcode) === 1) {
-											that.logisticsNumber = response.result;
-										} else {
-											that.dialogAlert('错误提示', response.resultmsg);
-										}
-									},
-									fail(error) {
-										that.dialogAlert('错误提示', error);
-									}
-								})
+								that.logisticsNumber = response.result[0].jzwlxx.wlbh;
 							} else {
 								that.isShowLogisticsBtn = false;
 							}
+
 							// 如果有缴费信息
 							let jfxx = response.result[0].jfxx
 							if (jfxx.length !== 0 && jfxx.jftzsh !== '') {
 								that.isShowPayBtn = true;	// 有缴费信息，显示缴费按钮
-
-								let strJson = {'jid': response.result[0].jid, 'jidtype': 0}
-								let config = { headers: { 'Content-Type': 'multipart/form-data' } };
-								let formData = new FormData();
-								formData.append('strJson', JSON.stringify(strJson));
-								formData.append('lName', '中山市');
-								that.$post('/pubWeb/pub/public/getNoticeNumber', formData, config).then(response => {
-									if (response) {
-										that.payUrl = response.payUrl;
-									} else {
-										that.dialogAlert('错误提示', '服务出错！');
-									}
-								}).catch(error => {
-									that.dialogAlert('错误提示', error);
-								});
 							} else {
 								that.isShowPayBtn = false;
 							}
