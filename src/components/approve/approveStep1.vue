@@ -39,14 +39,14 @@
 </template>
 
 <script>
-	import { CellGroup, Field, Uploader } from 'vant';
+	import { Dialog, CellGroup, Field, Uploader } from 'vant';
 
 	import Vue from 'vue';
 	import Head from '../app/head';
 	import Cookies from 'js-cookie';
 	import tencentBottom from '../app/TencentBottom.vue';
 
-	Vue.use(Uploader).use(Field).use(CellGroup);
+	Vue.use(Uploader).use(Field).use(CellGroup).use(Dialog);
 	export default {
 		components: {
 			'page-head': Head,
@@ -142,19 +142,30 @@
 				var formData = new FormData();
 				formData.append('strJson', strJson);  //扫码的值
 				_this.$post(stringUrl, formData, config).then(rs => {
-					switch (rs.status) {
-						case '-1' || undefined:
-							alert('服务器出错');
-							break;
-						case '0':
-							alert('没有权限下载');
-							break;
-						case '1':
-							window.location.href = stringUrl +'?strJson=' + encodeURIComponent(strJson);
-							break;
+					if (rs) {
+						switch (Number(rs.status)) {
+							case -1 || undefined:
+								_this.dialogAlert('服务器出错');
+								break;
+							case 0:
+								_this.dialogAlert('没有权限下载');
+								break;
+							case 1:
+								window.location.href = stringUrl + '?strJson=' + encodeURIComponent(strJson);
+								break;
+							default:
+								_this.dialogAlert('接口返回数据异常！');
+								break;
+						}
 					}
-				}).catch(e => {
-					alert(e);
+				}).catch(error => {
+					_this.dialogAlert('接口异常' + error);
+				});
+			},
+			dialogAlert(message) {
+				Dialog.alert({
+					message: message
+				}).then({
 				});
 			},
 			WeChatFaceCheck () {
