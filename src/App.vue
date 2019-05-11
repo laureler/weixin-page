@@ -62,6 +62,7 @@
 		color: #ffffff !important;
 		font-weight: bold !important;
 		letter-spacing: 2px !important;
+		border-radius: 5px !important;
 	}
 
 	@font-face {
