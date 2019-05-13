@@ -88,12 +88,10 @@
 			gotoPayPage() {
 				const that = this;
 
-				let strJson = {'jid': this.jid, 'jidtype': 0}
-				let config = { headers: { 'Content-Type': 'multipart/form-data' } };
-				let formData = new FormData();
-				formData.append('strJson', JSON.stringify(strJson));
-				formData.append('lName', '中山市');
-				that.$post('/pubWeb/pub/public/getNoticeNumber', formData, config).then(response => {
+				let jftzsh = this.results[0].jfxx.jftzsh;
+				let zsdwbm = this.results[0].jfxx.zsdwbm;
+
+				this.$fetch('/pubWeb/pub/public/getQRCodeEncoder?jftzsh=' + jftzsh + '&zsdwbm=' + zsdwbm).then(response => {
 					if (response) {
 						window.location.href = response.payUrl;
 					} else {
