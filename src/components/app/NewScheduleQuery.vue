@@ -108,7 +108,7 @@
 				_this.isShowLogisticsInfo = false;
 
 				request({
-					url: '/queryMail',
+					url: '/QueryMail',
 					data: { strJson: JSON.stringify({ receiptNo: _this.logisticsNumber})},
 					success(response) {
 						if (Number(response.resultcode) === 1) {
