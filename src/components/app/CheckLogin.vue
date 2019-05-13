@@ -14,7 +14,7 @@
 				required
 				clearable
 			>
-				<van-button slot="button" size="small" type="default" class="btn-color">{{checkCodeBtnValue}}</van-button>
+				<van-icon slot="icon" :name="checkCodeImgValue" size="40px" class-prefix="van-icon img-class" @click="changeCheckCode" />
 			</van-field>
 		</van-cell-group>
 		<div style="margin-top: 20px">
@@ -26,7 +26,8 @@
 <script>
 	import Head from './head.vue'
 
-	import { Toast } from 'vant'
+	import { Toast, Dialog } from 'vant'
+	import Cookies from 'js-cookie'
 
 	const sha1 = require('sha1');
 
@@ -36,17 +37,22 @@
 		},
 		data() {
 			return {
-				username: 'zyk',
-				password: '123456',
-				checkCode: '1234',
-				checkCodeBtnValue: '1234',
-				isNeedCheckCode: false
+				username: '',
+				password: '',
+				checkCode: '',
+				checkCodeImgValue: '',	// 获取cas验证码图片
+				isNeedCheckCode: false,	// 判断是否需要验证码，可配置
 			}
 		},
 		methods: {
 			affirmLogin() {
 				// 从哪里来，到哪里去
+				console.log('CAS登陆成功！');
 				this.$router.push({ path: this.$route.query.isTo });
+			},
+			changeCheckCode() {
+				let url = 'http://' + window.location.hostname + ':' + window.location.port;
+				this.checkCodeImgValue = url + '/cas/captchacode?date=' + (new Date()).getTime();
 			},
 			// 验证用户输入
 			checkInput() {
@@ -58,19 +64,30 @@
 					return;
 				} else {
 					const _this = this;
-					// A0admina0z9356A192B7913B04C54574D18C28D46E6395428AB
+					let captcha = '';
+					if (this.isNeedCheckCode) {
+						captcha = '&a0z9' + this.checkCode;
+					}
 					let code = 'A0' + this.username + 'a0z9' + sha1(this.password).toUpperCase();
-					this.$fetch('cas/login?client_name=iboa2&code=' + code).then(response => {
-						if (Number(response.code) === 0) {
-
-						}
+					this.$fetch('/cas/login?client_name=iboa2&code=' + code + captcha).then(response => {
+						_this.affirmLogin();
+					}).catch(error => {
+						console.log(error);
+						Dialog.alert({
+							title: '提示',
+							message: '用户名或密码错误！'
+						})
 					});
-					this.affirmLogin();
 				}
 			}
 		},
 		mounted() {
-			// todo 判断需不需要显示验证码
+			// todo 判断需不需要显示验证码，默认显示需要验证码 注：暂未实现码验证功能判断配置
+			this.isNeedCheckCode= true;
+
+			if (this.isNeedCheckCode) {
+				this.changeCheckCode();
+			}
 		},
 	}
 </script>
@@ -78,6 +95,10 @@
 <style scoped>
 	.btn-color {
 		color: #1989FA;
+	}
+
+	.img-class img {
+		height: 50px;
 	}
 
 </style>

@@ -48,7 +48,7 @@ const router = new Router({
 		{
 			path: '/schq',
 			name: 'ScheduleQuery',
-			component: resolve => require(['@/components/app/ScheduleQuery'], resolve)
+			component: resolve => require(['@/components/app/ScheduleQuery'], resolve),
 		},
 		{
 			path: '/resq',
@@ -122,9 +122,9 @@ const router = new Router({
 		},
 		// 登陆验证
 		{
-			path: '/checkUser',
+			path: '/checkLogin',
 			name: 'CheckUser',
-			component: resolve => require(['@/components/app/CheckUser'], resolve)
+			component: resolve => require(['@/components/app/CheckLogin'], resolve),
 		},
 		// 准备开启人脸核身验证
 		{
@@ -132,8 +132,11 @@ const router = new Router({
 			name: 'preApprove',
 			component: resolve => require(['@/components/approve/preApprove'], resolve),
 		},
-		// 人脸识别接口1 /approve/approveStep1
-		// 人脸识别接口2 /approve/approveStep2
+		/*
+		* 人脸核身
+		* 人脸核身页面1：/approve/approveStep1
+		* 人脸核身页面2：/approve/approveStep2
+		* */
 		{
 			path: '/approvenew',
 			component: resolve => require(['@/components/approve/approve'], resolve),
@@ -238,6 +241,9 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+	if (to.meta.isNeedLogin) {
+		next({ path: '/checkLogin', query: { isTo: to.path }});
+	}
 	// 如果是要进入个人中心首页或相关页面，需要验证配置和人脸识别
 	if (to.meta.isPersonalHomePage) {
 		if ((/^true$/i).test(store.getters.getVerifyState)) {
