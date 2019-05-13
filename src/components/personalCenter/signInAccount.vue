@@ -16,9 +16,8 @@
 				个人信息
 			</div>
 			<van-cell-group>
-				<van-field id="username" label="姓名" placeholder="真实姓名" v-model.trim="username" type="text"
-						   label-align="left" clearable />
-				<van-field id="cerNumber" label="身份证号" placeholder="身份证号码" v-model.trim="cerNumber" type="text" clearable />
+				<van-field id="username" label="姓名" v-model.trim="username" type="text" label-align="left" clearable readonly />
+				<van-field id="cerNumber" label="身份证号" v-model.trim="cerNumber" type="text" clearable readonly />
 				<van-field id="cardAddress" label="证件地址" placeholder="证件地址"
 						   v-model.trim="cardAddress" type="text" @click="showOrHideAreaPopup" clearable readonly/>
 				<!--证件地址选择弹出框-->
