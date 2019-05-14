@@ -219,7 +219,8 @@ const router = new Router({
 			name: 'personalSetting',
 			component: resolve => require(['@/components/personalCenter/personalSetting'], resolve),
 			meta: {
-				isPersonalHomePage: true
+				isPersonalHomePage: true,
+				checkLogin: true
 			}
 		},
 		{
@@ -241,9 +242,6 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-	if (to.meta.isNeedLogin) {
-		next({ path: '/checkLogin', query: { isTo: to.path }});
-	}
 	// 如果是要进入个人中心首页或相关页面，需要验证配置和人脸识别
 	if (to.meta.isPersonalHomePage) {
 		if ((/^true$/i).test(store.getters.getVerifyState)) {
@@ -253,6 +251,10 @@ router.beforeEach((to, from, next) => {
 			// 开始个人设置
 			next({ path: '/preApprovenew', query: { isPersonalHomeCheck: true } });
 		}
+	}
+
+	if (from.path !== 'checkLogin' && to.meta.isNeedLogin) {
+		next({ path: '/checkLogin', query: { isTo: to.path }});
 	}
 	next();
 });
