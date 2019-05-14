@@ -45,11 +45,6 @@
 			}
 		},
 		methods: {
-			affirmLogin() {
-				// 从哪里来，到哪里去
-				console.log('CAS登陆成功！');
-				this.$router.push({ path: this.$route.query.isTo });
-			},
 			changeCheckCode() {
 				let url = 'http://' + window.location.hostname + ':' + window.location.port;
 				this.checkCodeImgValue = url + '/cas/captchacode?date=' + (new Date()).getTime();
@@ -66,20 +61,29 @@
 					const _this = this;
 					let captcha = '';
 					if (this.isNeedCheckCode) {
-						captcha = '&a0z9' + this.checkCode;
+						captcha = 'a0z9' + this.checkCode;
 					}
 					let code = 'A0' + this.username + 'a0z9' + sha1(this.password).toUpperCase();
 					this.$fetch('/cas/login?client_name=iboa2&code=' + code + captcha).then(response => {
-						_this.affirmLogin();
+						console.log('CAS登陆成功！');
+						// 从哪里来，到哪里去
+						_this.$router.push({ path: this.$route.query.isTo });
 					}).catch(error => {
 						console.log(error);
-						Dialog.alert({
-							title: '提示',
-							message: '用户名或密码错误！'
-						})
+						if (error.response.status === 500) {
+							Dialog.alert({
+								title: '提示',
+								message: '用户名或密码错误！'
+							})
+						} else {
+							Dialog.alert({
+								title: '提示',
+								message: '网络异常，请稍后重试！'
+							})
+						}
 					});
 				}
-			}
+			},
 		},
 		mounted() {
 			// todo 判断需不需要显示验证码，默认显示需要验证码 注：暂未实现码验证功能判断配置
