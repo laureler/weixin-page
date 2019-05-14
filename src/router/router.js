@@ -61,7 +61,7 @@ const router = new Router({
 		{
 			path: '/schq',
 			name: 'ScheduleQuery',
-			component: resolve => require(['@/components/app/ScheduleQuery'], resolve)
+			component: resolve => require(['@/components/app/ScheduleQuery'], resolve),
 		},
 		//在线查档
 		{
@@ -160,9 +160,9 @@ const router = new Router({
 		},
 		// 登陆验证
 		{
-			path: '/checkUser',
+			path: '/checkLogin',
 			name: 'CheckUser',
-			component: resolve => require(['@/components/app/CheckUser'], resolve)
+			component: resolve => require(['@/components/app/CheckLogin'], resolve),
 		},
 		// 准备开启人脸核身验证
 		{
@@ -170,8 +170,11 @@ const router = new Router({
 			name: 'preApprove',
 			component: resolve => require(['@/components/approve/preApprove'], resolve),
 		},
-		// 人脸识别接口1 /approve/approveStep1
-		// 人脸识别接口2 /approve/approveStep2
+		/*
+		* 人脸核身
+		* 人脸核身页面1：/approve/approveStep1
+		* 人脸核身页面2：/approve/approveStep2
+		* */
 		{
 			path: '/approvenew',
 			component: resolve => require(['@/components/approve/approve'], resolve),
@@ -254,7 +257,8 @@ const router = new Router({
 			name: 'personalSetting',
 			component: resolve => require(['@/components/personalCenter/personalSetting'], resolve),
 			meta: {
-				isPersonalHomePage: true
+				isPersonalHomePage: true,
+				checkLogin: true
 			}
 		},
 		{
@@ -290,6 +294,10 @@ router.beforeEach((to, from, next) => {
 			// 开始个人设置
 			next({ path: '/preApprovenew', query: { isPersonalHomeCheck: true } });
 		}
+	}
+
+	if (from.path !== 'checkLogin' && to.meta.isNeedLogin) {
+		next({ path: '/checkLogin', query: { isTo: to.path }});
 	}
 	next();
 });
