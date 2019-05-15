@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import store from '../store/index';
+import { fetch } from '../utils/http';
 
 Vue.use(Router);
 
@@ -257,8 +258,7 @@ const router = new Router({
 			name: 'personalSetting',
 			component: resolve => require(['@/components/personalCenter/personalSetting'], resolve),
 			meta: {
-				isPersonalHomePage: true,
-				checkLogin: true
+				isPersonalHomePage: true
 			}
 		},
 		{
@@ -285,8 +285,9 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+
 	// 如果是要进入个人中心首页或相关页面，需要验证配置和人脸识别
-	if (to.meta.isPersonalHomePage) {
+	if (!to.meta.isNeedLogin && to.meta.isPersonalHomePage) {
 		if ((/^true$/i).test(store.getters.getVerifyState)) {
 			// 完成人脸识别表示已完成个人设置
 			next();
@@ -297,9 +298,32 @@ router.beforeEach((to, from, next) => {
 	}
 
 	if (from.path !== 'checkLogin' && to.meta.isNeedLogin) {
-		next({ path: '/checkLogin', query: { isTo: to.path }});
+		fetch('/mainWeb/initLogin').then(response => {
+			if (/html/i.test(response)) {
+				// 返回若是html页面，则表示未cas登陆
+				next({ path: '/checkLogin', query: { isTo: to.path }});
+			} else {
+				// cas登陆成功
+				if (to.meta.isPersonalHomePage) {
+					if ((/^true$/i).test(store.getters.getVerifyState)) {
+						// 完成人脸识别表示已完成个人设置
+						next();
+					} else {
+						// 开始个人设置
+						next({ path: '/preApprovenew', query: { isPersonalHomeCheck: true } });
+					}
+				} else {
+					next();
+				}
+			}
+		}).catch(error => {
+			console.log(error);
+			next({ path: '/checkLogin', query: { isTo: to.path }});
+		});
+	} else {
+		next();
 	}
-	next();
+
 });
 
 // 增加路由导航
