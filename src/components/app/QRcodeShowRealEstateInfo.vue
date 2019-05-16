@@ -68,21 +68,21 @@
 			}
 		},
 		methods: {
-			btnClick(index) {
+			btnClick(value) {
 				this.isShowPhoto = true;
 				// 0表示宗地图，1表示分户图
-				if (index === 0) {
+				if (value === 0) {
 					this.newImgClass = 'show-img-size';
 					this.isShowFHT = false;
 					this.isShowZDT = true;
-				} else if (index === 1) {
+				} else if (value === 1) {
 					this.newImgClass = 'show-img-size';
 					this.isShowZDT = false;
 					this.isShowFHT = true;
 				} else {
-					if (index === 'zdt') {
+					if (value === 'zdt') {
 						wx.previewImage({
-							current: this.mapData.zdt
+							current: this.mapData.zdt,
 						});
 					} else {
 						wx.previewImage({
