@@ -30,10 +30,9 @@
 				</div>
 			</div>
 		</van-popup>
-
-		<van-popup v-model="isShowPhoto" position="right" :lock-scroll="false" class="popup-new-class">
-			<img v-show="isShowZDT" :src="mapData.zdt" @click="btnClick" class="show-img-size">
-			<img v-show="isShowFHT" :src="mapData.fht" @click="btnClick" class="show-img-size">
+		<van-popup v-model="isShowPhoto" position="right">
+			<img v-show="isShowZDT" :src="mapData.zdt"  @click="btnClick('zdt')" :class="newImgClass">
+			<img v-show="isShowFHT" :src="mapData.fht"  @click="btnClick('fht')" :class="newImgClass">
 		</van-popup>
 	</div>
 </template>
@@ -42,6 +41,8 @@
 
 	import { request } from '../../utils/http.js'
 	import { baiduMap } from '../../utils/map'
+
+	const Base64 = require('js-base64').Base64;
 
 	import { Dialog } from 'vant'
 
@@ -62,22 +63,37 @@
 				isHouse: false,
 				isShowPhoto: false,	// 显示宗地图或分户图
 
-				newBtnClass: 'basic-btn-div ',
+				newBtnClass: 'basic-btn-div',	// 动态生成按钮样式
+				newImgClass: 'show-img-size',	// 动态修改图片样式
 			}
 		},
 		methods: {
 			btnClick(index) {
-				this.isShowPhoto = !this.isShowPhoto;
+				this.isShowPhoto = true;
 				// 0表示宗地图，1表示分户图
 				if (index === 0) {
+					this.newImgClass = 'show-img-size';
 					this.isShowFHT = false;
 					this.isShowZDT = true;
 				} else if (index === 1) {
+					this.newImgClass = 'show-img-size';
 					this.isShowZDT = false;
 					this.isShowFHT = true;
 				} else {
-					this.isShowZDT = false;
-					this.isShowFHT = false;
+					if (index === 'zdt') {
+						wx.previewImage({
+							current: this.mapData.zdt
+						});
+					} else {
+						wx.previewImage({
+							current: this.mapData.fht
+						});
+					}
+					if (this.newImgClass === 'show-img-size') {
+						this.newImgClass = 'db-img-size';
+					} else {
+						this.newImgClass = 'show-img-size';
+					}
 				}
 			},
 			closeInfoWindow() {
@@ -89,12 +105,13 @@
 				const ysxlh = uiScript.getParam('ysxlh') || '';
 
 				request({
-					url: '/GetBdcMapInfo',
+					url: '/GetBdcMapInfo2',
 					data: { strJson: JSON.stringify({ ysxlh: ysxlh }) },
 					success(response) {
 						if (Number(response.resultcode) === 1) {
-							_this.mapData.zdt = 'data:image/jpg;base64,' + response.result.zdt;
-							_this.mapData.fht = 'data:image/jpg;base64,' + response.result.fht;
+							_this.mapData.zdt = URL.createObjectURL(_this.base64ToBlob('data:image/jpg;base64,' + response.result.zdt));
+							_this.mapData.fht = URL.createObjectURL(_this.base64ToBlob('data:image/jpg;base64,' + response.result.fht));
+							// console.log(Base64.decode(response.result.zdt))
 						} else {
 							console.log('获取宗地图和分户图数据失败：' + response.resultmsg);
 						}
@@ -103,6 +120,20 @@
 						console.log(error);
 					}
 				})
+			},
+			// base64转blob
+			base64ToBlob(base64Code) {
+				let parts = base64Code.split(';base64,');
+				let contentType = parts[0].split(':')[1];
+				let raw = window.atob(parts[1]);
+				let rawLength = raw.length;
+
+				let uInt8Array = new Uint8Array(rawLength);
+
+				for (let i = 0; i < rawLength; ++i) {
+					uInt8Array[i] = raw.charCodeAt(i);
+				}
+				return new Blob([uInt8Array], {type: contentType});
 			},
 			// 初始化地图
 			initMap() {
@@ -145,7 +176,7 @@
 						// 不动产类型为 土地和房屋 时才显示分户图
 						if (response.result.bdclx === '土地和房屋') {
 							_this.isHouse = true;
-							_this.newBtnClass += 'new-btn-div';
+							_this.newBtnClass += ' new-btn-div';
 						}
 
 						baiduMap.init().then(BMap => {
@@ -220,13 +251,12 @@
 		margin-left: 5px;
 	}
 
-	.popup-new-class {
+	.show-img-size {
 		width: 100%;
 	}
 
-	.show-img-size {
-		max-width: 100%;
-		/*height: 100%;*/
+	.db-img-size {
+		width: 200%;
 	}
 
 </style>
