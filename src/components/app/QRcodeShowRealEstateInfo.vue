@@ -16,10 +16,10 @@
 				</div>
 			</div>
 			<van-cell-group class="basic-info" :border="false">
-				<van-field :value="'权证号码：'+realEstateInfo.ysxlh" :border="false" />
-				<van-field :value="'不动产状态：'+ realEstateInfo.zt" :border="false" />
-				<van-field :value="'面积：' + realEstateInfo.mj" :border="false" />
-				<van-field :value="'坐落：'+realEstateInfo.zl" :border="false" />
+				<van-field :value="'权证号码：'+realEstateInfo.ysxlh" :border="false" readonly/>
+				<van-field :value="'不动产状态：'+ realEstateInfo.zt" :border="false" readonly/>
+				<van-field :value="'面积：' + realEstateInfo.mj" :border="false" readonly/>
+				<van-field :value="'坐落：'+realEstateInfo.zl" :border="false" readonly/>
 			</van-cell-group>
 			<div style="text-align: center;width: 100%">
 				<div :class="newBtnClass">
@@ -31,8 +31,9 @@
 			</div>
 		</van-popup>
 
-		<van-popup v-model="isShowPhoto">
-			<img :src="popupImage">
+		<van-popup v-model="isShowPhoto" position="right">
+			<img v-show="isShowZDT" :src="mapData.zdt" class="show-img-size">
+			<img v-show="isShowFHT" :src="mapData.fht" class="show-img-size">
 		</van-popup>
 	</div>
 </template>
@@ -52,11 +53,15 @@
 				isShowInfo: false,
 				errorMessage: '',	// 查询产权证书信息失败信息
 				mapObject: {},	// 保存map和marker对象
-				mapData: {},	// 宗地图和分户图数据
+				mapData: {
+					zdt: '',
+					fht: ''
+				},	// 宗地图和分户图数据
+				isShowZDT: false,
+				isShowFHT: false,
 
 				isHouse: false,
 				isShowPhoto: false,	// 显示宗地图或分户图
-				popupImage: '',
 
 				newBtnClass: 'basic-btn-div ',
 			}
@@ -65,9 +70,11 @@
 			btnClick(index) {
 				// 0表示宗地图，1表示分户图
 				if (index === 0) {
-					this.popupImage = this.mapData.zdt;
+					this.isShowFHT = false;
+					this.isShowZDT = true;
 				} else {
-					this.popupImage = this.mapData.fht;
+					this.isShowZDT = false;
+					this.isShowFHT = true;
 				}
 				this.isShowPhoto = true;
 			},
@@ -84,7 +91,8 @@
 					data: { strJson: JSON.stringify({ ysxlh: ysxlh }) },
 					success(response) {
 						if (Number(response.resultcode) === 1) {
-							_this.mapData = response.result;
+							_this.mapData.zdt = 'data:image/jpg;base64,' + response.result.zdt;
+							_this.mapData.fht = 'data:image/jpg;base64,' + response.result.fht;
 						} else {
 							console.log('获取宗地图和分户图数据失败：' + response.resultmsg);
 						}
@@ -208,6 +216,11 @@
 	.basic-hint {
 		font-size: 12px;
 		margin-left: 5px;
+	}
+
+	.show-img-size {
+		width: 100%;
+		height: 100%;
 	}
 
 </style>
