@@ -31,9 +31,9 @@
 			</div>
 		</van-popup>
 
-		<van-popup v-model="isShowPhoto" position="right">
-			<img v-show="isShowZDT" :src="mapData.zdt" class="show-img-size">
-			<img v-show="isShowFHT" :src="mapData.fht" class="show-img-size">
+		<van-popup v-model="isShowPhoto" position="right" :lock-scroll="false" class="popup-new-class">
+			<img v-show="isShowZDT" :src="mapData.zdt" @click="btnClick" class="show-img-size">
+			<img v-show="isShowFHT" :src="mapData.fht" @click="btnClick" class="show-img-size">
 		</van-popup>
 	</div>
 </template>
@@ -67,15 +67,18 @@
 		},
 		methods: {
 			btnClick(index) {
+				this.isShowPhoto = !this.isShowPhoto;
 				// 0表示宗地图，1表示分户图
 				if (index === 0) {
 					this.isShowFHT = false;
 					this.isShowZDT = true;
-				} else {
+				} else if (index === 1) {
 					this.isShowZDT = false;
 					this.isShowFHT = true;
+				} else {
+					this.isShowZDT = false;
+					this.isShowFHT = false;
 				}
-				this.isShowPhoto = true;
 			},
 			closeInfoWindow() {
 				this.isShowInfo = false;
@@ -217,9 +220,13 @@
 		margin-left: 5px;
 	}
 
-	.show-img-size {
+	.popup-new-class {
 		width: 100%;
-		height: 100%;
+	}
+
+	.show-img-size {
+		max-width: 100%;
+		/*height: 100%;*/
 	}
 
 </style>
