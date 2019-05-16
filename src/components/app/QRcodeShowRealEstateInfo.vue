@@ -66,6 +66,13 @@
 			}
 		},
 		methods: {
+			changeImgSize() {
+				if (this.newImgClass === 'show-img-size') {
+					this.newImgClass = 'db-img-size';
+				} else {
+					this.newImgClass = 'show-img-size';
+				}
+			},
 			btnClick(value) {
 				this.isShowPhoto = true;
 				// 0表示宗地图，1表示分户图
@@ -78,20 +85,10 @@
 					this.isShowZDT = false;
 					this.isShowFHT = true;
 				} else {
-					if (value === 'zdt') {
-						wx.previewImage({
-							current: this.mapData.zdt,
-						});
-					} else {
-						wx.previewImage({
-							current: this.mapData.fht
-						});
-					}
-					if (this.newImgClass === 'show-img-size') {
-						this.newImgClass = 'db-img-size';
-					} else {
-						this.newImgClass = 'show-img-size';
-					}
+					wx.previewImage({
+						current: ''
+					});
+					this.changeImgSize();
 				}
 			},
 			closeInfoWindow() {
