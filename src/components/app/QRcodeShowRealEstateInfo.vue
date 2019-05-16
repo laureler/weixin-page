@@ -51,7 +51,6 @@
 				realEstateInfo: {},	// 不动产位置信息
 				isShow: true,
 				isShowInfo: false,
-				errorMessage: '',	// 查询产权证书信息失败信息
 				mapObject: {},	// 保存map和marker对象
 				mapData: {
 					zdt: '',
