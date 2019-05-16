@@ -42,8 +42,6 @@
 	import { request } from '../../utils/http.js'
 	import { baiduMap } from '../../utils/map'
 
-	const Base64 = require('js-base64').Base64;
-
 	import { Dialog } from 'vant'
 
 	export default {
@@ -111,7 +109,6 @@
 						if (Number(response.resultcode) === 1) {
 							_this.mapData.zdt = URL.createObjectURL(_this.base64ToBlob('data:image/jpg;base64,' + response.result.zdt));
 							_this.mapData.fht = URL.createObjectURL(_this.base64ToBlob('data:image/jpg;base64,' + response.result.fht));
-							// console.log(Base64.decode(response.result.zdt))
 						} else {
 							console.log('获取宗地图和分户图数据失败：' + response.resultmsg);
 						}
