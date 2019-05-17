@@ -280,10 +280,6 @@
                     },
                 })
             },
-            // todo 没有意义
-            /*select4() {
-			  document.getElementById('select4').style.color = '#4ECD5D';
-			},*/
             resq () {
                 var that = this
                 const openid = isWx() ? Cookies.get('openid') : ''
@@ -370,11 +366,10 @@
             },
 			haveKyys(selectedTimeFrame) {
 				let kyys = 0;
-				for (const value of this.oselect) {
-					if (value.YYSX.includes(this.select2Value)) {
-						if (value.YYRQ.includes(selectedTimeFrame)) {
-							kyys = value.ZYYS - value.YYYS;
-						}
+				for (let value of this.oselect) {
+					if (value.YYSX.includes(this.select2Value) && value.YYRQ.includes(selectedTimeFrame)) {
+						kyys = Number(value.ZYYS) - Number(value.YYYS);
+						console.log(value);
 					}
 				}
 				if (kyys === 0) {
