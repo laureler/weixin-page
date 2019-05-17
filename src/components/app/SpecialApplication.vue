@@ -7,7 +7,7 @@
 		</div>
 		<van-cell-group>
 			<van-cell id="select1" :class="isDisabled" title="办理网点：" :value="select1Value" is-link center required
-					  @click="selectData" data-type="list" @change="updateData"/>
+					  @click="selectData" data-type="list"/>
 			<van-cell id="select2" :class="isDisabled" title="预约事项：" :value="select2Value" is-link center required
 					  @click="selectData" data-type="list"/>
 			<van-cell id="select3" :class="isDisabled" title="预约日期：" :value="select3Value" is-link center required
@@ -89,25 +89,38 @@
 				cerTypeData: ['身份证', '港澳台身份证', '护照', '户口簿', '军官证（士兵证）']
             }
         },
-        //计算属性
-        computed: {},
         watch: {
-            select1Value: function (newValue, oldValue) {
-                this.select1()
+        	// 当办理网点变更时触发
+            select1Value: function () {
+				console.log('更新数据');
+				this.select2Value = '';
+                this.select1();
             },
-            select2Value: function () {
-                this.select2()
+			// 当预约事项变更时触发
+            select2Value: function (newValue, oldValue) {
+            	this.select3Value = '';
+
+				if (newValue === '') {
+					return;
+				}
+                this.select2();
             },
+			// 当预约日期变更时触发
             select3Value: function (newValue, oldValue) {
-            	// 当预约日期变更时，重新计算剩余预约数
-				this.haveKyys(newValue);
-                this.select3()
+				this.select4Value = '';
+
+				if (newValue === '') {
+					return;
+				}
+                this.select3();
             },
+			// 当预约时段变更时触发
+			select4Value: function (newValue, oldValue) {
+				// 当预约时段变更时，重新计算剩余预约数
+				this.haveKyys(newValue);
+			}
         },
         methods: {
-            updateData: function () {
-                console.log('更新数据')
-            },
             /**
              * 确认下拉框选项
              **/
@@ -223,62 +236,74 @@
                     }
                 }
             },
+			// 判断是否可预约
+			checkCanAppointment() {
+            	const that = this;
+				request({
+					url: '/GetTSYYRQSD',
+					success (response) {
+						const yyxxinfo = response.yyxxinfo
+						// 不允许预约时段，不可预约
+						if (yyxxinfo == null || yyxxinfo.length === 0) {
+							// 不可预约，禁止用户点击
+							that.isCanYY = false;
+							Toast('非正常预约时段！')
+							return
+						} else {
+							that.oselect = yyxxinfo;
+						}
+					},
+					fail (error) {
+					},
+				})
+			},
             /**
              * 在id = select1 值改变的时候，获取select2的数据
+			 * 变更预约事项数据列表
              */
             select1 () {
-                const _this = this
-                const param = { szwd: _this.select1Value, yyfs: '2' }
-                request({
-                    url: '/GetTSYYRQSD',
-                    success (response) {
-                        _this.oselect = response.yyxxinfo
-                        const arr = []
-                        _this.select2Data = []
-                        for (let i = 0; i < response.yyxxinfo.length; i++) {
-                            arr.push(response.yyxxinfo[i].YYSX)
-                        }
-                        _this.select2Data = Array.from(new Set(arr))
-                    }, fail (error) {
-                    },
-                })
+                const _this = this;
+                // 每次办理网点变更就获取新的网点数据，并判断是否可预约
+				_this.checkCanAppointment();
+                if (_this.oselect && _this.oselect.length !== 0) {
+					const arr = []
+					_this.select2Data = []
+					for (let i = 0; i < _this.oselect.length; i++) {
+						arr.push(_this.oselect[i].YYSX)
+					}
+					_this.select2Data = Array.from(new Set(arr))
+				} else {
+					Toast('请选择办理网点！');
+				}
             },
-            // 当第二个选项改变的时候触发，目的是为了修改第三个。
+            // 变更预约日期数据列表
             select2 () {
-                const that = this
-                that.select3Data = []
-                const arr = []
+                const that = this;
+                that.select3Data = [];
+                const arr = [];
                 for (const value of that.oselect) {
                     if (value.YYSX.includes(that.select2Value)) {
-                        arr.push(value.YYRQ)
+                        arr.push(value.YYRQ);
                     }
                 }
-                that.select3Data = Array.from(new Set(arr))
+                that.select3Data = Array.from(new Set(arr));
             },
+			// 变更预约时段数据列表
             select3 () {
-                const that = this
-                const param = { szwd: that.select1Value, yysx: that.select2Value, yyrq: that.select3Value, yyfs: '2' }
-                request({
-                    url: '/GetTSYYRQSD',
-                    success (response) {
-                        that.select4Data = []
-                        var tmparry = []
-                        that.sel4 = ''
-                        for (const value of response.yyxxinfo) {
-                            if (value.YYSX.includes(that.select2Value) && value.YYRQ.includes(that.select3Value)) {
-                                const remark = value.SFYY == true ? '（已被预约）' : ''
-                                tmparry.push({
-                                    text: `${value.YYSD}${remark}`,
-                                    disabled: value.SFYY
-                                })
-                            }
-                        }
-                        that.select4Data.push({ obj: tmparry })
-                        that.selShow3 = false
-                    },
-                    fail (error) {
-                    },
-                })
+                const that = this;
+				that.select4Data = [];
+				var tmparry = [];
+				for (const value of that.oselect) {
+					if (value.YYSX.includes(that.select2Value) && value.YYRQ.includes(that.select3Value)) {
+						const remark = value.SFYY == true ? '（已被预约）' : '';
+						tmparry.push({
+							text: `${value.YYSD}${remark}`,
+							disabled: value.SFYY
+						});
+					}
+				}
+				that.select4Data.push({ obj: tmparry })
+				that.selShow3 = false
             },
             resq () {
                 var that = this
@@ -365,11 +390,14 @@
                 }
             },
 			haveKyys(selectedTimeFrame) {
+            	if (Number(selectedTimeFrame) === 0) {
+					this.kyys = 0;
+					return;
+				}
 				let kyys = 0;
 				for (let value of this.oselect) {
-					if (value.YYSX.includes(this.select2Value) && value.YYRQ.includes(selectedTimeFrame)) {
+					if (value.YYSX.includes(this.select2Value) && value.YYRQ.includes(this.select3Value) && value.YYSD.includes(selectedTimeFrame)) {
 						kyys = Number(value.ZYYS) - Number(value.YYYS);
-						console.log(value);
 					}
 				}
 				if (kyys === 0) {
@@ -393,22 +421,8 @@
                 },
             })
 
-            // 判断是否可预约
-            request({
-                url: '/GetTSYYRQSD',
-                success (response) {
-                    const yyxxinfo = response.yyxxinfo
-                    // 不允许预约时段，不可预约
-                    if (yyxxinfo == null || yyxxinfo.length === 0) {
-                        // 不可预约，禁止用户点击
-						that.isCanYY = false;
-                        Toast('非正常预约时段！')
-                        return
-                    }
-                },
-                fail (error) {
-                },
-            })
+			that.checkCanAppointment();
+
         },
     }
 </script>
