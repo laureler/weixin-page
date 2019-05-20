@@ -138,7 +138,6 @@
 							* 验证通过，保存信息
 							* */
 							const openId = isWx() ? Cookies.get('openid') : '';
-							// const openId = Cookies.get('openid') || 'zyk';
 							const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 							const idAddress = _this.cardAddress.replace(/\//g, '::');
 
