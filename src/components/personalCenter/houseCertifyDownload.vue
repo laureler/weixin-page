@@ -52,8 +52,7 @@
 				data: { strJson: strJson },
 				success(response) {
 					if (Number(response.resultcode) === 1) {
-						const showMultiPage = false;	// 只显示一页pdf
-						_this.$showPDF({ data: 'data:application/pdf;base64,' + atob(response.cqxx) }, showMultiPage);
+						_this.$showPDF({ data: 'data:application/pdf;base64,' + atob(response.cqxx) });
 					} else {
 						_this.dialogAlert('提示', response.resultmsg);
 					}
