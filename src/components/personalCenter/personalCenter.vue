@@ -48,8 +48,6 @@
 		mounted () {
 			const _this = this;
 
-			let userId = _this.$store.getters.getIbaseAccountId;
-			// let userId = '0e1c5c85-23d8-4576-af58-c47dd8112cc8';
 			_this.$fetch('/pubWeb/public/getWeChatPersonalMenus').then(data => {
 				for (let i = 0, len = data.length; i < len; i++) {
 					_this.columns.push({
