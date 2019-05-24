@@ -62,7 +62,7 @@
 				if (_this.phoneNumber === '') {
 					Toast('请输入手机号码！');
 					return;
-				} else if (!(/^1[3|4|5|7|8]\d{9}$/.test(_this.phoneNumber))) {
+				} else if (!(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(_this.phoneNumber))) {
 					Toast('手机号码格式不正确！');
 					return;
 				} else if (_this.searchParam === '') {
