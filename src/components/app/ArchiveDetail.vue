@@ -1,7 +1,9 @@
 <template lang="html">
-	<div style="display:flex;flex-direction:column">
+	<div style="display:flex;flex-direction:column;height:100%;">
 		<page-head :title="title"></page-head>
-        <div>{{cqxx}}</div>
+        <div class="show-pdf">
+            <iframe :src="cqxx" class="pdf-content"></iframe>
+        </div>
     </div>
 </template>
 
@@ -50,5 +52,15 @@
 </script>
 
 <style lang="css" scoped>
-	
+	.show-pdf {
+        width: 100%;
+        height: calc(100% - 1.2rem);
+    }
+
+    .pdf-content {
+        width:100%;
+        height:100%;
+        display:block;
+        border: none;
+    }
 </style>
