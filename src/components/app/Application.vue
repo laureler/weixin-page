@@ -348,7 +348,7 @@
 					if (this.name !== '' && this.cerNumber !== '' && this.phoNumber !== '' && this.zmh !== ''
 						&& this.dywzs !== '' && this.select1Value != '' && this.select2Value != '' && this.select3Value != '' && this.select4Value != '') {
 						let cerType = this.cerTypeValue;
-						if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.phoNumber))) {
+						if (!(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(this.phoNumber))) {
 							Toast('手机号码格式不正确！')
 						}
 						else if (cerType == '身份证') {
@@ -389,7 +389,7 @@
 					if (this.name !== '' && this.cerNumber !== '' && this.phoNumber !== '' && this.zmh !== ''
 						&& this.select1Value != '' && this.select2Value != '' && this.select3Value != '' && this.select4Value != '') {
 						let cerType = this.cerTypeValue;
-						if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.phoNumber))) {
+						if (!(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(this.phoNumber))) {
 							Toast('手机号码格式不正确！')
 						}
 						else if (cerType == '身份证') {

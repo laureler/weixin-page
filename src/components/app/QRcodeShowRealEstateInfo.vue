@@ -16,10 +16,10 @@
 				</div>
 			</div>
 			<van-cell-group class="basic-info" :border="false">
-				<van-field :value="'权证号码：'+realEstateInfo.ysxlh" :border="false" />
-				<van-field :value="'不动产状态：'+ realEstateInfo.zt" :border="false" />
-				<van-field :value="'面积：' + realEstateInfo.mj" :border="false" />
-				<van-field :value="'坐落：'+realEstateInfo.zl" :border="false" />
+				<van-field :value="'权证号码：'+realEstateInfo.ysxlh" :border="false" readonly/>
+				<van-field :value="'不动产状态：'+ realEstateInfo.zt" :border="false" readonly/>
+				<van-field :value="'面积：' + realEstateInfo.mj" :border="false" readonly/>
+				<van-field :value="'坐落：'+realEstateInfo.zl" :border="false" readonly/>
 			</van-cell-group>
 			<div style="text-align: center;width: 100%">
 				<div :class="newBtnClass">
@@ -30,9 +30,9 @@
 				</div>
 			</div>
 		</van-popup>
-
-		<van-popup v-model="isShowPhoto">
-			<img :src="popupImage">
+		<van-popup v-model="isShowPhoto" position="right">
+			<img v-show="isShowZDT" :src="mapData.zdt"  @click="btnClick('zdt')" :class="newImgClass">
+			<img v-show="isShowFHT" :src="mapData.fht"  @click="btnClick('fht')" :class="newImgClass">
 		</van-popup>
 	</div>
 </template>
@@ -50,26 +50,46 @@
 				realEstateInfo: {},	// 不动产位置信息
 				isShow: true,
 				isShowInfo: false,
-				errorMessage: '',	// 查询产权证书信息失败信息
 				mapObject: {},	// 保存map和marker对象
-				mapData: {},	// 宗地图和分户图数据
+				mapData: {
+					zdt: '',
+					fht: ''
+				},	// 宗地图和分户图数据
+				isShowZDT: false,
+				isShowFHT: false,
 
 				isHouse: false,
 				isShowPhoto: false,	// 显示宗地图或分户图
-				popupImage: '',
 
-				newBtnClass: 'basic-btn-div ',
+				newBtnClass: 'basic-btn-div',	// 动态生成按钮样式
+				newImgClass: 'show-img-size',	// 动态修改图片样式
 			}
 		},
 		methods: {
-			btnClick(index) {
-				// 0表示宗地图，1表示分户图
-				if (index === 0) {
-					this.popupImage = this.mapData.zdt;
+			changeImgSize() {
+				if (this.newImgClass === 'show-img-size') {
+					this.newImgClass = 'db-img-size';
 				} else {
-					this.popupImage = this.mapData.fht;
+					this.newImgClass = 'show-img-size';
 				}
+			},
+			btnClick(value) {
 				this.isShowPhoto = true;
+				// 0表示宗地图，1表示分户图
+				if (value === 0) {
+					this.newImgClass = 'show-img-size';
+					this.isShowFHT = false;
+					this.isShowZDT = true;
+				} else if (value === 1) {
+					this.newImgClass = 'show-img-size';
+					this.isShowZDT = false;
+					this.isShowFHT = true;
+				} else {
+					wx.previewImage({
+						current: ''
+					});
+					this.changeImgSize();
+				}
 			},
 			closeInfoWindow() {
 				this.isShowInfo = false;
@@ -80,11 +100,12 @@
 				const ysxlh = uiScript.getParam('ysxlh') || '';
 
 				request({
-					url: '/GetBdcMapInfo',
+					url: '/GetBdcMapInfo2',
 					data: { strJson: JSON.stringify({ ysxlh: ysxlh }) },
 					success(response) {
 						if (Number(response.resultcode) === 1) {
-							_this.mapData = response.result;
+							_this.mapData.zdt = URL.createObjectURL(_this.base64ToBlob('data:image/jpg;base64,' + response.result.zdt));
+							_this.mapData.fht = URL.createObjectURL(_this.base64ToBlob('data:image/jpg;base64,' + response.result.fht));
 						} else {
 							console.log('获取宗地图和分户图数据失败：' + response.resultmsg);
 						}
@@ -93,6 +114,20 @@
 						console.log(error);
 					}
 				})
+			},
+			// base64转blob
+			base64ToBlob(base64Code) {
+				let parts = base64Code.split(';base64,');
+				let contentType = parts[0].split(':')[1];
+				let raw = window.atob(parts[1]);
+				let rawLength = raw.length;
+
+				let uInt8Array = new Uint8Array(rawLength);
+
+				for (let i = 0; i < rawLength; ++i) {
+					uInt8Array[i] = raw.charCodeAt(i);
+				}
+				return new Blob([uInt8Array], {type: contentType});
 			},
 			// 初始化地图
 			initMap() {
@@ -135,7 +170,7 @@
 						// 不动产类型为 土地和房屋 时才显示分户图
 						if (response.result.bdclx === '土地和房屋') {
 							_this.isHouse = true;
-							_this.newBtnClass += 'new-btn-div';
+							_this.newBtnClass += ' new-btn-div';
 						}
 
 						baiduMap.init().then(BMap => {
@@ -208,6 +243,14 @@
 	.basic-hint {
 		font-size: 12px;
 		margin-left: 5px;
+	}
+
+	.show-img-size {
+		width: 100%;
+	}
+
+	.db-img-size {
+		width: 200%;
 	}
 
 </style>
