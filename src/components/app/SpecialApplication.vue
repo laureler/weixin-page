@@ -14,7 +14,7 @@
 					  @click="selectData" data-type="time"/>
 			<van-cell id="select4" :class="isDisabled" title="预约时段：" :value="select4Value" is-link center required
 					  @click="selectData" data-type="time"/>
-			<van-field id="kyys" label="剩余预约数：" clearable readonly text-align="right" input-align="right"
+			<van-field id="kyys" label="剩余预约数：" v-show="isShowYYSL" clearable readonly text-align="right" input-align="right"
 					   v-model="kyys"/>
 			<van-field id="yysl" label="预约数量：" clearable style="display: none;" text-align="right" input-align="right"
 					   v-model="yysl"/>
@@ -86,7 +86,9 @@
 				cerNumber: '',  //当前输入的证件号码
 				phoNumber: '',  //当前输入的手机号码
 				orginational: '',
-				cerTypeData: ['身份证', '港澳台身份证', '护照', '户口簿', '军官证（士兵证）']
+				cerTypeData: ['身份证', '港澳台身份证', '护照', '户口簿', '军官证（士兵证）'],
+
+				isShowYYSL: false,	// 默认不显示可预约数量
             }
         },
         watch: {
@@ -390,8 +392,8 @@
                 }
             },
 			haveKyys(selectedTimeFrame) {
+				this.isShowYYSL = true;
             	if (Number(selectedTimeFrame) === 0) {
-					this.kyys = 0;
 					return;
 				}
 				let kyys = 0;
