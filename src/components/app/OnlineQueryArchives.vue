@@ -62,8 +62,14 @@
                     query: {callbackUrl: inter}
                 })
             }
-            
-        }
+        },
+		mounted() {
+			// 后面要用到人脸识别就必须在进入功能首页这里进行配置的初始化（针对ios系统）
+			this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
+				wx.config(res);
+				console.log(res);
+			});
+		}
     }
 </script>
 
