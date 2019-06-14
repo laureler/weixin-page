@@ -1,6 +1,7 @@
 <template lang="html">
 	<div class="archive-detail">
 		<page-head :title="title"></page-head>
+		<preview-pdf :obj="atobObj"></preview-pdf>
     </div>
 </template>
 
@@ -9,23 +10,19 @@
     import { Toast } from 'vant'
     import { request } from '../../utils/http.js'
 
-    import pdf from '../../utils/pdf'
-    import Vue from 'vue'
-    Vue.use(pdf);
+    import previewPDF from '../../utils/pdf/previewPDF'
 
     export default {
         components: {
-            'page-head': Head
+            'page-head': Head,
+			'preview-pdf': previewPDF
         },
         data () {
             return {
-                cqxx:'',
-                //头部标题
-                title:'',
-                //住房证明和不动产登记资料查询结果的PDF文件查询接口
-                inter: '',
-                //查询条件
-                filter: {}
+                atobObj:'',
+                title:'',	// 头部标题
+                inter: '',	// 住房证明和不动产登记资料查询结果的PDF文件查询接口
+                filter: {}	// 查询条件
             }
         },
         created(){
@@ -33,13 +30,18 @@
             this.inter = this.$route.query.inter;
             this.filter = this.$route.query.filter;
         },
+	    watch: {
+		    $route(to, from ){
+			    console.log( to , from )
+		    }
+	    },
         mounted(){
             const that = this;
             request({
                 url: that.inter,
                 data: that.filter,
                 success(data){
-	                that.$showPDF({ data: 'data:application/pdf;base64,' + atob(data.cqxx) });
+	                that.atobObj = { data: 'data:application/pdf;base64,' + atob(data.cqxx) };
                 },
                 fail(error){
                     if(Number(error.status) === 404){
@@ -53,15 +55,4 @@
 </script>
 
 <style lang="css" scoped>
-	.show-pdf {
-        width: 100%;
-        height: calc(100% - 1.2rem);
-    }
-
-    .pdf-content {
-        width:100%;
-        height:100%;
-        display:block;
-        border: none;
-    }
 </style>
