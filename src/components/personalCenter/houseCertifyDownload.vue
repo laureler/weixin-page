@@ -1,6 +1,7 @@
 <template>
 	<div class="house-certify-download">
 		<page-head :title="title"></page-head>
+		<preview-pdf :obj="atobObj"></preview-pdf>
 	</div>
 </template>
 
@@ -12,17 +13,17 @@
 	import { Dialog } from 'vant'
 
 
-	import pdf from '../../utils/pdf'
-	import Vue from 'vue'
-	Vue.use(pdf);
+	import previewPDF from '../../utils/pdf/previewPDF'
 
 	export default {
 		components: {
-			'page-head': Head
+			'page-head': Head,
+			'preview-pdf': previewPDF
 		},
 		data () {
 			return {
 				title: '住房证明查询',
+				atobObj: ''
 			};
 		},
 		methods: {
@@ -52,7 +53,7 @@
 				data: { strJson: strJson },
 				success(response) {
 					if (Number(response.resultcode) === 1) {
-						_this.$showPDF({ data: 'data:application/pdf;base64,' + atob(response.cqxx) });
+						_this.atobObj = { data: 'data:application/pdf;base64,' + atob(response.cqxx) };
 					} else {
 						_this.dialogAlert('提示', response.resultmsg);
 					}

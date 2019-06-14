@@ -1,6 +1,6 @@
 <template>
-	<div class="container">
-		<canvas :class="newClass" id="canvas"></canvas>
+	<div class="preview-pdf">
+		<canvas :class="newClass" ref="canvas"></canvas>
 		<div class="foot" v-if='pdfObj && pdfObj.numPages > 1'>
 			<van-button class='pdf-btn' size="small" v-if="pageNum>1" @click="onPrevPage">上一页</van-button>
 			<van-button class='pdf-btn' size="small" v-if="pageNum<pdfObj.numPages" @click="onNextPage">下一页</van-button>
@@ -16,6 +16,19 @@
 	import PDFJS from 'pdfjs-dist'
 
 	export default {
+		name: 'preview-pdf',
+		props: {
+			obj: ''
+		},
+		watch: {
+			obj: function (newVal) {
+				if (!newVal) {
+					this.pdfObj = null;
+					return;
+				}
+				this.showPDF(newVal);
+			}
+		},
 		data () {
 			return {
 				showMultiPage: true,
@@ -30,10 +43,10 @@
 			}
 		},
 		methods: {
-			showPDF (url) {
+			showPDF (obj) {
 				let _this = this;
 
-				PDFJS.getDocument(url).then(pdf => {
+				PDFJS.getDocument(obj).then(pdf => {
 					_this.pdfObj = pdf;
 					if (pdf.numPages <= 1) {
 						_this.newClass = 'new-pdf-content';
@@ -46,22 +59,19 @@
 				this.pageRendering = true;
 				this.pdfObj.getPage(num).then(pdf => {
 					var viewport = pdf.getViewport(_this.scale);
-					let canvas = document.getElementById('canvas');
+					let canvas = _this.$refs.canvas;
 					canvas.height = viewport.height;
 					canvas.width = viewport.width;
 
-					// Render PDF page into canvas context
 					var renderContext = {
 						canvasContext: canvas.getContext('2d'),
 						viewport: viewport
 					}
 					var renderTask = pdf.render(renderContext);
 
-					// Wait for rendering to finish
 					renderTask.promise.then(() => {
 						_this.pageRendering = false;
 						if (_this.pageNumPending !== null) {
-							// New page rendering is pending
 							this.renderPage(_this.pageNumPending);
 							_this.pageNumPending = null;
 						}
@@ -101,21 +111,22 @@
 					this.scale = this.scale - 0.1;
 				}
 			}
-		}
+		},
+		beforeRouteLeave (to, from, next) {
+			console.log('daaaa');
+		},
 	}
 </script>
 
 <style scoped>
-	.container {
+	.preview-pdf {
 		position: fixed;
 		width: 100%;
-		height: 100%;
 		overflow: auto;
 		text-align: center;
-		top: 0;
+		top: 50px;
 		left: 0;
 		padding: 0;
-		background-color: rgba(0, 0, 0, 0.75);
 	}
 
 	.pdf-content {
