@@ -4,10 +4,6 @@
         <div style="background: #F0F5F8;width: 100%;height: 10px;border-bottom: 1px solid #E5E5E5;"></div>
         <van-row type="flex" style="margin-top: 8px;">
             <van-col span="24" @click.native="open(datas[0].url,datas[0].name,datas[0].inter)" class="nav-col">
-                <!-- <div class="nav-block">
-                    <img :src="datas[0].iconSrc"/>
-                    <div class="title">{{datas[0].name}}</div>
-                </div> -->
                 <van-cell is-link :value="datas[0].name" class="nav-cell house-color">
                     <img slot="icon" :src="datas[0].iconSrc" class="van-icon van-icon--image van-cell__left-icon"/>
                 </van-cell>
@@ -79,11 +75,6 @@
         width: 100%;
     }
 
-    /* .nav-block {
-        width: 100%;
-        border: 1px solid #ebedf0;
-    } */
-
     .nav-col {
         position: relative;
         box-sizing: border-box;
@@ -93,17 +84,14 @@
     .nav-cell {
         height: 100px;
         width: 100%;
-        /* border-radius: 5px; */
     }
 
     .house-color {
-        /* background: linear-gradient(to bottom right, #005EFF , #03E5F9); */
         background: url(../../../public/images/onlineQueryArchives/blue.png);
         background-size: 100% 100%;
     }
     
     .archives-color {
-        /* background: linear-gradient(to bottom right, #1CAF99 , #03F994); */
         background-image: url(../../../public/images/onlineQueryArchives/green.png);
         background-size: 100% 100%;
     }

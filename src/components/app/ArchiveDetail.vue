@@ -1,9 +1,6 @@
 <template lang="html">
-	<div style="display:flex;flex-direction:column;height:100%;">
+	<div class="archive-detail">
 		<page-head :title="title"></page-head>
-        <div class="show-pdf">
-            <iframe :src="cqxx" class="pdf-content"></iframe>
-        </div>
     </div>
 </template>
 
@@ -11,6 +8,10 @@
     import Head from './head.vue'
     import { Toast } from 'vant'
     import { request } from '../../utils/http.js'
+
+    import pdf from '../../utils/pdf'
+    import Vue from 'vue'
+    Vue.use(pdf);
 
     export default {
         components: {
@@ -38,7 +39,7 @@
                 url: that.inter,
                 data: that.filter,
                 success(data){
-                    that.cqxx = data.cqxx;
+	                that.$showPDF({ data: 'data:application/pdf;base64,' + atob(data.cqxx) });
                 },
                 fail(error){
                     if(Number(error.status) === 404){
