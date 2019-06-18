@@ -1,7 +1,7 @@
 <template lang="html">
 	<div class="archive-detail">
 		<page-head :title="title"></page-head>
-		<preview-pdf :obj="atobObj"></preview-pdf>
+		<preview-pdf :obj="base64Obj" :showBtn="true"></preview-pdf>
     </div>
 </template>
 
@@ -19,7 +19,7 @@
         },
         data () {
             return {
-                atobObj:'',
+                base64Obj:'',
                 title:'',	// 头部标题
                 inter: '',	// 住房证明和不动产登记资料查询结果的PDF文件查询接口
                 filter: {}	// 查询条件
@@ -41,7 +41,7 @@
                 url: that.inter,
                 data: that.filter,
                 success(data){
-	                that.atobObj = { data: 'data:application/pdf;base64,' + atob(data.cqxx) };
+	                that.base64Obj = 'data:application/pdf;base64,' + data.cqxx;
                 },
                 fail(error){
                     if(Number(error.status) === 404){
