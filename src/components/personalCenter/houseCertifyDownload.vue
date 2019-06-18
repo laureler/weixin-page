@@ -1,7 +1,7 @@
 <template>
 	<div class="house-certify-download">
 		<page-head :title="title"></page-head>
-		<preview-pdf :obj="atobObj"></preview-pdf>
+		<preview-pdf :obj="base64Obj"></preview-pdf>
 	</div>
 </template>
 
@@ -23,7 +23,7 @@
 		data () {
 			return {
 				title: '住房证明查询',
-				atobObj: ''
+				base64Obj: ''
 			};
 		},
 		methods: {
@@ -53,7 +53,7 @@
 				data: { strJson: strJson },
 				success(response) {
 					if (Number(response.resultcode) === 1) {
-						_this.atobObj = { data: 'data:application/pdf;base64,' + atob(response.cqxx) };
+						_this.base64Obj = 'data:application/pdf;base64,' + response.cqxx;
 					} else {
 						_this.dialogAlert('提示', response.resultmsg);
 					}
