@@ -49,8 +49,13 @@
 		            url: that.inter,
 		            data: that.filter,
 		            success(data){
-			            that.obj = 'data:application/pdf;base64,' + data.cqxx;
-			            this.showBtn = false;
+		            	if (/.pdf/.test(data.cqxx)) {
+				            that.obj = data.cqxx;
+				            that.showBtn = true;
+						} else {
+				            that.obj = 'data:application/pdf;base64,' + data.cqxx;
+				            that.showBtn = false;
+						}
 		            },
 		            fail(error){
 			            if(Number(error.status) === 404){
