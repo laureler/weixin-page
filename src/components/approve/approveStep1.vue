@@ -167,7 +167,7 @@
 								break;
 							case 1:
 								// window.location.href = stringUrl + '?strJson=' + encodeURIComponent(strJson);
-								const url = window.location.href.split('#')[0] + stringUrl + '?strJson=' + encodeURIComponent(strJson);
+								const url = stringUrl + '?strJson=' + encodeURIComponent(strJson);
 								_this.$router.push({
 									path: '/arcd',
 									query: {filter: '', title: '住房证明查询', inter: url}
