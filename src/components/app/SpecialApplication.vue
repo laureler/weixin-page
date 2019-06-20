@@ -241,6 +241,11 @@
 							that.isCanYY = false;
 							Toast('非正常预约时段！')
 							return
+						} else if (yyxxinfo.length === 1) {
+							// 当只有一个区域可预约，显示可预约数
+							that.oselect = yyxxinfo;
+							that.isShowYYSL = true;
+							that.kyys = Number(yyxxinfo[0].ZYYS) - Number(yyxxinfo[0].YYYS);
 						} else {
 							that.oselect = yyxxinfo;
 						}
