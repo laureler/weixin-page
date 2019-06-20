@@ -1,7 +1,7 @@
 <template lang="html">
 	<div class="archive-detail">
 		<page-head :title="title"></page-head>
-		<preview-pdf :obj="base64Obj" :showBtn="true"></preview-pdf>
+		<preview-pdf :obj="obj" :showBtn="showBtn"></preview-pdf>
     </div>
 </template>
 
@@ -19,10 +19,12 @@
         },
         data () {
             return {
-                base64Obj:'',
+                obj:'',
                 title:'',	// 头部标题
                 inter: '',	// 住房证明和不动产登记资料查询结果的PDF文件查询接口
-                filter: {}	// 查询条件
+                filter: {},	// 查询条件
+
+	            showBtn: false,
             }
         },
         created(){
@@ -37,19 +39,27 @@
 	    },
         mounted(){
             const that = this;
-            request({
-                url: that.inter,
-                data: that.filter,
-                success(data){
-	                that.base64Obj = 'data:application/pdf;base64,' + data.cqxx;
-                },
-                fail(error){
-                    if(Number(error.status) === 404){
-                        Toast("找不到该接口！");
-                        return;
-                    }
-                }
-            })
+            if (this.title === '住房证明查询') {
+            	let url = this.inter;
+            	url = 'http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf';
+            	this.obj = url;
+            	this.showBtn = true;
+			} else {
+	            request({
+		            url: that.inter,
+		            data: that.filter,
+		            success(data){
+			            that.obj = 'data:application/pdf;base64,' + data.cqxx;
+			            this.showBtn = false;
+		            },
+		            fail(error){
+			            if(Number(error.status) === 404){
+				            Toast("找不到该接口！");
+				            return;
+			            }
+		            }
+	            })
+			}
         }
     }
 </script>
