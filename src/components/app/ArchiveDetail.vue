@@ -40,9 +40,7 @@
         mounted(){
             const that = this;
             if (this.title === '住房证明查询') {
-            	let url = this.inter;
-            	url = 'http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf';
-            	this.obj = url;
+            	this.obj = this.inter;
             	this.showBtn = true;
 			} else {
 	            request({
