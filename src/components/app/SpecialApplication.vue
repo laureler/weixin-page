@@ -6,33 +6,23 @@
 			<p class="titlep">预约事项及预约时间</p>
 		</div>
 		<van-cell-group>
-			<van-cell id="select1" :class="isDisabled" title="办理网点：" :value="select1Value" is-link center required
-					  @click="selectData" data-type="list"/>
-			<van-cell id="select2" :class="isDisabled" title="预约事项：" :value="select2Value" is-link center required
-					  @click="selectData" data-type="list"/>
-			<van-cell id="select3" :class="isDisabled" title="预约日期：" :value="select3Value" is-link center required
-					  @click="selectData" data-type="time"/>
-			<van-cell id="select4" :class="isDisabled" title="预约时段：" :value="select4Value" is-link center required
-					  @click="selectData" data-type="time"/>
-			<van-field id="kyys" label="剩余预约数：" v-show="isShowYYSL" clearable readonly text-align="right" input-align="right"
-					   v-model="kyys"/>
-			<van-field id="yysl" label="预约数量：" clearable style="display: none;" text-align="right" input-align="right"
-					   v-model="yysl"/>
+			<van-cell id="select1" :class="isDisabled" title="办理网点：" :value="select1Value" is-link center required @click="selectData" data-type="list"/>
+			<van-cell id="select2" :class="isDisabled" title="预约事项：" :value="select2Value" is-link center required @click="selectData" data-type="list"/>
+			<van-cell id="select3" :class="isDisabled" title="预约日期：" :value="select3Value" is-link center required @click="selectData" data-type="time"/>
+			<van-cell id="select4" :class="isDisabled" title="预约时段：" :value="select4Value" is-link center required @click="selectData" data-type="time"/>
+			<van-field id="kyys" label="剩余预约数：" v-show="isShowYYSL" clearable readonly text-align="right" input-align="right" v-model="kyys"/>
+			<van-field id="yysl" label="预约数量：" clearable style="display: none;" text-align="right" input-align="right" v-model="yysl"/>
 		</van-cell-group>
 		<div class="title">
 			<div class="borderLeft borderLeftBlue"></div>
 			<p class="titlep">预约人信息</p>
 		</div>
 		<van-cell-group>
-			<van-field id="name" label="代理人名称：" clearable required text-align="right" input-align="right"
-					   v-model="name"/>
+			<van-field id="name" label="代理人名称：" clearable required text-align="right" input-align="right" v-model="name"/>
 			<van-cell id="cerType" title="代理人证件种类：" :value="cerTypeValue" is-link center required @click="selectData"/>
-			<van-field id="cerNumber" label="代理人证件号码：" clearable required text-align="right" input-align="right"
-					   v-model="cerNumber" type="text"/>
-			<van-field id="phoNumber" label="手机号码：" clearable required text-align="right" input-align="right"
-					   v-model="phoNumber" type="tel"/>
-			<van-field id="orginational" label="组织机构代码或营业执照：" clearable required text-align="right" input-align="right"
-					   v-model="orginational"/>
+			<van-field id="cerNumber" label="代理人证件号码：" clearable required text-align="right" input-align="right" v-model="cerNumber" type="text"/>
+			<van-field id="phoNumber" label="手机号码：" clearable required text-align="right" input-align="right" v-model="phoNumber" type="tel"/>
+			<van-field id="orginational" label="组织机构代码或营业执照：" clearable required text-align="right" input-align="right" v-model="orginational"/>
 		</van-cell-group>
 		<div class="tip">
 			<p class="cp">提示：预约号当天有效。请申请人在预约成功当天，凭微信预约成功的信息到现场交件。</p>
