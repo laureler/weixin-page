@@ -18,6 +18,7 @@
 <script>
     import Head from './head.vue'
     import { Toast } from 'vant'
+    import Cookies from 'js-cookie';
     import { request } from '../../utils/http.js'
 
     export default {
@@ -31,7 +32,7 @@
                 resultmsg: '未查询到结果',
                 title: '',
                 //查询条件
-                filter: {}, 
+                filter: {},
                 //档案查询接口
                 archiveInter: '/GetArchiveDataInfo'
             }
@@ -42,7 +43,7 @@
             queryArchives(rid){
                 this.$router.push({
                     path: '/arcd',
-                    query: {filter: {strJson: JSON.stringify({rid: rid})},title:this.title + '结果',inter: this.archiveInter}
+                    query: {filter: {strJson: JSON.stringify({rid: rid, appId: Cookies.get('openid')})},title:this.title + '结果',inter: this.archiveInter}
                 });
             }
         },

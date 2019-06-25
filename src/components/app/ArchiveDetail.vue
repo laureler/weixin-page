@@ -47,12 +47,16 @@
 		            url: that.inter,
 		            data: that.filter,
 		            success(data){
-		            	if (/.pdf/.test(data.cqxx)) {
-				            that.obj = data.cqxx;
-				            that.showBtn = true;
+		            	if (Number(data.resultcode) === 1) {
+				            if (/.pdf/.test(data.cqxx)) {
+					            that.obj = data.cqxx;
+					            that.showBtn = true;
+				            } else {
+					            that.obj = 'data:application/pdf;base64,' + data.cqxx;
+					            that.showBtn = false;
+				            }
 						} else {
-				            that.obj = 'data:application/pdf;base64,' + data.cqxx;
-				            that.showBtn = false;
+				            Toast(data.resultmsg);
 						}
 		            },
 		            fail(error){
