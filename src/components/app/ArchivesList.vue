@@ -41,9 +41,16 @@
         methods: {
             //查档按钮点击事件
             queryArchives(rid){
-                this.$router.push({
+	            let appId = Cookies.get('openid');
+	            let filter = {
+	            	strJson: JSON.stringify({
+						rid: rid
+	            	}),
+					appId: appId
+	            };
+	            this.$router.push({
                     path: '/arcd',
-                    query: {filter: {strJson: JSON.stringify({rid: rid, appId: Cookies.get('openid')})},title:this.title + '结果',inter: this.archiveInter}
+                    query: {filter: filter,title:this.title + '结果',inter: this.archiveInter}
                 });
             }
         },
