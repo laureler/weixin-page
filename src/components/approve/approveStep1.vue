@@ -156,8 +156,8 @@
 				let config = { headers: { 'Content-Type': 'charset=UTF-8;multipart/form-data' } };
 				let appId = Cookies.get('openid');
 				var formData = new FormData();
-				formData.append('strJson', strJson);  //扫码的值
-				formData.append('appId', appId);  //扫码的值
+				formData.append('strJson', strJson);  // 扫码的值
+				formData.append('appId', appId); 	// 微信ID，用于记录查档
 				_this.$post(stringUrl, formData, config).then(rs => {
 					if (rs) {
 						switch (Number(rs.status)) {
