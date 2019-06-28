@@ -175,7 +175,10 @@
 					if (res.err_code == 0) { // 检测成功
 						var info = { 'request_verify_pre_info': '{"name":"' + _this.data_name + '","id_card_number":"' + _this.data_id + '"}' };
 						wx.invoke('requestWxFacePictureVerifyUnionVideo', info, function (res) {
-							// 人脸识别成功，判断是不是从个人中心首页进来的
+							// 人脸识别成功
+							_this.$store.commit('CARD_CODE', _this.data_id);
+							_this.$store.commit('CARD_NAME', _this.data_name);
+							// 判断是不是从个人中心首页进来的
 							if (_this.$route.query.isPersonalHomeCheck) {
 								_this.$fetch('/pubWeb/public/faceRecognition/getLinkedAccounts?cardName=' + _this.data_name + '&cardNumber=' + _this.data_id)
 									.then(dataList => {
@@ -183,8 +186,6 @@
 											// 如果没有ibase账号，则到注册页面
 											_this.$router.push({ path: '/signInAccount' });
 										} else {
-											_this.$store.commit('CARD_CODE', _this.data_id);
-											_this.$store.commit('CARD_NAME', _this.data_name);
 											_this.$router.push({ name: 'associativeAccount', params: { dataList: dataList } });
 										}
 									}).catch(error => {
