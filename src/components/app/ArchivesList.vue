@@ -41,12 +41,18 @@
         methods: {
             //查档按钮点击事件
             queryArchives(rid){
-	            let appId = Cookies.get('openid');
+	            const appId = Cookies.get('openid');
+	            const cardNumber = this.$store.getters.getPersonCardInfo.cardCode;
+	            const cardName = this.$store.getters.getPersonCardInfo.cardName;
 	            let filter = {
 	            	strJson: JSON.stringify({
 						rid: rid
 	            	}),
-					appId: appId
+		            log: JSON.stringify({
+			            appId: appId,
+			            cardNumber: cardNumber,
+			            cardName: cardName
+		            })
 	            };
 	            this.$router.push({
                     path: '/arcd',
