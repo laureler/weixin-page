@@ -1,26 +1,23 @@
 <template lang="html">
 	<div style="display:flex;flex-direction:column">
 		<page-head title="进度查询"></page-head>
-		<!--<div>-->
-		<!--<img src="../../../public/images/wechatstatic/bg_top1.png" style="width:100%"></img>-->
-		<!--</div>-->
-		<!--<el-checkbox class="Ocheckbox" v-model="checked" label="通过登记号" disabled></el-checkbox>-->
 		<div class="search-div">
 			<div class="Cdiv">
-				<!--<div class="reg">业务登记号：</div>-->
 				<input placeholder="请输入业务登记号" v-model="djbh" type="text" class="Cinput"/>
-				<el-button v-on:click="query" class="schequery" icon="el-icon-search"></el-button>
+				<van-icon name="search" size="20px" color="#6cccff" v-on:click="query" class="schequery" ></van-icon>
 			</div>
 		</div>
 
-		<div style="font-size:0.42rem;color:#252525;margin-top:0.3rem;margin-left: 0.5rem">查询结果</div>
-		<hr style="width:9.5rem;border:none;border-bottom:1px solid #e5e5e5;margin-top: 0.35rem;margin-bottom: 0.35rem"/>
-		<div v-show="!isShow" style="font-size:0.42rem;color:#999999;margin-left: 0.5rem">{{resultmsg}}</div>
-		<div v-show="isShow" class="container" v-for="result in results" :key="result.id">
-			<div>收件编号：{{result.jid}}</div>
-			<div>业务类型：{{result.jtitle}}</div>
-			<div>房地坐落：{{result.zl}}</div>
-			<div class="redColor">业务状态：{{result.ywjd}}</div>
+		<div v-if="isStartSearch">
+			<div style="font-size:0.42rem;color:#252525;margin-top:0.3rem;margin-left: 0.5rem">查询结果</div>
+			<hr style="width:9.5rem;border:none;border-bottom:1px solid #e5e5e5;margin-top: 0.35rem;margin-bottom: 0.35rem"/>
+			<div v-show="!isShow" style="font-size:0.42rem;color:#999999;margin-left: 0.5rem">{{resultmsg}}</div>
+			<div v-show="isShow" class="container" v-for="result in results" :key="result.id">
+				<div>收件编号：{{result.jid}}</div>
+				<div>业务类型：{{result.jtitle}}</div>
+				<div>房地坐落：{{result.zl}}</div>
+				<div class="redColor">业务状态：{{result.ywjd}}</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -29,6 +26,7 @@
     import Head from './head.vue'
 
     import { request } from '../../utils/http.js'
+	import { Toast } from 'vant'
 
     export default {
         components: {
@@ -41,27 +39,35 @@
                 djbh: '',
                 checked: true,
                 resultmsg: '未查询到结果',
+				isStartSearch: false,
             }
         },
         methods: {
             query () {
-                const that = this
+                const that = this;
+
+                if (that.djbh === '') {
+					Toast('请输入业务登记号！');
+					return;
+				}
+
                 request({
                     url: '/GetYWJD',
                     data: { strJson: JSON.stringify({ djbh: that.djbh }) },
                     success (response) {
-                        console.log(response)
+						that.isStartSearch = true;
                         if (Number(response.resultcode) === 1) {
                             that.isShow = !that.isShow;
                             that.results = response.result;
                         } else {
                             that.isShow = false;
-                            // that.resultmsg = '获取失败！'
+                            that.resultmsg = response.resultmsg;
                         }
                     },
                     fail (error) {
+                    	console.log(error);
                     },
-                })
+                });
             },
         },
     }
@@ -75,12 +81,7 @@
 	}
 
 	.schequery {
-		margin: 0 auto;
-		border: none;
-		color: #6cccff;
-		margin-top: -0.1rem;
-		padding-left: 0.1rem;
-		height: 1rem;
+		padding: 10px 15px;
 	}
 
 	.schequery:focus {

@@ -1,37 +1,34 @@
 <template lang="html">
 	<div v-if="inited" style="display:flex; flex-direction:column; padding: 0 0 0.45rem; align-items: center;">
 		<page-head title="排队取号"></page-head>
-		<!--<div style="font-size:0.45rem">-->
-		<!--<img src="../../../public/images/wechatstatic/bg_top1.png" style="width:100%" />-->
-		<!--</div>-->
 		<div style="position: relative; height: 150px">
 			<img src="../../../public/images/wechatstatic/bg_top.png" class="img"/>
 			<span class="title_name">{{getTitleValue()}}</span>
 		</div>
 		<div v-if="!timeout">
-			<el-card class="box-card">
-				<div slot="header" class="clearfix">
+			<div class="box-card new-card">
+				<div slot="header" class="new-clearfix">
 					<span>预约人信息</span>
 				</div>
-				<div class="content">
+				<div class="new-content">
 					<p class="text">预约人：{{ item.yyr }}</p>
 					<p class="text">预约号：{{ item.yyh }}</p>
 					<!-- <p class="text" v-if="item.zmh">证明(书)号：{{ item.zmh }}</p> -->
 					<p class="text">证件号码：{{ item.zjhm }}</p>
 				</div>
-			</el-card>
-			<el-card class="box-card">
-				<div slot="header" class="clearfix">
+			</div>
+			<div class="box-card new-card">
+				<div slot="header" class="new-clearfix">
 					<span>预约事项及预约时间</span>
 				</div>
-				<div class="content">
+				<div class="new-content">
 					<p class="text">预约日期：{{ item.yyrq }}</p>
 					<p class="text">预约时段：{{ item.yysd }}</p>
 					<p class="text">预约事项：{{ item.yysx }}</p>
 					<p class="text">所在网点：{{ item.szwd }}</p>
 					<p class="text">办理状态：{{ item.zt }}</p>
 				</div>
-			</el-card>
+			</div>
 		</div>
 		<div class="takeText" v-if="byTouch">
 			您必须到现场扫描二维码取号！
@@ -39,11 +36,11 @@
 		<div class="timeoutText" v-if="timeout">
 			{{timeout_text}}
 		</div>
-		<el-button @click="pushForm" type="primary" class="osubmit" v-if="byURL" :disabled="success">取号</el-button>
-		<div v-if="success" class="result">
+		<van-button @click="pushForm" type="info" class="osubmit" v-if="byURL" :disabled="success">取号</van-button>
+		<div v-if="isSuccess" class="result">
 			<p>取号结果</p>
 			<p class="cresult">{{ result }}</p>
-			<el-button @click="toSche" type="primary" class="schedule">查看进度</el-button>
+			<van-button @click="toSche" type="info" class="schedule">查看进度</van-button>
 		</div>
 	</div>
 </template>
@@ -62,7 +59,7 @@
         },
         data () {
             return {
-                success: false,
+				isSuccess: false,
                 // 整体页面是否显示
                 inited: false,
                 item: '',
@@ -82,24 +79,24 @@
         methods: {
             //轮询公众号名称
             getTitleValue () {
-                var newVar = window.titleValue === undefined ? '不动产登记中心' : window.titleValue
+                var newVar = window.titleValue === undefined ? '不动产登记中心' : window.titleValue;
                 var timeNumber = setInterval(function () {
                     // flash data
                     if (newVar !== '不动产登记中心') {
-                        clearInterval(timeNumber)
+                        clearInterval(timeNumber);
                     }
                     else {
-                        newVar = window.titleValue === undefined ? '不动产登记中心' : window.titleValue
+                        newVar = window.titleValue === undefined ? '不动产登记中心' : window.titleValue;
                     }
-                }, 300)
-                return newVar
+                }, 300);
+                return newVar;
             },
             searchAppointment () {
-                const that = this
-                var openid = isWx() ? Cookies.get('openid') : ''
-                this.openid = openid
+                const that = this;
+                var openid = isWx() ? Cookies.get('openid') : '';
+                this.openid = openid;
                 if (openid == undefined) {
-                    console.log('openid:' + openid)
+                    console.log('openid:' + openid);
                 }
                 if (isWx()) {
                     request({
@@ -116,56 +113,55 @@
                             if (data.resultcode == 0 || data.resultcode == '0') {
                                 var checkoppoint = uiScript.getParam('checkoppoint') || ''
                                 if (checkoppoint == '1' || checkoppoint == 1) {
-                                    that.inited = true
-                                    that.timeout = true
-                                    that.timeout_text = data.resultmsg
+                                    that.inited = true;
+                                    that.timeout = true;
+                                    that.timeout_text = data.resultmsg;
                                 }
                                 // 排队取号界面
                                 else if (checkoppoint == '' || checkoppoint == undefined || checkoppoint == 0 || checkoppoint == '0') {
-                                    that.$router.replace('/tnum')
+                                    that.$router.replace('/tnum');
                                 }
                             }
                             // 当 1 的时候，正确显示界面
                             else if (data.resultcode == 1 || data.resultcode == '1') {
-                                that.inited = true
-                                that.item = data.yyinfo[0]
+                                that.inited = true;
+                                that.item = data.yyinfo[0];
                                 //显示取号界面
-                                that.byURL = true
-                                that.byTouch = false
+                                that.byURL = true;
+                                that.byTouch = false;
                             }
                             // 返回值为2 的时候 无论如何都展示错误信息界面
                             else if (data.resultcode == 2 || data.resultcode == '2') {
-                                that.inited = true
-                                that.timeout = true
-                                that.timeout_text = data.resultmsg
+                                that.inited = true;
+                                that.timeout = true;
+                                that.timeout_text = data.resultmsg;
                             }
                             // 否则就只剩下 返回值0 且 checkoppoint 没有的情况了，跳转过去
                             else {
-                                that.$router.replace({ path: '/tnum', query: { response: 1 } })
+                                that.$router.replace({ path: '/tnum', query: { response: 1 } });
                             }
                         },
                         fail (error) {
-                            console.log('服务器出错！')
+                            console.log('服务器出错！');
                         },
                     })
                 } else {
-                    console.log('未判断出是微信项目')
-                    that.$router.replace('/tnum')
+                    console.log('未判断出是微信项目');
+                    that.$router.replace('/tnum');
                 }
             },
             pushForm () {
-                const that = this
+                const that = this;
                 request({
                     url: '/SubmitQHInfo',
                     data: { strJson: JSON.stringify({ wxh: that.openid, sfzh: '' }) },
                     success (data) {
-                        console.log(data)
-                        if (data.resultcode == 1 || data.resultcode == '1') {
-                            that.success = true
-                            that.result = data.noInfo[0].deal_no
+                        console.log(data);
+						that.isSuccess = true;
+                        if (Number(data.resultcode) === 1) {
+                            that.result = data.noInfo[0].deal_no;
                         } else {
-                            that.success = true
-                            that.result = data.resultmsg
+                            that.result = data.resultmsg;
                         }
                     },
                     fail (error) {
@@ -173,18 +169,14 @@
                 })
             },
             toSche () {
-                const that = this
-                that.$router.push({
-                    path: '/qupr',
-                })
+                const that = this;
+                that.$router.push({ path: '/qupr' })
             },
         },
     }
 </script>
 
 <style lang="css" scoped>
-
-	@import "../../css/elem UI.css";
 
 	span.title_name {
 		position: absolute;
@@ -205,19 +197,36 @@
 	}
 
 	.box-card {
-		width: 90%;
+		width: 100%;
 		margin: 0 auto;
 		margin-top: 0.15rem;
 	}
 
-	.box-card .content .text {
+	.new-card {
+		border: 1px solid #ebeef5;
+		background-color: #fff;
+		overflow: hidden;
+		color: #303133;
+		transition: .3s;
+		border-radius: 4px;
+		box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+	}
+
+	.box-card .new-content {
+		padding: 11px;
+	}
+
+	.box-card .new-content .text {
 		margin-bottom: 0.075rem;
 		font-size: 0.375rem;
 	}
 
-	.clearfix {
+	.new-clearfix {
 		font-size: 0.45rem;
 		color: #90CC4B;
+		padding: 11px;
+		padding-bottom: 10px;
+		border-bottom: 1px solid #EBEEF5;
 	}
 
 	.takeText {
@@ -240,6 +249,7 @@
 	.osubmit {
 		width: 90%;
 		margin: 0.3rem auto 0;
+		border-radius: 5px;
 	}
 
 	.result {

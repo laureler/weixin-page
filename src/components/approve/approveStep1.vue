@@ -39,14 +39,14 @@
 </template>
 
 <script>
-	import { CellGroup, Field, Uploader } from 'vant';
+	import { Dialog, CellGroup, Field, Uploader } from 'vant';
 
 	import Vue from 'vue';
 	import Head from '../app/head';
 	import Cookies from 'js-cookie';
 	import tencentBottom from '../app/TencentBottom.vue';
 
-	Vue.use(Uploader).use(Field).use(CellGroup);
+	Vue.use(Uploader).use(Field).use(CellGroup).use(Dialog);
 	export default {
 		components: {
 			'page-head': Head,
@@ -130,35 +130,42 @@
 					});
 				});
 			},
-			/*
-				下载个人产权证明
-			 */
+			// 住房证明查询
 			getGrantDeep() {
 				const _this = this;
 				let strJson = JSON.stringify({
-					'qlr': _this.data_name,
-					'zjhm': _this.data_id,
-					'returnbyte': true
-				});
-				var stringUrl = _this.$store.state.callbackUrl;
-				let paramData = {
-					'strJson': strJson
-				};
-				let config = { headers: { 'Content-Type': 'multipart/form-data' } };
-				_this.$post(stringUrl, paramData, config).then(rs => {
-					switch (rs.status) {
-						case '-1' || undefined:
-							alert('服务器出错');
-							break;
-						case '0':
-							alert('没有权限下载');
-							break;
-						case '1':
-							window.location.href = stringUrl +'?strJson=' + encodeURIComponent(strJson);
-							break;
+					qlr: _this.data_name,
+					zjhm: _this.data_id
+				}) + '';
+				let stringUrl = _this.$store.state.callbackUrl;
+				let config = { headers: { 'Content-Type': 'charset=UTF-8;multipart/form-data' } };
+				var formData = new FormData();
+				formData.append('strJson', strJson);  //扫码的值
+				_this.$post(stringUrl, formData, config).then(rs => {
+					if (rs) {
+						switch (Number(rs.status)) {
+							case -1 || undefined:
+								_this.dialogAlert('服务器出错');
+								break;
+							case 0:
+								_this.dialogAlert('没有权限下载');
+								break;
+							case 1:
+								window.location.href = stringUrl + '?strJson=' + encodeURIComponent(strJson);
+								break;
+							default:
+								_this.dialogAlert('接口返回数据异常！');
+								break;
+						}
 					}
-				}).catch(e => {
-					alert('服务器出错');
+				}).catch(error => {
+					_this.dialogAlert('接口异常' + error);
+				});
+			},
+			dialogAlert(message) {
+				Dialog.alert({
+					message: message
+				}).then({
 				});
 			},
 			WeChatFaceCheck () {
@@ -168,26 +175,25 @@
 					if (res.err_code == 0) { // 检测成功
 						var info = { 'request_verify_pre_info': '{"name":"' + _this.data_name + '","id_card_number":"' + _this.data_id + '"}' };
 						wx.invoke('requestWxFacePictureVerifyUnionVideo', info, function (res) {
-							// 人脸识别成功，判断是不是从个人中心首页进来的
+							// 人脸识别成功
+							_this.$store.commit('CARD_CODE', _this.data_id);
+							_this.$store.commit('CARD_NAME', _this.data_name);
+							// 判断是不是从个人中心首页进来的
 							if (_this.$route.query.isPersonalHomeCheck) {
-								_this.$store.commit('CARD_CODE', _this.data_id);
-								_this.$store.commit('CARD_NAME', _this.data_name);
-								_this.$router.push({ path: '/associativeAccount' });
-							}
-							console.log(res);
-							if (res.hasOwnProperty('err_code')) {
-								if (res.err_code == 0) {
-									_this.successToDo(_this, res.verify_result);
-								} else if (res.err_code == 90100) {
-									return;
-								} else {
-									_this.$router.push({
-										path: '/approveStep2', query: { isSuccess: 0 }
+								_this.$fetch('/pubWeb/public/faceRecognition/getLinkedAccounts?cardName=' + _this.data_name + '&cardNumber=' + _this.data_id)
+									.then(dataList => {
+										if (dataList.length === 0) {
+											// 如果没有ibase账号，则到注册页面
+											_this.$router.push({ path: '/signInAccount' });
+										} else {
+											_this.$router.push({ name: 'associativeAccount', params: { dataList: dataList } });
+										}
+									}).catch(error => {
+										console.log(error);
 									});
-								}
 							} else {
-								wx.invoke('requestWxFacePictureVerify', info, function (res) {
-									console.log(res);
+								console.log(res);
+								if (res.hasOwnProperty('err_code')) {
 									if (res.err_code == 0) {
 										_this.successToDo(_this, res.verify_result);
 									} else if (res.err_code == 90100) {
@@ -197,7 +203,20 @@
 											path: '/approveStep2', query: { isSuccess: 0 }
 										});
 									}
-								});
+								} else {
+									wx.invoke('requestWxFacePictureVerify', info, function (res) {
+										console.log(res);
+										if (res.err_code == 0) {
+											_this.successToDo(_this, res.verify_result);
+										} else if (res.err_code == 90100) {
+											return;
+										} else {
+											_this.$router.push({
+												path: '/approveStep2', query: { isSuccess: 0 }
+											});
+										}
+									});
+								}
 							}
 						});
 					} else if (res.err_code == 10001) {
@@ -241,7 +260,7 @@
 			let openId = Cookies.get('openid');
 
 			if (openId) { // 判断微信用户是否已认证，如果已认证直接进入到人脸识别过程
-				_this.$post('/pubWeb/public/faceRecognition/getAuthenticatedUserInfo?openId=' + openId).then(rs => {
+				_this.$fetch('/pubWeb/public/faceRecognition/getAuthenticatedUserInfo?openId=' + openId).then(rs => {
 					if (rs) {
 						//使用变量保存用户信息，用于后面的验证显示
 						_this.data_name = rs.name;
@@ -257,6 +276,7 @@
 			_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
 				wx.config(res);
 			});
+
 		}
 	};
 </script>

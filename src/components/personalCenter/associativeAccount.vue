@@ -1,11 +1,17 @@
 <template>
 	<div class="personal-ibase-account">
 		<page-head title="选择账户"></page-head>
-		<div class="ibaseAccountList" v-if="accountDataArray.length!==0">
+		<div style="background-color: #eff7f7;height: 25px;line-height:25px;padding-left: 10px;">
+			请选择不动产登记在线申请系统注册账号进行账号绑定
+		</div>
+		<div class="ibase-accountList" v-if="accountDataArray.length!==0">
 			<van-cell-group v-for="(accountItem, index) in accountDataArray">
-				<van-cell :title="accountItem.loginName" @click="associativeAccount(index)" />
+				<van-cell :title="accountItem.loginName" @click="selectedAccount(index)">
+					<van-icon slot="right-icon" name="success" v-if="selectedIndex==index" color="#2db6ff" size="20px"/>
+				</van-cell>
 			</van-cell-group>
 		</div>
+		<van-button size="large" class="blueButton"  @click="associativeAccount()">下一步</van-button>
 	</div>
 </template>
 
@@ -25,24 +31,25 @@
 			return {
 				accountDataArray: [],
 				active: 0,
+				selectedIndex: 0,
 			}
 		},
-		watch: {
-		},
 		methods: {
+			selectedAccount(index) {
+				this.selectedIndex = index;
+			},
 			/*
 				关联已有ibase账户
 			 */
-			associativeAccount(index) {
+			associativeAccount() {
 				const _this = this;
 				Dialog.confirm({
 					title: '提示',
 					message: '确认关联该账号？'
 				}).then(() => {
 					const openId = isWx() ? Cookies.get('openid') : '';
-					// const openId = Cookies.get('openid') || 'zyk';
 					const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-					let userId = _this.accountDataArray[index].userId;
+					let userId = _this.accountDataArray[_this.selectedIndex].userId;
 					let formData = new FormData();
 					formData.append('userId', userId);
 					formData.append('openId', openId);
@@ -64,36 +71,42 @@
 		},
 		//在$el被替换的时候调用钩子函数
 		mounted () {
-			const _this = this;
-			/*
-			* 已完成人脸识别，直接使用身份信息获取ibase账号
-			* */
-			let cardName = _this.$store.getters.getPersonCardInfo.cardName;
-			let cardNumber = _this.$store.getters.getPersonCardInfo.cardCode;
-			_this.$fetch('/pubWeb/public/faceRecognition/getLinkedAccounts?cardName=' + cardName + '&cardNumber=' + cardNumber)
-				.then(dataList => {
-					if (dataList && dataList.length > 0) {
-						// 如果只有一个ibase账号，则默认关联直接跳转
-						if (dataList.length === 1)  {
-							Toast('关联ibase账号成功！');
-							_this.$store.commit('SET_VERIFY_STATE', true);
-							_this.$store.commit('IBASE_ACCOUNT_ID', dataList[0].userId);
-							setTimeout(() => {
-								_this.$router.push({ path: '/personalCenter' });
-							}, 1000);
-						} else {
+			let dataList = this.$route.params.dataList;
+			if (dataList[0].userId) {
+				this.accountDataArray = dataList;
+			} else {
+				const _this = this;
+				/*
+				* 用户返回重新关联时数据丢失，重新获取数据
+				* */
+				let cardName = _this.$store.getters.getPersonCardInfo.cardName;
+				let cardNumber = _this.$store.getters.getPersonCardInfo.cardCode;
+				_this.$fetch('/pubWeb/public/faceRecognition/getLinkedAccounts?cardName=' + cardName + '&cardNumber=' + cardNumber)
+					.then(dataList => {
+						if (dataList.length > 0) {
 							_this.accountDataArray = dataList;
 						}
-					} else {
-						// 如果没有ibase账号，则到注册页面
-						_this.$router.push({ path: '/signInAccount' });
-					}
-				}).catch(error => {
-				console.log(error);
-			});
+					}).catch(error => {
+						console.log(error);
+					});
+			}
 		}
 	}
 </script>
 
 <style scoped>
+	.personal-ibase-account {
+		width: 100%;
+		height: 100%;
+	}
+
+	.ibase-accountList {
+		overflow-y: auto;
+		margin-bottom: 10px;
+		height: calc(100% - 140px);
+	}
+
+	.ibase-accountList /deep/ .van-cell__title {
+		max-width: none !important;
+	}
 </style>

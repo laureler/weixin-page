@@ -40,6 +40,8 @@
         },
         data () {
             return {
+            	// 当前取号 默认为空字符
+	            queueNumber:'',
                 success: false,
                 showTip: 1,
                 result: '',
@@ -75,6 +77,7 @@
                         console.log(data)
                         if (data.resultcode == 1 || data.resultcode == '1') {
                             let result = '<div style=\'text-align: center\'>您的取号是：' + data.noInfo[0].deal_no + '</div>'
+	                        that.queueNumber = data.resultmsg;
                             let button = '查看进度'
                             Dialog.alert({
                                 message: result,
@@ -87,6 +90,7 @@
                                 Toast(data.resultmsg)
                             } else {
                                 let result = '<div style=\'text-align: center\'>您的取号是：' + data.resultmsg + '</div>'
+	                            that.queueNumber = data.resultmsg;
                                 let button = '查看进度'
                                 Dialog.alert({
                                     message: result,
@@ -101,10 +105,12 @@
                     },
                 })
             },
+	        // 跳转到 排队状态查询
             toSche () {
                 const that = this
                 that.$router.push({
                     path: '/qupr',
+	                query: { queueNumber: that.queueNumber }
                 })
             },
         },
@@ -115,8 +121,6 @@
 </script>
 
 <style lang="css" scoped>
-
-	@import "../../css/elem UI.css";
 
 	.olabel {
 		font-size: 0.375rem;

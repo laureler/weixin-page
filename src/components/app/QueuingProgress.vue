@@ -8,6 +8,9 @@
 					<p class="titlep">排队信息</p>
 				</div>
 				<van-cell-group>
+					<van-cell v-if="success===1" title="我的取号：">
+						<div><span class="cell-content">{{result}}</span><span>号</span></div>
+					</van-cell>
 					<van-cell v-if="success===1" title="正在受理号：">
 						<div><span class="cell-content">{{result}}</span><span>号</span></div>
 					</van-cell>
@@ -39,13 +42,17 @@
         },
         data () {
             return {
+            	// success 默认为0 若为1则为成功
                 success: 0,
                 error: '',
+	            // 正在受理号
                 result: null,
+				// 当前排队等候人数
                 number: '',
                 wait: '',
                 myself: '',
                 wechat: 0,
+	            // 微信验证不通过 则为1
                 nowechat: 0,
             }
         },
@@ -59,7 +66,6 @@
                 request({
                     url: '/GetAllNo',
                     success (data) {
-                        console.log(data)
                         if (Number(data.resultcode) === 1) {
                             that.success = 1
                             that.result = data.noInfo[0].deal_no
@@ -84,7 +90,8 @@
                                 that.wechat = 0
                                 that.nowechat = 1
                             }
-                        } else {
+                        }
+                        else {
                             that.success = 2
                             that.error = data.resultmsg
                         }
@@ -100,8 +107,6 @@
 </script>
 
 <style lang="css" scoped>
-
-	@import "../../css/elem UI.css";
 
 	.box-body {
 		width: 100%;

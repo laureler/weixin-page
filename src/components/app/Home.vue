@@ -7,80 +7,80 @@
 		</div>
 		<transition name="fade">
 			<div v-show="inited" class="row-box">
-				<el-row class="home-row">
-					<el-col :span="8">
+				<van-row class="home-row">
+					<van-col :span="8">
 						<div class="home-item" @click="open('/appl')">
 							<p class="iconfont icon-yuyue green"></p>
 							<p class="title">在线预约</p>
 						</div>
-					</el-col>
-					<el-col :span="8">
+					</van-col>
+					<van-col :span="8">
 						<div class="home-item" @click="open('/resq')">
 							<p class="iconfont icon-chaxun blue"></p>
 							<p class="title">预约查询</p>
 						</div>
-					</el-col>
-					<el-col :span="8">
+					</van-col>
+					<van-col :span="8">
 						<div class="home-item last" @click="open('/canr')">
 							<p class="iconfont icon-quxiaoyuyue red"></p>
 							<p class="title">取消预约</p>
 						</div>
-					</el-col>
-				</el-row>
-				<el-row class="home-row">
-					<el-col :span="8">
+					</van-col>
+				</van-row>
+				<van-row class="home-row">
+					<van-col :span="8">
 						<div class="home-item" @click="open('/wtnum')">
 							<p class="iconfont icon-quhao orange"></p>
 							<p class="title">排队取号</p>
 						</div>
-					</el-col>
-					<el-col :span="8">
+					</van-col>
+					<van-col :span="8">
 						<div class="home-item" @click="open('/qupr')">
 							<p class="iconfont icon-paidui green"></p>
 							<p class="title">排队进度</p>
 						</div>
-					</el-col>
-					<el-col :span="8">
+					</van-col>
+					<van-col :span="8">
 						<div class="home-item last" @click="open('/schq')">
 							<p class="iconfont icon-jindu blue"></p>
 							<p class="title">进度查询</p>
 						</div>
-					</el-col>
-				</el-row>
-				<el-row class="home-row">
-					<el-col :span="8">
+					</van-col>
+				</van-row>
+				<van-row class="home-row">
+					<van-col :span="8">
 						<div class="home-item" @click="open('/wecq')">
 							<p class="iconfont icon-wodedangxuan blue"></p>
 							<p class="title">我的预约</p>
 						</div>
-					</el-col>
-					<el-col :span="8">
+					</van-col>
+					<van-col :span="8">
 						<div class="home-item" @click="open('/poli')">
 							<p class="iconfont icon-zhengce green"></p>
 							<p class="title">政务资讯</p>
 						</div>
-					</el-col>
-					<el-col :span="8">
+					</van-col>
+					<van-col :span="8">
 						<div class="home-item" @click="open('/spea')">
 							<p class="iconfont icon-yuyue orange"></p>
 							<p class="title">开发商预约</p>
 						</div>
-					</el-col>
-				</el-row>
-				<el-row class="home-row">
-					<el-col :span="8">
+					</van-col>
+				</van-row>
+				<van-row class="home-row">
+					<van-col :span="8">
 						<div class="home-item" @click="open('/routerHomePage')">
 							<p class="iconfont icon-yuyue orange"></p>
 							<p class="title">导航功能</p>
 						</div>
-					</el-col>
-					<el-col :span="8">
+					</van-col>
+					<van-col :span="8">
 						<div class="home-item last" @click="open('/personalCenter')">
 							<p class="iconfont icon-yuyue orange"></p>
 							<p class="title">个人中心</p>
 						</div>
-					</el-col>
-				</el-row>
+					</van-col>
+				</van-row>
 			</div>
 		</transition>
 		<footer v-show="inited" class="home-footer">

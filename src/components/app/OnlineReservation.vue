@@ -20,49 +20,11 @@
 				<li class="red rli">如未能正常预约,请到不动产登记中心咨询台咨询或拨打咨询电话0731-84529100.</li>
 			</ul>
 		</div>
-		<el-checkbox v-model="checked" @change="click" class="echeckbox">接受</el-checkbox>
-		<el-button class="nextbut" @click="open" type="primary" :disabled="display">下一步</el-button>
+		<van-checkbox v-model="checked" @change="click" class="echeckbox">接受</van-checkbox>
+		<van-button class="nextbut" @click="open" type="info" :disabled="display">下一步</van-button>
 		<div style="height: 0.3rem"></div>
 	</div>
 </template>
-
-<style lang="css" scoped>
-
-	@import "../../css/elem UI.css";
-
-	.echeckbox {
-		margin: 0;
-		padding: 0.3rem 0.225rem;
-		width: 100%;
-		box-sizing: border-box;
-	}
-
-	.cctext {
-		font-size: 0.375rem;
-		border: 1px solid rgba(0, 0, 0, 0.2);
-		margin-top: 0.3rem;
-		margin-left: 0.225rem;
-		margin-right: 0.225rem;
-	}
-
-	ul {
-		margin: 0;
-		padding: 0 0 0 0.6rem;
-	}
-
-	.nextbut {
-		margin: 0 0.225rem;
-	}
-
-	.rli {
-		padding: 0.15rem;
-		line-height: 0.48rem;
-	}
-
-	.red {
-		color: red;
-	}
-</style>
 
 <script>
 	import Head from './head.vue'
@@ -91,3 +53,40 @@
 		},
 	}
 </script>
+
+<style lang="css" scoped>
+
+	.echeckbox {
+		margin: 0;
+		padding: 0.3rem 0.225rem;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	.cctext {
+		font-size: 0.375rem;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		margin-top: 0.3rem;
+		margin-left: 0.225rem;
+		margin-right: 0.225rem;
+	}
+
+	ul {
+		margin: 0;
+		padding: 0 0 0 0.6rem;
+	}
+
+	.nextbut {
+		margin: 0 10px;
+		border-radius: 5px;
+	}
+
+	.rli {
+		padding: 0.15rem;
+		line-height: 0.48rem;
+	}
+
+	.red {
+		color: red;
+	}
+</style>

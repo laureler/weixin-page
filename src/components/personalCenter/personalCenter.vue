@@ -4,18 +4,16 @@
 		<page-head title="个人中心"></page-head>
 		<div class="personal-center-content">
 			<!-- 两端对齐 -->
-			<div v-for="(column, key) in columns" class="content-tab-div" @click="open(column.path)">
-				<div>
+			<div v-for="(column, key) in columns" class="content-tab-div" @click="clickIntoNextPage(column.path, column.title)">
+				<div v-if="column.iconUrl">
+					<img src="../../../public/images/wechatstatic/personal-center.png" class="img"/>
+				</div>
+				<div v-else>
 					<img src="../../../public/images/wechatstatic/personal-center.png" class="img"/>
 				</div>
 				<div class="content-text content-title">
 					<span>
 						{{column.title}}
-					</span>
-				</div>
-				<div class="content-text content-sub-title">
-					<span>
-						{{column.subTitle}}
 					</span>
 				</div>
 			</div>
@@ -26,6 +24,7 @@
 <script>
 
 	import Head from '../app/head'
+	import { watermark } from '../../utils/waterLog'
 
 	export default {
 		components: {
@@ -33,40 +32,32 @@
 		},
 		data () {
 			return {
-				columns: [
-					{
-						title: '住房证明查询',
-						subTitle: '',
-						path: '',
-						icon: ''
-					},
-					{
-						title: '我的不动产',
-						subTitle: '',
-						path: '/personInfo',
-						icon: ''
-					},
-					{
-						title: '我的业务',
-						subTitle: '',
-						path: '/personalBusiness',
-						icon: ''
-					},
-					{
-						title: '个人信息',
-						subTitle: '',
-						path: '/personalSetting',
-						icon: ''
-					},
-				],
+				columns: [],
+
+				pdfURL: '',
+				pdfData: '',
+				pages: '',
+				isShowPDF: false,
 			}
 		},
 		methods: {
-			open (path) {
-				this.$router.push(path);
+			clickIntoNextPage (path, title) {
+				this.$router.push({path: path, query: { title: title }});
 			},
 		},
 		mounted () {
+			const _this = this;
+
+			_this.$fetch('/pubWeb/public/getWeChatPersonalMenus').then(data => {
+				for (let i = 0, len = data.length; i < len; i++) {
+					_this.columns.push({
+						title: data[i].text,
+						path: data[i].attributes.path,
+						iconUrl: data[i].attributes.iconUrl
+					})
+				}
+
+			});
 		},
 	}
 </script>
@@ -94,4 +85,5 @@
 	.content-title {
 		font-weight: bold;
 	}
+
 </style>

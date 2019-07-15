@@ -6,33 +6,23 @@
 			<p class="titlep">预约事项及预约时间</p>
 		</div>
 		<van-cell-group>
-			<van-cell id="select1" :class="isDisabled" title="办理网点：" :value="select1Value" is-link center required
-					  @click="selectData" data-type="list" @change="updateData"/>
-			<van-cell id="select2" :class="isDisabled" title="预约事项：" :value="select2Value" is-link center required
-					  @click="selectData" data-type="list"/>
-			<van-cell id="select3" :class="isDisabled" title="预约日期：" :value="select3Value" is-link center required
-					  @click="selectData" data-type="time"/>
-			<van-cell id="select4" :class="isDisabled" title="预约时段：" :value="select4Value" is-link center required
-					  @click="selectData" data-type="time"/>
-			<van-field id="kyys" label="剩余预约数：" clearable readonly text-align="right" input-align="right"
-					   v-model="kyys"/>
-			<van-field id="yysl" label="预约数量：" clearable style="display: none;" text-align="right" input-align="right"
-					   v-model="yysl"/>
+			<van-cell id="select1" :class="isDisabled" title="办理网点：" :value="select1Value" is-link center required @click="selectData" data-type="list"/>
+			<van-cell id="select2" :class="isDisabled" title="预约事项：" :value="select2Value" is-link center required @click="selectData" data-type="list"/>
+			<van-cell id="select3" :class="isDisabled" title="预约日期：" :value="select3Value" is-link center required @click="selectData" data-type="time"/>
+			<van-cell id="select4" :class="isDisabled" title="预约时段：" :value="select4Value" is-link center required @click="selectData" data-type="time"/>
+			<van-field id="kyys" label="剩余预约数：" v-show="isShowYYSL" clearable readonly text-align="right" input-align="right" v-model="kyys"/>
+			<van-field id="yysl" label="预约数量：" clearable style="display: none;" text-align="right" input-align="right" v-model="yysl"/>
 		</van-cell-group>
 		<div class="title">
 			<div class="borderLeft borderLeftBlue"></div>
 			<p class="titlep">预约人信息</p>
 		</div>
 		<van-cell-group>
-			<van-field id="name" label="代理人名称：" clearable required text-align="right" input-align="right"
-					   v-model="name"/>
+			<van-field id="name" label="代理人名称：" clearable required text-align="right" input-align="right" v-model="name"/>
 			<van-cell id="cerType" title="代理人证件种类：" :value="cerTypeValue" is-link center required @click="selectData"/>
-			<van-field id="cerNumber" label="代理人证件号码：" clearable required text-align="right" input-align="right"
-					   v-model="cerNumber" type="text"/>
-			<van-field id="phoNumber" label="手机号码：" clearable required text-align="right" input-align="right"
-					   v-model="phoNumber" type="tel"/>
-			<van-field id="orginational" label="组织机构代码或营业执照：" clearable required text-align="right" input-align="right"
-					   v-model="orginational"/>
+			<van-field id="cerNumber" label="代理人证件号码：" clearable required text-align="right" input-align="right" v-model="cerNumber" type="text"/>
+			<van-field id="phoNumber" label="手机号码：" clearable required text-align="right" input-align="right" v-model="phoNumber" type="tel"/>
+			<van-field id="orginational" label="组织机构代码或营业执照：" clearable required text-align="right" input-align="right" v-model="orginational"/>
 		</van-cell-group>
 		<div class="tip">
 			<p class="cp">提示：预约号当天有效。请申请人在预约成功当天，凭微信预约成功的信息到现场交件。</p>
@@ -59,56 +49,70 @@
         },
         data () {
             return {
-                oselect: null,   //由于当前接口为一个接口获取三个数据，所以添加一个data接收。
-                selectItemId: null, //当前点击选中项
-                showData: [],  //当前下拉框需要展示的数据
-                isDisabled: 'disabled',
-                show: false, //是否展示数据选择项
-                select1Data: [],  //当前选中项
-                select2Data: [],  //当前列表选中项数据
-                select3Data: [],
-                select4Data: [],
-                /*       imgShow: false, */
-                cerType: '',
-                cerTypeValue: '', //当前选中的身份证类型
-                select1Value: '', //当前选中id='select1'的数据
-                select2Value: '', //预约事项选中项
-                select3Value: '', //预约日期选中项
-                select4Value: '', //预约时段选中项
-                selShow1: true,
-                selShow2: true,
-                selShow3: true,
-                name: '',       //预约人名称
-                kyys: 0, // 可预约数
-                yysl: 1,        // 预约数量
-                yyfs: '2',       //预约方式
-                cerNumber: '',  //当前输入的证件号码
-                phoNumber: '',  //当前输入的手机号码
-                orginational: '',
-                cerTypeData: ['身份证', '港澳台身份证', '护照', '户口簿', '军官证（士兵证）']
+				oselect: null,   //由于当前接口为一个接口获取三个数据，所以添加一个data接收。
+				selectItemId: null, //当前点击选中项
+				showData: [],  //当前下拉框需要展示的数据
+				isDisabled: 'disabled',
+				show: false, //是否展示数据选择项
+				select1Data: [],  //当前选中项
+				select2Data: [],  //当前列表选中项数据
+				select3Data: [],
+				select4Data: [],
+				/*       imgShow: false, */
+				cerType: '',
+				cerTypeValue: '', //当前选中的身份证类型
+				select1Value: '', //当前选中id='select1'的数据
+				select2Value: '', //预约事项选中项
+				select3Value: '', //预约日期选中项
+				select4Value: '', //预约时段选中项
+				selShow1: true,
+				selShow2: true,
+				selShow3: true,
+				name: '',       //预约人名称
+				kyys: 0, // 可预约数
+				isCanYY: true,	// 可不可预约时段
+				yysl: 1,        // 预约数量
+				yyfs: '2',       //预约方式
+				cerNumber: '',  //当前输入的证件号码
+				phoNumber: '',  //当前输入的手机号码
+				orginational: '',
+				cerTypeData: ['身份证', '港澳台身份证', '护照', '户口簿', '军官证（士兵证）'],
+
+				isShowYYSL: false,	// 默认不显示可预约数量
             }
         },
-        //计算属性
-        computed: {},
         watch: {
-            select1Value: function (newValue, oldValue) {
-                // console.log('监听到select1Value变化',oldValue,newValue)
-                this.select1()
+        	// 当办理网点变更时触发
+            select1Value: function () {
+				console.log('更新数据');
+				this.select2Value = '';
+                this.select1();
             },
-            select2Value: function () {
-                this.select2()
-            },
-            select3Value: function () {
-                this.select3()
-            },
-            select4Value: function () {
+			// 当预约事项变更时触发
+            select2Value: function (newValue, oldValue) {
+            	this.select3Value = '';
 
-            }
+				if (newValue === '') {
+					return;
+				}
+                this.select2();
+            },
+			// 当预约日期变更时触发
+            select3Value: function (newValue, oldValue) {
+				this.select4Value = '';
+
+				if (newValue === '') {
+					return;
+				}
+                this.select3();
+            },
+			// 当预约时段变更时触发
+			select4Value: function (newValue, oldValue) {
+				// 当预约时段变更时，重新计算剩余预约数
+				this.haveKyys(newValue);
+			}
         },
         methods: {
-            updateData: function () {
-                console.log('更新数据')
-            },
             /**
              * 确认下拉框选项
              **/
@@ -164,11 +168,11 @@
              * 2. 设置当前 picker的列表项
              **/
             selectData () {
-                // kyys如果是0，说明可预约数量为0或是非可预约时段
-                if (this.kyys === 0) {
-                    Toast('当前不可预约！')
-                    return
-                }
+                // 非可预约时段
+				if (!this.isCanYY) {
+					Toast('当前时段不可预约！');
+					return
+				}
                 // todo 如果点击了 span标记似乎会不太正确
                 var idValue = event.target.id != '' ? event.target.id : (event.target.parentElement.id != '' ? event.target.parentElement.id : event.target.parentElement.parentElement.id)
                 console.log(idValue)
@@ -205,25 +209,6 @@
                 this.selectItemId = idValue
                 this.show = !this.show
             },
-            // 禁止默认事件
-            /*stopPropagation(e) {
-			  const ev = e || window.event;
-			  if (ev.stopPropagation) {
-				ev.stopPropagation();
-			  } else if (window.event) {
-				window.event.cancelBubble = true;
-			  }
-			},*/
-            // 信息提示
-            /*remind(a) {
-			  if (this.select1Value == '') {
-				Toast('请先选择办理网点')
-			  } else if (this.select2Value == '' && a > 2) {
-				Toast('请先选择预约事项')
-			  } else if (this.select3Value == '' && a > 3) {
-				Toast('请先选择预约日期')
-			  }
-			},*/
             // 改变颜色
             changeColor (id) {
                 const oid = document.getElementById(id)
@@ -243,93 +228,80 @@
                     }
                 }
             },
+			// 判断是否可预约
+			checkCanAppointment() {
+            	const that = this;
+				request({
+					url: '/GetTSYYRQSD',
+					success (response) {
+						const yyxxinfo = response.yyxxinfo
+						// 不允许预约时段，不可预约
+						if (yyxxinfo == null || yyxxinfo.length === 0) {
+							// 不可预约，禁止用户点击
+							that.isCanYY = false;
+							Toast('非正常预约时段！')
+							return
+						} else if (yyxxinfo.length === 1) {
+							// 当只有一个区域可预约，显示可预约数
+							that.oselect = yyxxinfo;
+							that.isShowYYSL = true;
+							that.kyys = Number(yyxxinfo[0].ZYYS) - Number(yyxxinfo[0].YYYS);
+						} else {
+							that.oselect = yyxxinfo;
+						}
+					},
+					fail (error) {
+					},
+				})
+			},
             /**
              * 在id = select1 值改变的时候，获取select2的数据
+			 * 变更预约事项数据列表
              */
             select1 () {
-                const _this = this
-                const param = { szwd: _this.select1Value, yyfs: '2' }
-                request({
-                    url: '/GetTSYYRQSD',
-                    success (response) {
-                        console.log(response)
-                        _this.oselect = response.yyxxinfo
-                        const arr = []
-                        _this.select2Data = []
-                        for (let i = 0; i < response.yyxxinfo.length; i++) {
-                            arr.push(response.yyxxinfo[i].YYSX)
-                        }
-                        _this.select2Data = Array.from(new Set(arr))
-                    }, fail (error) {
-                    },
-                })
-                /*request({
-				  url: '/GetTSYYRQSD',
-				  data: {strJson: JSON.stringify(param)},
-				  success(response) {
-					_this.select2Data = [];
-					_this.select2Value = '';
-					_this.select3Value = '';
-					_this.select4Value = '';
-					_this.select2Data.push(response)
-					_this.selShow1 = false;
-				  },
-				  fail(error) {
-				  },
-				})*/
+                const _this = this;
+                // 每次办理网点变更就获取新的网点数据，并判断是否可预约
+				_this.checkCanAppointment();
+                if (_this.oselect && _this.oselect.length !== 0) {
+					const arr = []
+					_this.select2Data = []
+					for (let i = 0; i < _this.oselect.length; i++) {
+						arr.push(_this.oselect[i].YYSX)
+					}
+					_this.select2Data = Array.from(new Set(arr))
+				} else {
+					Toast('请选择办理网点！');
+				}
             },
-            // 当第二个选项改变的时候触发，目的是为了修改第三个。
+            // 变更预约日期数据列表
             select2 () {
-                const that = this
-                that.select3Data = []
-                const arr = []
+                const that = this;
+                that.select3Data = [];
+                const arr = [];
                 for (const value of that.oselect) {
                     if (value.YYSX.includes(that.select2Value)) {
-                        arr.push(value.YYRQ)
+                        arr.push(value.YYRQ);
                     }
                 }
-                that.select3Data = Array.from(new Set(arr))
+                that.select3Data = Array.from(new Set(arr));
             },
+			// 变更预约时段数据列表
             select3 () {
-                const that = this
-                const param = { szwd: that.select1Value, yysx: that.select2Value, yyrq: that.select3Value, yyfs: '2' }
-                request({
-                    url: '/GetTSYYRQSD',
-                    success (response) {
-                        that.select4Data = []
-                        var tmparry = []
-                        that.sel4 = ''
-                        for (const value of response.yyxxinfo) {
-                            if (value.YYSX.includes(that.select2Value) && value.YYRQ.includes(that.select3Value)) {
-                                const remark = value.SFYY == true ? '（已被预约）' : ''
-                                tmparry.push({
-                                    text: `${value.YYSD}${remark}`,
-                                    disabled: value.SFYY
-                                })
-                            }
-                        }
-                        that.select4Data.push({ obj: tmparry })
-                        /* let result = response.yysdinfo
-									for(let i = 0; i < result.length; i++) {
-									  let count = result[i].zhs - result[i].yyys;
-									  let disableAtrr = count == 0 ? true : false;
-									  let remark = count == 0 ? "（已约满）" : "（剩" + count + "个）";
-									  that.oselect4.push({
-										'yysd': `${result[i].yysd} ${remark}`,
-										'value': result[i].yysd,
-										'disabled': disableAtrr
-									  })
-									} */
-                        that.selShow3 = false
-                    },
-                    fail (error) {
-                    },
-                })
+                const that = this;
+				that.select4Data = [];
+				var tmparry = [];
+				for (const value of that.oselect) {
+					if (value.YYSX.includes(that.select2Value) && value.YYRQ.includes(that.select3Value)) {
+						const remark = value.SFYY == true ? '（已被预约）' : '';
+						tmparry.push({
+							text: `${value.YYSD}${remark}`,
+							disabled: value.SFYY
+						});
+					}
+				}
+				that.select4Data.push({ obj: tmparry })
+				that.selShow3 = false
             },
-            // todo 没有意义
-            /*select4() {
-			  document.getElementById('select4').style.color = '#4ECD5D';
-			},*/
             resq () {
                 var that = this
                 const openid = isWx() ? Cookies.get('openid') : ''
@@ -369,12 +341,17 @@
             check () {
                 if (this.name !== '' && this.cerNumber !== '' && this.phoNumber !== '' && this.orginational !== '' &&
                     this.select1Value != '' && this.select2Value != '' && this.select3Value != '' && this.select4Value != '') {
-                    // 验证组织机构代码 或 营业执照 是否符合格式
+					// 可预约时段数为0
+					if (this.kyys === 0) {
+						Toast('当前时段不可预约！');
+						return;
+					}
+                	// 验证组织机构代码 或 营业执照 是否符合格式
                     if (!(/^([0-9a-zA-Z]{18}$|\d{15}$)/.test(this.orginational))) {
                         Toast('组织机构代码或营业执照格式不正确！')
                         return
                     }
-                    if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.phoNumber))) {
+                    if (!(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(this.phoNumber))) {
                         Toast('手机号码格式不正确！')
                     } else if (this.cerTypeValue == '身份证') {
                         if (!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.cerNumber))) {
@@ -389,19 +366,15 @@
                             this.resq()
                         }
                     } else if (this.cerTypeValue == '港澳台身份证') {
-                        const taiwanreg = /^[A-Z][0-9]{9}$/
-                        const xianggangreg = /^[A-Z][0-9]{6}\([0-9A]\)$/
-                        const aomenreg = /^[157][0-9]{6}\([0-9]\)$/
-                        // (/^[a-zA-Z0-9]{5,21}$/.test(this.cerNumber))
-                        if (!(taiwanreg.test(this.cerNumber))) {
-                            Toast('港澳台身份证号码格式不正确！')
-                        } else if (!(xianggangreg.test(this.cerNumber))) {
-                            Toast('港澳台身份证号码格式不正确！')
-                        } else if (!(aomenreg.test(this.cerNumber))) {
-                            Toast('港澳台身份证号码格式不正确！')
-                        } else {
-                            this.resq()
-                        }
+	                    const aomenreg = /^[157][0-9]{6}\([0-9]\)$/;	// 补充澳门身份证正则
+	                    const taiwanreg = /^\d{8}|^[a-zA-Z0-9]{10}|^\d{18}$/;	// 台湾身份证正则
+	                    const GAReg = /^([A-Z]\d{6,10}(\(\w{1}\))?)$/;	// 港澳身份证正则
+	                    if (taiwanreg.test(this.cerNumber) || GAReg.test(this.cerNumber) || aomenreg.test(this.cerNumber)) {
+		                    this.resq();
+	                    } else {
+		                    Toast('港澳台身份证号码格式不正确！');
+		                    return;
+	                    }
                     } else if (this.cerTypeValue == '户口簿') {
                         if (!(/^[a-zA-Z0-9]{3,21}$/.test(this.cerNumber))) {
                             Toast('户口簿号码格式不正确！')
@@ -413,6 +386,25 @@
                     Toast('请完善个人信息！')
                 }
             },
+			haveKyys(selectedTimeFrame) {
+				this.isShowYYSL = true;
+            	if (Number(selectedTimeFrame) === 0) {
+					return;
+				}
+				let kyys = 0;
+				for (let value of this.oselect) {
+					if (value.YYSX.includes(this.select2Value) && value.YYRQ.includes(this.select3Value) && value.YYSD.includes(selectedTimeFrame)) {
+						kyys = Number(value.ZYYS) - Number(value.YYYS);
+					}
+				}
+				if (kyys === 0) {
+					this.kyys = 0;
+					Toast('当前时段可预约数量为0！');
+					return
+				} else {
+					this.kyys = kyys;
+				}
+			}
         },
         // 挂载元素时自动触发
         mounted () {
@@ -423,41 +415,17 @@
                     that.select1Data.push(response)
                 },
                 fail (error) {
-
                 },
             })
 
-            // 判断是否可预约
-            request({
-                url: '/GetTSYYRQSD',
-                success (response) {
-                    const yyxxinfo = response.yyxxinfo
-                    // 不允许预约时段，不可预约
-                    if (yyxxinfo == null || yyxxinfo.length === 0) {
-                        // 不可预约，禁止用户点击
-                        Toast('非正常预约时段！')
-                        return
-                    } else {
-                        // 允许预约时段，判断可预约数
-                        let kyys = yyxxinfo[0].ZYYS - yyxxinfo[0].YYYS
-                        if (kyys && kyys === 0) {
-                            Toast('可预约数量为0！')
-                            return
-                        } else {
-                            that.kyys = kyys
-                        }
-                    }
-                },
-                fail (error) {
-                },
-            })
+			that.checkCanAppointment();
+
         },
     }
 </script>
 
 <style lang="css" scoped>
 
-	/*@import "../../css/elem UI.css";*/
 	.rightInput {
 		text-align: right !important;
 	}

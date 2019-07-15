@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import store from '../store/index';
+import { fetch } from '../utils/http';
 
 Vue.use(Router);
 
@@ -48,7 +49,7 @@ const router = new Router({
 		{
 			path: '/schq',
 			name: 'ScheduleQuery',
-			component: resolve => require(['@/components/app/ScheduleQuery'], resolve)
+			component: resolve => require(['@/components/app/ScheduleQuery'], resolve),
 		},
 		{
 			path: '/resq',
@@ -115,14 +116,28 @@ const router = new Router({
 			name: 'SpeApplMsg',
 			component: resolve => require(['@/components/app/SpeApplMsg'], resolve)
 		},
+		{
+			path: '/onlineReservation',
+			name: 'OnlineReservation',
+			component: resolve => require(['@/components/app/OnlineReservation'], resolve)
+		},
+		// 登陆验证
+		{
+			path: '/checkLogin',
+			name: 'CheckUser',
+			component: resolve => require(['@/components/app/CheckLogin'], resolve),
+		},
 		// 准备开启人脸核身验证
 		{
 			path: '/preApprovenew',
 			name: 'preApprove',
 			component: resolve => require(['@/components/approve/preApprove'], resolve),
 		},
-		// 人脸识别接口1 /approve/approveStep1
-		// 人脸识别接口2 /approve/approveStep2
+		/*
+		* 人脸核身
+		* 人脸核身页面1：/approve/approveStep1
+		* 人脸核身页面2：/approve/approveStep2
+		* */
 		{
 			path: '/approvenew',
 			component: resolve => require(['@/components/approve/approve'], resolve),
@@ -218,12 +233,18 @@ const router = new Router({
 			name: 'signInAccount',
 			component: resolve => require(['@/components/personalCenter/signInAccount'], resolve),
 		},
+		{
+			path: '/houseCertifyDownload',
+			name: 'houseCertifyDownload',
+			component: resolve => require(['@/components/personalCenter/houseCertifyDownload'], resolve),
+		},
 	]
 });
 
 router.beforeEach((to, from, next) => {
+
 	// 如果是要进入个人中心首页或相关页面，需要验证配置和人脸识别
-	if (to.meta.isPersonalHomePage) {
+	if (!to.meta.isNeedLogin && to.meta.isPersonalHomePage) {
 		if ((/^true$/i).test(store.getters.getVerifyState)) {
 			// 完成人脸识别表示已完成个人设置
 			next();
@@ -232,7 +253,34 @@ router.beforeEach((to, from, next) => {
 			next({ path: '/preApprovenew', query: { isPersonalHomeCheck: true } });
 		}
 	}
-	next();
+
+	if (from.path !== 'checkLogin' && to.meta.isNeedLogin) {
+		fetch('/mainWeb/initLogin').then(response => {
+			if (/html/i.test(response)) {
+				// 返回若是html页面，则表示未cas登陆
+				next({ path: '/checkLogin', query: { isTo: to.path }});
+			} else {
+				// cas登陆成功
+				if (to.meta.isPersonalHomePage) {
+					if ((/^true$/i).test(store.getters.getVerifyState)) {
+						// 完成人脸识别表示已完成个人设置
+						next();
+					} else {
+						// 开始个人设置
+						next({ path: '/preApprovenew', query: { isPersonalHomeCheck: true } });
+					}
+				} else {
+					next();
+				}
+			}
+		}).catch(error => {
+			console.log(error);
+			next({ path: '/checkLogin', query: { isTo: to.path }});
+		});
+	} else {
+		next();
+	}
+
 });
 
 // 增加路由导航

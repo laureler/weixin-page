@@ -1,8 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-// import * as api from '../constants/index.js'
 import * as types from './type';
-// import * as http from '../utils/http.js'
 
 Vue.use(Vuex);
 
@@ -10,6 +8,7 @@ export default new Vuex.Store({
 	state: {
 		step: 0,	// 认证步骤
 		messageStep: 1,	// 短信认证步骤
+		messageData: [],	// 短信确认数据
 		callbackUrl: '',
 		cardCode: '',
 		cardName: '',
@@ -31,6 +30,9 @@ export default new Vuex.Store({
 		},
 		[types.SET_MESSAGESTEP] (state, res) {
 			state.messagestep = res;
+		},
+		[types.SET_MESSAGEDATA] (state, res) {
+			state.messageData = res;
 		},
 		[types.CALLBACK_URL] (state, res) {
 			state.callbackUrl = res;
@@ -59,7 +61,7 @@ export default new Vuex.Store({
 			if (state.finishedVerify) {
 				return state.finishedVerify;
 			} else if (sessionStorage.getItem('finishedVerify')) {
-				 return sessionStorage.getItem('finishedVerify');
+				return sessionStorage.getItem('finishedVerify');
 			} else {
 				return false;
 			}

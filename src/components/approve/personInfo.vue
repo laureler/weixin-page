@@ -69,6 +69,9 @@
         },
         components: { 'page-head': header },
         mounted () {
+        	let title = this.$route.query.title;
+        	this.title = title ? title : this.title;
+
             /*let param = {
 			  'qlr': this.$store.state.cardCode,
 			  'zjhm': this.$store.state.cardName
@@ -98,7 +101,11 @@
                         if (Number(response.resultcode) === 1) {
                             _this.isSuccess = true;
                             _this.infos = response.result || '';
-                            watermark(null, _this.infos[0].mark);
+
+							_this.$nextTick(() => {
+								watermark(null, _this.infos[0].mark);
+							});
+
                         } else {
                             _this.isSuccess = false;
                             _this.resultmsg = response.resultmsg;
@@ -109,7 +116,12 @@
                     console.log(err)
                 },
             })
-        }
+        },
+		beforeDestroy() {
+			document.querySelectorAll('div[id*="mask_div"]').forEach(function(item) {
+				item.parentNode.removeChild(item);
+			});
+		}
     }
 </script>
 

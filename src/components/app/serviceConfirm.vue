@@ -49,8 +49,8 @@
 				smsCodeBtnValue: '获取验证码',
 				// 验证码
 				smsCode: '',
-				// 设置倒计时大小 默认60秒
-				countdownSize: 60,
+				// 设置倒计时大小 默认90秒
+				countdownSize: 90,
 				// 倒计时，当前剩余秒数
 				curCount: 0,
 			};
@@ -62,7 +62,7 @@
 				if (_this.phoneNumber === '') {
 					Toast('请输入手机号码！');
 					return;
-				} else if (!(/^1[3|4|5|7|8]\d{9}$/.test(_this.phoneNumber))) {
+				} else if (!(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(_this.phoneNumber))) {
 					Toast('手机号码格式不正确！');
 					return;
 				} else if (_this.searchParam === '') {
@@ -71,12 +71,13 @@
 					return;
 				} else {
 					// 条件满足，开始发送短信
-					this.$fetch('/pubWeb/system/public/jidsmsCode?jid=' + _this.searchParam + '&number=' + _this.phoneNumber)
+					this.$fetch('/pubWeb/system/public/jidSmsCode?jid=' + _this.searchParam + '&number=' + _this.phoneNumber)
 						.then(response => {
 							if (response) {
 								// 短信发送成功
 								Toast('短信发送成功！');
 								_this.sendSmsNumber = _this.phoneNumber;
+								_this.smsCodeBtnChange();
 							} else {
 								Toast('手机号跟业务登记号不匹配!');
 								_this.curCount = 0;
@@ -85,21 +86,22 @@
 						.catch(error => {
 							console.log(error);
 						});
-
-					// 页面倒计时和禁用按钮效果
-					_this.curCount = _this.countdownSize;
-					_this.smsCodeBtnValue = '倒计时 ' + _this.curCount + 'S';
-					var TimerObj = setInterval(() => {
-						if (_this.curCount > 0) {
-							_this.curCount--;
-							_this.smsCodeBtnValue = '倒计时 ' + _this.curCount + 'S';
-						} else {
-							// 禁用时间结束，关闭轮询，释放按钮
-							clearInterval(TimerObj);
-							_this.smsCodeBtnValue = '获取验证码';
-						}
-					}, 1000);
 				}
+			},
+			smsCodeBtnChange() {
+				// 页面倒计时和禁用按钮效果
+				this.curCount = this.countdownSize;
+				this.smsCodeBtnValue = '倒计时' + this.curCount + '秒';
+				var TimerObj = setInterval(() => {
+					if (this.curCount > 0) {
+						this.curCount--;
+						this.smsCodeBtnValue = '倒计时' + this.curCount + '秒';
+					} else {
+						// 禁用时间结束，关闭轮询，释放按钮
+						clearInterval(TimerObj);
+						this.smsCodeBtnValue = '获取验证码';
+					}
+				}, 1000);
 			},
 			search: function () {
 				const _this = this;
@@ -118,6 +120,7 @@
 					).then(response => {
 						if (response) {
 							// 参数约定 以token为名称，值为业务编号
+							_this.$store.commit('SET_MESSAGEDATA', response);
 							_this.$router.push({ path: '/messageApprove', query: { token: _this.searchParam } });
 						} else {
 							Toast('请输入正确的验证码！');

@@ -1,3 +1,4 @@
+/*
 module.exports = {
     root: true,
     env: {
@@ -22,3 +23,4 @@ module.exports = {
         parser: 'babel-eslint'
     }
 }
+*/

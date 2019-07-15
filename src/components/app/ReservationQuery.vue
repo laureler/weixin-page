@@ -70,7 +70,6 @@
 
 <style lang="css" scoped>
 
-	@import "../../css/elem UI.css";
 	.olabel b {
 		color: #d7342e
 	}

@@ -16,9 +16,8 @@
 				个人信息
 			</div>
 			<van-cell-group>
-				<van-field id="username" label="姓名" placeholder="真实姓名" v-model.trim="username" type="text"
-						   label-align="left" clearable />
-				<van-field id="cerNumber" label="身份证号" placeholder="身份证号码" v-model.trim="cerNumber" type="text" clearable />
+				<van-field id="username" label="姓名" v-model.trim="username" type="text" label-align="left" clearable readonly />
+				<van-field id="cerNumber" label="身份证号" v-model.trim="cerNumber" type="text" clearable readonly />
 				<van-field id="cardAddress" label="证件地址" placeholder="证件地址"
 						   v-model.trim="cardAddress" type="text" @click="showOrHideAreaPopup" clearable readonly/>
 				<!--证件地址选择弹出框-->
@@ -139,14 +138,13 @@
 							* 验证通过，保存信息
 							* */
 							const openId = isWx() ? Cookies.get('openid') : '';
-							// const openId = Cookies.get('openid') || 'zyk';
 							const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 							const idAddress = _this.cardAddress.replace(/\//g, '::');
 
 							let formData = new FormData();
 							formData.append('wxOpenId', openId);
 							formData.append('loginName', _this.loginName);
-							formData.append('password', sha1(_this.password));
+							formData.append('password', sha1(_this.password).toUpperCase());
 
 							formData.append('realName', _this.username);
 							formData.append('typeNumb', '身份证,' + _this.cerNumber);
@@ -244,7 +242,7 @@
 				if (_this.phoneNumber === '') {
 					Toast('请输入手机号码！');
 					return false;
-				} else if (!(/^1[3|4|5|7|8]\d{9}$/.test(_this.phoneNumber))) {
+				} else if (!(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(_this.phoneNumber))) {
 					Toast('手机号码格式不正确！');
 					return false;
 				}

@@ -75,8 +75,6 @@
 
 <style lang="css" scoped>
 
-	@import "../../css/elem UI.css";
-
 	.box-card {
 		width: 90%;
 		margin: 0 auto;
