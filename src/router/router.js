@@ -170,6 +170,12 @@ const router = new Router({
 			name: 'personInfo',
 			component: resolve => require(['@/components/approve/personInfo'], resolve)
 		},
+		// 在线申办
+		{
+			path: '/onlineApplication',
+			name: 'onlineApplication',
+			component: resolve => require(['@/components/onlineApplication/onlineApplication'], resolve)
+		},
 		// 导航功能主页
 		{
 			path: '/routerHomePage',
