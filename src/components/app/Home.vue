@@ -86,7 +86,7 @@
 							<p class="title">在线申办</p>
 						</div>
 					</van-col>
-				</el-row>
+				</van-row>
 			</div>
 		</transition>
 		<footer v-show="inited" class="home-footer">
