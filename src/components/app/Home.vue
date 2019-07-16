@@ -80,7 +80,13 @@
 							<p class="title">个人中心</p>
 						</div>
 					</van-col>
-				</van-row>
+					<van-col :span="8">
+						<div class="home-item last" @click="open('/onlineApplication')">
+							<p class="iconfont icon-yuyue orange"></p>
+							<p class="title">在线申办</p>
+						</div>
+					</van-col>
+				</el-row>
 			</div>
 		</transition>
 		<footer v-show="inited" class="home-footer">

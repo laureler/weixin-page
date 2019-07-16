@@ -1,6 +1,6 @@
 <template>
 	<div class="personal-business">
-		<page-head :title="title"></page-head>
+		<page-head title="信息确认"></page-head>
 		<div class="businessList" v-if="businessDataArray.length!==0">
 			<van-collapse v-model="active" v-for="(businessItem, index) in businessDataArray" accordion>
 				<van-collapse-item :name="index">
@@ -39,8 +39,6 @@
 		},
 		data () {
 			return {
-				title: '信息确认',
-
 				businessDataArray: [],
 				active: 0,
 				noDataNote: '当前没有正在进行的业务！',
@@ -49,14 +47,10 @@
 		methods: {},
 		//在$el被替换的时候调用钩子函数
 		mounted () {
-			const _this = this;
-
-			this.title = this.$route.query.title;
-
-			_this.$fetch('/formengineWebService/public/getBusinessDataByJid?userId=' + _this.$store.getters.getIbaseAccountId)
-				.then(response => {
-					_this.businessDataArray = response;
-				})
+			const _this = this
+			_this.$fetch('/formengineWebService/public/getBusinessDataByJid?userId=' + _this.$store.getters.getIbaseAccountId).then(response => {
+				_this.businessDataArray = response
+			})
 		}
 	}
 </script>
