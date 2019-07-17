@@ -13,7 +13,7 @@
 
 <style scoped>
 	.container {
-		background-color: #F4F5F6;
+		/* background-color: #F4F5F6; */
 	}
 
 </style>

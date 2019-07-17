@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-07-16 11:42:54
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-07-16 15:46:17
+ * @LastEditTime: 2019-07-17 15:39:14
  * @Description: 头部注释
  */
 import Vue from 'vue';
@@ -207,8 +207,16 @@ const router = new Router({
 				component: resolve => require(['@/components/onlineApplication/index'], resolve),
 			}, {
 				path: "/onlineApplication/bookIn",
-				name: "bookIn",
+				name: "onlineBookIn",
 				component: resolve => require(['@/components/onlineApplication/bookIn'], resolve),
+			}, {
+				path: "/onlineApplication/info",
+				name: "onlineInfo",
+				component: resolve => require(['@/components/onlineApplication/info'], resolve),
+			}, {
+				path: "/onlineApplication/success",
+				name: "onlineSuccess",
+				component: resolve => require(['@/components/onlineApplication/success'], resolve),
 			}]
 		},
 
