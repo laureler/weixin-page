@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-07-16 11:42:54
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-07-17 15:39:14
+ * @LastEditTime: 2019-07-18 15:22:46
  * @Description: 头部注释
  */
 import Vue from 'vue';
@@ -213,13 +213,25 @@ const router = new Router({
 				path: "/onlineApplication/info",
 				name: "onlineInfo",
 				component: resolve => require(['@/components/onlineApplication/info'], resolve),
+			},{
+				path: "/onlineApplication/attachment",
+				name: "attachment",
+				component: resolve => require(['@/components/onlineApplication/attachment'], resolve),
+			},{
+				path: "/onlineApplication/ems",
+				name: "onlineEMS",
+				component: resolve => require(['@/components/onlineApplication/ems'], resolve),
 			}, {
 				path: "/onlineApplication/success",
 				name: "onlineSuccess",
 				component: resolve => require(['@/components/onlineApplication/success'], resolve),
 			}]
 		},
-
+		{
+			path: '/myApplications',
+			name: 'myApplications',
+			component: resolve => require(['@/components/onlineApplication/myApplications'], resolve)
+		},
 		// 导航功能主页
 		{
 			path: '/routerHomePage',

@@ -259,7 +259,7 @@
 				});
       },
       nextStep: function() {
-        this.$router.push({ path: '/onlineApplication/success' });
+        this.$router.push({ path: '/onlineApplication/attachment' });
       }
 		}
 	}
