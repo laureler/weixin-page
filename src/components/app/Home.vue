@@ -75,11 +75,23 @@
 						</div>
 					</van-col>
 					<van-col :span="8">
-						<div class="home-item last" @click="open('/personalCenter')">
+						<div class="home-item" @click="open('/personalCenter')">
 							<p class="iconfont icon-yuyue orange"></p>
 							<p class="title">个人中心</p>
 						</div>
 					</van-col>
+					<van-col :span="8">
+						<div class="home-item" @click="open('/onlineApplication')">
+							<p class="iconfont icon-yuyue orange"></p>
+							<p class="title">在线申办</p>
+						</div>
+					</van-col>
+					<van-col :span="8">
+							<div class="home-item last" @click="open('/myApplications')">
+								<p class="iconfont icon-yuyue orange"></p>
+								<p class="title">我的申办</p>
+							</div>
+						</van-col>
 				</van-row>
 			</div>
 		</transition>
