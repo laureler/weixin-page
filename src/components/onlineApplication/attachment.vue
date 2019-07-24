@@ -12,34 +12,44 @@
 					<div class="attachments flex-box">
 						<div class="attachment" v-for="item in imgs">
 							<div class="attachment-img" :style="{backgroundImage:'url(' + item + ')'}">
-								<img class="attachment-del" src="../../assets/images/online-application/delete.png" alt="">
+								<img class="attachment-del" src="../../assets/images/online-application/delete.png"
+									alt="">
 							</div>
 						</div>
 					</div>
 				</div>
-				<van-button plain hairline type="default">上传</van-button>
+				<van-button plain hairline type="default">
+					<img src="../../assets/images/online-application/上传.png"
+						style="width: 15px; display: inline-block; position: relative; top: -2px;" alt="">
+					上传
+				</van-button>
 				<div class="triangle"></div>
 				<div class="num">1</div>
 			</div>
 			<div class="attachment-item">
-					<div class="item-title">
-						申请人（代理人）身份证明
-					</div>
-					<div class="item-content">
-						<div class="content-div">必须提供：是</div>
-						<div class="content-div">附件内容：</div>
-						<div class="attachments flex-box">
-							<div class="attachment" v-for="item in imgs">
-								<div class="attachment-img" :style="{backgroundImage:'url(' + item + ')'}">
-									<img class="attachment-del" src="../../assets/images/online-application/delete.png" alt="">
-								</div>
+				<div class="item-title">
+					申请人（代理人）身份证明
+				</div>
+				<div class="item-content">
+					<div class="content-div">必须提供：是</div>
+					<div class="content-div">附件内容：</div>
+					<div class="attachments flex-box">
+						<div class="attachment" v-for="item in imgs">
+							<div class="attachment-img" :style="{backgroundImage:'url(' + item + ')'}">
+								<img class="attachment-del" src="../../assets/images/online-application/delete.png"
+									alt="">
 							</div>
 						</div>
 					</div>
-					<van-button plain hairline type="default">上传</van-button>
-					<div class="triangle"></div>
-					<div class="num">2</div>
 				</div>
+				<van-button plain hairline type="default">
+					<img src="../../assets/images/online-application/上传.png"
+						style="width: 15px; display: inline-block; position: relative; top: -2px;" alt="">
+					上传
+				</van-button>
+				<div class="triangle"></div>
+				<div class="num">2</div>
+			</div>
 		</div>
 
 		<div style="height: 50px;"></div>
@@ -81,7 +91,7 @@
 	}
 
 	.body-box {
-		background-color: #F4F5F6; 
+		background-color: #F4F5F6;
 	}
 
 	.flex-box {
@@ -97,7 +107,8 @@
 		padding-bottom: 20px;
 		background-color: #ffffff;
 	}
-	.attachment-item + .attachment-item {
+
+	.attachment-item+.attachment-item {
 		margin-top: 10px;
 	}
 
@@ -107,6 +118,7 @@
 		color: #222222;
 		margin: 0 5px;
 	}
+
 	.item-content {
 		margin-bottom: 10px;
 	}
@@ -142,20 +154,20 @@
 
 	.triangle {
 		width: 50px;
-    height: 50px;
-    position: absolute;
-    right: -25px;
-    top: -25px;
-    background-color: #2db7fe;
-    -webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
+		height: 50px;
+		position: absolute;
+		right: -25px;
+		top: -25px;
+		background-color: #2db7fe;
+		-webkit-transform: rotate(45deg);
+		transform: rotate(45deg);
 	}
 
 	.num {
 		position: absolute;
-    right: 6px;
-    top: 0px;
-    color: #ffffff;
+		right: 6px;
+		top: 0px;
+		color: #ffffff;
 	}
 
 	.bottom-button {
