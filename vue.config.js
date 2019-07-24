@@ -1,7 +1,7 @@
 // vue.config.ts 配置说明
 
 const path = require('path');
-
+var openInEditor = require('launch-editor-middleware')
 const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -146,6 +146,20 @@ module.exports = {
 		https: false,
 		compress: true,
 		open: true, // 配置自动启动浏览器
-		hotOnly: true
+		hotOnly: true,
+		proxy: {
+			// 开发模式下 代理网络请求
+			'/cas': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			'/mainWeb': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			'/pubWeb': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			'/public': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			'/workflowWebService': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			'/formengineWebService': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' }
+		},
+		before (app) {
+			app.use('/__open-in-editor', openInEditor('webstorm'))
+			// app.use('/__open-in-editor', openInEditor('code'))
+			// app.use('/__open-in-editor', openInEditor('idea'))
+		}
 	},
 };
