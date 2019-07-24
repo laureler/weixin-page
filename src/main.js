@@ -4,7 +4,7 @@ import FastClick from 'fastclick';
 import App from './App.vue';
 // import  dependency
 import store from './store/index.js';
-import router from './router/index.js';
+import router from './router/router.js';
 import './registerServiceWorker.js';
 
 
@@ -39,6 +39,7 @@ import jsonp from 'jsonp';
 Vue.use(Vant);
 Vue.use(Antd);
 
+import './mock/index.js'
 
 // 注册全局自定义指令
 Vue.directive('changeBottom', changeBottom);
