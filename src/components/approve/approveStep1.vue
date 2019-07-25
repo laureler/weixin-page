@@ -54,10 +54,10 @@
 		},
 		data () {
 			return {
-				//显示用户信息
+				// 显示用户信息
 				username: null,
 				cardCode: null,
-				//用户信息存储
+				// 用户信息存储
 				data_name: null,
 				data_id: null,
 				errorMessage: '',
@@ -66,9 +66,9 @@
 			};
 		},
 		watch: {
-			//监听用户是否修改的信息,保存修改的数据值
+			// 监听用户是否修改的信息,保存修改的数据值
 			username: function (newValue, oldValue) {
-				//如果用户一次性输入，oldValue为null，则判断如果新值没有带*号就作为正确值使用
+				// 如果用户一次性输入，oldValue为null，则判断如果新值没有带*号就作为正确值使用
 				if (newValue != null && !newValue.match(RegExp(/\*/))) {
 					this.data_name = newValue;
 				}
@@ -80,13 +80,13 @@
 			}
 		},
 		methods: {
-			//通过聚焦判断控制tencentBottom的显示隐藏
+			// 通过聚焦判断控制tencentBottom的显示隐藏
 			hide (param) {
 				this.showType = param;
 			},
-			//将显示信息加*
+			// 将显示信息加*
 			checkInfo (_name, _id) {
-				//如果用户名长度大于二，则中间名字使用*号表示
+				// 如果用户名长度大于二，则中间名字使用*号表示
 				if (_name.length > 2) {
 					_name = _name.substr(0, 1) + '*' + _name.substr(_name.length - 1, 1);
 				}
@@ -97,15 +97,15 @@
 			successToDo (_this, verify_result) {
 				let config = { headers: { 'Content-Type': 'multipart/form-data' } };
 				var formData = new FormData();
-				formData.append('token', sessionStorage.getItem('token'));  //扫码的值
-				formData.append('openId', Cookies.get('openid'));  //openid
-				formData.append('fullName', _this.data_name);  // 验证填入的姓名
-				formData.append('idNumber', _this.data_id);  //验证填入的身份证号
+				formData.append('token', sessionStorage.getItem('token')); // 扫码的值
+				formData.append('openId', Cookies.get('openid')); // openid
+				formData.append('fullName', _this.data_name); // 验证填入的姓名
+				formData.append('idNumber', _this.data_id); // 验证填入的身份证号
 				formData.append('verifyResult', verify_result);
 				_this.$post('/pubWeb/public/faceRecognition/setAuthenticationResult', formData, config).then(data => {
-					//如果存在callbackUrl，则按callbackUrl重定向处理
+					// 如果存在callbackUrl，则按callbackUrl重定向处理
 					if (_this.$store.state.callbackUrl) {
-						//如果callbackUrl是WeChatRemoteCheck接口则请求PDF数据给用户
+						// 如果callbackUrl是WeChatRemoteCheck接口则请求PDF数据给用户
 						if (_this.$store.state.callbackUrl == '/pubWeb/public/system/WeChatRemoteCheck') {
 							_this.getGrantDeep();
 						} else if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/personInfo') {
@@ -117,7 +117,7 @@
 							console.log(_this.$store.state.callbackUrl);
 						}
 					} else {
-						//默认验证成功页面
+						// 默认验证成功页面
 						_this.$router.push({
 							path: '/approveStep2',
 							query: { isSuccess: 1, cardCode: _this.data_id, username: _this.data_name }
@@ -131,7 +131,7 @@
 				});
 			},
 			// 住房证明查询
-			getGrantDeep() {
+			getGrantDeep () {
 				const _this = this;
 				let strJson = JSON.stringify({
 					qlr: _this.data_name,
@@ -140,7 +140,7 @@
 				let stringUrl = _this.$store.state.callbackUrl;
 				let config = { headers: { 'Content-Type': 'charset=UTF-8;multipart/form-data' } };
 				var formData = new FormData();
-				formData.append('strJson', strJson);  //扫码的值
+				formData.append('strJson', strJson); // 扫码的值
 				_this.$post(stringUrl, formData, config).then(rs => {
 					if (rs) {
 						switch (Number(rs.status)) {
@@ -162,7 +162,7 @@
 					_this.dialogAlert('接口异常' + error);
 				});
 			},
-			dialogAlert(message) {
+			dialogAlert (message) {
 				Dialog.alert({
 					message: message
 				}).then({
@@ -170,65 +170,74 @@
 			},
 			WeChatFaceCheck () {
 				var _this = this;
-				wx.invoke('checkIsSupportFaceDetect', {}, function (res) {
-					console.log(res);
-					if (res.err_code == 0) { // 检测成功
-						var info = { 'request_verify_pre_info': '{"name":"' + _this.data_name + '","id_card_number":"' + _this.data_id + '"}' };
-						wx.invoke('requestWxFacePictureVerifyUnionVideo', info, function (res) {
-							// 人脸识别成功
-							_this.$store.commit('CARD_CODE', _this.data_id);
-							_this.$store.commit('CARD_NAME', _this.data_name);
-							// 判断是不是从个人中心首页进来的
-							if (_this.$route.query.isPersonalHomeCheck) {
-								_this.$fetch('/pubWeb/public/faceRecognition/getLinkedAccounts?cardName=' + _this.data_name + '&cardNumber=' + _this.data_id)
-									.then(dataList => {
-										if (dataList.length === 0) {
-											// 如果没有ibase账号，则到注册页面
-											_this.$router.push({ path: '/signInAccount' });
-										} else {
-											_this.$router.push({ name: 'associativeAccount', params: { dataList: dataList } });
-										}
-									}).catch(error => {
-										console.log(error);
-									});
-							} else {
-								console.log(res);
-								if (res.hasOwnProperty('err_code')) {
-									if (res.err_code == 0) {
-										_this.successToDo(_this, res.verify_result);
-									} else if (res.err_code == 90100) {
-										return;
-									} else {
-										_this.$router.push({
-											path: '/approveStep2', query: { isSuccess: 0 }
-										});
-									}
+				var info = { 'request_verify_pre_info': '{"name":"' + _this.data_name + '","id_card_number":"' + _this.data_id + '"}' };
+				let invokeCallback = function (res) {
+					// 人脸识别成功
+					_this.$store.commit('CARD_CODE', _this.data_id);
+					_this.$store.commit('CARD_NAME', _this.data_name);
+					// 判断是不是从个人中心首页进来的
+					if (_this.$route.query.isPersonalHomeCheck) {
+						_this.$fetch('/pubWeb/public/faceRecognition/getLinkedAccounts?cardName=' + _this.data_name + '&cardNumber=' + _this.data_id)
+							.then(dataList => {
+								if (dataList.length === 0) {
+									// 如果没有ibase账号，则到注册页面
+									_this.$router.push({ path: '/signInAccount' });
 								} else {
-									wx.invoke('requestWxFacePictureVerify', info, function (res) {
-										console.log(res);
-										if (res.err_code == 0) {
-											_this.successToDo(_this, res.verify_result);
-										} else if (res.err_code == 90100) {
-											return;
-										} else {
-											_this.$router.push({
-												path: '/approveStep2', query: { isSuccess: 0 }
-											});
-										}
+									_this.$router.push({ name: 'associativeAccount', params: { dataList: dataList } });
+								}
+							}).catch(error => {
+							console.log(error);
+						});
+					} else {
+						console.log(res);
+						if (res.hasOwnProperty('err_code')) {
+							if (res.err_code == 0) {
+								_this.successToDo(_this, res.verify_result);
+							} else if (res.err_code == 90100) {
+
+							} else {
+								_this.$router.push({
+									path: '/approveStep2', query: { isSuccess: 0 }
+								});
+							}
+						} else {
+							wx.invoke('requestWxFacePictureVerify', info, function (res) {
+								console.log(res);
+								if (res.err_code == 0) {
+									_this.successToDo(_this, res.verify_result);
+								} else if (res.err_code == 90100) {
+
+								} else {
+									_this.$router.push({
+										path: '/approveStep2', query: { isSuccess: 0 }
 									});
 								}
-							}
-						});
-					} else if (res.err_code == 10001) {
-						alert('不支持人脸采集：设备没有前置摄像头');
-					} else if (res.err_code == 10002) {
-						alert('不支持人脸采集：没有下载到必要模型');
-					} else if (res.err_code == 10003) {
-						alert('不支持人脸采集：后台黑名单控制');
-					} else {
-						alert(res.err_msg);
+							});
+						}
 					}
-				});
+				};
+				if (process.env.VUE_APP_PREVIEW === 'true') {
+					// todo 若为开发模式 则默认提交过去
+					let invokeresult = {
+						err_code: 0,
+						err_msg: "requestWxFacePictureVerifyUnionVideo:ok",
+						verify_result: "XXIzTtMqCxwOaawoE91-VBZV1h2zOEwpKSm2MRJYZPVBqp5iZk3hW2aIhH6CWIwtpQpO8L1FCui4i_A45FXug1KdbtCS_ToSxlIFwgLGMs_IP1-CeVhQatQHVVZbz0Pr" }
+					invokeCallback(invokeresult)
+				} else {
+					wx.invoke('checkIsSupportFaceDetect', {}, function (res) { // 检测微信人脸识别的功能
+						if (res.err_code == 0) { // 检测成功
+							wx.invoke('requestWxFacePictureVerifyUnionVideo', info, invokeCallback);
+						} else if (res.err_code == 10001) {
+							alert('不支持人脸采集：设备没有前置摄像头');
+						} else if (res.err_code == 10002) {
+							alert('不支持人脸采集：没有下载到必要模型');
+						} else if (res.err_code == 10003) {
+							alert('不支持人脸采集：后台黑名单控制');
+						} else {
+							alert(res.err_msg);
+						}
+					});
+				}
 			},
 			nextPage () {
 				if (this.checkID_number()) {
@@ -237,7 +246,7 @@
 			},
 			checkID_number () {
 				var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-				//如果data_id为空，则用户信息为手动输入，将用户输入的值用于验证
+				// 如果data_id为空，则用户信息为手动输入，将用户输入的值用于验证
 				if (this.data_id == null) {
 					this.data_id = this.cardCode;
 				}
@@ -262,10 +271,10 @@
 			if (openId) { // 判断微信用户是否已认证，如果已认证直接进入到人脸识别过程
 				_this.$fetch('/pubWeb/public/faceRecognition/getAuthenticatedUserInfo?openId=' + openId).then(rs => {
 					if (rs) {
-						//使用变量保存用户信息，用于后面的验证显示
+						// 使用变量保存用户信息，用于后面的验证显示
 						_this.data_name = rs.name;
 						_this.data_id = rs.id;
-						//有返回信息，对信息进行加*处理显示
+						// 有返回信息，对信息进行加*处理显示
 						_this.checkInfo(rs.name, rs.id);
 					}
 				}).catch(e => {
@@ -276,7 +285,6 @@
 			_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
 				wx.config(res);
 			});
-
 		}
 	};
 </script>
