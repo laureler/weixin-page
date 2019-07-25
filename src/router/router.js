@@ -62,6 +62,12 @@ const router = new Router({
 			name: 'ScheduleQuery',
 			component: resolve => require(['@/components/app/ScheduleQuery'], resolve),
 		},
+		// 在线查档
+		{
+			path: '/oqarc',
+			name: 'OnlineQueryArchives',
+			component: resolve => require(['@/components/app/OnlineQueryArchives'], resolve)
+		},
 		{
 			path: '/resq',
 			name: 'ReservationQuery',
