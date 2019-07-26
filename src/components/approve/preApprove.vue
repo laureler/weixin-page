@@ -70,9 +70,9 @@
 				isCheck: false,
 				uuid: GenerateUUID,
 				show: false,
-				//认证提示信息
+				// 认证提示信息
 				mark: '',
-				//返回具体认证错误信息
+				// 返回具体认证错误信息
 				resultmsg: ''
 			};
 		},
@@ -96,58 +96,63 @@
 				var _this = this;
 				// 这个判断是否从个人中心入口进来
 				const isPHC = _this.$route.query.isPersonalHomeCheck;
-				if (this.isCheck) {
-					if (this.$store.state.callbackUrl) {
-						if (isPHC) {
-							_this.$router.push({ path: '/approvenew', query: { isPersonalHomeCheck: isPHC} });
-						} else {
-							_this.$router.push({ path: '/approvenew' });
-						}
-						sessionStorage.setItem('token', this.uuid(20, 16));
-						//人脸识别首页初始化配置（针对ios系统）
-						_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
-							wx.config(res);
-							console.log(res);
+				if (!this.isCheck) { return; }
+				// 如果有回调地址，准备跳转回去
+				if (this.$store.state.callbackUrl) {
+					if (isPHC) {
+						_this.$router.push({ path: '/approvenew',
+							query: {
+							isPersonalHomeCheck: isPHC
+							}
 						});
-						return;
-					}
-					const token = uiScript.getParam('token') || '';
-					if (token) {
-						//若有token 则不扫码 同时 取token为变量赋值
-						sessionStorage.setItem('token', token);
-						if (isPHC) {
-							_this.$router.push({
-								path: '/approvenew',
-								query: { token: token, isPersonalHomeCheck: isPHC }
-							});
-						} else {
-							_this.$router.push({ path: '/approvenew', query: { token: token } });
-						}
 					} else {
-						_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
-							wx.config(res);
-							console.log(res);
-							wx.ready(function () {
-								wx.scanQRCode({
-									needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-									scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有
-									success: function (res) {
-										var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-										sessionStorage.setItem('token', result);
-										if (isPHC) {
-											// 如果是个人设置过来，则带参数去人脸识别页面
-											_this.$router.push({
-												path: '/approvenew',
-												query: { isPersonalHomeCheck: isPHC }
-											});
-										} else {
-											_this.$router.push({ path: '/approvenew' });
-										}
+						_this.$router.push({ path: '/approvenew' });
+					}
+					sessionStorage.setItem('token', this.uuid(20, 16));
+					// 人脸识别首页初始化配置（针对ios系统）
+					_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
+						wx.config(res);
+						console.log(res);
+					});
+					return;
+				}
+				const token = uiScript.getParam('token') || '';
+				// 如果发现有token
+				if (token) {
+					// 若有token 则不扫码 同时 取token为变量赋值
+					sessionStorage.setItem('token', token);
+					if (isPHC) {
+						_this.$router.push({
+							path: '/approvenew',
+							query: { token: token, isPersonalHomeCheck: isPHC }
+						});
+					} else {
+						_this.$router.push({ path: '/approvenew', query: { token: token } });
+					}
+				} else {
+					_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
+						wx.config(res);
+						console.log(res);
+						wx.ready(function () {
+							wx.scanQRCode({
+								needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+								scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有
+								success: function (res) {
+									var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+									sessionStorage.setItem('token', result);
+									if (isPHC) {
+										// 如果是个人设置过来，则带参数去人脸识别页面
+										_this.$router.push({
+											path: '/approvenew',
+											query: { isPersonalHomeCheck: isPHC }
+										});
+									} else {
+										_this.$router.push({ path: '/approvenew' });
 									}
-								});
+								}
 							});
 						});
-					}
+					});
 				}
 			}
 		},
