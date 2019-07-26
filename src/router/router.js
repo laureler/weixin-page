@@ -219,11 +219,11 @@ const router = new Router({
 				path: "/onlineApplication/info",
 				name: "onlineInfo",
 				component: resolve => require(['@/components/onlineApplication/info'], resolve),
-			},{
+			}, {
 				path: "/onlineApplication/attachment",
 				name: "attachment",
 				component: resolve => require(['@/components/onlineApplication/attachment'], resolve),
-			},{
+			}, {
 				path: "/onlineApplication/ems",
 				name: "onlineEMS",
 				component: resolve => require(['@/components/onlineApplication/ems'], resolve),
@@ -295,7 +295,6 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-
 	// 如果是要进入个人中心首页或相关页面，需要验证配置和人脸识别
 	if (!to.meta.isNeedLogin && to.meta.isPersonalHomePage) {
 		if ((/^true$/i).test(store.getters.getVerifyState)) {
@@ -353,7 +352,6 @@ router.beforeEach((to, from, next) => {
 	} else {
 		next();
 	}
-
 });
 
 // 增加路由导航
