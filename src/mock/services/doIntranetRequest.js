@@ -55,6 +55,13 @@ let checkYYRInfo = () => {
 let submitYYRInfo = () => {
 	return { "resultcode": "1", "resultmsg": "YY1907290001,1,2019-07-29,08:30-09:30,广东省肇庆市高要区沿江二路28号,吴云龙,个人业务", "yyinfo": [{ "YYH": "YY1907290001", "SXH": "1", "YYRQ": "2019-07-29", "YYSD": "08:30-09:30", "WDDZ": "广东省肇庆市高要区沿江二路28号", "YYR": "吴云龙", "YYSX": "个人业务" }] }
 }
+let GetFaceConfigInfo = () => {
+	return {
+		"resultcode": "1",
+		"resultmsg": "",
+		"mark": "若多次(5次以上)认证不通过，请移步至肇庆市高要区不动产登记中心一楼大厅五号绿色窗口处进行咨询。"
+	}
+}
 // mock: '/pubWeb/public/doIntranetRequest/GetWeChatPublicName' 【POST】获取微信标题
 Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/GetWeChatPublicName/, 'post', wechatPublicName)
 // mock: '/pubWeb/public/doIntranetRequest/GetYYBSWD'  【POST】 获取办事网点列表
@@ -69,3 +76,5 @@ Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/GetYYSD/, 'post', yysd)
 Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/CheckYYRInfo/, 'post', checkYYRInfo)
 // mock: '/pubWeb/public/doIntranetRequest/CheckYYRInfo' 【POST】检查预约申请
 Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/SubmitYYInfo/, 'post', submitYYRInfo)
+
+Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/GetFaceConfigInfo/, 'post', GetFaceConfigInfo)
