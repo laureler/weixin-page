@@ -12,13 +12,13 @@
 			<div class="cell-title">
 				<span class="required-span">*</span>申请人名字
 			</div>
-			<van-field v-model="name" clearable placeholder="请输入申请人名字" />
+			<van-field v-model="qlr" clearable placeholder="请输入申请人名字" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>权利证书号码
 			</div>
-			<van-field v-model="num" clearable placeholder="请输入权利证书号码" />
+			<van-field v-model="cqzh" clearable placeholder="请输入权利证书号码" />
 		</van-cell-group>
 		<div class="tips">
 			提示: 可通过公众号的“信息查询-个人产权查询”查询权利证书号码
@@ -29,10 +29,10 @@
 					<div class="content">
 						<div class="content-left">
 								<span class="custom-text">证书状态：</span>
-								<span class="custom-status">已查封、已抵押</span>
+								<span class="custom-status">{{ customStatus }}</span>
 						</div>
 						<div class="content-right">
-								<van-button class="verification-button" plain round hairline type="info">校验</van-button>
+								<van-button class="verification-button" plain round hairline type="info" @click.native="checkoutID()">校验</van-button>
 						</div>
 					</div>
 				</template>
@@ -49,16 +49,20 @@
 
 <script>
 	import Head from '../app/head.vue';
+	import { Toast } from 'vant';
+	import { CHECKOUT_REAL_ESTATE } from '../../constants/index.js'
 	export default {
 		components: {
 			'page-head': Head
 		},
 		data() {
 			return {
-				estateType: "",
+				estateType: '',
+				cqlx: '',
 				show: false,
-				name: "",
-				num: "",
+				qlr: '',
+				cqzh: '',
+				customStatus:'',
 				actions: [{
 						name: '房屋'
 					},
@@ -66,21 +70,128 @@
 						name: '土地'
 					}
 				],
+				checkout:{
+				    "cqxx":[{
+							"RID": '',
+							"JID": '',
+							"FQSZT": '',
+							"FBDCQZH": '',
+							"FFDZL": '',
+							"FJGSJ": '',
+							"FFTJZMJ": '',
+							"FZYJZMJ": '',
+							"FJZMJ": '',
+							"FSZC": '',
+							"FFWJG": '',
+							"FFWXZ": '',
+							"FGYFS": '',
+							"FTDSYJSSJ": '',
+							"FTDSYQSSJ": '',
+							"FFTTDMJ": '',
+							"FDYTDMJ": '',
+							"FZDMJ": '',
+							"FQLXZ": '',
+							"FQLLX": '',
+							"FSYQX": '',
+							"FGHYT": '',
+							"FZCS": '',
+							"FFWBM": '',
+							"FQLR": '',
+							"FBDCDYH": '',
+							"FZJHM": '',
+							"FDJSJ": '',
+							"FDBR": '',
+							"SFYG": '',//是否预告
+							"SFYDY": '',//是否预抵押
+							"SFBGL": '', //是否被其他业务关联
+							"SFCF": '', //是否查封
+							"SFDY": '', //是否抵押
+							"SFYY": '', //是否异议
+							"SFDJ": '', //是否冻结
+							"SFLZ": '', //是否落宗
+							"SFXZXZ": ''//是否行政限制
+				        }],
+					"dyxx": '',
+					"result": '',
+					"resultcode": '',
+					"resultmsg": '',
+					"type": '',
+					"ygxx": ''
+				}
 			}
 		},
 		methods: {
 			estateTypeClicked: function () {
-				console.log("clicked estateType!!!");
 				console.log(this.show);
 				this.show = true;
 			},
 			onSelect: function (val) {
 				console.log(val)
+				if (val.name == '房屋') {
+					this.cqlx = 'FW';
+					this.estateType = '房屋';
+				} else if (val.name == '土地'){
+					this.cqlx = 'TD';
+					this.estateType = '土地';
+				}
+				this.show = false;
+			},
+			checkoutID:function(){
+				this.axios.get(CHECKOUT_REAL_ESTATE,{
+					params:{
+						strJson:{
+							qlr:this.qlr,
+							cqzh:this.cqzh,
+							cqlx:this.cqlx,
+						},
+					path:'/WSYY/GetPropertyRightInfo'
+					}
+				}).then(res => {
+						console.log(res)
+						this.checkout = res.data;
+						if (this.checkout.cqxx.length == 0) {
+							Toast('证书不存在!');
+						}else if (this.checkout.cqxx.length == 1) {
+							var state = '';
+							if (this.checkout.cqxx[0].SFYG == 1) {
+								state += '已预告、'
+							}else if (this.checkout.cqxx[0].SFYDY == 1) {
+								state += '已抵押、'
+							}else if (this.checkout.cqxx[0].SFBGL == 1) {
+								state += '已被其他业务关联、'
+							}else if (this.checkout.cqxx[0].SFCF == 1) {
+								state += '已查封、'
+							}else if (this.checkout.cqxx[0].SFDY == 1) {
+								state += '已抵押、'
+							}else if (this.checkout.cqxx[0].SFYY == 1) {
+								state += '已异议、'
+							}else if (this.checkout.cqxx[0].SFDJ == 1) {
+								state += '已冻结、'
+							}else if (this.checkout.cqxx[0].SFLZ == 0) {
+								state += '未落宗、'
+							}else if (this.checkout.cqxx[0].SFXZXZ == 1) {
+								state += '已行政限制、'
+							}
+							if (state != '') {
+								this.customStatus = state.substring(0,state.length-1);
+							}
+						}
+				}).catch(err => {
+						console.log(err)
+					})
 			},
 			onCancel: function () {},
 			nextStep: function() {
-				console.log("...");
-				this.$router.push({ path: "/onlineApplication/info" });
+				if (this.checkout.cqxx.RID == '') {
+					Toast('请校验证书后进行下一步!');
+				}else {
+					this.$router.push({
+							path: '/onlineApplication/info', 
+							query: {
+								cqxx: this.checkout.cqxx[0]
+							}
+						})
+				}
 			}
 		}
 	}
