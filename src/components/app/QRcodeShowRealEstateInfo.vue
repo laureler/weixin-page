@@ -100,7 +100,7 @@
 				const ysxlh = uiScript.getParam('ysxlh') || '';
 
 				request({
-					url: '/GetBdcMapInfo2',
+					url: '/GetBdcMapInfo',
 					data: { strJson: JSON.stringify({ ysxlh: ysxlh }) },
 					success(response) {
 						if (Number(response.resultcode) === 1) {
