@@ -18,7 +18,7 @@ import {
 Vue.use(Router);
 
 const router = new Router({
-	base: '/app',
+	base: 'pubWeb/public/weChatPublic',
 	mode: 'history',
 	routes: [{
 			path: '/',
