@@ -152,7 +152,7 @@ module.exports = {
 			'/cas': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
 			'/mainWeb': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
 			// '/pubWeb': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
-			'/public': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			// '/public': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
 			// '/workflowWebService': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
 			// '/formengineWebService': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' }
 		},

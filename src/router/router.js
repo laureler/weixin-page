@@ -20,7 +20,14 @@ Vue.use(Router);
 const router = new Router({
 	base: 'pubWeb/public/weChatPublic',
 	mode: 'history',
-	routes: [{
+	routes: [
+		// 人脸识别验证界面
+		{
+			path: '/faceVerify',
+			name: '/faceVerify',
+			component: resolve => require(['@/page/faceVerify.vue'], resolve)
+		},
+		{
 			path: '/',
 			name: '/',
 			component: resolve => require(['@/components/app/Home'], resolve)
