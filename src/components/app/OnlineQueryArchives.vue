@@ -21,8 +21,6 @@
 
 <script>
     import Head from './head.vue'
-    import { Toast } from 'vant'
-    import { request } from '../../utils/http.js'
 
     export default {
         components: {
@@ -30,36 +28,36 @@
         },
         data () {
             return {
-                datas:[
+                datas: [
                     {
                         name: '住房证明',
                         iconSrc: './images/onlineQueryArchives/zhufang.png',
-                        //个人无房证明页面地址
+                        // 个人无房证明页面地址
                         url: '/arcd',
-                        //个人无房证明查询接口
+                        // 个人无房证明查询接口
                         inter: '/pubWeb/public/system/WeChatRemoteCheck'
                     },
                     {
                         name: '不动产登记资料查询',
                         iconSrc: './images/onlineQueryArchives/budongchan.png',
-                        //不动产登记资料查询页面地址
+                        // 不动产登记资料查询页面地址
                         url: '/arcl',
-                        //个人产权信息查询接口
+                        // 个人产权信息查询接口
                         inter: '/pubWeb/public/weChatPublic/GetPersonDataInfo'
                     }
                 ]
             }
         },
         methods: {
-            open(url,name,inter){
-                //进入人脸核身
+            open (url, name, inter) {
+                // 进入人脸核身
                 this.$router.push({
                     path: '/preApprovenew',
-                    query: {callbackUrl: inter}
+                    query: { callbackUrl: inter }
                 })
             }
         },
-		mounted() {
+		mounted () {
 			// 后面要用到人脸识别就必须在进入功能首页这里进行配置的初始化（针对ios系统）
 			this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
 				wx.config(res);
@@ -90,7 +88,7 @@
         background: url(../../../public/images/onlineQueryArchives/blue.png);
         background-size: 100% 100%;
     }
-    
+
     .archives-color {
         background-image: url(../../../public/images/onlineQueryArchives/green.png);
         background-size: 100% 100%;
