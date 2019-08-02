@@ -170,7 +170,13 @@
 			},
 			WeChatFaceCheck () {
 				var _this = this;
-				var info = { 'request_verify_pre_info': '{"name":"' + _this.data_name + '","id_card_number":"' + _this.data_id + '"}' };
+				var info = {
+					request_verify_pre_info: {
+							name: "' + _this.data_name + '",
+							id_card_number: "' + _this.data_id + '"
+					},
+					check_alive_type: 2
+				};
 				let invokeCallback = function (res) {
 					// 人脸识别成功
 					_this.$store.commit('CARD_CODE', _this.data_id);
