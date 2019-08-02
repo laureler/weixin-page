@@ -7,7 +7,6 @@ import store from './store/index.js';
 import router from './router/router.js';
 import './registerServiceWorker.js';
 
-
 // 移动端屏幕适配
 import '@/assets/lib-flexible/flexible.js';
 // todo 重构请求方式为标准的 post请求
@@ -15,18 +14,15 @@ import { request, post, fetch, patch, put } from './utils/http.js';
 // vue 网络环境
 import axios from 'axios';
 import VueAxios from 'vue-axios';
-Vue.use(VueAxios, axios);
 
 // todo 是否用使用 引入changeBottom指令
 import changeBottom from '@/directive/changeBottom.js';
 // todo 是否有使用 引入过滤器
 import keepTowNum from '@/filter/keepTowNum.js';
 
-//todo 卸载uiScript的依赖 引入uiScript
+// todo 卸载uiScript的依赖 引入uiScript
 import '@/assets/js/uiScript.js';
 import overwritePrototype from './utils/overwritePrototype.js';
-
-
 
 // 引入 Vant (mobile-vue组件库)
 import Vant from 'vant';
@@ -35,6 +31,7 @@ import 'vant/lib/index.css';
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 import jsonp from 'jsonp';
+Vue.use(VueAxios, axios);
 
 Vue.use(Vant);
 Vue.use(Antd);
