@@ -37,7 +37,6 @@ let wechatConfig = options => {
 	return configObj
 }
 let wechatRemoteCheck = () => {
-	console.log("代理地址:/pubWeb/public/system/WeChatRemoteCheck");
 	let wechatRemoteCheck = {
 			status: 1
 	}

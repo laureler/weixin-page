@@ -6,6 +6,7 @@ console.log(process.env.NODE_ENV);
 console.log(process.env.NODE_ENV);
 console.log(process.env.NODE_ENV);
 console.log(process.env.NODE_ENV);
+console.log('2019年8月2日12:06:28');
 console.log(process.env.VUE_APP_PREVIEW);
 console.log(process.env.VUE_APP_PREVIEW);
 console.log(process.env.VUE_APP_PREVIEW);

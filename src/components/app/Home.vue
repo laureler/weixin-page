@@ -97,7 +97,13 @@
 								<p class="iconfont icon-yuyue orange"></p>
 								<p class="title">开启人脸识别</p>
 							</div>
-						</van-col>
+					</van-col>
+					<van-col :span="8">
+							<div class="home-item last" @click="open('/certificateCheck')">
+								<p class="iconfont icon-yuyue orange"></p>
+								<p class="title">证书查验</p>
+							</div>
+					</van-col>
 				</van-row>
 			</div>
 		</transition>

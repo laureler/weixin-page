@@ -21,6 +21,12 @@ const router = new Router({
 	base: 'pubWeb/public/weChatPublic',
 	mode: 'history',
 	routes: [
+		// 证书查验界面
+		{
+			path: '/certificateCheck',
+			name: '/certificateCheck',
+			component: resolve => require(['@/page/certificateCheck.vue'], resolve)
+		},
 		// 人脸识别验证界面
 		{
 			path: '/faceVerify',
