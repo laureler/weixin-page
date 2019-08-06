@@ -37,7 +37,7 @@
                         //个人无房证明页面地址
                         url: '/arcd',
                         //个人无房证明查询接口
-                        inter: '/pubWeb/public/system/WeChatRemoteCheck'
+                        inter: '/pubWeb/system/public/WeChatRemoteCheck'
                     },
                     {
                         name: '不动产登记资料查询',
@@ -90,7 +90,7 @@
         background: url(../../../public/images/onlineQueryArchives/blue.png);
         background-size: 100% 100%;
     }
-    
+
     .archives-color {
         background-image: url(../../../public/images/onlineQueryArchives/green.png);
         background-size: 100% 100%;
