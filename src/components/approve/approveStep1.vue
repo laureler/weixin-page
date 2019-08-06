@@ -106,9 +106,9 @@
 					//如果存在callbackUrl，则按callbackUrl重定向处理
 					if (_this.$store.state.callbackUrl) {
 						//如果callbackUrl是WeChatRemoteCheck接口则请求PDF数据给用户
-						if (_this.$store.state.callbackUrl == '/pubWeb/public/system/WeChatRemoteCheck') {
-							console.log("跳转至住房证明查询！");
-							_this.getGrantDeep();
+						if (_this.$store.state.callbackUrl == '/pubWeb/system/public/WeChatRemoteCheck') {
+                            console.log("跳转至住房证明查询！");
+						    _this.getGrantDeep();
 						} else if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/GetPersonDataInfo') {
 							console.log("跳转至不动产登记资料查询！");
 							// _this.getArchiveDataInfoPage();
