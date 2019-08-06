@@ -17,5 +17,5 @@ const BASE_URL ='http://bdcsq.zsfdc.gov.cn' ;
 // export const GET_USER_INFO_LIST = BASE_URL + '/api/Stats/getUserInfoList'; //客户分析列表
 // export const LOG_OUT = BASE_URL + '/Wechat/LogOut'; //退出
 
-export const CHECKOUT_REAL_ESTATE = BASE_URL + '/pubWeb/public/system/getExtractInfo'; //通过输入查询条件获取列表数据
+export const CHECKOUT_REAL_ESTATE = BASE_URL + '/pubWeb/system/public/getExtractInfo'; //通过输入查询条件获取列表数据
 export const CHECKOUT_EQUITY_ID_INFO = BASE_URL + '/formengineWebService/startExtractBusiness';//通过产权id获取详情数据
