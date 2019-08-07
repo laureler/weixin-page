@@ -11,18 +11,18 @@
 					<van-cell value="证件号码"/>
 					<van-field class="lineBox" v-model="cardNumber" placeholder="请填写证件号码"/>
 					<van-cell value="证书号"/>
-					<div style="display: flex;flex-direction: row;margin: 2px 14px; font-size: 16px;color: #989898">
+					<div style="display: flex;flex-direction: row;margin: 2px 0px 2px 14px; font-size: 16px;color: #989898">
 						<div style="transform: translateY(0%)">
 							<div @click="selectYear" style="display: inline">
 								<span style="margin-right: 10px;">粤</span>
 								<input type="text" v-model="year" disabled
-								       style="border: 1px solid #989898;width: 78px;height: 40px;text-align: left;background: white;padding-left: 5px !important">
+								       style="border: 1px solid #989898;width: 68px;height: 40px;text-align: left;background: white;padding-left: 5px !important">
 								<i data-v-03a2a6a8="" style="margin-left: -20px" class="van-icon van-icon-arrow van-cell__right-icon"><!----></i>
 							</div>
 							<span style="margin: 0 6px;">中山市不动产权第</span>
 							<input type="text" v-model="budongchanquanzheng_number"
 							       style="border: 1px solid #989898;width: 78px;height: 40px;text-align: left;padding-left: 5px !important;">
-							<span style="margin: 0 10px;">号</span>
+							<span style="margin: 0 2px;">号</span>
 						</div>
 					</div>
 					<!--					<van-field class="lineBox" label="验证码"  placeholder="请输入验证码" />-->
@@ -70,12 +70,12 @@
 					<van-cell value="证件号码"/>
 					<van-field class="lineBox" v-model="cardNumber2" placeholder="请填写证件号码"/>
 					<van-cell value="证明号"/>
-					<div style="display: flex;flex-direction: row;margin: 2px 14px; font-size: 16px;color: #989898">
+					<div style="display: flex;flex-direction: row;margin: 2px 0px 2px 14px; font-size: 16px;color: #989898">
 						<div style="transform: translateY(0%)">
 							<div @click="selectYear2" style="display: inline">
 								<span style="margin-right: 2px;">粤</span>
 								<input type="text" v-model="year2"
-								       style="border: 1px solid #989898;width: 78px;height: 40px;text-align: left;background: white;padding-left: 5px !important">
+								       style="border: 1px solid #989898;width: 68px;height: 40px;text-align: left;background: white;padding-left: 5px !important">
 								<i data-v-03a2a6a8="" style="margin-left: -20px" class="van-icon van-icon-arrow van-cell__right-icon"><!----></i>
 							</div>
 							<span style="margin: 0 4px;">中山市不动产证明第</span>
