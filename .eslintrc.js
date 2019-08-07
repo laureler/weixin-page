@@ -1,8 +1,11 @@
-/*
 module.exports = {
     root: true,
     env: {
-        node: true
+        node: true,
+	    es6: true,
+	    browser: true,
+	    node: true,
+	    jest: true
     },
     'extends': [
         'plugin:vue/essential',
@@ -15,6 +18,7 @@ module.exports = {
         "quotes": 'off', // 引号类型
         "indent": 'off',
         'eqeqeq': 'off',
+        'no-undef':'warn',
         'comma-dangle': 'off',
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
@@ -23,4 +27,3 @@ module.exports = {
         parser: 'babel-eslint'
     }
 }
-*/

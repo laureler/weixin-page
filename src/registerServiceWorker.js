@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+// 页面离线工作模式
 
 import { register } from 'register-service-worker'
 

@@ -75,10 +75,34 @@
 						</div>
 					</van-col>
 					<van-col :span="8">
-						<div class="home-item last" @click="open('/personalCenter')">
+						<div class="home-item" @click="open('/personalCenter')">
 							<p class="iconfont icon-yuyue orange"></p>
 							<p class="title">个人中心</p>
 						</div>
+					</van-col>
+					<van-col :span="8">
+						<div class="home-item" @click="open('/onlineApplication')">
+							<p class="iconfont icon-yuyue orange"></p>
+							<p class="title">在线申办</p>
+						</div>
+					</van-col>
+					<van-col :span="8">
+							<div class="home-item last" @click="open('/myApplications')">
+								<p class="iconfont icon-yuyue orange"></p>
+								<p class="title">我的申办</p>
+							</div>
+						</van-col>
+					<van-col :span="8">
+							<div class="home-item last" @click="open('/faceVerify')">
+								<p class="iconfont icon-yuyue orange"></p>
+								<p class="title">开启人脸识别</p>
+							</div>
+					</van-col>
+					<van-col :span="8">
+							<div class="home-item last" @click="open('/certificateCheck')">
+								<p class="iconfont icon-yuyue orange"></p>
+								<p class="title">证书查验</p>
+							</div>
 					</van-col>
 				</van-row>
 			</div>
@@ -115,15 +139,14 @@
             open (path) {
                 this.$router.push(path)
             },
-            //轮询公众号名称
+            // 轮询公众号名称
             getTitleValue () {
                 var newVar = window.titleValue === undefined ? '不动产登记中心' : window.titleValue
                 var timeNumber = setInterval(function () {
                     // flash data
                     if (newVar !== '不动产登记中心') {
                         clearInterval(timeNumber)
-                    }
-                    else {
+                    } else {
                         newVar = window.titleValue === undefined ? '不动产登记中心' : window.titleValue
                     }
                 }, 300)

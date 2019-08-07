@@ -1,7 +1,19 @@
+/*
+ * @Author: charls.fairy
+ * @格言: 如果做得不是最好的宁愿从未开始。
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-07-16 11:42:54
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-07-18 15:22:46
+ * @Description: 头部注释
+ */
 import Vue from 'vue';
 import Router from 'vue-router';
 import store from '../store/index';
-import { fetch } from '../utils/http';
+import {
+	fetch
+} from '../utils/http';
 
 Vue.use(Router);
 
@@ -9,6 +21,18 @@ const router = new Router({
 	base: 'pubWeb/public/weChatPublic',
 	mode: 'history',
 	routes: [
+		// 证书查验界面
+		{
+			path: '/certificateCheck',
+			name: '/certificateCheck',
+			component: resolve => require(['@/page/certificateCheck.vue'], resolve)
+		},
+		// 人脸识别验证界面
+		{
+			path: '/faceVerify',
+			name: '/faceVerify',
+			component: resolve => require(['@/page/faceVerify.vue'], resolve)
+		},
 		{
 			path: '/',
 			name: '/',
@@ -50,6 +74,12 @@ const router = new Router({
 			path: '/schq',
 			name: 'ScheduleQuery',
 			component: resolve => require(['@/components/app/ScheduleQuery'], resolve),
+		},
+		// 在线查档
+		{
+			path: '/oqarc',
+			name: 'OnlineQueryArchives',
+			component: resolve => require(['@/components/app/OnlineQueryArchives'], resolve)
 		},
 		{
 			path: '/resq',
@@ -134,15 +164,14 @@ const router = new Router({
 			component: resolve => require(['@/components/approve/preApprove'], resolve),
 		},
 		/*
-		* 人脸核身
-		* 人脸核身页面1：/approve/approveStep1
-		* 人脸核身页面2：/approve/approveStep2
-		* */
+		 * 人脸核身
+		 * 人脸核身页面1：/approve/approveStep1
+		 * 人脸核身页面2：/approve/approveStep2
+		 * */
 		{
 			path: '/approvenew',
 			component: resolve => require(['@/components/approve/approve'], resolve),
-			children: [
-				{
+			children: [{
 					path: '',
 					name: 'approveStep1',
 					component: resolve => require(['@/components/approve/approveStep1'], resolve),
@@ -184,6 +213,43 @@ const router = new Router({
 			path: '/personInfo',
 			name: 'personInfo',
 			component: resolve => require(['@/components/approve/personInfo'], resolve)
+		},
+		// 在线申办
+		{
+			path: '/onlineApplication',
+			name: 'onlineApplication',
+			component: resolve => require(['@/components/onlineApplication/onlineApplication'], resolve),
+			redirect: '/onlineApplication/index',
+			children: [{
+				path: "/onlineApplication/index",
+				name: "onlineIndex",
+				component: resolve => require(['@/components/onlineApplication/index'], resolve),
+			}, {
+				path: "/onlineApplication/bookIn",
+				name: "onlineBookIn",
+				component: resolve => require(['@/components/onlineApplication/bookIn'], resolve),
+			}, {
+				path: "/onlineApplication/info",
+				name: "onlineInfo",
+				component: resolve => require(['@/components/onlineApplication/info'], resolve),
+			}, {
+				path: "/onlineApplication/attachment",
+				name: "attachment",
+				component: resolve => require(['@/components/onlineApplication/attachment'], resolve),
+			}, {
+				path: "/onlineApplication/ems",
+				name: "onlineEMS",
+				component: resolve => require(['@/components/onlineApplication/ems'], resolve),
+			}, {
+				path: "/onlineApplication/success",
+				name: "onlineSuccess",
+				component: resolve => require(['@/components/onlineApplication/success'], resolve),
+			}]
+		},
+		{
+			path: '/myApplications',
+			name: 'myApplications',
+			component: resolve => require(['@/components/onlineApplication/myApplications'], resolve)
 		},
 		// 导航功能主页
 		{
@@ -242,7 +308,6 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-
 	// 如果是要进入个人中心首页或相关页面，需要验证配置和人脸识别
 	if (!to.meta.isNeedLogin && to.meta.isPersonalHomePage) {
 		if ((/^true$/i).test(store.getters.getVerifyState)) {
@@ -250,7 +315,12 @@ router.beforeEach((to, from, next) => {
 			next();
 		} else {
 			// 开始个人设置
-			next({ path: '/preApprovenew', query: { isPersonalHomeCheck: true } });
+			next({
+				path: '/preApprovenew',
+				query: {
+					isPersonalHomeCheck: true
+				}
+			});
 		}
 	}
 
@@ -258,7 +328,12 @@ router.beforeEach((to, from, next) => {
 		fetch('/mainWeb/initLogin').then(response => {
 			if (/html/i.test(response)) {
 				// 返回若是html页面，则表示未cas登陆
-				next({ path: '/checkLogin', query: { isTo: to.path }});
+				next({
+					path: '/checkLogin',
+					query: {
+						isTo: to.path
+					}
+				});
 			} else {
 				// cas登陆成功
 				if (to.meta.isPersonalHomePage) {
@@ -267,7 +342,12 @@ router.beforeEach((to, from, next) => {
 						next();
 					} else {
 						// 开始个人设置
-						next({ path: '/preApprovenew', query: { isPersonalHomeCheck: true } });
+						next({
+							path: '/preApprovenew',
+							query: {
+								isPersonalHomeCheck: true
+							}
+						});
 					}
 				} else {
 					next();
@@ -275,12 +355,16 @@ router.beforeEach((to, from, next) => {
 			}
 		}).catch(error => {
 			console.log(error);
-			next({ path: '/checkLogin', query: { isTo: to.path }});
+			next({
+				path: '/checkLogin',
+				query: {
+					isTo: to.path
+				}
+			});
 		});
 	} else {
 		next();
 	}
-
 });
 
 // 增加路由导航
