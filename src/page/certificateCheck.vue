@@ -301,11 +301,11 @@
 					qlr: this.quanliren, // 权利人
 					zjzl: this.cardTypeNumber, // 证件种类
 					zjhm: this.cardNumber, // 证件号码
-					cqzh: `粤（${this.year}）中山市不动产权第 ${this.budongchanquanzheng_number} 号`, //不动产权证号/不动产登记证明号
+					cqzh: `粤（${this.year}）中山市不动产权第${this.budongchanquanzheng_number}号`, //不动产权证号/不动产登记证明号
 					zlx: this.active + 1, // 正类型(1不动产权证）（2不动产登记证明）
 				}
 				if (this.active == 1) {
-					strJson.cqzh = `粤（${this.year}）中山市不动产证明第 ${this.budongchanquanzheng_number} 号`; //不动产权证号/不动产登记证明号
+					strJson.cqzh = `粤（${this.year}）中山市不动产证明第${this.budongchanquanzheng_number}号`; //不动产权证号/不动产登记证明号
 				}
 				// 最后一位 是其他
 				if (this.cardTypeNumber == 8) {
@@ -314,7 +314,7 @@
 				var that = this;
 				this.loading = true;
 				request({
-					// http://bdcdj.zsfdc.gov.cn/WSYY/CheckCert?strJson={"username":"nfdj","password":"nfdj1234","qlr":"郑潮平","zjzl":"1","zjhm":"440582199108241557","cqzh":"粤（2017）中山市不动产权第 0251548 号","zlx":"1"}
+					// http://bdcdj.zsfdc.gov.cn/WSYY/CheckCert?strJson={"username":"nfdj","password":"nfdj1234","qlr":"郑潮平","zjzl":"1","zjhm":"440582199108241557","cqzh":"粤（2017）中山市不动产权第 0251548号","zlx":"1"}
 					url: '/CheckCert',
 					data: { strJson: JSON.stringify(strJson) },
 					success (response) {
@@ -418,11 +418,11 @@
 					qlr: this.quanliren2, // 权利人
 					zjzl: this.cardTypeNumber2, // 证件种类
 					zjhm: cardNumber2_string, // 证件号码
-					cqzh: `粤（${this.year2}）中山市不动产权第 ${budongchanquanzhengNumber} 号`, //不动产权证号/不动产登记证明号
+					cqzh: `粤（${this.year2}）中山市不动产权第 ${budongchanquanzhengNumber}号`, //不动产权证号/不动产登记证明号
 					zlx: this.active + 1, // 正类型(1不动产权证）（2不动产登记证明）
 				}
 				if (this.active == 1) {
-					strJson.cqzh = `粤（${this.year2}）中山市不动产证明第 ${budongchanquanzhengNumber} 号`; //不动产权证号/不动产登记证明号
+					strJson.cqzh = `粤（${this.year2}）中山市不动产证明第 ${budongchanquanzhengNumber}号`; //不动产权证号/不动产登记证明号
 				}
 				// 最后一位 是其他
 				if (this.cardTypeNumber == 8) {
