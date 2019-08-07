@@ -36,7 +36,7 @@
 					<div style="display: flex;flex-direction: row;justify-content: center;width: 80%;margin: 0 auto"
 					     class="buttonArea">
 						<van-button :loading="loading" type="info" @click="find_zhengshu">查询</van-button>
-						<van-button type="default" @click="resetValue">重置</van-button>
+						<van-button type="default" @click="resetValue(0)">重置</van-button>
 					</div>
 
 					<div class="successDiv" v-show="successDiv">
@@ -53,33 +53,33 @@
 					</div>
 				</van-cell-group>
 				<van-popup v-model="show" position="bottom" :overlay="false">
-					<van-picker show-toolbar :columns="cardTypes" @confirm="confirmPicker" @change="onChange"
+					<van-picker show-toolbar :columns="cardTypes" @confirm="confirmPicker"
 					            @cancel="show = false"/>
 				</van-popup>
 				<van-popup v-model="yearSelect" position="bottom" :overlay="false">
-					<van-picker show-toolbar :columns="years" @confirm="confirmPickerYear" @change="onChange"
+					<van-picker show-toolbar :columns="years" @confirm="confirmPickerYear"
 					            @cancel="yearSelect = false"/>
 				</van-popup>
 			</van-tab>
 			<van-tab title="证明查验">
 				<van-cell-group>
 					<van-cell value="权利人"/>
-					<van-field class="lineBox" v-model="quanliren" placeholder="请填写权利人"/>
+					<van-field class="lineBox" v-model="quanliren2" placeholder="请填写权利人"/>
 					<van-cell value="证件类型"/>
-					<van-cell class="lineBox" is-link :value="cardType" @click="selectType" :class="selectedValue"/>
+					<van-cell class="lineBox" is-link :value="cardType2" @click="selectType2" :class="selectedValue2"/>
 					<van-cell value="证件号码"/>
-					<van-field class="lineBox" v-model="cardNumber" placeholder="请填写证件号码"/>
+					<van-field class="lineBox" v-model="cardNumber2" placeholder="请填写证件号码"/>
 					<van-cell value="证明号"/>
 					<div style="display: flex;flex-direction: row;margin: 2px 14px; font-size: 16px;color: #989898">
 						<div style="transform: translateY(0%)">
-							<div @click="selectYear" style="display: inline">
+							<div @click="selectYear2" style="display: inline">
 								<span style="margin-right: 2px;">粤</span>
-								<input type="text" v-model="year"
+								<input type="text" v-model="year2"
 								       style="border: 1px solid #989898;width: 78px;height: 40px;text-align: left;background: white;padding-left: 5px !important">
 								<i data-v-03a2a6a8="" style="margin-left: -20px" class="van-icon van-icon-arrow van-cell__right-icon"><!----></i>
 							</div>
 							<span style="margin: 0 4px;">中山市不动产证明第</span>
-							<input type="text" v-model="budongchanquanzheng_number"
+							<input type="text" v-model="budongchanquanzheng_number2"
 							       style="border: 1px solid #989898;width: 78px;height: 40px;text-align: center">
 							<span style="margin: 0 2px;">号</span>
 						</div>
@@ -96,7 +96,7 @@
 					     class="buttonArea">
 						<!--<van-loading />-->
 						<van-button :loading="loading" type="info" @click="find_zhengshu">查询</van-button>
-						<van-button type="default" @click="resetValue">重置</van-button>
+						<van-button type="default" @click="resetValue(1)">重置</van-button>
 					</div>
 
 					<div class="successDiv" v-show="successDiv">
@@ -108,16 +108,16 @@
 					<div class="failDiv" v-show="failDiv">
 						<div style="transform: translateY(50%)">
 							<img src="../../public/images/不存在@2x.png" class="successImg"/>
-							<span class="failSpan">不存在该产权证书，请确认输入信息是否准确</span>
+							<span class="failSpan">不存在该登记证明，请确认输入信息是否准确</span>
 						</div>
 					</div>
 				</van-cell-group>
 				<van-popup v-model="show" position="bottom" :overlay="false">
-					<van-picker show-toolbar :columns="cardTypes" @confirm="confirmPicker" @change="onChange"
+					<van-picker show-toolbar :columns="cardTypes" @confirm="confirmPicker2"
 					            @cancel="show = false"/>
 				</van-popup>
 				<van-popup v-model="yearSelect" position="bottom" :overlay="false">
-					<van-picker show-toolbar :columns="years" @confirm="confirmPickerYear" @change="onChange"
+					<van-picker show-toolbar :columns="years" @confirm="confirmPickerYear2"
 					            @cancel="yearSelect = false"/>
 				</van-popup>
 			</van-tab>
@@ -135,39 +135,32 @@
 		props: {},
 		data: function () {
 			return {
-				currentDate: new Date(),
+				// tab焦点
+				active: 0,
 				yearSelect: false,
 				show: false,
 				successDiv: false,
 				loading: false,
 				failDiv: false,
 				cardTypes: ['身份证', '港澳台身份证', '护照', '户口簿', '军官证（士兵证）', '组织机构代码', '营业执照', '其他'],
-				year: '',
-				budongchanquanzheng_number: '',
 				years: ['2015', '2016', '2017', '2018', '2019'],
+				year: '',
+				year2: '',
+				budongchanquanzheng_number: '',
+				budongchanquanzheng_number2: '',
 				// 权利人
 				quanliren: "",
+				quanliren2: "",
 				// 当前证件类型
 				cardType: "请选择证件类型",
+				cardType2: "请选择证件类型",
+				// 当前证件类型数字
 				cardTypeNumber: "",
+				cardTypeNumber2: "",
+				// 证件号码
 				cardNumber: "",
-				active: 0,
-				actions: [
-					{
-						name: '选项'
-					},
-					{
-						name: '选项',
-						subname: '描述信息'
-					},
-					{
-						loading: true
-					},
-					{
-						name: '禁用选项',
-						disabled: true
-					}
-				]
+				cardNumber2: "",
+
 			}
 		},
 		computed: {
@@ -177,11 +170,20 @@
 				} else {
 					return 'unselectedValue';
 				}
+			},
+			selectedValue2: function () {
+				if (this.cardType2 !== '请选择证件类型' && this.cardType2 !== null) {
+					return 'selectedValue';
+				} else {
+					return 'unselectedValue';
+				}
 			}
 		},
 		watch: {
-			active: function (oldval, newval) {
-				this.resetValue();
+			active: function (newval, oldval) {
+				this.successDiv = false;
+				this.failDiv = false;
+				// this.resetValue(newval);
 			}
 		},
 		methods: {
@@ -189,17 +191,33 @@
 				this.yearSelect = false;
 				this.show = false;
 			},
-			resetValue () {
-				this.quanliren = '';
-				this.cardType = '请选择证件类型';
-				this.cardTypeNumber = '';
-				this.cardNumber = '';
-				this.year = '';
-				this.budongchanquanzheng_number = '';
-				this.successDiv = false;
-				this.failDiv = false;
+			resetValue (clearIndex) {
+				if (clearIndex == 0) {
+					this.quanliren = '';
+					this.cardType = '请选择证件类型';
+					this.cardTypeNumber = '';
+					this.cardNumber = '';
+					this.year = '';
+					this.budongchanquanzheng_number = '';
+					this.successDiv = false;
+					this.failDiv = false;
+				}
+				if (clearIndex == 1) {
+					this.quanliren2 = '';
+					this.cardType2 = '请选择证件类型';
+					this.cardTypeNumber2 = '';
+					this.cardNumber2 = '';
+					this.year2 = '';
+					this.budongchanquanzheng_number2 = '';
+					this.successDiv = false;
+					this.failDiv = false;
+				}
 			},
 			selectYear () {
+				this.show = false;
+				this.yearSelect = true;
+			},
+			selectYear2 () {
 				this.show = false;
 				this.yearSelect = true;
 			},
@@ -280,8 +298,6 @@
 				}
 				// 准备网络请求
 				let strJson = {
-					"username": "nfdj",
-					"password": "nfdj1234",
 					qlr: this.quanliren, // 权利人
 					zjzl: this.cardTypeNumber, // 证件种类
 					zjhm: this.cardNumber, // 证件号码
@@ -295,17 +311,6 @@
 				if (this.cardTypeNumber == 8) {
 					strJson.zjhm = 8;
 				}
-				/* strJson = {
-					"username": "nfdj",
-					"password": "nfdj1234",
-					qlr: '郑潮平', // 权利人
-					zjzl: 1, // 证件种类
-					zjhm: '440582199108241557', // 证件号码
-					cqzh: `粤（2017）中山市不动产权第 0251548 号`, // 不动产权证号/不动产登记证明号
-					zlx: "1", // 正类型(1 不动产权证）（2 不动产登记证明）
-				} */
-				// var formData = new FormData();
-				// formData.append("parentId",parsedItem.id)
 				var that = this;
 				this.loading = true;
 				request({
@@ -333,35 +338,148 @@
 					},
 				});
 			},
-			formatter (type, value) {
-				if (type === 'year') {
-					return `${value}`;
-				} else if (type === 'month') {
-					return `${value}月`
+			find_zhengshu2 () {
+				if (this.loading === true) {
+					return;
 				}
-				return value;
+				this.successDiv = false;
+				this.failDiv = false;
+				if (this.quanliren2 === null || this.quanliren2 === '') {
+					Toast('请填写权利人');
+					return;
+				}
+				if (this.cardType2 === null || this.cardType2 === '请选择证件类型') {
+					Toast('请选择证件类型');
+					return;
+				}
+				let cardNumber2 = this.cardNumber2;
+				if (cardNumber2 === null || cardNumber2 === '' || this.cardType2 == null || this.cardType2 == '请选择证件类型') {
+					Toast('请填写证件号码');
+					return;
+				}
+				if (this.year2 === null || this.year2 === '') {
+					Toast('请填写不动产权证号1');
+					return;
+				}
+				if (this.budongchanquanzheng_number2 === null || this.budongchanquanzheng_number2 === '') {
+					Toast('请填写不动产权证号2');
+					return;
+				}
+
+				let cardNumber2_string = cardNumber2;
+				switch (this.cardType2) {
+					case "组织机构代码":
+						// 验证组织机构代码 或 营业执照 是否符合格式
+						if (!(/^([0-9a-zA-Z]{18}$|\d{15}$)/.test(cardNumber2))) {
+							Toast('组织机构代码或营业执照格式不正确！')
+							return;
+						}
+						break;
+					case "营业执照":
+						// 验证组织机构代码 或 营业执照 是否符合格式
+						if (!(/^([0-9a-zA-Z]{18}$|\d{15}$)/.test(cardNumber2))) {
+							Toast('组织机构代码或营业执照格式不正确！')
+							return;
+						}
+						break;
+					case "其他":
+						break;
+					case "身份证":
+						if (!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(cardNumber2))) {
+							Toast('身份证格式不正确！')
+							return;
+						}
+						break;
+					case "护照":
+						if (!(/^[a-zA-Z0-9]{3,21}$/.test(cardNumber2)) || !(/^(P\d{7})|(G\d{8})$/.test(cardNumber2))) {
+							Toast('护照号码格式不正确！')
+							return;
+						}
+						break;
+					case "港澳台身份证":
+						const aomenreg = /^[157][0-9]{6}\([0-9]\)$/;	// 补充澳门身份证正则
+						const taiwanreg = /^\d{8}|^[a-zA-Z0-9]{10}|^\d{18}$/;	// 台湾身份证正则
+						const GAReg = /^([A-Z]\d{6,10}(\(\w{1}\))?)$/;	// 港澳身份证正则
+						if (taiwanreg.test(cardNumber2_string) || GAReg.test(cardNumber2_string) || aomenreg.test(cardNumber2_string)) {} else {
+							Toast('港澳台身份证号码格式不正确！');
+							return;
+						}
+						break;
+					case "户口簿":
+						if (!(/^[a-zA-Z0-9]{3,21}$/.test(cardNumber2_string))) {
+							Toast('户口簿号码格式不正确！')
+							return;
+						}
+						break;
+				}
+				// 准备网络请求
+				let budongchanquanzhengNumber = this.budongchanquanzheng_number2;
+				let strJson = {
+					qlr: this.quanliren2, // 权利人
+					zjzl: this.cardTypeNumber2, // 证件种类
+					zjhm: cardNumber2_string, // 证件号码
+					cqzh: `粤 （${this.year2}） 中山市 不动产权第 ${budongchanquanzhengNumber} 号`, // 不动产权证号/不动产登记证明号
+					zlx: this.active + 1, // 正类型(1 不动产权证）（2 不动产登记证明）
+				}
+				if (this.active == 1) {
+					strJson.cqzh = `粤 （${this.year2}） 中山市 不动产证明第 ${budongchanquanzhengNumber} 号`; // 不动产权证号/不动产登记证明号
+				}
+				// 最后一位 是其他
+				if (this.cardTypeNumber == 8) {
+					strJson.zjhm = 8;
+				}
+				var that = this;
+				this.loading = true;
+				request({
+					url: '/CheckCert',
+					data: { strJson: JSON.stringify(strJson) },
+					success (response) {
+						that.loading = false;
+						if (response.resultcode == 0 || response.resultcode == "0") {
+							// Toast('不存在该产权证书，请确认输入信息是否准确');
+							that.failDiv = true;
+							console.log('返回结果为0' + response.resultcode);
+						} else if (response.resultcode == 0 || response.resultcode == "0") {
+							if (response.result == "true" || response.resultcode == true) {
+								that.successDiv = true;
+							}
+						}
+					},
+					fail (error) {
+						that.loading = false;
+						Toast('不存在该产权证书，请确认输入信息是否准确');
+						console.error(error);
+						console.error(error);
+						console.error(error);
+					},
+				});
 			},
 			// 选择证件类型
 			selectType () {
 				this.yearSelect = false;
 				this.show = true;
 			},
+			selectType2 () {
+				this.yearSelect2 = false;
+				this.show = true;
+			},
 			confirmPickerYear (value, index) {
 				this.yearSelect = false;
 				this.year = value;
+			},
+			confirmPickerYear2 (value, index) {
+				this.yearSelect = false;
+				this.year2 = value;
 			},
 			confirmPicker (value, index) {
 				this.show = false;
 				this.cardTypeNumber = index + 1;
 				this.cardType = value;
 			},
-			onChange (picker, value, index) {
-				// Toast(`当前值：${value}, 当前索引：${index}`);
-			},
-			onSelect (item) {
-				// 点击选项时默认不会关闭菜单，可以手动关闭
+			confirmPicker2 (value, index) {
 				this.show = false;
-				Toast(item.name);
+				this.cardTypeNumber2 = index + 1;
+				this.cardType2 = value;
 			}
 		},
 		mounted: function () {
