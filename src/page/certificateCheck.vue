@@ -305,7 +305,7 @@
 					zlx: this.active + 1, // 正类型(1不动产权证）（2不动产登记证明）
 				}
 				if (this.active == 1) {
-					strJson.cqzh = `粤（${this.year}中山市不动产证明第${this.budongchanquanzheng_number}号`; //不动产权证号/不动产登记证明号
+					strJson.cqzh = `粤（${this.year}）中山市不动产证明第${this.budongchanquanzheng_number}号`; //不动产权证号/不动产登记证明号
 				}
 				// 最后一位 是其他
 				if (this.cardTypeNumber == 8) {
@@ -422,7 +422,7 @@
 					zlx: this.active + 1, // 正类型(1不动产权证）（2不动产登记证明）
 				}
 				if (this.active == 1) {
-					strJson.cqzh = `粤（${this.year2}中山市不动产证明第${budongchanquanzhengNumber}号`; //不动产权证号/不动产登记证明号
+					strJson.cqzh = `粤（${this.year2}）中山市不动产证明第${budongchanquanzhengNumber}号`; //不动产权证号/不动产登记证明号
 				}
 				// 最后一位 是其他
 				if (this.cardTypeNumber == 8) {
