@@ -55,7 +55,7 @@
                 //进入人脸核身
                 this.$router.push({
                     path: '/preApprovenew',
-                    query: {callbackUrl: inter}
+                    query: { callbackUrl: inter }
                 })
             }
         },
@@ -90,7 +90,7 @@
         background: url(../../../public/images/onlineQueryArchives/blue.png);
         background-size: 100% 100%;
     }
-    
+
     .archives-color {
         background-image: url(../../../public/images/onlineQueryArchives/green.png);
         background-size: 100% 100%;
