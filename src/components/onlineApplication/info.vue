@@ -181,7 +181,9 @@
 				type: 0,
 				application: "",
 				township: "",
-				estateInfo: { // 不动产信息
+				estateInfo: { // 不动产信息 
+					//此处需要更改信息字段保证与传递过来的数据字段一致,便于直接赋值见下面
+					//created()方法
 					num: "442000114201GB2172F00011803",
 					type: "土地和房屋",
 					position: "中山市三项镇平南村金凤路16号4栋1501房",
@@ -192,6 +194,8 @@
 					remarks: ""
 				},
 				applicant: { // 申请人信息
+					//此处需要更改信息字段保证与传递过来的数据字段一致,便于直接赋值见下面
+					//created()方法
 					name: "李四",
 					sex: "男",
 					documentType: "身份证",
@@ -238,6 +242,7 @@
 				this.show = false;
 			},
 			applicationClicked: function () {
+				console.log(this.cqxx);
 				this.show = true;
 				this.type = 0;
 				this.actions = this.applications;
@@ -261,6 +266,10 @@
       nextStep: function() {
         this.$router.push({ path: '/onlineApplication/attachment' });
       }
+		},
+		created() {
+			this.estateInfo = this.$route.query.cqxx;
+			this.applicant = this.$route.query.cqxx;
 		}
 	}
 
