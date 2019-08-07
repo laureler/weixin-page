@@ -95,7 +95,7 @@
 					<div style="display: flex;flex-direction: row;justify-content: center;width: 80%;margin: 0 auto"
 					     class="buttonArea">
 						<!--<van-loading />-->
-						<van-button :loading="loading" type="info" @click="find_zhengshu">查询</van-button>
+						<van-button :loading="loading" type="info" @click="find_zhengshu2">查询</van-button>
 						<van-button type="default" @click="resetValue(1)">重置</van-button>
 					</div>
 
@@ -323,7 +323,7 @@
 							// Toast('不存在该产权证书，请确认输入信息是否准确');
 							that.failDiv = true;
 							console.log('返回结果为0' + response.resultcode);
-						} else if (response.resultcode == 0 || response.resultcode == "0") {
+						} else if (response.resultcode == 1 || response.resultcode == "1") {
 							if (response.result == "true" || response.resultcode == true) {
 								that.successDiv = true;
 							}
@@ -439,7 +439,7 @@
 							// Toast('不存在该产权证书，请确认输入信息是否准确');
 							that.failDiv = true;
 							console.log('返回结果为0' + response.resultcode);
-						} else if (response.resultcode == 0 || response.resultcode == "0") {
+						} else if (response.resultcode == 1 || response.resultcode == "1") {
 							if (response.result == "true" || response.resultcode == true) {
 								that.successDiv = true;
 							}
