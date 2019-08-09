@@ -100,7 +100,8 @@
 		},
 		mounted: function () {
 			let configPath = '/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0];
-			this.$fetch(configPath).then(res => {
+			this.$fetch(configPath)
+				.then(res => {
 				wx.config(res); // 注入权限验证配置
 				this.callbackUrl = this.getUrlPara('callbackUrl');
 				let checkParams = this.checkParams();
@@ -108,7 +109,10 @@
 					this.loading = false;
 					this.checkVerifySupport()
 				}
-			});
+			})
+				.catch(error => {
+					console.error(error);
+				})
 		},
 	}
 </script>
