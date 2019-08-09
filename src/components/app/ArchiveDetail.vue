@@ -38,25 +38,31 @@
 		    }
 	    },
         mounted(){
-            const that = this;
+            let that = this;
             if (this.title === '住房证明查询') {
-            	this.obj = this.inter;
-            	this.showBtn = true;
+            	// wechatRemoteCheck
+	            this.$fetch(that.inter)
+		            .then(response=>{
+		            	if (response.resultcode == 1  || response.resultcode == '1'){
+				            that.obj = response.cqxx;
+				            that.showBtn = true;
+			            }else {
+				            Toast("接口异常！")
+			            }
+		            }).catch(e=>{
+		            	Toast("接口异常！")
+	            })
 			} else {
 	            request({
+		            //GetArchiveDataInfo
 		            url: that.inter,
 		            data: that.filter,
-		            success(data){
-		            	if (Number(data.resultcode) === 1) {
-				            if (/.pdf/.test(data.cqxx)) {
-					            that.obj = data.cqxx;
-					            that.showBtn = true;
-				            } else {
-					            that.obj = 'data:application/pdf;base64,' + data.cqxx;
-					            that.showBtn = false;
-				            }
+		            success(response){
+		            	if (Number(response.resultcode) === 1) {
+				            that.obj = response.cqxx;
+				            that.showBtn = true;
 						} else {
-				            Toast(data.resultmsg);
+				            Toast(response.resultmsg);
 						}
 		            },
 		            fail(error){
