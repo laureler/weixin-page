@@ -158,7 +158,12 @@
 				let config = { headers: { 'Content-Type': 'charset=UTF-8;multipart/form-data' } };
 				var formData = new FormData();
 				formData.append('strJson', strJson);
-				_this.$post(stringUrl, formData, config).then(rs => {
+				const url = stringUrl + '?strJson=' + encodeURIComponent(strJson);
+				this.$router.push({
+					path: '/arcd',
+					query: {filter: '', title: '住房证明查询', inter: url}
+				});
+				/*_this.$post(stringUrl, formData, config).then(rs => {
 					if (rs) {
 						switch (Number(rs.status)) {
 							case -1 || undefined:
@@ -182,7 +187,7 @@
 					}
 				}).catch(error => {
 					_this.dialogAlert('接口异常' + error);
-				});
+				});*/
 			},
 			dialogAlert (message) {
 				Dialog.alert({

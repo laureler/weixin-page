@@ -64,6 +64,7 @@
 							}
 						})
 						.catch(error => {
+							Toast("接口异常！");
 							console.log(error);
 							if(Number(error.status) === 404){
 								Toast("找不到该接口！");
