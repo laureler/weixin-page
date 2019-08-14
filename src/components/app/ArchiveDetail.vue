@@ -54,7 +54,7 @@
 	            })
 			} else {
 				let params = '?strJson=' + encodeURIComponent(this.filter.strJson);
-				_this.$fetch('/pubWeb/system/public/GetArchiveDataInfo'  + params)
+				this.$fetch('/pubWeb/system/public/GetArchiveDataInfo'  + params)
 						.then(response => {
 							if (Number(response.resultcode) === 1) {
 								that.obj = response.cqxx;
