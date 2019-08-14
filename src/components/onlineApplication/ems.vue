@@ -5,15 +5,15 @@
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄材料
 			</div>
-			<van-field v-model="material" right-icon="arrow" placeholder="请选择快递寄材料"
-				@click-right-icon="$toast('question')" disabled clickable @click.native="materialClicked()" />
+			<van-field v-model="material" right-icon="arrow" placeholder="请选择快递寄材料" disabled clickable
+				@click.native="materialClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄证
 			</div>
-			<van-field v-model="material" right-icon="arrow" placeholder="请选择快递寄证"
-				@click-right-icon="$toast('question')" disabled clickable @click.native="materialClicked()" />
+			<van-field v-model="credential" right-icon="arrow" placeholder="请选择快递寄证" disabled clickable
+				@click.native="credentialClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
@@ -37,8 +37,7 @@
 			<div class="cell-title">
 				所在镇区
 			</div>
-			<van-field v-model="township" right-icon="arrow" placeholder="请选择所在镇区"
-				@click-right-icon="$toast('question')" disabled clickable @click.native="townshipClicked()" />
+			<van-field v-model="township" right-icon="arrow" placeholder="请选择所在镇区" disabled clickable @click.native="townshipClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
@@ -62,6 +61,9 @@
 
 <script>
 	import Head from '../app/head.vue';
+	import {
+		SUBMIT_TASK_FORM_DATA
+	} from '../../constants/index.js'
 	export default {
 		components: {
 			'page-head': Head
@@ -71,6 +73,7 @@
 				show: false,
 				type: 0,
 				material: "",
+				credential: "",
 				township: "",
 				contacts: "",
 				phone: "",
@@ -78,6 +81,13 @@
 				company: "",
 				address: "",
 				materials: [{
+						name: '是'
+					},
+					{
+						name: '否'
+					}
+				],
+				credentials: [{
 						name: '是'
 					},
 					{
@@ -109,7 +119,7 @@
 						this.material = val.name;
 						break;
 					case 1:
-
+						this.credential = val.name;
 						break;
 					case 2:
 						this.township = val.name;
@@ -124,13 +134,50 @@
 				this.type = 0;
 				this.show = true;
 			},
+			credentialClicked: function () {
+				this.actions = this.credentials;
+				this.type = 1;
+				this.show = true;
+			},
 			townshipClicked: function () {
 				this.actions = this.townships;
 				this.type = 2;
 				this.show = true;
 			},
 			nextStep: function () {
-        this.$router.push({ path: '/onlineApplication/success' });
+				this.submitTaskFormData();
+				return;
+				this.$router.push({
+					path: '/onlineApplication/success'
+				});
+			},
+			submitTaskFormData: function () {
+				var taskId = sessionStorage.getItem('taskId');
+				var formData = JSON.parse(sessionStorage.getItem('formdata'));
+				this.axios({
+					url: SUBMIT_TASK_FORM_DATA + '?taskId=' + taskId,
+					method: 'post',
+					data: formData,
+					transformRequest: [function (data) {
+						let ret = ''
+						for (let it in data) {
+							ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+						}
+						return ret
+					}],
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					}
+				}).then(response => {
+					console.log(response);
+					if (response.status == 200) {
+						this.$router.push({
+							path: '/onlineApplication/success'
+						});
+					}
+				}).catch(error => {
+					console.log(error);
+				});
 			}
 		}
 	}

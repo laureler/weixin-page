@@ -6,7 +6,7 @@
 				<span class="required-span">*</span>不动产类型
 			</div>
 			<van-field v-model="estateType" right-icon="arrow" placeholder="请输入不动产类型"
-				@click-right-icon="$toast('question')" disabled clickable @click.native="estateTypeClicked()" />
+				disabled clickable @click.native="estateTypeClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
@@ -60,8 +60,8 @@
 				estateType: '',
 				cqlx: '',
 				show: false,
-				qlr: '',
-				cqzh: '',
+				qlr: '胡化金',
+				cqzh: '00070093',
 				customStatus:'',
 				actions: [{
 						name: '房屋'
@@ -137,6 +137,7 @@
 				this.show = false;
 			},
 			checkoutID:function(){
+				this.customStatus = '';
 				this.axios.get(CHECKOUT_REAL_ESTATE,{
 					params:{
 						strJson:{
@@ -149,8 +150,10 @@
 				}).then(res => {
 						console.log(res)
 						this.checkout = res.data;
+						sessionStorage.setItem('rid', this.checkout.cqxx[0].RID);
 						if (this.checkout.cqxx.length == 0) {
 							Toast('证书不存在!');
+							this.customStatus = '证书不存在!';
 						}else if (this.checkout.cqxx.length == 1) {
 							var state = '';
 							if (this.checkout.cqxx[0].SFYG == 1) {
@@ -171,6 +174,8 @@
 								state += '未落宗、'
 							}else if (this.checkout.cqxx[0].SFXZXZ == 1) {
 								state += '已行政限制、'
+							} else {
+								state += "校验通过、"
 							}
 							if (state != '') {
 								this.customStatus = state.substring(0,state.length-1);
@@ -182,8 +187,8 @@
 			},
 			onCancel: function () {},
 			nextStep: function() {
-				if (this.checkout.cqxx.RID == '') {
-					Toast('请校验证书后进行下一步!');
+				if (!this.checkout.cqxx[0] || !this.checkout.cqxx[0].RID || this.checkout.cqxx[0].RID == '') {
+					Toast('请校验证书通过后进行下一步!');
 				}else {
 					this.$router.push({
 							path: '/onlineApplication/info', 

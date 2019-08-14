@@ -10,34 +10,43 @@
 					<div class="content-div">必须提供：是</div>
 					<div class="content-div">附件内容：</div>
 					<div class="attachments flex-box">
-						<div class="attachment" v-for="item in imgs">
-							<div class="attachment-img" :style="{backgroundImage:'url(' + item + ')'}">
+						<div class="attachment" v-for="(item, index) in imgs">
+							<div class="attachment-img" :style="{backgroundImage:'url(' + item.content + ')'}">
 								<img class="attachment-del" src="../../assets/images/online-application/delete.png"
-									alt="">
+									alt="" @click="delImg(item, index)">
 							</div>
 						</div>
 					</div>
 				</div>
-				<van-button plain hairline type="default">
-					<img src="../../assets/images/online-application/上传.png"
-						style="width: 15px; display: inline-block; position: relative; top: -2px;" alt="">
-					上传
-				</van-button>
+				<!-- 				<form action="/formengineWebService/uploadFiles" method="post" name="f_upload"
+					enctype="multipart/form-data">
+					<input type="submit" value="上传" />
+				</form> -->
+				<van-uploader name="uploader" :after-read="onRead">
+					<van-button plain hairline type="default">
+						<img src="../../assets/images/online-application/上传.png"
+							style="width: 15px; display: inline-block; position: relative; top: -2px;" alt="">
+						上传
+					</van-button>
+				</van-uploader>
+
+
+
 				<div class="triangle"></div>
 				<div class="num">1</div>
 			</div>
 			<div class="attachment-item">
 				<div class="item-title">
-					申请人（代理人）身份证明
+					不动产登记申请表
 				</div>
 				<div class="item-content">
-					<div class="content-div">必须提供：是</div>
+					<div class="content-div">必须提供：否</div>
 					<div class="content-div">附件内容：</div>
 					<div class="attachments flex-box">
-						<div class="attachment" v-for="item in imgs">
+						<div class="attachment" v-for="(item, index) in imgs2">
 							<div class="attachment-img" :style="{backgroundImage:'url(' + item + ')'}">
 								<img class="attachment-del" src="../../assets/images/online-application/delete.png"
-									alt="">
+									alt="" @click="delImg(item, index)">
 							</div>
 						</div>
 					</div>
@@ -59,22 +68,58 @@
 
 <script>
 	import Head from '../app/head.vue';
+	import {
+		UPLOAD_FILES,
+		ADD_SUB_FORM_DATA
+	} from '../../constants/index.js'
 	export default {
 		components: {
 			'page-head': Head
 		},
 		data() {
 			return {
-				imgs: [
-					"http://image.biaobaiju.com/uploads/20181018/12/1539838505-IxUSeNJAOc.jpg",
-					"http://www.caisheng.net/UploadFiles/img_0_691308372_1185552238_27.jpg",
-					"http://imgs.sgss8.com/20170216/1858535962.jpg",
-					"http://www.feizl.com/upload2007/2015_07/15071001566967.jpg",
-					"http://img3.duitang.com/uploads/item/201605/12/20160512000752_dmAhE.thumb.700_0.jpeg",
-				]
+				imgs: [],
+				imgs2: []
 			}
 		},
 		methods: {
+			onRead: function (file) {
+				console.log('file:', file);
+				this.imgs.push(file);
+				var form = new FormData();
+				form.append('mFile', file.file);
+				debugger;
+				this.axios({
+					url: UPLOAD_FILES + '?jid=' + sessionStorage.getItem('jid'),
+					method: 'post',
+					data: form,
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+				}).then(response => {
+					console.log(response);
+				}).catch(error => {
+					console.log(error);
+				});
+			},
+			delImg: function (item, index) {
+				this.imgs.splice(index, 1);
+			},
+			// 添加子表单数据
+			addSubFormData: function() {
+				this.axios({
+					url: ADD_SUB_FORM_DATA + '?jid=' + sessionStorage.getItem('jid'),
+					method: 'post',
+					data: form,
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+				}).then(response => {
+					console.log(response);
+				}).catch(error => {
+					console.log(error);
+				});
+			},
 			nextStep: function () {
 				this.$router.push({
 					path: '/onlineApplication/ems'

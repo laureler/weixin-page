@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-07-16 11:42:54
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-07-18 15:22:46
+ * @LastEditTime: 2019-08-05 09:38:50
  * @Description: 头部注释
  */
 import Vue from 'vue';
@@ -18,7 +18,8 @@ import {
 Vue.use(Router);
 
 const router = new Router({
-	base: 'pubWeb/public/weChatPublic',
+	// base: 'pubWeb/public/weChatPublic',
+	base: 'app',
 	mode: 'history',
 	routes: [{
 			path: '/',
@@ -209,15 +210,18 @@ const router = new Router({
 				path: "/onlineApplication/bookIn",
 				name: "onlineBookIn",
 				component: resolve => require(['@/components/onlineApplication/bookIn'], resolve),
+				meta: {
+					isNeedLogin: true
+				}
 			}, {
 				path: "/onlineApplication/info",
 				name: "onlineInfo",
-				component: resolve => require(['@/components/onlineApplication/info'], resolve),
-			},{
+				component: resolve => require(['@/components/onlineApplication/info'], resolve)
+			}, {
 				path: "/onlineApplication/attachment",
 				name: "attachment",
 				component: resolve => require(['@/components/onlineApplication/attachment'], resolve),
-			},{
+			}, {
 				path: "/onlineApplication/ems",
 				name: "onlineEMS",
 				component: resolve => require(['@/components/onlineApplication/ems'], resolve),
@@ -225,6 +229,10 @@ const router = new Router({
 				path: "/onlineApplication/success",
 				name: "onlineSuccess",
 				component: resolve => require(['@/components/onlineApplication/success'], resolve),
+			}, {
+				path: "/onlineApplication/test",
+				name: "test",
+				component: resolve => require(['@/components/onlineApplication/test'], resolve),
 			}]
 		},
 		{
@@ -344,6 +352,7 @@ router.beforeEach((to, from, next) => {
 				}
 			});
 		});
+
 	} else {
 		next();
 	}

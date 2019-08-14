@@ -6,7 +6,7 @@ const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-function resolve (dir) {
+function resolve(dir) {
 	return path.join(__dirname, dir);
 }
 
@@ -14,7 +14,8 @@ function resolve (dir) {
 const env_build = process.env.NODE_ENV === 'production';
 
 module.exports = {
-	publicPath: '/pubWeb/public/weChatPublic/',
+	// publicPath: '/pubWeb/public/weChatPublic/',
+	publicPath: '/app/',
 	// 打包后输出路径
 	outputDir: 'dist/pubWeb/public/weChatPublic/',
 	assetsDir: 'weChatPublic',
@@ -97,7 +98,7 @@ module.exports = {
 					cacheGroups: {
 						vendor: {
 							test: /[\\/]node_modules[\\/]/,
-							name (module) {
+							name(module) {
 								// get the name. E.g. node_modules/packageName/not/this/part.js
 								// or node_modules/packageName
 								const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
@@ -111,7 +112,8 @@ module.exports = {
 			Object.assign(config, {
 				optimization
 			});
-		} else {
+		}
+		else {
 			// 为开发环境修改配置...
 			plugins: [
 				new MiniCssExtractPlugin({
@@ -146,6 +148,40 @@ module.exports = {
 		https: false,
 		compress: true,
 		open: true, // 配置自动启动浏览器
-		hotOnly: true
+		hotOnly: true,
+/* 		proxy: {
+			'/wx-api': {
+				target: 'http://bdcsq.zsfdc.gov.cn',
+				ws: true,
+				followRedirects: false,
+				pathRewrite: {
+					'^/wx-api': ''
+				}
+			},
+			'/mainWeb': {
+				target: 'http://bdcsq.zsfdc.gov.cn',
+				ws: true,
+				followRedirects: false,
+				hostRewrite: 'localhost:3000'
+			},
+			'/cas': {
+				target: 'http://bdcsq.zsfdc.gov.cn',
+				ws: true,
+				followRedirects: false,
+				hostRewrite: 'localhost:3000'
+			},
+			'/workflowWebService': {
+				target: 'http://bdcsq.zsfdc.gov.cn',
+				ws: true,
+				followRedirects: false,
+				hostRewrite: 'localhost:3000'
+			},
+			'/formengineWebService': {
+				target: 'http://bdcsq.zsfdc.gov.cn',
+				ws: true,
+				followRedirects: false,
+				hostRewrite: 'localhost:3000'
+			}
+		} */
 	},
 };

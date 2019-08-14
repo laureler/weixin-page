@@ -17,5 +17,15 @@ const BASE_URL ='http://bdcsq.zsfdc.gov.cn' ;
 // export const GET_USER_INFO_LIST = BASE_URL + '/api/Stats/getUserInfoList'; //客户分析列表
 // export const LOG_OUT = BASE_URL + '/Wechat/LogOut'; //退出
 
-export const CHECKOUT_REAL_ESTATE = BASE_URL + '/pubWeb/public/system/getExtractInfo'; //通过输入查询条件获取列表数据
-export const CHECKOUT_EQUITY_ID_INFO = BASE_URL + '/formengineWebService/startExtractBusiness';//通过产权id获取详情数据
+export const CHECKOUT_REAL_ESTATE = '/pubWeb/system/getExtractInfo'; //通过输入查询条件获取列表数据
+// export const CHECKOUT_EQUITY_ID_INFO = '/formengineWebService/startExtractBusiness';//通过产权id获取详情数据
+export const GET_BUSINESS_START_FROM = '/workflowWebService/getBusinessStartForm';  // 根据业务代码创建业务
+export const START_EXACT_BUSINNESS = '/formengineWebService/startExtractBusiness';  // 根据产权 ID 获取详细数据
+export const SAVE_TASK_FORM_DATA = '/workflowWebService/saveTaskFormData';  // 保存创建的业务数据
+export const UPLOAD_FILES = '/formengineWebService/uploadFiles';  // 附件上传
+export const SUBMIT_TASK_FORM_DATA = '/workflowWebService/submitTaskFormData';  // 提交业务
+export const FILL_SUB_FORM_DATA = '/formengineWebService/fillSubFormData';  // 填充子表单
+export const ADD_SUB_FORM_DATA = '/formengineWebService/addSubFormData';  // 添加子表单数据
+
+
+export const TEST =  '/pubWeb/public/weChatPublic/serviceConfirm'; // test
