@@ -53,25 +53,23 @@
 		            	Toast("接口异常！")
 	            })
 			} else {
-	            request({
-		            //GetArchiveDataInfo
-		            url: that.inter,
-		            data: that.filter,
-		            success(response){
-		            	if (Number(response.resultcode) === 1) {
-				            that.obj = response.cqxx;
-				            that.showBtn = true;
-						} else {
-				            Toast(response.resultmsg);
-						}
-		            },
-		            fail(error){
-			            if(Number(error.status) === 404){
-				            Toast("找不到该接口！");
-				            return;
-			            }
-		            }
-	            })
+				let params = '?strJson=' + encodeURIComponent(this.filter.strJson);
+				_this.$fetch('/pubWeb/system/public/GetArchiveDataInfo'  + params)
+						.then(response => {
+							if (Number(response.resultcode) === 1) {
+								that.obj = response.cqxx;
+								that.showBtn = true;
+							} else {
+								Toast(response.resultmsg);
+							}
+						})
+						.catch(error => {
+							console.log(error);
+							if(Number(error.status) === 404){
+								Toast("找不到该接口！");
+								return;
+							}
+						});
 			}
         }
     }
