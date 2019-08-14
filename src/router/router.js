@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-07-16 11:42:54
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-08-05 09:38:50
+ * @LastEditTime: 2019-08-14 16:27:51
  * @Description: 头部注释
  */
 import Vue from 'vue';
@@ -21,7 +21,20 @@ const router = new Router({
 	// base: 'pubWeb/public/weChatPublic',
 	base: 'app',
 	mode: 'history',
-	routes: [{
+	routes: [
+		// 证书查验界面
+		{
+			path: '/certificateCheck',
+			name: '/certificateCheck',
+			component: resolve => require(['@/page/certificateCheck.vue'], resolve)
+		},
+		// 人脸识别验证界面
+		{
+			path: '/faceVerify',
+			name: '/faceVerify',
+			component: resolve => require(['@/page/faceVerify.vue'], resolve)
+		},
+		{
 			path: '/',
 			name: '/',
 			component: resolve => require(['@/components/app/Home'], resolve)
@@ -62,6 +75,12 @@ const router = new Router({
 			path: '/schq',
 			name: 'ScheduleQuery',
 			component: resolve => require(['@/components/app/ScheduleQuery'], resolve),
+		},
+		// 在线查档
+		{
+			path: '/oqarc',
+			name: 'OnlineQueryArchives',
+			component: resolve => require(['@/components/app/OnlineQueryArchives'], resolve)
 		},
 		{
 			path: '/resq',
@@ -297,7 +316,6 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-
 	// 如果是要进入个人中心首页或相关页面，需要验证配置和人脸识别
 	if (!to.meta.isNeedLogin && to.meta.isPersonalHomePage) {
 		if ((/^true$/i).test(store.getters.getVerifyState)) {
@@ -356,7 +374,6 @@ router.beforeEach((to, from, next) => {
 	} else {
 		next();
 	}
-
 });
 
 // 增加路由导航

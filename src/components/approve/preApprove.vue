@@ -31,13 +31,13 @@
 			<p class="popup_title">协议标题</p>
 			<div class="popup_content">
 				<p>重要提示：</p>
-				<p>1、根据广东省不动产登记办理相关规定，市民需在办理不动产登记预申请业务时提供真实有效的手机号码、个人身份资料，在实名认证后，便于办理不动产业务以及获取个人业务办理情况等信息。</p>
-				<p>2、对于您提供的个人信息，广东省不动产登记外网预申请系统将在后台核实，请确保您注册认证时提交的资料真实有效。如因提供虚假资料，您将承担相关的法律责任。</p>
-				<p>3、您在注册时提供的所有个人信息，广东省不动产登记外网预申请系统将严格保密。</p>
+				<p>1、根据郴州市不动产登记办理相关规定，市民需在办理不动产登记预申请业务时提供真实有效的手机号码、个人身份资料，在实名认证后，便于办理不动产业务以及获取个人业务办理情况等信息。</p>
+				<p>2、对于您提供的个人信息，郴州市不动产登记外网预申请系统将在后台核实，请确保您注册认证时提交的资料真实有效。如因提供虚假资料，您将承担相关的法律责任。</p>
+				<p>3、您在注册时提供的所有个人信息，郴州市不动产登记外网预申请系统将严格保密。</p>
 				<p>实名认证用户须知：</p>
 				<p>
-					为进一步提升广东省不动产登记外网预申请系统服务水平，配合广东省不动产登记外网预申请系统网上办理的民生服务。广东省不动产登记外网预申请系统微信公众号推出实名认证业务，用户通过实名认证后，可更方便、快捷地办理业务。
-					您在实名认证时提供的视频等资料，广东省不动产登记外网预申请系统将严格保密，仅用于本次实名认证，不另作他用。
+					为进一步提升郴州市不动产登记外网预申请系统服务水平，配合郴州市不动产登记外网预申请系统网上办理的民生服务。郴州市不动产登记外网预申请系统微信公众号推出实名认证业务，用户通过实名认证后，可更方便、快捷地办理业务。
+					您在实名认证时提供的视频等资料，郴州市不动产登记外网预申请系统将严格保密，仅用于本次实名认证，不另作他用。
 				</p>
 				<p>
 					您在接受服务过程中，需要调用您的手机摄像头，并且根据业务场景的不同，需要读取您的身份证个人信息，包括姓名、公民身份号码、本人相片、证件的有效期和签发机关等身份证信息，或者截取您的脸部图像和认证视频，从而实现身份比对。
@@ -70,9 +70,9 @@
 				isCheck: false,
 				uuid: GenerateUUID,
 				show: false,
-				//认证提示信息
+				// 认证提示信息
 				mark: '',
-				//返回具体认证错误信息
+				// 返回具体认证错误信息
 				resultmsg: ''
 			};
 		},
@@ -96,58 +96,63 @@
 				var _this = this;
 				// 这个判断是否从个人中心入口进来
 				const isPHC = _this.$route.query.isPersonalHomeCheck;
-				if (this.isCheck) {
-					if (this.$store.state.callbackUrl) {
-						if (isPHC) {
-							_this.$router.push({ path: '/approvenew', query: { isPersonalHomeCheck: isPHC} });
-						} else {
-							_this.$router.push({ path: '/approvenew' });
-						}
-						sessionStorage.setItem('token', this.uuid(20, 16));
-						//人脸识别首页初始化配置（针对ios系统）
-						_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
-							wx.config(res);
-							console.log(res);
+				if (!this.isCheck) { return; }
+				// 如果有回调地址，准备跳转回去
+				if (this.$store.state.callbackUrl) {
+					if (isPHC) {
+						_this.$router.push({ path: '/approvenew',
+							query: {
+							isPersonalHomeCheck: isPHC
+							}
 						});
-						return;
-					}
-					const token = uiScript.getParam('token') || '';
-					if (token) {
-						//若有token 则不扫码 同时 取token为变量赋值
-						sessionStorage.setItem('token', token);
-						if (isPHC) {
-							_this.$router.push({
-								path: '/approvenew',
-								query: { token: token, isPersonalHomeCheck: isPHC }
-							});
-						} else {
-							_this.$router.push({ path: '/approvenew', query: { token: token } });
-						}
 					} else {
-						_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
-							wx.config(res);
-							console.log(res);
-							wx.ready(function () {
-								wx.scanQRCode({
-									needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-									scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有
-									success: function (res) {
-										var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-										sessionStorage.setItem('token', result);
-										if (isPHC) {
-											// 如果是个人设置过来，则带参数去人脸识别页面
-											_this.$router.push({
-												path: '/approvenew',
-												query: { isPersonalHomeCheck: isPHC }
-											});
-										} else {
-											_this.$router.push({ path: '/approvenew' });
-										}
+						_this.$router.push({ path: '/approvenew' });
+					}
+					sessionStorage.setItem('token', this.uuid(20, 16));
+					// 人脸识别首页初始化配置（针对ios系统）
+					_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
+						wx.config(res);
+						console.log(res);
+					});
+					return;
+				}
+				const token = uiScript.getParam('token') || '';
+				// 如果发现有token
+				if (token) {
+					// 若有token 则不扫码 同时 取token为变量赋值
+					sessionStorage.setItem('token', token);
+					if (isPHC) {
+						_this.$router.push({
+							path: '/approvenew',
+							query: { token: token, isPersonalHomeCheck: isPHC }
+						});
+					} else {
+						_this.$router.push({ path: '/approvenew', query: { token: token } });
+					}
+				} else {
+					_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
+						wx.config(res);
+						console.log(res);
+						wx.ready(function () {
+							wx.scanQRCode({
+								needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+								scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有
+								success: function (res) {
+									var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+									sessionStorage.setItem('token', result);
+									if (isPHC) {
+										// 如果是个人设置过来，则带参数去人脸识别页面
+										_this.$router.push({
+											path: '/approvenew',
+											query: { isPersonalHomeCheck: isPHC }
+										});
+									} else {
+										_this.$router.push({ path: '/approvenew' });
 									}
-								});
+								}
 							});
 						});
-					}
+					});
 				}
 			}
 		},
