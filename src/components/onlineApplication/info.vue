@@ -398,6 +398,8 @@
 				this.valuesParams['JOB_BDCQK.FYBDCQSZH'] = this.estateInfo['JOB_BDCQK.FYBDCQSZH'];
 				this.valuesParams['JOB_BDCQK.FDJYY'] = this.estateInfo['JOB_BDCQK.FDJYY'];
 				this.valuesParams['JOB_BDCQK.FBZ'] = this.estateInfo['JOB_BDCQK.FBZ'];
+				this.valuesParams['JOB_SJDJB.FDJLX'] = this.application;
+				this.valuesParams['JOB_SJDJB.FZQDM'] = this.township;
 
 				sessionStorage.setItem('formdata', JSON.stringify(this.valuesParams));
 				this.axios({
