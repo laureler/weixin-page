@@ -13,6 +13,7 @@
 		props: {},
 		data: function () {
 			return {
+				uuid: null, // uuid值
 				loading: true, // true代表开启等待
 				personName: null, // 用户姓名（最少两位字符）
 				personId: null, // 用户身份证
@@ -54,7 +55,8 @@
 				let verifyCode = this.verifyCode == null ? '' : this.verifyCode;
 				// 检查设备是否支持 状态码
 				let checkCode = this.checkCode == null ? '' : this.checkCode;
-				window.location = this.callbackUrl + `?verifyCode=${verifyCode}&checkCode=${checkCode}&message=${message}`;
+				let uuid = this.uuid == null ? '' : this.uuid;
+				window.location = this.callbackUrl + `?verifyCode=${verifyCode}&checkCode=${checkCode}&message=${message}&uuid=${uuid}`;
 			},
 			// 获取url地址参数
 			getUrlPara (name) {
@@ -76,15 +78,22 @@
 				console.log(paramsArray);
 				let personName = paramsArray[0];
 				let personId = paramsArray[1];
+				let uuid = paramsArray[2];
 				// 最多兼容URL地址中含有一个 “##” 特殊字符
-				let callbackUrl = paramsArray.length > 3 ? paramsArray.concat("##", paramsArray[3]) : paramsArray[2];
+				let callbackUrl = paramsArray[3]
 				console.log("准备开始校验");
 				console.log("personName", personName);
 				console.log("personId", personId);
+				console.log("uuid", uuid);
 				console.log("callbackUrl", callbackUrl);
 				if (callbackUrl == null || callbackUrl == '') {
 					this.verifyCode = '';
 					this.message = '回调函数不存在或者回调函数为空';
+					return false;
+				}
+				if (uuid == null || callbackUrl == '') {
+					this.verifyCode = '';
+					this.message = 'uuid参数不正确';
 					return false;
 				}
 				if (personName == null || personName.length < 2) {
@@ -101,6 +110,7 @@
 				this.personName = personName;
 				this.callbackUrl = callbackUrl;
 				this.personId = personId;
+				this.uuid = uuid;
 				return true;
 			},
 			checkVerifySupport () {
