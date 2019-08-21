@@ -70,7 +70,6 @@
 				console.log("开始校验参数");
 				var hrefString = decodeURIComponent(window.location.href)
 				console.log("window.location.href:", hrefString);
-				// params=吴云龙##411122199202088250##www.baidu.com
 				var params = hrefString.split("?")[1].split("params=")[1];
 
 				console.log("params", params);
