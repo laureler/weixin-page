@@ -1,12 +1,12 @@
 // vue.config.ts 配置说明
 
 const path = require('path');
-var openInEditor = require('launch-editor-middleware')
+
 const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-function resolve (dir) {
+function resolve(dir) {
 	return path.join(__dirname, dir);
 }
 
@@ -14,7 +14,8 @@ function resolve (dir) {
 const env_build = process.env.NODE_ENV === 'production';
 
 module.exports = {
-	publicPath: '/pubWeb/public/weChatPublic/',
+	// publicPath: '/pubWeb/public/weChatPublic/',
+	publicPath: '/app/',
 	// 打包后输出路径
 	outputDir: 'dist/pubWeb/public/weChatPublic/',
 	assetsDir: 'weChatPublic',
@@ -97,7 +98,7 @@ module.exports = {
 					cacheGroups: {
 						vendor: {
 							test: /[\\/]node_modules[\\/]/,
-							name (module) {
+							name(module) {
 								// get the name. E.g. node_modules/packageName/not/this/part.js
 								// or node_modules/packageName
 								const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
@@ -111,7 +112,8 @@ module.exports = {
 			Object.assign(config, {
 				optimization
 			});
-		} else {
+		}
+		else {
 			// 为开发环境修改配置...
 			plugins: [
 				new MiniCssExtractPlugin({
@@ -147,19 +149,39 @@ module.exports = {
 		compress: true,
 		open: true, // 配置自动启动浏览器
 		hotOnly: true,
-		proxy: {
-			// 开发模式下 代理网络请求
-			'/cas': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
-			'/mainWeb': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
-			// '/pubWeb': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
-			// '/public': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
-			// '/workflowWebService': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
-			// '/formengineWebService': { target: 'http://192.168.10.104:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' }
-		},
-		before (app) {
-			app.use('/__open-in-editor', openInEditor('webstorm'))
-			// app.use('/__open-in-editor', openInEditor('code'))
-			// app.use('/__open-in-editor', openInEditor('idea'))
-		}
+/* 		proxy: {
+			'/wx-api': {
+				target: 'http://bdcsq.zsfdc.gov.cn',
+				ws: true,
+				followRedirects: false,
+				pathRewrite: {
+					'^/wx-api': ''
+				}
+			},
+			'/mainWeb': {
+				target: 'http://bdcsq.zsfdc.gov.cn',
+				ws: true,
+				followRedirects: false,
+				hostRewrite: 'localhost:3000'
+			},
+			'/cas': {
+				target: 'http://bdcsq.zsfdc.gov.cn',
+				ws: true,
+				followRedirects: false,
+				hostRewrite: 'localhost:3000'
+			},
+			'/workflowWebService': {
+				target: 'http://bdcsq.zsfdc.gov.cn',
+				ws: true,
+				followRedirects: false,
+				hostRewrite: 'localhost:3000'
+			},
+			'/formengineWebService': {
+				target: 'http://bdcsq.zsfdc.gov.cn',
+				ws: true,
+				followRedirects: false,
+				hostRewrite: 'localhost:3000'
+			}
+		} */
 	},
 };

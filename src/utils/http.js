@@ -4,7 +4,9 @@ import moment from 'moment';
 // cookie解析模块
 import Cookies from 'js-cookie';
 // 登出接口
-import { LOG_OUT } from '../constants/index.js';
+import {
+	LOG_OUT
+} from '../constants/index.js';
 // todo activeId做什么用？
 let activeId = sessionStorage.getItem('activeId');
 // todo base_URL 需要全部起作用
@@ -22,6 +24,7 @@ const HEADERS = {
 
 // 添加请求拦截器
 var axiosFilter = function () {
+	axios.defaults.withCredentials = true;
 	// 添加请求拦截器
 	axios.interceptors.request.use(function (config) {
 		// 在发送请求之前做些什么
@@ -54,21 +57,30 @@ var axiosFilter = function () {
 		// 对请求错误做些什么
 		return Promise.reject(error);
 	});
+	// 添加响应拦截器
+	axios.interceptors.response.use(function (response) {
+		// 对响应数据做点什么
+		console.log(response);
+		console.log("响应拦截");
+		console.log(Cookies.get());
+		return response;
+	}, function (error) {
+		// 对响应错误做点什么
+		return Promise.reject(error);
+	});
 };
 export const AxiosFilter = new axiosFilter();
 
-export const request = (
-	{
-		method = 'post',
-		baseURL = BASE_URL,
-		timeout = REQUEST_TIMEOUT,
-		headers,
-		url,
-		data,
-		success,
-		fail,
-	}
-) => {
+export const request = ({
+	method = 'post',
+	baseURL = BASE_URL,
+	timeout = REQUEST_TIMEOUT,
+	headers,
+	url,
+	data,
+	success,
+	fail,
+}) => {
 	const defaultParams = {
 		_: moment().valueOf(),
 	};
@@ -77,17 +89,17 @@ export const request = (
 		...data,
 	} : defaultParams;
 	axios({
-		method,
-		url,
-		params: method === 'get' ? params : undefined,
-		data: method !== 'get' ? params : undefined,
-		timeout,
-		baseURL,
-		headers: {
-			...HEADERS,
-			...headers,
-		},
-	})
+			method,
+			url,
+			params: method === 'get' ? params : undefined,
+			data: method !== 'get' ? params : undefined,
+			timeout,
+			baseURL,
+			headers: {
+				...HEADERS,
+				...headers,
+			},
+		})
 		.then(response => {
 			success && success(response.data);
 		})
@@ -106,7 +118,9 @@ export const request = (
 					});
 				}
 			} else {
-				fail && fail({ msg: error.message });
+				fail && fail({
+					msg: error.message
+				});
 			}
 		});
 };
@@ -117,11 +131,11 @@ export const request = (
  * @param data
  * @returns {Promise}
  */
-export function fetch (url, params = {}) {
+export function fetch(url, params = {}) {
 	return new Promise((resolve, reject) => {
 		axios.get(url, {
-			params: params
-		})
+				params: params
+			})
 			.then(response => {
 				resolve(response.data);
 			})
@@ -138,7 +152,7 @@ export function fetch (url, params = {}) {
  * @returns {Promise}
  */
 
-export function post (url, data = {}) {
+export function post(url, data = {}) {
 	return new Promise((resolve, reject) => {
 		axios.post(url, data)
 			.then(response => {
@@ -156,7 +170,7 @@ export function post (url, data = {}) {
  * @returns {Promise}
  */
 
-export function patch (url, data = {}) {
+export function patch(url, data = {}) {
 	return new Promise((resolve, reject) => {
 		axios.patch(url, data)
 			.then(response => {
@@ -178,7 +192,7 @@ export function patch (url, data = {}) {
  * @returns {Promise}
  */
 
-export function put (url, data = {}) {
+export function put(url, data = {}) {
 	return new Promise((resolve, reject) => {
 		axios.put(url, data)
 			.then(response => {

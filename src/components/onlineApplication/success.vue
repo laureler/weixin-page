@@ -6,7 +6,7 @@
         <img src="../../assets/images/online-application/submit.png" style="width: 1.2rem; display: block; margin: 20px auto;">
         <div class="success-text" style="font-size: .45rem; color: #00b957; font-weight: bolder; text-align: center;">您的申请已提交</div>
         <div class="application">申办事项：不动产权利证书遗失（换证）登记</div>
-        <div class="application-num">申办编号：201906230001</div>
+        <div class="application-num">申办编号：{{ jid }}</div>
         <div class="tips">
           提示：可以在个人中心-我的申办中查看或修改申办信息。
         </div>
@@ -28,7 +28,7 @@ import Head from '../app/head.vue';
     },
     data() {
 			return {
-
+        jid: sessionStorage.getItem('jid')
       }
     },
     methods: {}
