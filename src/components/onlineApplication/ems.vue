@@ -19,37 +19,37 @@
 			<div class="cell-title">
 				<span class="required-span">*</span>联系人
 			</div>
-			<van-field v-model="contacts" clearable placeholder="联系人" />
+			<van-field id="JOB_SJDJB.FDXLXR" v-model="contacts" clearable placeholder="联系人" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>联系电话
 			</div>
-			<van-field v-model="phone" clearable placeholder="联系电话" />
+			<van-field id="JOB_SJDJB.FDXTZDH" v-model="phone" clearable placeholder="联系电话" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				身份证号码
 			</div>
-			<van-field v-model="idNum" clearable placeholder="身份证号码" />
+			<van-field id="JOB_SJDJB.FLXRSFZHM" v-model="idNum" clearable placeholder="身份证号码" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				所在镇区
 			</div>
-			<van-field v-model="township" right-icon="arrow" placeholder="请选择所在镇区" disabled clickable @click.native="townshipClicked()" />
+			<van-field id="JOB_SJDJB.FZQ" v-model="township" right-icon="arrow" placeholder="请选择所在镇区" disabled clickable @click.native="townshipClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				单位
 			</div>
-			<van-field v-model="company" clearable placeholder="单位" />
+			<van-field id="JOB_SJDJB.FDW" v-model="company" clearable placeholder="单位" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>联系地址
 			</div>
-			<van-field v-model="address" clearable placeholder="联系地址" />
+			<van-field id="JOB_SJDJB.FDZ" v-model="address" clearable placeholder="联系地址" />
 		</van-cell-group>
 		<div style="height: 50px;"></div>
 		<van-button size="large" type="info" class="bottom-button" @click.native="nextStep()">下一步</van-button>
@@ -154,6 +154,14 @@
 			submitTaskFormData: function () {
 				var taskId = sessionStorage.getItem('taskId');
 				var formData = JSON.parse(sessionStorage.getItem('formdata'));
+				formData['JOB_SJDJB.FSFKDJZ'] = this.material;
+				formData['JOB_SJDJB.FSFKDJCL'] = this.credential;
+				formData['JOB_SJDJB.FDXLXR'] = this.contacts;
+				formData['JOB_SJDJB.FDXTZDH'] = this.phone;
+				formData['JOB_SJDJB.FLXRSFZHM'] = this.idNum;
+				formData['JOB_SJDJB.FZQ'] = this.township;
+				formData['JOB_SJDJB.FDW'] = this.company;
+				formData['JOB_SJDJB.FDZ'] = this.address;
 				this.axios({
 					url: SUBMIT_TASK_FORM_DATA + '?taskId=' + taskId,
 					method: 'post',

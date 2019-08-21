@@ -13,15 +13,11 @@
 						<div class="attachment" v-for="(item, index) in imgs">
 							<div class="attachment-img" :style="{backgroundImage:'url(' + item.content + ')'}">
 								<img class="attachment-del" src="../../assets/images/online-application/delete.png"
-									alt="" @click="delImg(item, index)">
+									alt="" @click="delImg(1, index)">
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- 				<form action="/formengineWebService/uploadFiles" method="post" name="f_upload"
-					enctype="multipart/form-data">
-					<input type="submit" value="上传" />
-				</form> -->
 				<van-uploader name="uploader" :after-read="onRead">
 					<van-button plain hairline type="default">
 						<img src="../../assets/images/online-application/上传.png"
@@ -44,18 +40,20 @@
 					<div class="content-div">附件内容：</div>
 					<div class="attachments flex-box">
 						<div class="attachment" v-for="(item, index) in imgs2">
-							<div class="attachment-img" :style="{backgroundImage:'url(' + item + ')'}">
+							<div class="attachment-img" :style="{backgroundImage:'url(' + item.content + ')'}">
 								<img class="attachment-del" src="../../assets/images/online-application/delete.png"
-									alt="" @click="delImg(item, index)">
+									alt="" @click="delImg(2, index)">
 							</div>
 						</div>
 					</div>
 				</div>
-				<van-button plain hairline type="default">
-					<img src="../../assets/images/online-application/上传.png"
-						style="width: 15px; display: inline-block; position: relative; top: -2px;" alt="">
-					上传
-				</van-button>
+				<van-uploader name="uploader" :after-read="onRead2">
+					<van-button plain hairline type="default">
+						<img src="../../assets/images/online-application/上传.png"
+							style="width: 15px; display: inline-block; position: relative; top: -2px;" alt="">
+						上传
+					</van-button>
+				</van-uploader>
 				<div class="triangle"></div>
 				<div class="num">2</div>
 			</div>
@@ -70,7 +68,7 @@
 	import Head from '../app/head.vue';
 	import {
 		UPLOAD_FILES,
-		ADD_SUB_FORM_DATA
+		FILL_SUB_FORM_DATA
 	} from '../../constants/index.js'
 	export default {
 		components: {
@@ -79,7 +77,13 @@
 		data() {
 			return {
 				imgs: [],
-				imgs2: []
+				imgs2: [],
+				files: [],
+				files2: [],
+				JOB_FILES: {},
+				JOB_FILES2: {},
+				loading1: false,
+				loading2: false,
 			}
 		},
 		methods: {
@@ -89,6 +93,7 @@
 				var form = new FormData();
 				form.append('mFile', file.file);
 				debugger;
+				var _this = this;
 				this.axios({
 					url: UPLOAD_FILES + '?jid=' + sessionStorage.getItem('jid'),
 					method: 'post',
@@ -98,17 +103,21 @@
 					}
 				}).then(response => {
 					console.log(response);
+					_this.files.push(file.file.name + '|' + response.data[0]);
+					console.log(_this.files);
 				}).catch(error => {
 					console.log(error);
 				});
 			},
-			delImg: function (item, index) {
-				this.imgs.splice(index, 1);
-			},
-			// 添加子表单数据
-			addSubFormData: function() {
+			onRead2: function (file) {
+				console.log('file:', file);
+				this.imgs2.push(file);
+				var form = new FormData();
+				form.append('mFile', file.file);
+				debugger;
+				var _this = this;
 				this.axios({
-					url: ADD_SUB_FORM_DATA + '?jid=' + sessionStorage.getItem('jid'),
+					url: UPLOAD_FILES + '?jid=' + sessionStorage.getItem('jid'),
 					method: 'post',
 					data: form,
 					headers: {
@@ -116,15 +125,191 @@
 					}
 				}).then(response => {
 					console.log(response);
+					_this.files2.push(file.file.name + '|' + response.data[0]);
+					console.log(_this.files2);
 				}).catch(error => {
 					console.log(error);
 				});
 			},
-			nextStep: function () {
-				this.$router.push({
-					path: '/onlineApplication/ems'
+			delImg: function (item, index) {
+				if (item === 1) {
+					this.files.splice(index, 1);
+					this.imgs.splice(index, 1);
+				} else {
+					this.files2.splice(index, 1);
+					this.imgs2.splice(index, 1);
+				}
+				//this.imgs.splice(index, 1);
+			},
+			// 添加子表单数据
+			addSubFormData: function () {
+				this.fillSubFormData('JOB_FILES_LINK.IFJQD', [{
+					'JOB_FILES.CCJZ': "正本复印件",
+					'JOB_FILES.CLFL': null,
+					'JOB_FILES.FBZ': null,
+					'JOB_FILES.FPATH': "",
+					'JOB_FILES.FSL': 0,
+					'JOB_FILES.FYM': "0",
+					'JOB_FILES.FYS': 1,
+					'JOB_FILES.RID': null,
+					'JOB_FILES.SYS_MRID': null,
+					'JOB_FILES.XH': null,
+					'JOB_FILES.XYTG': "否",
+					'JOB_FILES.ZLMC': "申请人身份证明"
+				}])
+				/* 				this.fillSubFormData('JOB_FILES_LINK.IFJQD', [{
+									'JOB_FILES.CCJZ': "原件正本",
+									'JOB_FILES.CLFL': null,
+									'JOB_FILES.FBZ': null,
+									'JOB_FILES.FPATH': "",
+									'JOB_FILES.FSL': 0,
+									'JOB_FILES.FYM': "0",
+									'JOB_FILES.FYS': 1,
+									'JOB_FILES.RID': null,
+									'JOB_FILES.SYS_MRID': null,
+									'JOB_FILES.XH': 2,
+									'JOB_FILES.XYTG': "否",
+									'JOB_FILES.ZLMC': "不动产登记申请表"
+								}]) */
+			},
+			fillSubFormData: function (title, params) {
+				var business = JSON.parse(sessionStorage.getItem('business'));
+				var result = JSON.parse(business.result);
+				console.log(result);
+				var link = title.split('.')[0];
+				var domains = title.split('_LINK')[0]
+				var parentrid = result.data.values[link + '.RID'];
+				var templateid = result.data.controls[title].linkTplId;
+				console.log(result.data.values[link + '.RID']);
+				console.log(result.data.controls[title].linkTplId);
+				var _this = this;
+				_this.loading1 = true;
+				this.axios({
+					url: FILL_SUB_FORM_DATA + '?jid=' + sessionStorage.getItem('jid') + '&type=0' +
+						'&parentdomname=' + title + '&parentrid=' + parentrid + '&domains=' + domains +
+						'&templateid=' + templateid,
+					method: 'post',
+					data: params,
+				}).then(response => {
+					_this.loading1 = false;
+					console.log('FILL_SUB_FORM_DATA:', response);
+					if (response.status === 200) {
+						_this.JOB_FILES = response.data.result[0];
+						_this.endFillSub();
+					}
+				}).catch(error => {
+					_this.loading1 = false;
+					console.log(error);
 				});
+
+			},
+			fillSubFormData2: function (title, params) {
+				var business = JSON.parse(sessionStorage.getItem('business'));
+				var result = JSON.parse(business.result);
+				console.log(result);
+				var link = title.split('.')[0];
+				var domains = title.split('_LINK')[0]
+				var parentrid = result.data.values[link + '.RID'];
+				var templateid = result.data.controls[title].linkTplId;
+				console.log(result.data.values[link + '.RID']);
+				console.log(result.data.controls[title].linkTplId);
+				var _this = this;
+				_this.loading2 = true;
+				this.axios({
+					url: FILL_SUB_FORM_DATA + '?jid=' + sessionStorage.getItem('jid') + '&type=0' +
+						'&parentdomname=' + title + '&parentrid=' + parentrid + '&domains=' + domains +
+						'&templateid=' + templateid,
+					method: 'post',
+					data: params,
+				}).then(response => {
+					_this.loading2 = false;
+					console.log('FILL_SUB_FORM_DATA:', response);
+					if (response.status === 200) {
+						_this.JOB_FILES2 = response.data.result[0];
+						_this.endFillSub();
+					}
+				}).catch(error => {
+					_this.loading2 = false;
+					console.log(error);
+				});
+
+			},
+			endFillSub: function () {
+				if (this.loading1 === false && this.loading2 === false) {
+					console.log('结束保存子表单');
+					this.$router.push({
+						path: '/onlineApplication/ems'
+					});
+				}
+			},
+			nextStep: function () {
+				console.log("files:", this.files);
+				console.log("files2:", this.files2);
+
+				var filesStr = this.files.join("::");
+				var files2Str = this.files2.join("::");
+				this.fillSubFormData('JOB_FILES_LINK.IFJQD', [{
+					'JOB_FILES.CCJZ': "正本复印件",
+					'JOB_FILES.CLFL': null,
+					'JOB_FILES.FBZ': null,
+					'JOB_FILES.FPATH': filesStr,
+					'JOB_FILES.FSL': 0,
+					'JOB_FILES.FYM': "0",
+					'JOB_FILES.FYS': 1,
+					'JOB_FILES.RID': null,
+					'JOB_FILES.SYS_MRID': null,
+					'JOB_FILES.XH': 0,
+					'JOB_FILES.XYTG': "否",
+					'JOB_FILES.ZLMC': "申请人身份证明"
+				}]);
+				this.fillSubFormData2('JOB_FILES_LINK.IFJQD', [{
+					'JOB_FILES.CCJZ': "原件正本",
+					'JOB_FILES.CLFL': null,
+					'JOB_FILES.FBZ': null,
+					'JOB_FILES.FPATH': files2Str,
+					'JOB_FILES.FSL': 0,
+					'JOB_FILES.FYM': "0",
+					'JOB_FILES.FYS': 1,
+					'JOB_FILES.RID': null,
+					'JOB_FILES.SYS_MRID': null,
+					'JOB_FILES.XH': 1,
+					'JOB_FILES.XYTG': "否",
+					'JOB_FILES.ZLMC': "不动产登记申请表"
+				}])
 			}
+		},
+		mounted() {
+			console.log('进入附件页面');
+			this.loading1 = false;
+			this.loading2 = false;
+			/* 			this.fillSubFormData('JOB_FILES_LINK.IFJQD', [{
+							'JOB_FILES.CCJZ': "正本复印件",
+							'JOB_FILES.CLFL': null,
+							'JOB_FILES.FBZ': null,
+							'JOB_FILES.FPATH': "",
+							'JOB_FILES.FSL': 0,
+							'JOB_FILES.FYM': "0",
+							'JOB_FILES.FYS': 1,
+							'JOB_FILES.RID': null,
+							'JOB_FILES.SYS_MRID': null,
+							'JOB_FILES.XH': 0,
+							'JOB_FILES.XYTG': "否",
+							'JOB_FILES.ZLMC': "申请人身份证明"
+						}]);
+						this.fillSubFormData2('JOB_FILES_LINK.IFJQD', [{
+							'JOB_FILES.CCJZ': "原件正本",
+							'JOB_FILES.CLFL': null,
+							'JOB_FILES.FBZ': null,
+							'JOB_FILES.FPATH': "",
+							'JOB_FILES.FSL': 0,
+							'JOB_FILES.FYM': "0",
+							'JOB_FILES.FYS': 1,
+							'JOB_FILES.RID': null,
+							'JOB_FILES.SYS_MRID': null,
+							'JOB_FILES.XH': 1,
+							'JOB_FILES.XYTG': "否",
+							'JOB_FILES.ZLMC': "不动产登记申请表"
+						}]) */
 		}
 	}
 
