@@ -13,6 +13,7 @@
 		props: {},
 		data: function () {
 			return {
+				uuid: null, // uuid值
 				loading: true, // true代表开启等待
 				personName: null, // 用户姓名（最少两位字符）
 				personId: null, // 用户身份证
@@ -48,13 +49,14 @@
 				this.returnBack(res);
 			},
 			// 携带参数返回来源网址
-			returnBack () {
+			returnBack (res) {
 				let message = this.message == null ? '' : this.message;
 				// 检查设备是否验证 状态码
-				let verifyCode = this.verifyCode == null ? '' : this.verifyCode;
+				let verifyCode = res.err_code == null ? '' : res.err_code;
 				// 检查设备是否支持 状态码
 				let checkCode = this.checkCode == null ? '' : this.checkCode;
-				window.location = this.callbackUrl + `?verifyCode=${verifyCode}&checkCode=${checkCode}&message=${message}`;
+				let uuid = this.uuid == null ? '' : this.uuid;
+				window.location.href = this.callbackUrl + `?verifyCode=${verifyCode}&checkCode=${checkCode}&message=${message}&uuid=${uuid}`;
 			},
 			// 获取url地址参数
 			getUrlPara (name) {
@@ -68,7 +70,6 @@
 				console.log("开始校验参数");
 				var hrefString = decodeURIComponent(window.location.href)
 				console.log("window.location.href:", hrefString);
-				// params=吴云龙##411122199202088250##www.baidu.com
 				var params = hrefString.split("?")[1].split("params=")[1];
 
 				console.log("params", params);
@@ -76,15 +77,22 @@
 				console.log(paramsArray);
 				let personName = paramsArray[0];
 				let personId = paramsArray[1];
+				let uuid = paramsArray[2];
 				// 最多兼容URL地址中含有一个 “##” 特殊字符
-				let callbackUrl = paramsArray.length > 3 ? paramsArray.concat("##", paramsArray[3]) : paramsArray[2];
+				let callbackUrl = paramsArray[3]
 				console.log("准备开始校验");
 				console.log("personName", personName);
 				console.log("personId", personId);
+				console.log("uuid", uuid);
 				console.log("callbackUrl", callbackUrl);
 				if (callbackUrl == null || callbackUrl == '') {
 					this.verifyCode = '';
 					this.message = '回调函数不存在或者回调函数为空';
+					return false;
+				}
+				if (uuid == null || callbackUrl == '') {
+					this.verifyCode = '';
+					this.message = 'uuid参数不正确';
 					return false;
 				}
 				if (personName == null || personName.length < 2) {
@@ -101,6 +109,7 @@
 				this.personName = personName;
 				this.callbackUrl = callbackUrl;
 				this.personId = personId;
+				this.uuid = uuid;
 				return true;
 			},
 			checkVerifySupport () {
