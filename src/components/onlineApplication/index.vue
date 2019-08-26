@@ -10,7 +10,8 @@
 	</div>
 </template>
 <script>
-	import Head from '../app/head.vue'
+  import Head from '../app/head.vue'
+  import { Toast } from 'vant';
 	export default {
 		components: {
 			'page-head': Head
@@ -20,51 +21,51 @@
 				list: [{
 						groupTitle: "转移登记",
 						groupCells: [{
-              title: "建设用地使用权、宅基地使用权转移登记",
-              path: "/onlineApplication/JSYDSYQZYDJ/bookIn"
+							title: "建设用地使用权、宅基地使用权转移登记",
+							path: "/onlineApplication/JSYDSYQZYDJ/bookIn"
 						}, {
-              title: "房地产（独幢、层、套、间房屋）转移登记",
-              path: ""
+							title: "房地产（独幢、层、套、间房屋）转移登记",
+							path: ""
 						}, {
-              title: "存量房（二手房）转移登记",
-              path: ""
+							title: "存量房（二手房）转移登记",
+							path: ""
 						}]
 					},
 					{
 						groupTitle: "变更登记",
 						groupCells: [{
-              title: "建设用地使用权、宅基地使用权变更登记",
-              path: ""
+							title: "建设用地使用权、宅基地使用权变更登记",
+							path: ""
 						}, {
-              title: "房地产（独幢、层、套、间房屋）变更登记",
-              path: ""
+							title: "房地产（独幢、层、套、间房屋）变更登记",
+							path: ""
 						}]
 					},
 					{
 						groupTitle: "注销登记",
 						groupCells: [{
-              title: "不动产权利证书注销登记",
-              path: ""
+							title: "不动产权利证书注销登记",
+							path: ""
 						}]
 					},
 					{
 						groupTitle: "更正登记",
 						groupCells: [{
-              title: "不动产权利证书更正登记",
-              path: ""
+							title: "不动产权利证书更正登记",
+							path: ""
 						}, {
-              title: "不动产权利证明更正登记",
-              path: ""
+							title: "不动产权利证明更正登记",
+							path: ""
 						}]
 					},
 					{
 						groupTitle: "异议登记",
 						groupCells: [{
-              title: "异议登记",
-              path: ""
+							title: "异议登记",
+							path: ""
 						}, {
-              title: "异议注销登记",
-              path: ""
+							title: "异议注销登记",
+							path: ""
 						}]
 					},
 					{
@@ -85,9 +86,13 @@
 		methods: {
 			groupCellClicked: function (value) {
 				console.log(value);
-				this.$router.push({
-					path: "/onlineApplication/BDCQSZSYSDJ/bookIn"
-				});
+				if (value.path.length > 0) {
+					this.$router.push({
+						path: value.path
+					});
+				} else {
+					Toast('功能尚未开发!');
+				}
 			}
 		}
 	}
