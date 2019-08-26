@@ -5,14 +5,14 @@
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄材料
 			</div>
-			<van-field v-model="material" right-icon="arrow" placeholder="请选择快递寄材料" disabled clickable
+			<van-field id="JOB_SJDJB.FSFKDJCL" v-model="material" right-icon="arrow" placeholder="请选择快递寄材料" disabled clickable
 				@click.native="materialClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄证
 			</div>
-			<van-field v-model="credential" right-icon="arrow" placeholder="请选择快递寄证" disabled clickable
+			<van-field id="JOB_SJDJB.FSFKDJZ" v-model="credential" right-icon="arrow" placeholder="请选择快递寄证" disabled clickable
 				@click.native="credentialClicked()" />
 		</van-cell-group>
 		<van-cell-group>
@@ -60,10 +60,10 @@
 </template>
 
 <script>
-	import Head from '../app/head.vue';
+	import Head from '../../app/head.vue';
 	import {
 		SUBMIT_TASK_FORM_DATA
-	} from '../../constants/index.js'
+	} from '../../../constants/index.js'
 	export default {
 		components: {
 			'page-head': Head
@@ -154,8 +154,8 @@
 			submitTaskFormData: function () {
 				var taskId = sessionStorage.getItem('taskId');
 				var formData = JSON.parse(sessionStorage.getItem('formdata'));
-				formData['JOB_SJDJB.FSFKDJZ'] = this.material;
-				formData['JOB_SJDJB.FSFKDJCL'] = this.credential;
+				formData['JOB_SJDJB.FSFKDJCL'] = this.material;
+				formData['JOB_SJDJB.FSFKDJZ'] = this.credential;
 				formData['JOB_SJDJB.FDXLXR'] = this.contacts;
 				formData['JOB_SJDJB.FDXTZDH'] = this.phone;
 				formData['JOB_SJDJB.FLXRSFZHM'] = this.idNum;
@@ -180,7 +180,7 @@
 					console.log(response);
 					if (response.status == 200) {
 						this.$router.push({
-							path: '/onlineApplication/success'
+							path: '/onlineApplication/JSYDSYQZYDJ/success'
 						});
 					}
 				}).catch(error => {

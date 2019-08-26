@@ -12,21 +12,20 @@
 					<div class="attachments flex-box">
 						<div class="attachment" v-for="(item, index) in imgs">
 							<div class="attachment-img" :style="{backgroundImage:'url(' + item.content + ')'}">
-								<img class="attachment-del" src="../../assets/images/online-application/delete.png"
+								<img class="attachment-del" src="../../../assets/images/online-application/delete.png"
 									alt="" @click="delImg(1, index)">
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<van-uploader name="uploader" :after-read="onRead">
 					<van-button plain hairline type="default">
-						<img src="../../assets/images/online-application/上传.png"
+						<img src="../../../assets/images/online-application/上传.png"
 							style="width: 15px; display: inline-block; position: relative; top: -2px;" alt="">
 						上传
 					</van-button>
 				</van-uploader>
-
-
 
 				<div class="triangle"></div>
 				<div class="num">1</div>
@@ -41,19 +40,21 @@
 					<div class="attachments flex-box">
 						<div class="attachment" v-for="(item, index) in imgs2">
 							<div class="attachment-img" :style="{backgroundImage:'url(' + item.content + ')'}">
-								<img class="attachment-del" src="../../assets/images/online-application/delete.png"
+								<img class="attachment-del" src="../../../assets/images/online-application/delete.png"
 									alt="" @click="delImg(2, index)">
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<van-uploader name="uploader" :after-read="onRead2">
 					<van-button plain hairline type="default">
-						<img src="../../assets/images/online-application/上传.png"
+						<img src="../../../assets/images/online-application/上传.png"
 							style="width: 15px; display: inline-block; position: relative; top: -2px;" alt="">
 						上传
 					</van-button>
 				</van-uploader>
+				
 				<div class="triangle"></div>
 				<div class="num">2</div>
 			</div>
@@ -65,11 +66,11 @@
 </template>
 
 <script>
-	import Head from '../app/head.vue';
+	import Head from '../../app/head.vue';
 	import {
 		UPLOAD_FILES,
 		FILL_SUB_FORM_DATA
-	} from '../../constants/index.js'
+	} from '../../../constants/index.js'
 	export default {
 		components: {
 			'page-head': Head
@@ -139,38 +140,6 @@
 					this.files2.splice(index, 1);
 					this.imgs2.splice(index, 1);
 				}
-				//this.imgs.splice(index, 1);
-			},
-			// 添加子表单数据
-			addSubFormData: function () {
-				this.fillSubFormData('JOB_FILES_LINK.IFJQD', [{
-					'JOB_FILES.CCJZ': "正本复印件",
-					'JOB_FILES.CLFL': null,
-					'JOB_FILES.FBZ': null,
-					'JOB_FILES.FPATH': "",
-					'JOB_FILES.FSL': 0,
-					'JOB_FILES.FYM': "0",
-					'JOB_FILES.FYS': 1,
-					'JOB_FILES.RID': null,
-					'JOB_FILES.SYS_MRID': null,
-					'JOB_FILES.XH': null,
-					'JOB_FILES.XYTG': "否",
-					'JOB_FILES.ZLMC': "申请人身份证明"
-				}])
-				/* 				this.fillSubFormData('JOB_FILES_LINK.IFJQD', [{
-									'JOB_FILES.CCJZ': "原件正本",
-									'JOB_FILES.CLFL': null,
-									'JOB_FILES.FBZ': null,
-									'JOB_FILES.FPATH': "",
-									'JOB_FILES.FSL': 0,
-									'JOB_FILES.FYM': "0",
-									'JOB_FILES.FYS': 1,
-									'JOB_FILES.RID': null,
-									'JOB_FILES.SYS_MRID': null,
-									'JOB_FILES.XH': 2,
-									'JOB_FILES.XYTG': "否",
-									'JOB_FILES.ZLMC': "不动产登记申请表"
-								}]) */
 			},
 			fillSubFormData: function (title, params) {
 				var business = JSON.parse(sessionStorage.getItem('business'));
@@ -238,7 +207,7 @@
 				if (this.loading1 === false && this.loading2 === false) {
 					console.log('结束保存子表单');
 					this.$router.push({
-						path: '/onlineApplication/ems'
+						path: '/onlineApplication/JSYDSYQZYDJ/ems'
 					});
 				}
 			},
@@ -282,34 +251,6 @@
 			console.log('进入附件页面');
 			this.loading1 = false;
 			this.loading2 = false;
-			/* 			this.fillSubFormData('JOB_FILES_LINK.IFJQD', [{
-							'JOB_FILES.CCJZ': "正本复印件",
-							'JOB_FILES.CLFL': null,
-							'JOB_FILES.FBZ': null,
-							'JOB_FILES.FPATH': "",
-							'JOB_FILES.FSL': 0,
-							'JOB_FILES.FYM': "0",
-							'JOB_FILES.FYS': 1,
-							'JOB_FILES.RID': null,
-							'JOB_FILES.SYS_MRID': null,
-							'JOB_FILES.XH': 0,
-							'JOB_FILES.XYTG': "否",
-							'JOB_FILES.ZLMC': "申请人身份证明"
-						}]);
-						this.fillSubFormData2('JOB_FILES_LINK.IFJQD', [{
-							'JOB_FILES.CCJZ': "原件正本",
-							'JOB_FILES.CLFL': null,
-							'JOB_FILES.FBZ': null,
-							'JOB_FILES.FPATH': "",
-							'JOB_FILES.FSL': 0,
-							'JOB_FILES.FYM': "0",
-							'JOB_FILES.FYS': 1,
-							'JOB_FILES.RID': null,
-							'JOB_FILES.SYS_MRID': null,
-							'JOB_FILES.XH': 1,
-							'JOB_FILES.XYTG': "否",
-							'JOB_FILES.ZLMC': "不动产登记申请表"
-						}]) */
 		}
 	}
 

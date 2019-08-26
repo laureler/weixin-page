@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-07-16 11:42:54
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-08-14 16:27:51
+ * @LastEditTime: 2019-08-26 09:10:27
  * @Description: 头部注释
  */
 import Vue from 'vue';
@@ -226,28 +226,51 @@ const router = new Router({
 				name: "onlineIndex",
 				component: resolve => require(['@/components/onlineApplication/index'], resolve),
 			}, {
-				path: "/onlineApplication/bookIn",
+				path: "/onlineApplication/BDCQSZSYSDJ/bookIn",
 				name: "onlineBookIn",
-				component: resolve => require(['@/components/onlineApplication/bookIn'], resolve),
+				component: resolve => require(['@/components/onlineApplication/BDCQSZSYSDJ/bookIn'], resolve),
 				meta: {
 					isNeedLogin: true
 				}
 			}, {
-				path: "/onlineApplication/info",
+				path: "/onlineApplication/BDCQSZSYSDJ/info",
 				name: "onlineInfo",
-				component: resolve => require(['@/components/onlineApplication/info'], resolve)
+				component: resolve => require(['@/components/onlineApplication/BDCQSZSYSDJ/info'], resolve)
 			}, {
-				path: "/onlineApplication/attachment",
+				path: "/onlineApplication/BDCQSZSYSDJ/attachment",
 				name: "attachment",
-				component: resolve => require(['@/components/onlineApplication/attachment'], resolve),
+				component: resolve => require(['@/components/onlineApplication/BDCQSZSYSDJ/attachment'], resolve),
 			}, {
-				path: "/onlineApplication/ems",
+				path: "/onlineApplication/BDCQSZSYSDJ/ems",
 				name: "onlineEMS",
-				component: resolve => require(['@/components/onlineApplication/ems'], resolve),
+				component: resolve => require(['@/components/onlineApplication/BDCQSZSYSDJ/ems'], resolve),
 			}, {
-				path: "/onlineApplication/success",
+				path: "/onlineApplication/BDCQSZSYSDJ/success",
 				name: "onlineSuccess",
-				component: resolve => require(['@/components/onlineApplication/success'], resolve),
+				component: resolve => require(['@/components/onlineApplication/BDCQSZSYSDJ/success'], resolve),
+			}, {
+				path: "/onlineApplication/JSYDSYQZYDJ/bookIn",
+				name: "onlineBookIn",
+				component: resolve => require(['@/components/onlineApplication/JSYDSYQZYDJ/bookIn'], resolve),
+				meta: {
+					isNeedLogin: true
+				}
+			}, {
+				path: "/onlineApplication/JSYDSYQZYDJ/info",
+				name: "onlineInfo",
+				component: resolve => require(['@/components/onlineApplication/JSYDSYQZYDJ/info'], resolve)
+			}, {
+				path: "/onlineApplication/JSYDSYQZYDJ/attachment",
+				name: "attachment",
+				component: resolve => require(['@/components/onlineApplication/JSYDSYQZYDJ/attachment'], resolve),
+			}, {
+				path: "/onlineApplication/JSYDSYQZYDJ/ems",
+				name: "onlineEMS",
+				component: resolve => require(['@/components/onlineApplication/JSYDSYQZYDJ/ems'], resolve),
+			}, {
+				path: "/onlineApplication/JSYDSYQZYDJ/success",
+				name: "onlineSuccess",
+				component: resolve => require(['@/components/onlineApplication/JSYDSYQZYDJ/success'], resolve),
 			}, {
 				path: "/onlineApplication/test",
 				name: "test",

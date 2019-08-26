@@ -48,9 +48,9 @@
 </template>
 
 <script>
-	import Head from '../app/head.vue';
+	import Head from '../../app/head.vue';
 	import { Toast } from 'vant';
-	import { CHECKOUT_REAL_ESTATE } from '../../constants/index.js'
+	import { CHECKOUT_REAL_ESTATE } from '../../../constants/index.js'
 	export default {
 		components: {
 			'page-head': Head
@@ -191,7 +191,7 @@
 					Toast('请校验证书通过后进行下一步!');
 				}else {
 					this.$router.push({
-							path: '/onlineApplication/info', 
+							path: '/onlineApplication/JSYDSYQZYDJ/info', 
 							query: {
 								cqxx: this.checkout.cqxx[0]
 							}

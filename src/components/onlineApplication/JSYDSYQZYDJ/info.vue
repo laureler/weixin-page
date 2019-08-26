@@ -189,7 +189,7 @@
 		}
 		return v_data;
 	}
-	import Head from '../app/head.vue';
+	import Head from '../../app/head.vue';
 	import {
 		GET_BUSINESS_START_FROM,
 		START_EXACT_BUSINNESS,
@@ -197,7 +197,7 @@
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
 		TEST
-	} from '../../constants/index.js'
+	} from '../../../constants/index.js'
 	export default {
 		components: {
 			'page-head': Head
@@ -419,7 +419,7 @@
 				}).then(response => {
 					console.log(response);
 					this.$router.push({
-						path: '/onlineApplication/attachment'
+						path: '/onlineApplication/JSYDSYQZYDJ/attachment'
 					});
 				}).catch(error => {
 					console.log(error);
