@@ -1,12 +1,12 @@
 <template>
 	<div class="container">
-		<page-head title="建设用地使用权、宅基地使用权转移登记"></page-head>
+		<page-head title="不动产权利证书遗失（换证）登记"></page-head>
 		<div class="box-body">
 			<van-tabs>
 				<van-tab title="基本信息">
 					<van-cell-group>
 						<div class="cell-title">
-							<span class="required-span">*</span>申请事项
+							<span class="required-span">*</span>不动产类型
 						</div>
 						<van-field v-model="application" right-icon="arrow" placeholder="请选择申请事项"
 							@click-right-icon="$toast('question')" disabled clickable
@@ -20,56 +20,56 @@
 							@click-right-icon="$toast('question')" disabled clickable
 							@click.native="townshipClicked()" />
 					</van-cell-group>
+				</van-tab>
+				<van-tab title="不动产信息">
 					<van-cell-group>
 						<div class="cell-title">
-							<span class="required-span">*</span>不动产单元号
+							不动产单元号
 						</div>
-						<van-field class="field-background" id="JOB_BDCQK.FBDCDYH" v-model="estateInfo['JOB_BDCQK.FBDCDYH']" disabled/>
+						<van-field id="JOB_BDCQK.FBDCDYH" v-model="estateInfo['JOB_BDCQK.FBDCDYH']" placeholder="不动产单元号"
+							clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							<span class="required-span">*</span>不动产类型
+							不动产类型
 						</div>
-						<van-field class="field-background" id="JOB_BDCQK.FBDCLX" v-model="estateInfo['JOB_BDCQK.FBDCLX']" disabled/>
+						<van-field id="JOB_BDCQK.FBDCLX" right-icon="arrow" v-model="estateInfo['JOB_BDCQK.FBDCLX']"
+							placeholder="不动产类型" disabled clickable @click.native="typeClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							<span class="required-span">*</span>坐落
+							坐落
 						</div>
-						<van-field class="field-background" id="JOB_BDCQK.FFDZL" v-model="estateInfo['JOB_BDCQK.FFDZL']" disabled/>
+						<van-field id="JOB_BDCQK.FFDZL" v-model="estateInfo['JOB_BDCQK.FFDZL']" placeholder="坐落"
+							clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							面积
 						</div>
-						<van-field class="field-background" id="JOB_BDCQK.FMJ" v-model="estateInfo['JOB_BDCQK.FMJ']" disabled/>
+						<van-field id="JOB_BDCQK.FMJ" v-model="estateInfo['JOB_BDCQK.FMJ']" placeholder="面积"
+							clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							用途
 						</div>
-						<van-field class="field-background" id="JOB_BDCQK.FYT" v-model="estateInfo['JOB_BDCQK.FYT']" disabled/>
+						<van-field id="JOB_BDCQK.FYT" v-model="estateInfo['JOB_BDCQK.FYT']" placeholder="用途"
+							clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							<span class="required-span">*</span>原不动产权证号
+							原不动产权证明
 						</div>
-						<van-field class="field-background" id="JOB_BDCQK.FYBDCQSZH" v-model="estateInfo['JOB_BDCQK.FYBDCQSZH']" disabled/>
+						<van-field id="JOB_BDCQK.FYBDCQSZH" v-model="estateInfo['JOB_BDCQK.FYBDCQSZH']"
+							placeholder="原不动产权证明" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							<span class="required-span">*</span>登记原因
+							登记原因
 						</div>
-						<van-field v-model="registerReason" right-icon="arrow" placeholder="请选择登记原因"
-							@click-right-icon="$toast('question')" disabled clickable
-							@click.native="registerReasonClicked()" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							其他原因
-						</div>
-						<van-field id="JOB_JSYDCQXXB.FQTYY" v-model="estateInfo['JOB_JSYDCQXXB.FQTYY']" clearable
-							placeholder="其他原因" />
+						<van-field id="JOB_BDCQK.FDJYY" v-model="estateInfo['JOB_BDCQK.FDJYY']" clearable
+							placeholder="登记原因" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -79,7 +79,7 @@
 							placeholder="备注" />
 					</van-cell-group>
 				</van-tab>
-				<van-tab title="受让人">
+				<van-tab title="申请人信息">
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>申请人
@@ -106,29 +106,13 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							<span class="required-span">*</span>单位性质
+							国家/地区
 						</div>
-						<van-field class="field-background" v-model="applicant['JOB_SQRXXB.FDWXZ']" disabled/>
+						<van-field v-model="applicant['JOB_SQRXXB.FGJDQ']" clearable placeholder="国家/地区" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							<span class="required-span">*</span>国家/地区
-						</div>
-						<van-field v-model="applicant['JOB_SQRXXB.FGJDQ']" right-icon="arrow" placeholder="请选择国家地区"
-							@click-right-icon="$toast('question')" disabled clickable
-							@click.native="countryClicked()" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>户籍所属省份
-						</div>
-						<van-field v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow" placeholder="请选择户籍所属省份"
-							@click-right-icon="$toast('question')" disabled clickable
-							@click.native="provinceClicked()" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>联系电话
+							联系电话
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FLXDH']" clearable placeholder="联系电话" />
 					</van-cell-group>
@@ -145,10 +129,10 @@
 						<van-field v-model="applicant['JOB_SQRXXB.FQLBL']" clearable placeholder="权利比例" />
 					</van-cell-group>
 					<div class="buttons">
-						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant(0)">保存
+						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant()">保存
 						</van-button>
 						<van-button class="info-btn" size="small" type="default" v-if="editApplicantState"
-							@click.native="delApplicant(0)">删除申请人
+							@click.native="delApplicant()">删除申请人
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -163,97 +147,7 @@
 								<div class="num">{{ item['JOB_SQRXXB.FZJHM'] || '' }}</div>
 								<div class="handle">
 									<van-button plain round type="info" size="small"
-										@click.native="editApplicant(item, index, 0)">编辑</van-button>
-								</div>
-							</van-cell-group>
-						</div>
-					</div>
-				</van-tab>
-				<van-tab title="转让人">
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>申请人
-						</div>
-						<van-field v-model="assignor['JOB_SQRXXB.FSQRMC']" clearable placeholder="申请人" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>性别
-						</div>
-						<van-field v-model="assignor['JOB_SQRXXB.FXB']" clearable placeholder="性别" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>证件种类
-						</div>
-						<van-field v-model="assignor['JOB_SQRXXB.FZJZL']" clearable placeholder="证件种类" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>证件号码
-						</div>
-						<van-field v-model="assignor['JOB_SQRXXB.FZJHM']" clearable placeholder="证件号码" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>单位性质
-						</div>
-						<van-field class="field-background" v-model="assignor['JOB_SQRXXB.FDWXZ']" disabled/>
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>国家/地区
-						</div>
-						<van-field v-model="assignor['JOB_SQRXXB.FGJDQ']" right-icon="arrow" placeholder="请选择国家地区"
-							@click-right-icon="$toast('question')" disabled clickable
-							@click.native="countryClicked()" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>户籍所属省份
-						</div>
-						<van-field v-model="assignor['JOB_SQRXXB.FHJSZSS']" right-icon="arrow" placeholder="请选择户籍所属省份"
-							@click-right-icon="$toast('question')" disabled clickable
-							@click.native="provinceClicked()" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>联系电话
-						</div>
-						<van-field v-model="assignor['JOB_SQRXXB.FLXDH']" clearable placeholder="联系电话" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>共有情况
-						</div>
-						<van-field v-model="assignor['JOB_SQRXXB.FGYQK']" clearable placeholder="共有情况" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>权利比例
-						</div>
-						<van-field v-model="assignor['JOB_SQRXXB.FQLBL']" clearable placeholder="权利比例" />
-					</van-cell-group>
-					<div class="buttons">
-						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant(1)">保存
-						</van-button>
-						<van-button class="info-btn" size="small" type="default" v-if="editAssignorState"
-							@click.native="delApplicant(1)">删除申请人
-						</van-button>
-					</div>
-					<div class="applicants">
-						<div class="title">
-							<div class="name">姓名</div>
-							<div class="num">证件号码</div>
-							<div class="handle">操作</div>
-						</div>
-						<div class="content">
-							<van-cell-group class="applicants-group" v-for="(item, index) in assignors">
-								<div class="name">{{ item['JOB_SQRXXB.FSQRMC'] || '' }}</div>
-								<div class="num">{{ item['JOB_SQRXXB.FZJHM'] || '' }}</div>
-								<div class="handle">
-									<van-button plain round type="info" size="small"
-										@click.native="editApplicant(item, index, 1)">编辑</van-button>
+										@click.native="editApplicant(item, index)">编辑</van-button>
 								</div>
 							</van-cell-group>
 						</div>
@@ -295,7 +189,7 @@
 		}
 		return v_data;
 	}
-	import Head from '../../app/head.vue';
+	import Head from '../app/head.vue';
 	import {
 		GET_BUSINESS_START_FROM,
 		START_EXACT_BUSINNESS,
@@ -303,7 +197,7 @@
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
 		TEST
-	} from '../../../constants/index.js'
+	} from '../../constants/index.js'
 	export default {
 		components: {
 			'page-head': Head
@@ -324,43 +218,9 @@
 					'JOB_BDCQK.FYT': "", // 用途
 					'JOB_BDCQK.FYBDCQSZH': "", // 原不动产权证明
 					'JOB_BDCQK.FDJYY': "", // 登记原因
-					'JOB_JSYDCQXXB.FQTYY': "", //其他原因
 					'JOB_BDCQK.FBZ': "" // 备注
 				},
-				applicant: { // 受让人信息
-					//此处需要更改信息字段保证与传递过来的数据字段一致,便于直接赋值见下面
-					//created()方法
-					'JOB_SQRXXB.FBZ': null,
-					'JOB_SQRXXB.FDLJG': null,
-					'JOB_SQRXXB.FDLRDH': null,
-					'JOB_SQRXXB.FDLRMC': null,
-					'JOB_SQRXXB.FDLRZJHM': null,
-					'JOB_SQRXXB.FDWXZ': "",
-					'JOB_SQRXXB.FDZYJ': null,
-					'JOB_SQRXXB.FFRMC': null,
-					'JOB_SQRXXB.FFRZJHM': null,
-					'JOB_SQRXXB.FGJDQ': null,
-					'JOB_SQRXXB.FGYQK': "",
-					'JOB_SQRXXB.FGZDW': null,
-					'JOB_SQRXXB.FHJSZSS': null,
-					'JOB_SQRXXB.FLXDH': "",
-					'JOB_SQRXXB.FLXR': null,
-					'JOB_SQRXXB.FQLBL': null,
-					'JOB_SQRXXB.FSQRLX': "",
-					'JOB_SQRXXB.FSQRMC': "",
-					'JOB_SQRXXB.FSSHY': null,
-					'JOB_SQRXXB.FTXDZ': null,
-					'JOB_SQRXXB.FXB': null,
-					'JOB_SQRXXB.FXXQRZT': null,
-					'JOB_SQRXXB.FYB': null,
-					'JOB_SQRXXB.FZJHM': "",
-					'JOB_SQRXXB.FZJZL': "",
-					'JOB_SQRXXB.FZP': null,
-					'JOB_SQRXXB.RID': "",
-					'JOB_SQRXXB.SYS_MRID': "",
-					'JOB_SQRXXB.XH': ""
-				},
-				assignor: { // 转让人信息
+				applicant: { // 申请人信息
 					//此处需要更改信息字段保证与传递过来的数据字段一致,便于直接赋值见下面
 					//created()方法
 					'JOB_SQRXXB.FBZ': null,
@@ -413,26 +273,17 @@
 						name: '西区'
 					}
 				],
+				types: [{
+					name: '土地'
+				}, {
+					name: '土地与房屋'
+				}],
 				actions: [],
 				applicants: [],
-				assignors:[],
 				editApplicantState: false,
-				editAssignorState: false,
-				applicantIndex: -1,
-				assignorIndex: -1,
+				applicantIndex: 0,
 				taskId: '',
 				valuesParams: {},
-				registerReason: '',
-				registerReasons:[{
-						name: ''
-					}
-				],
-				countries:[{
-					name: '中华人民共和国'
-				}],
-				provinces: [{
-					name: '广东'
-				}],
 			}
 		},
 		methods: {
@@ -443,12 +294,8 @@
 					this.application = val.name;
 				} else if (this.type == 1) {
 					this.township = val.name;
-				} else if (this.type == 2) {
-					this.registerReason = val.name;
-				} else if (this.type == 3) {
-					this.applicant['JOB_SQRXXB.FGJDQ'] = val.name;
-				} else if (this.type == 4) {
-					this.applicant['JOB_SQRXXB.FHJSZSS']= val.name;
+				} else {
+					this.estateInfo['JOB_BDCQK.FBDCLX'] = val.name;
 				}
 			},
 			onCancel: function () {
@@ -465,74 +312,60 @@
 				this.type = 1;
 				this.actions = this.townships;
 			},
-			registerReasonClicked: function(){
+			typeClicked: function () {
 				this.show = true;
 				this.type = 2;
-				this.actions = this.registerReasons;
+				this.actions = this.types;
 			},
-			countryClicked:function(){
-				this.show = true;
-				this.type = 3;
-				this.actions = this.countries;
-			},
-			provinceClicked: function(){
-				this.show = true;
-				this.type = 4;
-				this.actions = this.provinces;
-			},
-			delApplicant: function (type) {
+			delApplicant: function () {
 				this.$dialog.confirm({
 					message: '确定要删除该申请人吗?'
 				}).then(() => {
 					console.log('删除');
-					if (type == 0) {
-						//受让人
-						this.applicants.splice(this.applicantIndex, 1);
-						this.applicantIndex = -1;
-						this.editApplicantState = false;
-					}else if (type == 1) {
-						//转让人
-						this.assignors.splice(this.assignorIndex, 1);
-						this.assignorIndex = -1;
-						this.editAssignorState = false;
-					}
+					this.applicants.splice(this.applicantIndex, 1);
+					this.applicantIndex = 0;
+					this.editApplicantState = false;
 					// on close
 				}).catch(() => {
 					// on cancel
 					console.log('取消');
 				});
 			},
-			saveApplicant: function (type) {
-				if (type == 0) {
-					//受让人
-					//将当前数据保存至applicants数组用作遍历展示
-					if (this.applicantIndex != -1) {
-						this.applicants[applicantIndex] = this.applicant;
-					}else {
-						this.applicants.push(this.applicant);
-					}
-					console.log(this.applicants.length);
-					this.applicantIndex = -1;
-					if (this.applicant['JOB_SQRXXB.SYS_MRID'].length == 0) {
-						this.$toast('请选择申请人!');
-					} else {
-						this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant]);
-					}
-				}else if (type == 1) {
-					//转让人(义务人)
-					//将当前数据保存至assignors数组用作遍历展示
-					if (this.assignorIndex != -1) {
-						this.assignors[assignorIndex] = this.assignor;
-					}else {
-						this.assignors.push(this.assignor);
-					}
-					this.assignorIndex = -1;
-					if (this.assignor['JOB_SQRXXB.SYS_MRID'].length == 0) {
-						this.$toast('请选择申请人!');
-					} else {
-						this.fillSubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR', [this.assignor]);
-					}
+			saveApplicant: function () {
+
+				if (this.applicant['JOB_SQRXXB.SYS_MRID'].length == 0) {
+					this.$toast('请选择申请人!');
+				} else {
+
+					this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant]);
+
+/* 					var title = 'JOB_SQRXXB_LINK.IQLR';
+					var business = JSON.parse(sessionStorage.getItem('business'));
+					var result = JSON.parse(business.result);
+					console.log(result);
+					var link = title.split('.')[0];
+					var domains = title.split('_LINK')[0]
+					var parentrid = result.data.values[link + '.RID'];
+					var templateid = result.data.controls[title].linkTplId;
+					console.log(result.data.values[link + '.RID']);
+					console.log(result.data.controls[title].linkTplId);
+
+					this.axios({
+						url: FILL_SUB_FORM_DATA + '?parentdomname=' + title + '&type=0' + '&parentrid=' + parentrid +
+							'&templateid=' + templateid  + '&domains=' + domains +
+							'&jid=' + sessionStorage.getItem('jid'),
+						//'?jid=' + sessionStorage.getItem('jid') +
+						//	'&parentdomname=' + title + '&parentrid=' + parentrid +
+						//	'&templateid=' + templateid + '&mrid=' + this.applicant['JOB_SQRXXB.SYS_MRID'],
+						method: 'post',
+						data: this.applicant,
+					}).then(response => {
+						console.log('ADD_SUB_FORM_DATA:', response);
+					}).catch(error => {
+						console.log(error);
+					}); */
 				}
+
 				/* 				if (this.editApplicantState) {  // 编辑状态
 									this.applicants[this.applicantIndex] = this.applicant;
 									this.applicant = cleanParams(this.applicant);
@@ -544,18 +377,10 @@
 									this.editApplicantState = false;
 								} */
 			},
-			editApplicant: function (item, index, type) {
+			editApplicant: function (item, index) { // 编辑申请人
 				// this.editApplicantState = true;
-				if (type == 0) {
-					//受让人
-					this.applicantIndex = index;
-					this.applicant = item;
-				}else if (type == 1) {
-					//转让人
-					this.assignorIndex = index;
-					this.assignor = item;
-				}
-				console.log("applicantIndex="+this.applicantIndex);
+				this.applicantIndex = index;
+				this.applicant = item;
 			},
 			nextStep: function () {
 				this.saveTaskFormData();
@@ -575,7 +400,6 @@
 				this.valuesParams['JOB_BDCQK.FBZ'] = this.estateInfo['JOB_BDCQK.FBZ'];
 				this.valuesParams['JOB_SJDJB.FDJLX'] = this.application;
 				this.valuesParams['JOB_SJDJB.FZQDM'] = this.township;
-				this.valuesParams['JOB_JSYDCQXXB.FQTYY'] = this.estateInfo['JOB_JSYDCQXXB.FQTYY'];
 
 				sessionStorage.setItem('formdata', JSON.stringify(this.valuesParams));
 				this.axios({
@@ -595,7 +419,7 @@
 				}).then(response => {
 					console.log(response);
 					this.$router.push({
-						path: '/onlineApplication/JSYDSYQZYDJ/attachment'
+						path: '/onlineApplication/attachment'
 					});
 				}).catch(error => {
 					console.log(error);
@@ -639,14 +463,13 @@
 						this.estateInfo['JOB_BDCQK.FBDCDYH'] = response['JOB_BDCQK.FBDCDYH'];
 						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
 						var bdclx = getBdcType(qllx);
-
 						this.estateInfo['JOB_BDCQK.FBDCLX'] = bdclx;
 						this.estateInfo['JOB_BDCQK.FFDZL'] = response['JOB_BDCQK.FFDZL'];
 
 						this.estateInfo['JOB_BDCQK.FMJ'] = response['JOB_BDCQK.FJZMJ'];
 						this.estateInfo['JOB_BDCQK.FYT'] = response['JOB_BDCQK.FFWYT'];
 
-						this.estateInfo['JOB_BDCQK.FYBDCQSZH'] = response["JOB_BDCQK.FYBDCQSZH"];
+						this.estateInfo['JOB_BDCQK.FYBDCQSZH'] = response['JOB_BDCQK.FYBDCQSZH'];
 						this.estateInfo['JOB_BDCQK.FZDMJ'] = response['JOB_BDCQK.FZDMJ'];
 
 						this.applicants = response['JOB_SQRXXB_LINK.IQLR'];
@@ -792,8 +615,4 @@
 		background: linear-gradient(to right, #2db6ff, #2edbfd) !important;
 	}
 
-	.field-background{
-		background-color: #E5E5E5;
-		color: #333333;
-	}
 </style>

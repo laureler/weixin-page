@@ -1,11 +1,11 @@
 <template>
 	<div class="container">
-      <page-head title="不动产权利证书遗失（换证）登记"></page-head>
+      <page-head title="建设用地使用权、宅基地使用权转移登记"></page-head>
 		<div class="body-box">
       <div class="success-box" style="padding-top: 30px; border: 1px solid #ccc; border-radius: 5px; margin: .2rem;">
         <img src="../../../assets/images/online-application/submit.png" style="width: 1.2rem; display: block; margin: 20px auto;">
         <div class="success-text" style="font-size: .45rem; color: #00b957; font-weight: bolder; text-align: center;">您的申请已提交</div>
-        <div class="application">申办事项：不动产权利证书遗失（换证）登记</div>
+        <div class="application">申办事项：建设用地使用权、宅基地使用权转移登记</div>
         <div class="application-num">申办编号：{{ jid }}</div>
         <div class="tips">
           提示：可以在个人中心-我的申办中查看或修改申办信息。

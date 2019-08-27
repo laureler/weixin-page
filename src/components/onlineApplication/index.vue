@@ -86,7 +86,7 @@
 			groupCellClicked: function (value) {
 				console.log(value);
 				this.$router.push({
-					path: "/onlineApplication/BDCQSZSYSDJ/bookIn"
+					path: value.path
 				});
 			}
 		}

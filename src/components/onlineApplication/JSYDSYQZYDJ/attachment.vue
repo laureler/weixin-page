@@ -35,7 +35,7 @@
 					不动产登记申请表
 				</div>
 				<div class="item-content">
-					<div class="content-div">必须提供：否</div>
+					<div class="content-div">必须提供：是</div>
 					<div class="content-div">附件内容：</div>
 					<div class="attachments flex-box">
 						<div class="attachment" v-for="(item, index) in imgs2">

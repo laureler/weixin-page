@@ -1,55 +1,55 @@
 <template>
 	<div class="container">
-		<page-head title="建设用地使用权、宅基地使用权转移登记"></page-head>
+		<page-head title="不动产权利证书遗失（换证）登记"></page-head>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄材料
 			</div>
-			<van-field id="JOB_SJDJB.FSFKDJCL" v-model="material" right-icon="arrow" placeholder="请选择快递寄材料" disabled clickable
+			<van-field v-model="material" right-icon="arrow" placeholder="请选择快递寄材料" disabled clickable
 				@click.native="materialClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄证
 			</div>
-			<van-field id="JOB_SJDJB.FSFKDJZ" v-model="credential" right-icon="arrow" placeholder="请选择快递寄证" disabled clickable
+			<van-field v-model="credential" right-icon="arrow" placeholder="请选择快递寄证" disabled clickable
 				@click.native="credentialClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>联系人
 			</div>
-			<van-field id="JOB_SJDJB.FDXLXR" v-model="contacts" clearable placeholder="联系人" />
+			<van-field v-model="contacts" clearable placeholder="联系人" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>联系电话
 			</div>
-			<van-field id="JOB_SJDJB.FDXTZDH" v-model="phone" clearable placeholder="联系电话" />
+			<van-field v-model="phone" clearable placeholder="联系电话" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				身份证号码
 			</div>
-			<van-field id="JOB_SJDJB.FLXRSFZHM" v-model="idNum" clearable placeholder="身份证号码" />
+			<van-field v-model="idNum" clearable placeholder="身份证号码" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				所在镇区
 			</div>
-			<van-field id="JOB_SJDJB.FZQ" v-model="township" right-icon="arrow" placeholder="请选择所在镇区" disabled clickable @click.native="townshipClicked()" />
+			<van-field v-model="township" right-icon="arrow" placeholder="请选择所在镇区" disabled clickable @click.native="townshipClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				单位
 			</div>
-			<van-field id="JOB_SJDJB.FDW" v-model="company" clearable placeholder="单位" />
+			<van-field v-model="company" clearable placeholder="单位" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>联系地址
 			</div>
-			<van-field id="JOB_SJDJB.FDZ" v-model="address" clearable placeholder="联系地址" />
+			<van-field v-model="address" clearable placeholder="联系地址" />
 		</van-cell-group>
 		<div style="height: 50px;"></div>
 		<van-button size="large" type="info" class="bottom-button" @click.native="nextStep()">下一步</van-button>
@@ -60,10 +60,10 @@
 </template>
 
 <script>
-	import Head from '../../app/head.vue';
+	import Head from '../app/head.vue';
 	import {
 		SUBMIT_TASK_FORM_DATA
-	} from '../../../constants/index.js'
+	} from '../../constants/index.js'
 	export default {
 		components: {
 			'page-head': Head
@@ -154,14 +154,6 @@
 			submitTaskFormData: function () {
 				var taskId = sessionStorage.getItem('taskId');
 				var formData = JSON.parse(sessionStorage.getItem('formdata'));
-				formData['JOB_SJDJB.FSFKDJCL'] = this.material;
-				formData['JOB_SJDJB.FSFKDJZ'] = this.credential;
-				formData['JOB_SJDJB.FDXLXR'] = this.contacts;
-				formData['JOB_SJDJB.FDXTZDH'] = this.phone;
-				formData['JOB_SJDJB.FLXRSFZHM'] = this.idNum;
-				formData['JOB_SJDJB.FZQ'] = this.township;
-				formData['JOB_SJDJB.FDW'] = this.company;
-				formData['JOB_SJDJB.FDZ'] = this.address;
 				this.axios({
 					url: SUBMIT_TASK_FORM_DATA + '?taskId=' + taskId,
 					method: 'post',
@@ -180,7 +172,7 @@
 					console.log(response);
 					if (response.status == 200) {
 						this.$router.push({
-							path: '/onlineApplication/JSYDSYQZYDJ/success'
+							path: '/onlineApplication/success'
 						});
 					}
 				}).catch(error => {
