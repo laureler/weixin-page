@@ -21,48 +21,56 @@
 </template>
 
 <script>
-import Head from '../../app/head.vue';
+	import Head from '../../app/head.vue';
 	export default {
-    components: {
+		components: {
 			'page-head': Head
-    },
-    data() {
+		},
+		data () {
 			return {
-        jid: sessionStorage.getItem('jid')
-      }
-    },
-    methods: {}
+				jid: sessionStorage.getItem('jid')
+			}
+		},
+		methods: {}
 	}
 
 </script>
 
 <style scoped>
-.success-box {
-  font-size: .4rem;
-}
-.application {
-  margin-top: 10px;
-}
-.application, .application-num, .tips {
-  padding: 5px 10px;
-  line-height: 2;
-  color: #666666;
-}
-.tips {
-  font-size: .35rem;
-  padding: 10px;
-  color: #999999;
-  background-color: #F5F5F5;
-}
-.buttons {
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 40px;
-}
-.buttons .success-btn {
-  width: 45%;
-  height: 1.3rem;
-  border-radius: 5px;
-}
+	.success-box {
+		font-size: .4rem;
+	}
+
+	.application {
+		margin-top: 10px;
+	}
+
+	.application,
+	.application-num,
+	.tips {
+		padding: 5px 10px;
+		line-height: 2;
+		color: #666666;
+	}
+
+	.tips {
+		font-size: .35rem;
+		padding: 10px;
+		color: #999999;
+		background-color: #F5F5F5;
+	}
+
+	.buttons {
+		padding: 10px;
+		display: flex;
+		justify-content: space-between;
+		margin-top: 40px;
+	}
+
+	.buttons .success-btn {
+		width: 45%;
+		height: 1.3rem;
+		border-radius: 5px;
+	}
+
 </style>

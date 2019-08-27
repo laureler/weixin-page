@@ -6,7 +6,7 @@
 
 > PC端测试环境
 
-> http://aiwandoudou.com/mainWeb/index/gdbdc
+> http://www.aiwandoudou.com/mainWeb/index/gdbdc
 > admin
 > 666666
 
@@ -36,6 +36,7 @@
 | 业务名称 | 业务号 |
 | --- | --- |
 | 不动产权利证书遗失（换证）登记 | 9ee6baf1-beef-4d08-9848-67f2d185da5a |
+| 建设用地使用权、宅基地使用权登记 | b07eb2ba-cbae-4a9f-bf94-d42be317ae99 |
 
 
 ### Customize configuration

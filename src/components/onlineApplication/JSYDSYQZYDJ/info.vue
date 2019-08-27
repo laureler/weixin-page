@@ -84,7 +84,7 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>申请人
 						</div>
-						<van-field v-model="applicant['JOB_SQRXXB.FSQRMC']" clearable placeholder="申请人" />
+						<van-field v-model="person" clearable placeholder="申请人" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -102,7 +102,7 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>证件号码
 						</div>
-						<van-field v-model="applicant['JOB_SQRXXB.FZJHM']" clearable placeholder="证件号码" />
+						<van-field v-model="idCard" clearable placeholder="证件号码" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -174,7 +174,7 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>申请人
 						</div>
-						<van-field v-model="assignor['JOB_SQRXXB.FSQRMC']" clearable placeholder="申请人" />
+						<van-field v-model="assignorPerson" clearable placeholder="申请人" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -192,7 +192,7 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>证件号码
 						</div>
-						<van-field v-model="assignor['JOB_SQRXXB.FZJHM']" clearable placeholder="证件号码" />
+						<van-field v-model="assignorIdCard" clearable placeholder="证件号码" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -296,6 +296,9 @@
 		return v_data;
 	}
 	import Head from '../../app/head.vue';
+	import {
+		Toast
+	} from 'vant';
 	import {
 		GET_BUSINESS_START_FROM,
 		START_EXACT_BUSINNESS,
@@ -433,6 +436,10 @@
 				provinces: [{
 					name: '广东'
 				}],
+				person:'',
+				idCard:'',
+				assignorPerson:'',
+				assignorIdCard:'',
 			}
 		},
 		methods: {
@@ -506,32 +513,34 @@
 				if (type == 0) {
 					//受让人
 					//将当前数据保存至applicants数组用作遍历展示
+					this.applicant['JOB_SQRXXB.FSQRMC'] = this.person;
+					this.applicant['JOB_SQRXXB.FZJHM'] = this.idCard;
 					if (this.applicantIndex != -1) {
-						this.applicants[applicantIndex] = this.applicant;
+						this.applicants[this.applicantIndex] = this.applicant;
 					}else {
 						this.applicants.push(this.applicant);
 					}
-					console.log(this.applicants.length);
+
 					this.applicantIndex = -1;
-					if (this.applicant['JOB_SQRXXB.SYS_MRID'].length == 0) {
-						this.$toast('请选择申请人!');
-					} else {
-						this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant]);
-					}
+					this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant]);
+					this.applicant = {};
+					this.person = '';
+					this.idCard = '';
 				}else if (type == 1) {
 					//转让人(义务人)
 					//将当前数据保存至assignors数组用作遍历展示
+					this.assignor['JOB_SQRXXB.FSQRMC'] = this.assignorPerson;
+					this.assignor['JOB_SQRXXB.FZJHM'] = this.assignorIdCard;
 					if (this.assignorIndex != -1) {
-						this.assignors[assignorIndex] = this.assignor;
+						this.assignors[this.assignorIndex] = this.assignor;
 					}else {
 						this.assignors.push(this.assignor);
 					}
 					this.assignorIndex = -1;
-					if (this.assignor['JOB_SQRXXB.SYS_MRID'].length == 0) {
-						this.$toast('请选择申请人!');
-					} else {
-						this.fillSubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR', [this.assignor]);
-					}
+					this.fillSubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR', [this.assignor]);
+					this.assignor = {};
+					this.assignorPerson = '';
+					this.assignorIdCard = '';
 				}
 				/* 				if (this.editApplicantState) {  // 编辑状态
 									this.applicants[this.applicantIndex] = this.applicant;
@@ -550,10 +559,14 @@
 					//受让人
 					this.applicantIndex = index;
 					this.applicant = item;
+					this.person = item['JOB_SQRXXB.FSQRMC'];
+					this.idCard = item['JOB_SQRXXB.FZJHM'];
 				}else if (type == 1) {
 					//转让人
 					this.assignorIndex = index;
 					this.assignor = item;
+					this.assignorPerson = item['JOB_SQRXXB.FSQRMC'];
+					this.assignorIdCard = item['JOB_SQRXXB.FZJHM'];
 				}
 				console.log("applicantIndex="+this.applicantIndex);
 			},
