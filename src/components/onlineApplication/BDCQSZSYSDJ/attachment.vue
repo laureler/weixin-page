@@ -75,7 +75,7 @@
 		components: {
 			'page-head': Head
 		},
-		data() {
+		data () {
 			return {
 				imgs: [],
 				imgs2: [],
@@ -93,7 +93,6 @@
 				this.imgs.push(file);
 				var form = new FormData();
 				form.append('mFile', file.file);
-				debugger;
 				var _this = this;
 				this.axios({
 					url: UPLOAD_FILES + '?jid=' + sessionStorage.getItem('jid'),
@@ -115,7 +114,6 @@
 				this.imgs2.push(file);
 				var form = new FormData();
 				form.append('mFile', file.file);
-				debugger;
 				var _this = this;
 				this.axios({
 					url: UPLOAD_FILES + '?jid=' + sessionStorage.getItem('jid'),
@@ -247,7 +245,7 @@
 				}])
 			}
 		},
-		mounted() {
+		mounted () {
 			console.log('进入附件页面');
 			this.loading1 = false;
 			this.loading2 = false;

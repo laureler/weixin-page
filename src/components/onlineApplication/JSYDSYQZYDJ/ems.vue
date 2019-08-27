@@ -146,10 +146,6 @@
 			},
 			nextStep: function () {
 				this.submitTaskFormData();
-				return;
-				this.$router.push({
-					path: '/onlineApplication/success'
-				});
 			},
 			submitTaskFormData: function () {
 				var taskId = sessionStorage.getItem('taskId');

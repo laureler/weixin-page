@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-07-16 11:42:54
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-08-26 09:10:27
+ * @LastEditTime: 2019-08-27 10:37:36
  * @Description: 头部注释
  */
 import Vue from 'vue';
@@ -18,8 +18,8 @@ import {
 Vue.use(Router);
 
 const router = new Router({
-	// base: 'pubWeb/public/weChatPublic',
-	base: 'app',
+	base: 'pubWeb/public/weChatPublic',
+	// base: 'app',
 	mode: 'history',
 	routes: [
 		// 证书查验界面
@@ -225,7 +225,9 @@ const router = new Router({
 				path: "/onlineApplication/index",
 				name: "onlineIndex",
 				component: resolve => require(['@/components/onlineApplication/index'], resolve),
-			}, {
+			}, 
+			
+			{
 				path: "/onlineApplication/BDCQSZSYSDJ/bookIn",
 				name: "onlineBookIn",
 				component: resolve => require(['@/components/onlineApplication/BDCQSZSYSDJ/bookIn'], resolve),
@@ -248,28 +250,32 @@ const router = new Router({
 				path: "/onlineApplication/BDCQSZSYSDJ/success",
 				name: "onlineSuccess",
 				component: resolve => require(['@/components/onlineApplication/BDCQSZSYSDJ/success'], resolve),
-			}, {
+			},
+			
+			
+			
+			{
 				path: "/onlineApplication/JSYDSYQZYDJ/bookIn",
-				name: "onlineBookIn",
+				name: "JSYDSYQZYDJBookIn",
 				component: resolve => require(['@/components/onlineApplication/JSYDSYQZYDJ/bookIn'], resolve),
 				meta: {
 					isNeedLogin: true
 				}
 			}, {
 				path: "/onlineApplication/JSYDSYQZYDJ/info",
-				name: "onlineInfo",
+				name: "JSYDSYQZYDJInfo",
 				component: resolve => require(['@/components/onlineApplication/JSYDSYQZYDJ/info'], resolve)
 			}, {
 				path: "/onlineApplication/JSYDSYQZYDJ/attachment",
-				name: "attachment",
+				name: "JSYDSYQZYDJattachment",
 				component: resolve => require(['@/components/onlineApplication/JSYDSYQZYDJ/attachment'], resolve),
 			}, {
 				path: "/onlineApplication/JSYDSYQZYDJ/ems",
-				name: "onlineEMS",
+				name: "JSYDSYQZYDJEMS",
 				component: resolve => require(['@/components/onlineApplication/JSYDSYQZYDJ/ems'], resolve),
 			}, {
 				path: "/onlineApplication/JSYDSYQZYDJ/success",
-				name: "onlineSuccess",
+				name: "JSYDSYQZYDJSuccess",
 				component: resolve => require(['@/components/onlineApplication/JSYDSYQZYDJ/success'], resolve),
 			}, {
 				path: "/onlineApplication/test",

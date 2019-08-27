@@ -14,8 +14,8 @@ function resolve(dir) {
 const env_build = process.env.NODE_ENV === 'production';
 
 module.exports = {
-	// publicPath: '/pubWeb/public/weChatPublic/',
-	publicPath: '/app/',
+	publicPath: '/pubWeb/public/weChatPublic/',
+	// publicPath: '/app/',
 	// 打包后输出路径
 	outputDir: 'dist/pubWeb/public/weChatPublic/',
 	assetsDir: 'weChatPublic',

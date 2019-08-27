@@ -68,7 +68,7 @@
 		components: {
 			'page-head': Head
 		},
-		data() {
+		data () {
 			return {
 				show: false,
 				type: 0,
@@ -146,10 +146,6 @@
 			},
 			nextStep: function () {
 				this.submitTaskFormData();
-				return;
-				this.$router.push({
-					path: '/onlineApplication/success'
-				});
 			},
 			submitTaskFormData: function () {
 				var taskId = sessionStorage.getItem('taskId');
@@ -180,7 +176,7 @@
 					console.log(response);
 					if (response.status == 200) {
 						this.$router.push({
-							path: '/onlineApplication/BDCQSZSYDJ/success'
+							path: '/onlineApplication/BDCQSZSYSDJ/success'
 						});
 					}
 				}).catch(error => {

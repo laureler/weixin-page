@@ -197,7 +197,10 @@
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
 		TEST
-	} from '../../../constants/index.js'
+	} from '../../../constants/index.js';
+	import {
+		Toast
+	} from 'vant';
 	export default {
 		components: {
 			'page-head': Head
@@ -337,33 +340,33 @@
 					this.$toast('请选择申请人!');
 				} else {
 
-					this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant]);
+					this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant], true);
 
-/* 					var title = 'JOB_SQRXXB_LINK.IQLR';
-					var business = JSON.parse(sessionStorage.getItem('business'));
-					var result = JSON.parse(business.result);
-					console.log(result);
-					var link = title.split('.')[0];
-					var domains = title.split('_LINK')[0]
-					var parentrid = result.data.values[link + '.RID'];
-					var templateid = result.data.controls[title].linkTplId;
-					console.log(result.data.values[link + '.RID']);
-					console.log(result.data.controls[title].linkTplId);
+					/* 					var title = 'JOB_SQRXXB_LINK.IQLR';
+										var business = JSON.parse(sessionStorage.getItem('business'));
+										var result = JSON.parse(business.result);
+										console.log(result);
+										var link = title.split('.')[0];
+										var domains = title.split('_LINK')[0]
+										var parentrid = result.data.values[link + '.RID'];
+										var templateid = result.data.controls[title].linkTplId;
+										console.log(result.data.values[link + '.RID']);
+										console.log(result.data.controls[title].linkTplId);
 
-					this.axios({
-						url: FILL_SUB_FORM_DATA + '?parentdomname=' + title + '&type=0' + '&parentrid=' + parentrid +
-							'&templateid=' + templateid  + '&domains=' + domains +
-							'&jid=' + sessionStorage.getItem('jid'),
-						//'?jid=' + sessionStorage.getItem('jid') +
-						//	'&parentdomname=' + title + '&parentrid=' + parentrid +
-						//	'&templateid=' + templateid + '&mrid=' + this.applicant['JOB_SQRXXB.SYS_MRID'],
-						method: 'post',
-						data: this.applicant,
-					}).then(response => {
-						console.log('ADD_SUB_FORM_DATA:', response);
-					}).catch(error => {
-						console.log(error);
-					}); */
+										this.axios({
+											url: FILL_SUB_FORM_DATA + '?parentdomname=' + title + '&type=0' + '&parentrid=' + parentrid +
+												'&templateid=' + templateid  + '&domains=' + domains +
+												'&jid=' + sessionStorage.getItem('jid'),
+											//'?jid=' + sessionStorage.getItem('jid') +
+											//	'&parentdomname=' + title + '&parentrid=' + parentrid +
+											//	'&templateid=' + templateid + '&mrid=' + this.applicant['JOB_SQRXXB.SYS_MRID'],
+											method: 'post',
+											data: this.applicant,
+										}).then(response => {
+											console.log('ADD_SUB_FORM_DATA:', response);
+										}).catch(error => {
+											console.log(error);
+										}); */
 				}
 
 				/* 				if (this.editApplicantState) {  // 编辑状态
@@ -402,6 +405,10 @@
 				this.valuesParams['JOB_SJDJB.FZQDM'] = this.township;
 
 				sessionStorage.setItem('formdata', JSON.stringify(this.valuesParams));
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
 				this.axios({
 					url: SAVE_TASK_FORM_DATA + '?taskId=' + this.taskId + '&createType=2',
 					method: 'post',
@@ -418,14 +425,17 @@
 					}
 				}).then(response => {
 					console.log(response);
+					Toast.clear();
 					this.$router.push({
 						path: '/onlineApplication/BDCQSZSYSDJ/attachment'
 					});
 				}).catch(error => {
+					Toast.clear();
+					Toast('请求出错!');
 					console.log(error);
 				});
 			},
-			fillSubFormData: function (title, params) {
+			fillSubFormData: function (title, params, showLoading = false) {
 				var business = JSON.parse(sessionStorage.getItem('business'));
 				var result = JSON.parse(business.result);
 				console.log(result);
@@ -435,7 +445,12 @@
 				var templateid = result.data.controls[title].linkTplId;
 				console.log(result.data.values[link + '.RID']);
 				console.log(result.data.controls[title].linkTplId);
-
+				if (showLoading) {
+					Toast.loading({
+						mask: true,
+						message: '加载中...'
+					});
+				}
 				this.axios({
 					url: FILL_SUB_FORM_DATA + '?jid=' + sessionStorage.getItem('jid') + '&type=0' +
 						'&parentdomname=' + title + '&parentrid=' + parentrid + '&domains=' + domains +
@@ -443,8 +458,10 @@
 					method: 'post',
 					data: params,
 				}).then(response => {
+					Toast.clear();
 					console.log('FILL_SUB_FORM_DATA:', response);
 				}).catch(error => {
+					Toast.clear();
 					console.log(error);
 				});
 
@@ -459,7 +476,7 @@
 						configureName: '土地及房屋权属证书补换证提取房屋产权'
 					}).then(response => {
 						console.log(response);
-
+						Toast.clear();
 						this.estateInfo['JOB_BDCQK.FBDCDYH'] = response['JOB_BDCQK.FBDCDYH'];
 						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
 						var bdclx = getBdcType(qllx);
@@ -478,6 +495,7 @@
 						this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', response['JOB_SQRXXB_LINK.IQLR']);
 					})
 					.catch(error => {
+						Toast.clear();
 						console.log(error);
 					});
 			}
@@ -489,6 +507,10 @@
 			var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
 			console.log('cqxx:', this.$route.query.cqxx);
 			var _this = this;
+			Toast.loading({
+				mask: true,
+				message: '加载中...'
+			});
 			this.$fetch(GET_BUSINESS_START_FROM, {
 					businessDefinitionId: '9ee6baf1-beef-4d08-9848-67f2d185da5a' // 业务ID
 				}).then(function (response) {
@@ -506,6 +528,7 @@
 				})
 				.catch(function (error) {
 					console.log(error);
+					Toast.clear();
 				});
 		}
 	}
