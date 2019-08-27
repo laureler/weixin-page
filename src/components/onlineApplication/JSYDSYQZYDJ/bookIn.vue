@@ -1,18 +1,11 @@
 <template>
 	<div class="container">
-		<page-head title="不动产权利证书遗失（换证）登记"></page-head>
+		<page-head title="建设用地使用权、宅基地使用权转移登记"></page-head>
 		<van-cell-group>
 			<div class="cell-title">
-				<span class="required-span">*</span>不动产类型
+				<span class="required-span">*</span>申请人姓名
 			</div>
-			<van-field v-model="estateType" right-icon="arrow" placeholder="请输入不动产类型"
-				disabled clickable @click.native="estateTypeClicked()" />
-		</van-cell-group>
-		<van-cell-group>
-			<div class="cell-title">
-				<span class="required-span">*</span>申请人名字
-			</div>
-			<van-field v-model="qlr" clearable placeholder="请输入申请人名字" />
+			<van-field v-model="qlr" clearable placeholder="产权证上的权利人,多个权利人只需输入一个" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
@@ -21,7 +14,7 @@
 			<van-field v-model="cqzh" clearable placeholder="请输入权利证书号码" />
 		</van-cell-group>
 		<div class="tips">
-			提示: 可通过公众号的“信息查询-个人产权查询”查询权利证书号码
+			提示：如果您不清楚权利证书号码，可关注“中山不动产登记”微信公众号，选择菜单中的“信息查询-个人产权查询”查询个人产权信息。			
 		</div>
 		<van-cell-group>
 			<van-cell class="custom-cell">
@@ -41,9 +34,6 @@
 		</van-cell-group>
 		<div style="height: 50px;"></div>
 		<van-button size="large" type="info" class="bottom-button" @click.native="nextStep()">下一步</van-button>
-		<van-actionsheet v-model="show" :actions="actions" cancel-text="取消" @select="onSelect">
-			<!-- <p v-for="(action, index) in actions">{{ action.name }}</p> -->
-		</van-actionsheet>
 	</div>
 </template>
 
@@ -58,7 +48,6 @@
 		data() {
 			return {
 				estateType: '',
-				cqlx: '',
 				show: false,
 				qlr: '胡化金',
 				cqzh: '00070093',
@@ -121,29 +110,13 @@
 			}
 		},
 		methods: {
-			estateTypeClicked: function () {
-				console.log(this.show);
-				this.show = true;
-			},
-			onSelect: function (val) {
-				console.log(val)
-				if (val.name == '房屋') {
-					this.cqlx = 'FW';
-					this.estateType = '房屋';
-				} else if (val.name == '土地'){
-					this.cqlx = 'TD';
-					this.estateType = '土地';
-				}
-				this.show = false;
-			},
 			checkoutID:function(){
 				this.customStatus = '';
 				this.axios.get(CHECKOUT_REAL_ESTATE,{
 					params:{
 						strJson:{
 							qlr:this.qlr,
-							cqzh:this.cqzh,
-							cqlx:this.cqlx,
+							cqzh:this.cqzh
 						},
 					path:'/WSYY/GetPropertyRightInfo'
 					}
@@ -185,7 +158,6 @@
 						console.log(err)
 					})
 			},
-			onCancel: function () {},
 			nextStep: function() {
 				if (!this.checkout.cqxx[0] || !this.checkout.cqxx[0].RID || this.checkout.cqxx[0].RID == '') {
 					Toast('请校验证书通过后进行下一步!');

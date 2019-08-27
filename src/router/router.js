@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-07-16 11:42:54
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-08-27 15:00:17
+ * @LastEditTime: 2019-08-27 15:38:05
  * @Description: 头部注释
  */
 import Vue from 'vue';
@@ -250,32 +250,28 @@ const router = new Router({
 				path: "/onlineApplication/BDCQSZSYSDJ/success",
 				name: "onlineSuccess",
 				component: resolve => require(['@/components/onlineApplication/BDCQSZSYSDJ/success'], resolve),
-			},
-			
-			
-			
-			{
+			},{
 				path: "/onlineApplication/JSYDSYQZYDJ/bookIn",
-				name: "JSYDSYQZYDJBookIn",
+				name: "onlineBookIn",
 				component: resolve => require(['@/components/onlineApplication/JSYDSYQZYDJ/bookIn'], resolve),
 				meta: {
 					isNeedLogin: true
 				}
 			}, {
 				path: "/onlineApplication/JSYDSYQZYDJ/info",
-				name: "JSYDSYQZYDJInfo",
+				name: "onlineInfo",
 				component: resolve => require(['@/components/onlineApplication/JSYDSYQZYDJ/info'], resolve)
 			}, {
 				path: "/onlineApplication/JSYDSYQZYDJ/attachment",
-				name: "JSYDSYQZYDJattachment",
+				name: "attachment",
 				component: resolve => require(['@/components/onlineApplication/JSYDSYQZYDJ/attachment'], resolve),
 			}, {
 				path: "/onlineApplication/JSYDSYQZYDJ/ems",
-				name: "JSYDSYQZYDJEMS",
+				name: "onlineEMS",
 				component: resolve => require(['@/components/onlineApplication/JSYDSYQZYDJ/ems'], resolve),
 			}, {
 				path: "/onlineApplication/JSYDSYQZYDJ/success",
-				name: "JSYDSYQZYDJSuccess",
+				name: "onlineSuccess",
 				component: resolve => require(['@/components/onlineApplication/JSYDSYQZYDJ/success'], resolve),
 			}, {
 				path: "/onlineApplication/test",
