@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-07-16 11:42:54
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-08-27 10:37:36
+ * @LastEditTime: 2019-08-27 15:00:17
  * @Description: 头部注释
  */
 import Vue from 'vue';
@@ -19,7 +19,7 @@ Vue.use(Router);
 
 const router = new Router({
 	base: 'pubWeb/public/weChatPublic',
-	// base: 'app',
+	//base: 'app',
 	mode: 'history',
 	routes: [
 		// 证书查验界面
