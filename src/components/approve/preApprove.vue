@@ -166,18 +166,18 @@
 										personId = splitArr[2];
 									}
 									sessionStorage.setItem('token', result);
+									sessionStorage.setItem('personName', personName);
+									sessionStorage.setItem('personId', personId);
 									if (isPHC) {
 										// 如果是个人设置过来，则带参数去人脸识别页面
 										console.log("准备跳转1")
 										_this.$router.push({
 											path: '/approvenew',
-											query: { isPersonalHomeCheck: isPHC, personName: personName, personId: personId }
+											query: { isPersonalHomeCheck: isPHC}
 										});
 									} else {
 										console.log("准备跳转1")
-										_this.$router.push({ path: '/approvenew',
-											query: { personId: personId, personName: personName }
-										});
+										_this.$router.push({ path: '/approvenew' });
 									}
 								}
 							});

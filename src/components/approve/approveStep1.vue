@@ -174,7 +174,7 @@
 			},
 			WeChatFaceCheck () {
 				var _this = this;
-				var info = { 'request_verify_pre_info': '{"name":"' + _this.data_name + '","id_card_number":"' + _this.data_id + '"}', 'check_alive_type': `${_this.faceVerifyType}` };
+				var info = { 'request_verify_pre_info': '{"name":"' + _this.data_name + '","id_card_number":"' + _this.data_id + '"}', 'check_alive_type': '1' };
 				let invokeCallback = function (res) {
 					// 人脸识别成功
 					_this.$store.commit('CARD_CODE', _this.data_id);
@@ -229,7 +229,10 @@
 					invokeCallback(invokeresult)
 				} else {
 					wx.invoke('checkIsSupportFaceDetect', {}, function (res) { // 检测微信人脸识别的功能
-						if (res.err_code == 0) { // 检测成功
+						console.log(res);
+						console.log(res);
+						console.log(res);
+						if (res.err_code == 0 || true) { // 检测成功
 							wx.invoke('requestWxFacePictureVerifyUnionVideo', info, invokeCallback);
 						} else if (res.err_code == 10001) {
 							alert('不支持人脸采集：设备没有前置摄像头');
@@ -238,7 +241,7 @@
 						} else if (res.err_code == 10003) {
 							alert('不支持人脸采集：后台黑名单控制');
 						} else {
-							alert(res.err_msg);
+							console.log(res)
 						}
 					});
 				}
@@ -280,9 +283,12 @@
 			// 获取微信openId
 			let openId = Cookies.get('openid');
 			// 新增判断逻辑
-			if (_this.$route.query.personName && _this.$route.query.personId) {
-				this.username = _this.$route.query.personName;
-				this.cardCode = _this.$route.query.personId;
+
+			let item = sessionStorage.getItem('personId');
+			let item1 = sessionStorage.getItem('personName');
+			if (item1 && item) {
+				this.username = item1;
+				this.cardCode = item;
 				this.editable = false;
 			} else {
 				if (openId) { // 判断微信用户是否已认证，如果已认证直接进入到人脸识别过程
@@ -299,8 +305,13 @@
 					});
 				}
 			}
+			console.log("微信配置参数" + '/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0])
 			// 重新获取配置（针对android系统）
 			_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
+				console.log("微信配置结果")
+				console.log(res);
+				console.log(res);
+				console.log(res);
 				wx.config(res);
 			});
 		}
