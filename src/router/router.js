@@ -18,8 +18,8 @@ import {
 Vue.use(Router);
 
 const router = new Router({
-	// base: 'pubWeb/public/weChatPublic',
-	base: 'app',
+	base: 'pubWeb/public/weChatPublic',
+	// base: 'app',
 	mode: 'history',
 	routes: [
 		// 证书查验界面

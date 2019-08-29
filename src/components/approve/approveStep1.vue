@@ -12,6 +12,7 @@
 				id="username"
 				label="姓名："
 				input-align="right"
+				:readonly="!editable"
 				center
 			></van-field>
 
@@ -20,6 +21,7 @@
 				@blur="hide(true)"
 				id="ID_number"
 				v-model="cardCode"
+				:readonly="!editable"
 				label="身份证号："
 				input-align="right"
 				center
@@ -54,6 +56,8 @@
 		},
 		data () {
 			return {
+				faceVerifyType: 1,
+				editable: true,
 				// 显示用户信息
 				username: null,
 				cardCode: null,
@@ -170,7 +174,7 @@
 			},
 			WeChatFaceCheck () {
 				var _this = this;
-				var info = { 'request_verify_pre_info': '{"name":"' + _this.data_name + '","id_card_number":"' + _this.data_id + '"}', 'check_alive_type': '2' };
+				var info = { 'request_verify_pre_info': '{"name":"' + _this.data_name + '","id_card_number":"' + _this.data_id + '"}', 'check_alive_type': `${_this.faceVerifyType}` };
 				let invokeCallback = function (res) {
 					// 人脸识别成功
 					_this.$store.commit('CARD_CODE', _this.data_id);
@@ -264,22 +268,36 @@
 		},
 		mounted () {
 			var _this = this;
+			_this.$fetch('/gdbdcWebService/WeChatConfig/public/getFaceIdentificationInfomation')
+					.then(res => {
+						_this.faceVerifyType = (res.CHECKALIVETYPE == null || res.CHECKALIVETYPE == undefined) ? 1 : res.CHECKALIVETYPE;
+					})
+					.catch(error => {
+						_this.faceVerifyType = 1;
+						console.log(error);
+					})
 			this.token = sessionStorage.getItem('token');
 			// 获取微信openId
 			let openId = Cookies.get('openid');
+			// 新增判断逻辑
+			if (_this.$route.query.personName && _this.$route.query.personId) {
+				this.username = _this.$route.query.personName;
+				this.cardCode = _this.$route.query.personId;
+				this.editable = false;
+			} else {
+				if (openId) { // 判断微信用户是否已认证，如果已认证直接进入到人脸识别过程
+					_this.$fetch('/pubWeb/public/faceRecognition/getAuthenticatedUserInfo?openId=' + openId).then(rs => {
+						if (rs) {
+							// 使用变量保存用户信息，用于后面的验证显示
+							_this.data_name = rs.name;
+							_this.data_id = rs.id;
+							// 有返回信息，对信息进行加*处理显示
+							_this.checkInfo(rs.name, rs.id);
+						}
+					}).catch(e => {
 
-			if (openId) { // 判断微信用户是否已认证，如果已认证直接进入到人脸识别过程
-				_this.$fetch('/pubWeb/public/faceRecognition/getAuthenticatedUserInfo?openId=' + openId).then(rs => {
-					if (rs) {
-						// 使用变量保存用户信息，用于后面的验证显示
-						_this.data_name = rs.name;
-						_this.data_id = rs.id;
-						// 有返回信息，对信息进行加*处理显示
-						_this.checkInfo(rs.name, rs.id);
-					}
-				}).catch(e => {
-
-				});
+					});
+				}
 			}
 			// 重新获取配置（针对android系统）
 			_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
