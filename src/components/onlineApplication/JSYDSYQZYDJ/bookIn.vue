@@ -49,8 +49,8 @@
 			return {
 				estateType: '',
 				show: false,
-				qlr: '胡化金',
-				cqzh: '00070093',
+				qlr: '王书凤',
+				cqzh: '湘（2017）北湖不动产权第0034063号',
 				customStatus:'',
 				actions: [{
 						name: '房屋'
@@ -112,16 +112,21 @@
 		methods: {
 			checkoutID:function(){
 				this.customStatus = '';
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
 				this.axios.get(CHECKOUT_REAL_ESTATE,{
 					params:{
 						strJson:{
 							qlr:this.qlr,
-							cqzh:this.cqzh
+							cqzh:this.cqzh,
+							cqlx:'TD'
 						},
 					path:'/WSYY/GetPropertyRightInfo'
 					}
 				}).then(res => {
-						console.log(res)
+						console.log("checkoutID",res)
 						this.checkout = res.data;
 						sessionStorage.setItem('rid', this.checkout.cqxx[0].RID);
 						if (this.checkout.cqxx.length == 0) {
