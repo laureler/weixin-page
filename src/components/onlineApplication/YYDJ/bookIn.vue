@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<page-head title="不动产权利证书遗失（换证）登记"></page-head>
+		<page-head title="异议登记"></page-head>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>不动产类型
@@ -217,7 +217,7 @@
 				} else {
 					var businessDefinitionId = this.$route.query.businessDefinitionId;
 					this.$router.push({
-						path: '/onlineApplication/BDCQSZSYSDJ/info',
+						path: '/onlineApplication/YYDJ/info',
 						query: {
 							cqxx: this.checkout.cqxx[0],
 							businessDefinitionId: businessDefinitionId
