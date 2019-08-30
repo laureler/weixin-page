@@ -112,6 +112,10 @@
 		methods: {
 			checkoutID:function(){
 				this.customStatus = '';
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
 				this.axios.get(CHECKOUT_REAL_ESTATE,{
 					params:{
 						strJson:{
