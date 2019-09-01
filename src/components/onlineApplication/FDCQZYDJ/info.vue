@@ -320,15 +320,14 @@
 				estateInfo: { // 不动产信息 
 					//此处需要更改信息字段保证与传递过来的数据字段一致,便于直接赋值见下面
 					//created()方法
-					'JOB_BDCQK.FBDCDYH': "", // 不动产单元号
-					'JOB_BDCQK.FBDCLX': "", // 不动产类型
-					'JOB_BDCQK.FFDZL': "", // 坐落
-					'JOB_BDCQK.FMJ': "", // 面积
-					'JOB_BDCQK.FYT': "", // 用途
-					'JOB_BDCQK.FYBDCQSZH': "", // 原不动产权证明
-					'JOB_BDCQK.FDJYY': "", // 登记原因
+					'JOB_JSYDCQXXB.FBDCDYH': "", // 不动产单元号
+					'JOB_JSYDCQXXB.FBDCLX': "", // 不动产类型
+					'JOB_JSYDCQXXB.FZL': "", // 坐落
+					'JOB_JSYDCQXXB.FSYQMJ': "", // 面积
+					'JOB_JSYDCQXXB.FYT': "", // 用途
+					'JOB_JSYDCQXXB.FBDCQZH': "", // 原不动产权证明
 					'JOB_JSYDCQXXB.FQTYY': "", //其他原因
-					'JOB_BDCQK.FBZ': "" // 备注
+					'JOB_JSYDCQXXB.FBZ': "" // 备注
 				},
 				applicant: { // 受让人信息
 					//此处需要更改信息字段保证与传递过来的数据字段一致,便于直接赋值见下面
@@ -397,10 +396,7 @@
 					'JOB_SQRXXB.XH': ""
 				},
 				applications: [{
-						name: '不动产权利证书补证登记'
-					},
-					{
-						name: '不动产权利证书换证登记'
+						name: '房地产权（独幢、层、套、间房屋）转移登记'
 					}
 				],
 				townships: [{
@@ -571,7 +567,10 @@
 				console.log("applicantIndex="+this.applicantIndex);
 			},
 			nextStep: function () {
-				this.saveTaskFormData();
+				// this.saveTaskFormData();
+				this.$router.push({
+						path: '/onlineApplication/FDCQZYDJ/attachment'
+					});
 				return;
 
 			},
@@ -649,23 +648,23 @@
 					}).then(response => {
 						console.log(response);
 
-						this.estateInfo['JOB_BDCQK.FBDCDYH'] = response['JOB_BDCQK.FBDCDYH'];
-						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
-						var bdclx = getBdcType(qllx);
+						// this.estateInfo['JOB_BDCQK.FBDCDYH'] = response['JOB_BDCQK.FBDCDYH'];
+						// var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
+						// var bdclx = getBdcType(qllx);
 
-						this.estateInfo['JOB_BDCQK.FBDCLX'] = bdclx;
-						this.estateInfo['JOB_BDCQK.FFDZL'] = response['JOB_BDCQK.FFDZL'];
+						// this.estateInfo['JOB_BDCQK.FBDCLX'] = bdclx;
+						// this.estateInfo['JOB_BDCQK.FFDZL'] = response['JOB_BDCQK.FFDZL'];
 
-						this.estateInfo['JOB_BDCQK.FMJ'] = response['JOB_BDCQK.FJZMJ'];
-						this.estateInfo['JOB_BDCQK.FYT'] = response['JOB_BDCQK.FFWYT'];
+						// this.estateInfo['JOB_BDCQK.FMJ'] = response['JOB_BDCQK.FJZMJ'];
+						// this.estateInfo['JOB_BDCQK.FYT'] = response['JOB_BDCQK.FFWYT'];
 
-						this.estateInfo['JOB_BDCQK.FYBDCQSZH'] = response["JOB_BDCQK.FYBDCQSZH"];
-						this.estateInfo['JOB_BDCQK.FZDMJ'] = response['JOB_BDCQK.FZDMJ'];
+						// this.estateInfo['JOB_BDCQK.FYBDCQSZH'] = response["JOB_BDCQK.FYBDCQSZH"];
+						// this.estateInfo['JOB_BDCQK.FZDMJ'] = response['JOB_BDCQK.FZDMJ'];
 
-						this.applicants = response['JOB_SQRXXB_LINK.IQLR'];
+						// this.applicants = response['JOB_SQRXXB_LINK.IQLR'];
 
-						this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response['JOB_GLQLXXB_LINK.OLD_IQLDJ']);
-						this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', response['JOB_SQRXXB_LINK.IQLR']);
+						// this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response['JOB_GLQLXXB_LINK.OLD_IQLDJ']);
+						// this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', response['JOB_SQRXXB_LINK.IQLR']);
 					})
 					.catch(error => {
 						console.log(error);
@@ -680,7 +679,7 @@
 			console.log('cqxx:', this.$route.query.cqxx);
 			var _this = this;
 			this.$fetch(GET_BUSINESS_START_FROM, {
-					businessDefinitionId: '9ee6baf1-beef-4d08-9848-67f2d185da5a' // 业务ID
+					businessDefinitionId: 'F56304D5E5684EF7924E81818BDFB308' // 业务ID
 				}).then(function (response) {
 					var businessNumber = response.businessNumber;
 					_this.startExactBusiness(rid, businessNumber);

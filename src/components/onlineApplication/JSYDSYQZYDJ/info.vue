@@ -397,10 +397,7 @@
 					'JOB_SQRXXB_OLD.XH': "",
 				},
 				applications: [{
-						name: '不动产权利证书补证登记'
-					},
-					{
-						name: '不动产权利证书换证登记'
+						name: '建设用地使用权、宅基地使用权转移登记'
 					}
 				],
 				townships: [{

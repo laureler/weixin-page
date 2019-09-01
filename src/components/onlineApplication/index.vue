@@ -39,7 +39,7 @@
 								businessDefinitionId: 'b07eb2ba-cbae-4a9f-bf94-d42be317ae99'
 							}
 						}, {
-							title: "房地产（独幢、层、套、间房屋）转移登记",
+							title: "房地产权（独幢、层、套、间房屋）转移登记",
 							path: "/onlineApplication/FDCQZYDJ/bookIn",
 							query: {
 								businessDefinitionId: 'F56304D5E5684EF7924E81818BDFB308'
