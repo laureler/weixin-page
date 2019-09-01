@@ -20,20 +20,20 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							不动产单元号
+							<span class="required-span">*</span>不动产单元号
 						</div>
 						<van-field id="JOB_BDCQK.FBDCDYH" placeholder="不动产单元号" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							不动产类型
+							<span class="required-span">*</span>不动产类型
 						</div>
 						<van-field id="JOB_BDCQK.FBDCLX" right-icon="arrow" placeholder="不动产类型" disabled clickable
 							@click.native="actionsheetClicked('estateOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							坐落
+							<span class="required-span">*</span>坐落
 						</div>
 						<van-field id="JOB_BDCQK.FFDZL" placeholder="坐落" clickable />
 					</van-cell-group>
@@ -51,13 +51,13 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							原不动产权证号
+							<span class="required-span">*</span>原不动产权证号
 						</div>
 						<van-field id="JOB_BDCQK.FYBDCQSZH" placeholder="原不动产权证号" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							登记原因
+							<span class="required-span">*</span>登记原因
 						</div>
 						<van-field id="JOB_BDCQK.FDJYY" right-icon="arrow" disabled clearable placeholder="登记原因"
 							@click.native="actionsheetClicked('reasonOptions')" />
@@ -86,7 +86,8 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>性别
 						</div>
-						<van-field id="JOB_SQRXXB.FXB" clearable placeholder="性别" />
+						<van-field id="JOB_SQRXXB.FXB" right-icon="arrow" disabled clickable placeholder="性别"
+							@click.native="actionsheetClicked('sexOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -102,14 +103,28 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							国家/地区
+							<span class="required-span">*</span>单位性质
+						</div>
+						<van-field id="JOB_SQRXXB.FDWXZ" right-icon="arrow" disabled clickable placeholder="单位性质"
+							@click.native="actionsheetClicked('companyTypeOptions')" />
+					</van-cell-group>
+					<van-cell-group>
+						<div class="cell-title">
+							<span class="required-span">*</span>国家/地区
 						</div>
 						<van-field id="JOB_SQRXXB.FGJDQ" right-icon="arrow" disabled clickable placeholder="国家/地区"
 							@click.native="actionsheetClicked('countryOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							联系电话
+							<span class="required-span">*</span>户籍所属省份
+						</div>
+						<van-field id="JOB_SQRXXB.FHJSSSF" right-icon="arrow" disabled clickable placeholder="户籍所属省份"
+							@click.native="actionsheetClicked('censusOptions')" />
+					</van-cell-group>
+					<van-cell-group>
+						<div class="cell-title">
+							<span class="required-span">*</span>联系电话
 						</div>
 						<van-field id="JOB_SQRXXB.FLXDH" clearable placeholder="联系电话" />
 					</van-cell-group>
@@ -117,7 +132,8 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>共有情况
 						</div>
-						<van-field id="JOB_SQRXXB.FGYQK" clearable placeholder="共有情况" />
+						<van-field id="JOB_SQRXXB.FGYQK" right-icon="arrow" disabled clickable placeholder="共有情况"
+							@click.native="actionsheetClicked('commonOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -310,6 +326,12 @@
 				}], // 登记原因
 				countryOptions: [{
 					name: '中华人民共和国'
+				},{
+					name: '加拿大'
+				},{
+					name: '美国'
+				},{
+					name: '韩国'
 				}], // 国家/地区
 				contentOptions: [{
 					name: '权利人名称'
@@ -332,6 +354,36 @@
 				}, {
 					name: '容积率'
 				}], // 修改内容
+				censusOptions: [{
+					name: '广东'
+				}],
+				commonOptions: [{
+					name: '单独所有'
+				},{
+					name: '共同所有'
+				},{
+					name: '按份所有'
+				},{
+					name: '其他共有'
+				}],
+				sexOptions: [{
+					name: '男性'
+				},{
+					name: '女性'
+				},{
+					name: '不详'
+				}],
+				companyTypeOptions: [{
+					name: '个人'
+				},{
+					name: '企业'
+				},{
+					name: '事业单位'
+				},{
+					name: '国家单位'
+				},{
+					name: '其他'
+				}],
 				actions: [],
 				actionsheetShow: false,
 			}
@@ -437,11 +489,11 @@
 				this.$fetch(START_EXACT_BUSINNESS, {
 						srcMark: '$bdcsjtq_cq:RID=' + rid + '&type=1',
 						targetJid: businessNumber,
-						configureName: '土地及房屋权属证书补换证提取房屋产权'
+						configureName: '土地和房屋证书更正登记'
 					}).then(response => {
 						console.log(response);
 						Toast.clear();
-						debugger;
+						// debugger;
 						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
 						var bdclx = getBdcType(qllx);
 

@@ -41,11 +41,15 @@
 						}, {
 							title: "房地产（独幢、层、套、间房屋）转移登记",
 							path: "/onlineApplication/FDCQZYDJ/bookIn",
-							query: {}
+							query: {
+								businessDefinitionId: 'F56304D5E5684EF7924E81818BDFB308'
+							}
 						}, {
 							title: "存量房（二手房）转移登记",
 							path: "/onlineApplication/CLFZYDJ/bookIn",
-							query: {}
+							query: {
+								businessDefinitionId: 'CA57ECFB06B54BFBB5DFA61BAA4734DE'
+							}
 						}]
 					},
 					{
@@ -53,10 +57,15 @@
 						groupCells: [{
 							title: "建设用地使用权、宅基地使用权变更登记",
 							path: "/onlineApplication/JSYDSYQBGDJ/bookIn",
+							query: {
+								businessDefinitionId: '8B5ED0B3A0E04DFFBED54D70451121F0'
+							}
 						}, {
 							title: "房地产（独幢、层、套、间房屋）变更登记",
 							path: "",
-							query: {}
+							query: {
+								businessDefinitionId: '9745D08769364072820252BFE9E742F9'
+							}
 						}]
 					},
 					{
@@ -64,7 +73,9 @@
 						groupCells: [{
 							title: "不动产权利证书注销登记",
 							path: "/onlineApplication/BDCQSZSZXDJ/bookIn",
-							query: {}
+							query: {
+								businessDefinitionId: 'D782A0C92A4C40D1A37F36E13B4948BA'
+							}
 						}]
 					},
 					{
@@ -72,6 +83,9 @@
 						groupCells: [{
 							title: "不动产权利证书更正登记",
 							path: "/onlineApplication/BDCQSZSGZDJ/bookIn",
+							query: {
+								businessDefinitionId: '067CBB502A974EB4ABC038AE704E0394'
+							}
 						}, {
 							title: "不动产权利证明更正登记",
 							path: ""
@@ -82,11 +96,15 @@
 						groupCells: [{
 							title: "异议登记",
 							path: "/onlineApplication/YYDJ/bookIn",
-							query: {}
+							query: {
+								businessDefinitionId: '8313104902AA48F1B685B2095A0EC2E5'
+							}
 						}, {
 							title: "异议注销登记",
 							path: "/onlineApplication/YYZXDJ/bookIn",
-							query: {}
+							query: {
+								businessDefinitionId: '61C46D51F05D4703A1652A94AAF33870'
+							}
 						}]
 					},
 					{

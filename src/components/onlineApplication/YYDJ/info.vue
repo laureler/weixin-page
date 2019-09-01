@@ -20,20 +20,26 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							不动产单元号
+							<span class="required-span">*</span>权利人名称
+						</div>
+						<van-field id="JOB_BDCQK.FQLRMC" placeholder="权利人名称" clickable />
+					</van-cell-group>
+					<van-cell-group>
+						<div class="cell-title">
+							<span class="required-span">*</span>不动产单元号
 						</div>
 						<van-field id="JOB_BDCQK.FBDCDYH" placeholder="不动产单元号" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							不动产类型
+							<span class="required-span">*</span>不动产类型
 						</div>
 						<van-field id="JOB_BDCQK.FBDCLX" right-icon="arrow" placeholder="不动产类型" disabled clickable
 							@click.native="actionsheetClicked('estateOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							坐落
+							<span class="required-span">*</span>坐落
 						</div>
 						<van-field id="JOB_BDCQK.FFDZL" placeholder="坐落" clickable />
 					</van-cell-group>
@@ -51,22 +57,16 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							原不动产权证号
+							<span class="required-span">*</span>原不动产权证号
 						</div>
 						<van-field id="JOB_BDCQK.FYBDCQSZH" placeholder="原不动产权证号" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							登记原因
+							<span class="required-span">*</span>异议原因
 						</div>
-						<van-field id="JOB_BDCQK.FDJYY" right-icon="arrow" disabled clearable placeholder="登记原因"
+						<van-field id="JOB_BDCQK.FDJYY" right-icon="arrow" disabled clearable placeholder="异议原因"
 							@click.native="actionsheetClicked('reasonOptions')" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							其他原因
-						</div>
-						<van-field id="JOB_BDCQK.FQTYY" clearable placeholder="其他原因" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -75,7 +75,7 @@
 						<van-field id="JOB_BDCQK.FBZ" clearable placeholder="备注" />
 					</van-cell-group>
 				</van-tab>
-				<van-tab title="权利人">
+				<van-tab title="申请人">
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>申请人
@@ -86,7 +86,8 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>性别
 						</div>
-						<van-field id="JOB_SQRXXB.FXB" clearable placeholder="性别" />
+						<van-field id="JOB_SQRXXB.FXB" right-icon="arrow" disabled clickable placeholder="性别"
+							@click.native="actionsheetClicked('sexOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -102,14 +103,28 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							国家/地区
+							<span class="required-span">*</span>单位性质
+						</div>
+						<van-field id="JOB_SQRXXB.FDWXZ" right-icon="arrow" disabled clickable placeholder="单位性质"
+							@click.native="actionsheetClicked('companyTypeOptions')" />
+					</van-cell-group>
+					<van-cell-group>
+						<div class="cell-title">
+							<span class="required-span">*</span>国家/地区
 						</div>
 						<van-field id="JOB_SQRXXB.FGJDQ" right-icon="arrow" disabled clickable placeholder="国家/地区"
 							@click.native="actionsheetClicked('countryOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							联系电话
+							<span class="required-span">*</span>户籍所属省份
+						</div>
+						<van-field id="JOB_SQRXXB.FHJSSSF" right-icon="arrow" disabled clickable placeholder="户籍所属省份"
+							@click.native="actionsheetClicked('censusOptions')" />
+					</van-cell-group>
+					<van-cell-group>
+						<div class="cell-title">
+							<span class="required-span">*</span>联系电话
 						</div>
 						<van-field id="JOB_SQRXXB.FLXDH" clearable placeholder="联系电话" />
 					</van-cell-group>
@@ -117,7 +132,8 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>共有情况
 						</div>
-						<van-field id="JOB_SQRXXB.FGYQK" clearable placeholder="共有情况" />
+						<van-field id="JOB_SQRXXB.FGYQK" right-icon="arrow" disabled clickable placeholder="共有情况"
+							@click.native="actionsheetClicked('commonOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -142,48 +158,6 @@
 								<div class="handle">
 									<van-button plain round type="info" size="small"
 										@click.native="editApplicant(item, index)">编辑</van-button>
-								</div>
-							</van-cell-group>
-						</div>
-					</div>
-				</van-tab>
-				<van-tab title="更正事项">
-					<div style="padding: 15px;">提示：若更正类型涉及到权利人更正（如权利人名称、证件号码、证件类型等信息）， 请修改“权利人”相应信息，并将更正内容填写至“更正事项”， 若涉及到房屋信息更正，则只需将更正内容填入“更正事项”表。</div>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>修改内容
-						</div>
-						<van-field id="JOB_XGXXB.FXGSX" right-icon="arrow" disabled clearable placeholder="修改内容"
-							@click.native="actionsheetClicked('contentOptions')" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>修改前
-						</div>
-						<van-field id="JOB_XGXXB.FXGQ" clearable placeholder="修改前" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>修改后
-						</div>
-						<van-field id="JOB_XGXXB.FXGH" clearable placeholder="修改后" />
-					</van-cell-group>
-					<div class="buttons">
-						<van-button class="info-btn" size="small" type="info">保存
-						</van-button>
-					</div>
-					<div class="applicants">
-						<div class="title">
-							<div class="name">修改内容</div>
-							<div class="num">修改后</div>
-							<div class="handle">操作</div>
-						</div>
-						<div class="content">
-							<van-cell-group class="applicants-group" v-for="(item, index) in 2">
-								<div class="name">abc</div>
-								<div class="num">abc</div>
-								<div class="handle">
-									<van-button plain round type="info" size="small">编辑</van-button>
 								</div>
 							</van-cell-group>
 						</div>
@@ -311,27 +285,36 @@
 				countryOptions: [{
 					name: '中华人民共和国'
 				}], // 国家/地区
-				contentOptions: [{
-					name: '权利人名称'
+				censusOptions: [{
+					name: '广东'
+				}],
+				commonOptions: [{
+					name: '单独所有'
 				}, {
-					name: '身份证明号码'
+					name: '共同所有'
 				}, {
-					name: '土地用途'
+					name: '按份所有'
 				}, {
-					name: '房屋用途'
+					name: '其他共有'
+				}],
+				sexOptions: [{
+					name: '男性'
 				}, {
-					name: '土地期限'
+					name: '女性'
 				}, {
-					name: '土地补出让'
+					name: '不详'
+				}],
+				companyTypeOptions: [{
+					name: '个人'
 				}, {
-					name: '土地界限调整'
+					name: '企业'
 				}, {
-					name: '房产加建'
+					name: '事业单位'
 				}, {
-					name: '地址'
+					name: '国家单位'
 				}, {
-					name: '容积率'
-				}], // 修改内容
+					name: '其他'
+				}],
 				actions: [],
 				actionsheetShow: false,
 			}
