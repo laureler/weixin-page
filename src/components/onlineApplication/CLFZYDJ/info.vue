@@ -683,22 +683,22 @@
 			},
 			buildingStructureClicked: function () {
 				this.show = true;
-				this.type = 6;
+				this.type = 4;
 				this.actions = this.buildingStructures;
 			},
 			buildingNatureClicked: function () {
 				this.show = true;
-				this.type = 7;
+				this.type = 5;
 				this.actions = this.buildingNatures;
 			},
 			buildingUseClicked: function () {
 				this.show = true;
-				this.type = 8;
+				this.type = 6;
 				this.actions = this.buildingUses;
 			},
 			propertySourceClicked: function () {
 				this.show = true;
-				this.type = 10;
+				this.type = 7;
 				this.actions = this.propertySources;
 			},
 			onSelect: function (val) {
@@ -712,13 +712,13 @@
 					this.registerReason = val.name;
 				} else if (this.type == 3) {
 					this.landUse = val.name;
-				} else if (this.type == 6) {
+				} else if (this.type == 4) {
 					this.buildingStructure = val.name;
-				} else if (this.type == 7) {
+				} else if (this.type == 5) {
 					this.buildingNature = val.name;
-				} else if (this.type == 8) {
+				} else if (this.type == 6) {
 					this.buildingUse = val.name;
-				} else if (this.type == 10) {
+				} else if (this.type == 7) {
 					this.propertySource = val.name;
 				}
 			},
