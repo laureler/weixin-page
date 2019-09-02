@@ -24,19 +24,19 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>不动产单元号
 						</div>
-						<van-field class="field-background" id="JOB_BDCQK.FBDCDYH" v-model="estateInfo['JOB_BDCQK.FBDCDYH']" disabled/>
+						<van-field class="field-background" v-model="estateInfo['JOB_JSYDCQXXB.FBDCLX']" disabled/>
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>不动产类型
 						</div>
-						<van-field class="field-background" id="JOB_BDCQK.FBDCLX" v-model="estateInfo['JOB_BDCQK.FBDCLX']" disabled/>
+						<van-field class="field-background" v-model="estateInfo['JOB_JSYDCQXXB.FBDCLX']" disabled/>
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>坐落
 						</div>
-						<van-field class="field-background" id="JOB_BDCQK.FFDZL" v-model="estateInfo['JOB_BDCQK.FFDZL']" disabled/>
+						<van-field class="field-background" id="JOB_JSYDCQXXB.FZL" v-model="estateInfo['JOB_JSYDCQXXB.FZL']" disabled/>
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -59,26 +59,31 @@
 							土地使用面积
 						</div>
 						<div class="unFillText">
-							<van-field style="flex:80%" class="field-background" id="JOB_BDCQK.FFDZL" v-model="estateInfo['JOB_BDCQK.FFDZL']" disabled/>
+							<van-field style="flex:80%" class="field-background" id="JOB_JSYDCQXXB.FSYQMJ" v-model="estateInfo['JOB_JSYDCQXXB.FSYQMJ']" disabled/>
 							<span class="unit">平方米</span>
 						</div>
 					</van-cell-group>
 					<van-cell-group>
-						<div class="cell-title" @click="onClick()">
+						<div class="cell-title">
 							土地使用起始时间
 						</div>
-						<calendar-view v-model="landStartTime"/>
-						<!-- <van-field v-model="landStartTime" right-icon="arrow" placeholder="请选择土地使用起始时间"
-							@click-right-icon="$toast('question')" disabled clickable
-							@click.native="landStartTimeClicked()" /> -->
+						<van-field v-model="LUStartTime" @click="LUStartDrop($event)" placeholder="请选择土地使用起始时间" readonly/>
+						<transition name="fade">
+						    <div class="calendar-dropdown" :style="{'left':calendar.left+'px','top':calendar.top+'px'}" v-if="calendar.show">
+						        <calendar-view :zero="calendar.zero" :lunar="calendar.lunar" :value="calendar.value" :begin="calendar.begin" :end="calendar.end" @select="calendar.select"/>
+						    </div>
+					    </transition>
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							土地使用结束时间
 						</div>
-						<van-field v-model="landEndTime" right-icon="arrow" placeholder="请选择土地使用结束时间"
-							@click-right-icon="$toast('question')" disabled clickable
-							@click.native="landEndTimeClicked()" />
+						<van-field v-model="LUEndTime" @click="LUEndDrop($event)" placeholder="请选择土地使用结束时间" readonly/>
+						<transition name="fade">
+						    <div class="calendar-dropdown" :style="{'left':calendar2.left+'px','top':calendar2.top+'px'}" v-if="calendar2.show">
+						        <calendar-view :zero="calendar2.zero" :lunar="calendar2.lunar" :value="calendar2.value" :begin="calendar2.begin" :end="calendar2.end" @select="calendar2.select"/>
+						    </div>
+					    </transition>
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -109,7 +114,7 @@
 							建筑面积
 						</div>
 						<div class="unFillText">
-							<van-field style="flex:80%" class="field-background" id="JOB_BDCQK.FFDZL" v-model="estateInfo['JOB_BDCQK.FFDZL']" disabled/>
+							<van-field style="flex:80%" class="field-background" id="JOB_JSYDCQXXB.FSYQMJ" v-model="estateInfo['JOB_JSYDCQXXB.FSYQMJ']" disabled/>
 							<span class="unit">平方米</span>
 						</div>
 					</van-cell-group>
@@ -118,7 +123,7 @@
 							专有建筑面积
 						</div>
 						<div class="unFillText">
-							<van-field style="flex:80%" class="field-background" id="JOB_BDCQK.FFDZL" v-model="estateInfo['JOB_BDCQK.FFDZL']" disabled/>
+							<van-field style="flex:80%" class="field-background" id="JOB_JSYDCQXXB.FSYQMJ" v-model="estateInfo['JOB_JSYDCQXXB.FSYQMJ']" disabled/>
 							<span class="unit">平方米</span>
 						</div>
 					</van-cell-group>
@@ -127,7 +132,7 @@
 							分摊建筑面积
 						</div>
 						<div class="unFillText">
-							<van-field style="flex:80%" class="field-background" id="JOB_BDCQK.FFDZL" v-model="estateInfo['JOB_BDCQK.FFDZL']" disabled/>
+							<van-field style="flex:80%" class="field-background" id="JOB_JSYDCQXXB.FSYQMJ" v-model="estateInfo['JOB_JSYDCQXXB.FSYQMJ']" disabled/>
 							<span class="unit">平方米</span>
 						</div>
 					</van-cell-group>
@@ -136,7 +141,7 @@
 							取得价格
 						</div>
 						<div class="unFillText">
-							<van-field style="flex:80%" class="field-background" id="JOB_BDCQK.FFDZL" v-model="estateInfo['JOB_BDCQK.FFDZL']" disabled/>
+							<van-field style="flex:80%" class="field-background" id="JOB_JSYDCQXXB.FSYQMJ" v-model="estateInfo['JOB_JSYDCQXXB.FSYQMJ']" disabled/>
 							<span class="unit">万元</span>
 						</div>
 					</van-cell-group>
@@ -144,9 +149,12 @@
 						<div class="cell-title">
 							交易日期
 						</div>
-						<van-field v-model="tradingDate" right-icon="arrow" placeholder="请选择交易日期"
-							@click-right-icon="$toast('question')" disabled clickable
-							@click.native="tradingDateClicked()" />
+						<van-field v-model="tradingDate" @click="tradingDateDrop($event)" placeholder="请选择交易日期" readonly/>
+						<transition name="fade">
+						    <div class="calendar-dropdown" :style="{'left':calendar3.left+'px','top':calendar3.top+'px'}" v-if="calendar3.show">
+						        <calendar-view :zero="calendar3.zero" :lunar="calendar3.lunar" :value="calendar3.value" :begin="calendar3.begin" :end="calendar3.end" @select="calendar3.select"/>
+						    </div>
+					    </transition>
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -160,13 +168,13 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>原不动产权证号
 						</div>
-						<van-field class="field-background" id="JOB_BDCQK.FYBDCQSZH" v-model="estateInfo['JOB_BDCQK.FYBDCQSZH']" disabled/>
+						<van-field class="field-background" id="JOB_JSYDCQXXB.FBDCQZH" v-model="estateInfo['JOB_JSYDCQXXB.FBDCQZH']" disabled/>
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							备注
 						</div>
-						<van-field id="JOB_BDCQK.FBZ" clearable placeholder="备注" />
+						<van-field id="JOB_JSYDCQXXB.FBZ" clearable placeholder="备注" />
 					</van-cell-group>
 				</van-tab>
 				<van-tab title="受让人">
@@ -404,6 +412,42 @@
 		},
 		data() {
 			return {
+				calendar:{
+	                show:false,
+	                value:[], //默认日期
+	                zero:true,
+	                lunar:false, //显示农历
+	                select:(value)=>{
+	                	console.log('value',value);
+	                    this.calendar.show=false;
+	                    this.calendar.value = value;
+	                    this.LUStartTime=value.join("/");
+	                }
+            	},
+            	calendar2:{
+	                show:false,
+	                value:[], //默认日期
+	                zero:true,
+	                lunar:false, //显示农历
+	                select:(value)=>{
+	                	console.log('value',value);
+	                    this.calendar2.show=false;
+	                    this.calendar2.value = value;
+	                    this.LUEndTime=value.join("/");
+	                }
+            	},
+            	calendar3:{
+	                show:false,
+	                value:[], //默认日期
+	                zero:true,
+	                lunar:false, //显示农历
+	                select:(value)=>{
+	                	console.log('value',value);
+	                    this.calendar3.show=false;
+	                    this.calendar3.value = value;
+	                    this.tradingDate=value.join("/");
+	                }
+            	},
 				taskId: '',
 				show: false,
 				type: 0,
@@ -411,17 +455,19 @@
 				township: '',
 				landNature:'',
 				landUse:'',
-				landStartTime:'',
-				landEndTime:'',
 				buildingStructure:'',
 				buildingNature:'',
 				buildingUse:'',
-				tradingDate:'',
+				tradingDate:'',//交易日期
 				propertySource:'',
 				person:'',
 				idCard:'',
 				assignorPerson:'',
 				assignorIdCard:'',
+				currentDate:[],
+				LUStartTime:'',//土地使用起始时间
+				LUEndTime:'',//土地使用结束时间
+
 				estateInfo: { // 不动产信息 
 					//此处需要更改信息字段保证与传递过来的数据字段一致,便于直接赋值见下面
 					//created()方法
@@ -527,16 +573,6 @@
 				},{
 					name : '2'
 				}],
-				landStartTimes:[{
-					name : '1'
-				},{
-					name : '2'
-				}],
-				landEndTimes:[{
-					name : '1'
-				},{
-					name : '2'
-				}],
 				buildingStructures:[{
 					name : '1'
 				},{
@@ -548,11 +584,6 @@
 					name : '2'
 				}],
 				buildingUses:[{
-					name : '1'
-				},{
-					name : '2'
-				}],
-				tradingDates:[{
 					name : '1'
 				},{
 					name : '2'
@@ -590,6 +621,45 @@
 			}
 		},
 		methods: {
+			LUStartDrop(e){
+	            this.calendar.show=true;
+	            this.calendar.left=e.target.offsetLeft+19;
+	            this.calendar.top=e.target.offsetTop+70;
+	           
+	            e.stopPropagation();
+	            window.setTimeout(()=>{
+	                document.addEventListener("click",(e)=>{
+	                    this.calendar.show=false;
+	                    document.removeEventListener("click",()=>{},false);
+	                },false);
+	            },1000)
+        	},
+        	LUEndDrop(e){
+	            this.calendar2.show=true;
+	            this.calendar2.left=e.target.offsetLeft+19;
+	            this.calendar2.top=e.target.offsetTop+70;
+	           
+	            e.stopPropagation();
+	            window.setTimeout(()=>{
+	                document.addEventListener("click",(e)=>{
+	                    this.calendar2.show=false;
+	                    document.removeEventListener("click",()=>{},false);
+	                },false);
+	            },1000)
+        	},
+        	tradingDateDrop(e){
+	            this.calendar3.show=true;
+	            this.calendar3.left=e.target.offsetLeft+19;
+	            this.calendar3.top=e.target.offsetTop+70;
+	           
+	            e.stopPropagation();
+	            window.setTimeout(()=>{
+	                document.addEventListener("click",(e)=>{
+	                    this.calendar3.show=false;
+	                    document.removeEventListener("click",()=>{},false);
+	                },false);
+	            },1000)
+        	},
 			applicationClicked: function () {
 				console.log(this.cqxx);
 				this.show = true;
@@ -611,16 +681,6 @@
 				this.type = 3;
 				this.actions = this.landUses;
 			},
-			landStartTimeClicked: function () {
-				this.show = true;
-				this.type = 4;
-				this.actions = this.landStartTimes;
-			},
-			landEndTimeClicked: function () {
-				this.show = true;
-				this.type = 5;
-				this.actions = this.landEndTimes;
-			},
 			buildingStructureClicked: function () {
 				this.show = true;
 				this.type = 6;
@@ -635,11 +695,6 @@
 				this.show = true;
 				this.type = 8;
 				this.actions = this.buildingUses;
-			},
-			tradingDateClicked: function () {
-				this.show = true;
-				this.type = 9;
-				this.actions = this.tradingDates;
 			},
 			propertySourceClicked: function () {
 				this.show = true;
@@ -657,18 +712,12 @@
 					this.registerReason = val.name;
 				} else if (this.type == 3) {
 					this.landUse = val.name;
-				} else if (this.type == 4) {
-					this.landStartTime = val.name;
-				} else if (this.type == 5) {
-					this.landEndTime= val.name;
 				} else if (this.type == 6) {
 					this.buildingStructure = val.name;
 				} else if (this.type == 7) {
 					this.buildingNature = val.name;
 				} else if (this.type == 8) {
 					this.buildingUse = val.name;
-				} else if (this.type == 9) {
-					this.tradingDate = val.name;
 				} else if (this.type == 10) {
 					this.propertySource = val.name;
 				}
@@ -879,6 +928,17 @@
 					console.log(error);
 					Toast.clear();
 				});
+			var nowDate = new Date();
+			var year = nowDate.getFullYear();
+            var month = nowDate.getMonth() + 1;
+            var date = nowDate.getDate();
+            this.currentDate[0] = year;
+            this.currentDate[1] = month;
+            this.currentDate[2] = date;
+            
+            this.calendar.value = this.currentDate;
+            this.calendar2.value = this.currentDate;
+            this.calendar3.value = this.currentDate;
 		}
 	}
 
@@ -1000,5 +1060,17 @@
 	.unit{
 		flex:20%;
 		margin-left:10px;
+	}
+	/*下拉框*/
+	.calendar-dropdown{
+	    background: #fff;
+	    left:0;
+	    top:0;
+	    margin-top: 10px;
+	    padding-top:20px;
+	    padding-left: 20px;
+	    padding-right: 20px;
+	    border: 1px solid #eee;
+	    border-radius: 2px;
 	}
 </style>
