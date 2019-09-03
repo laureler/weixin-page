@@ -140,7 +140,7 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>户籍所属省份
 						</div>
-						<van-field id="JOB_SQRXXB.FHJSSSF" right-icon="arrow" disabled clickable placeholder="户籍所属省份"
+						<van-field id="JOB_SQRXXB.FHJSZSS" right-icon="arrow" disabled clickable placeholder="户籍所属省份"
 							@click.native="actionsheetClicked('censusOptions')" />
 					</van-cell-group>
 					<van-cell-group>

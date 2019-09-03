@@ -65,8 +65,8 @@
 				estateType: '',
 				cqlx: '',
 				show: false,
-				qlr: '胡化金',
-				cqzh: '00070093',
+				qlr: '杨智勇',
+				cqzh: '湘（2017）苏仙不动产权第0022928号',
 				customStatus: '',
 				actions: [{
 						name: '房屋'
