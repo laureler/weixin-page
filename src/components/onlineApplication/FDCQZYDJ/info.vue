@@ -342,69 +342,69 @@
 					//此处需要更改信息字段保证与传递过来的数据字段一致,便于直接赋值见下面
 					//created()方法
 					
-					JOB_SQRXXB.FBZ: ""
-					JOB_SQRXXB.FDLJG: ""
-					JOB_SQRXXB.FDLRDH: ""
-					JOB_SQRXXB.FDLRMC: ""
-					JOB_SQRXXB.FDLRZJHM: ""
-					JOB_SQRXXB.FDWXZ: "个人"
-					JOB_SQRXXB.FDZYJ: ""
-					JOB_SQRXXB.FFRMC: ""
-					JOB_SQRXXB.FFRZJHM: ""
-					JOB_SQRXXB.FGJDQ: "中华人民共和国"
-					JOB_SQRXXB.FGYQK: "单独所有"
-					JOB_SQRXXB.FGZDW: ""
-					JOB_SQRXXB.FHJSZSS: "广东"
-					JOB_SQRXXB.FLXDH: "18312410987"
-					JOB_SQRXXB.FLXR: ""
-					JOB_SQRXXB.FQLBL: "全部"
-					JOB_SQRXXB.FSQRLX: "房地产权利人"
-					JOB_SQRXXB.FSQRMC: "1234"
-					JOB_SQRXXB.FSSHY: ""
-					JOB_SQRXXB.FTXDZ: ""
-					JOB_SQRXXB.FXB: "男性"
-					JOB_SQRXXB.FXXQRZT: "0"
-					JOB_SQRXXB.FYB: ""
-					JOB_SQRXXB.FZJHM: "222222222222222222"
-					JOB_SQRXXB.FZJZL: "身份证"
-					JOB_SQRXXB.FZP: ""
-					JOB_SQRXXB.RID: ""
-					JOB_SQRXXB.SYS_MRID: "cf5647f9-53e4-40a4-a914-ca60e075ebaf"
-					JOB_SQRXXB.XH: 1
+					'JOB_SQRXXB.FBZ': "",
+					'JOB_SQRXXB.FDLJG': "",
+					'JOB_SQRXXB.FDLRDH': "",
+					'JOB_SQRXXB.FDLRMC': "",
+					'JOB_SQRXXB.FDLRZJHM': "",
+					'JOB_SQRXXB.FDWXZ': "个人",
+					'JOB_SQRXXB.FDZYJ': "",
+					'JOB_SQRXXB.FFRMC': "",
+					'JOB_SQRXXB.FFRZJHM': "",
+					'JOB_SQRXXB.FGJDQ': "中华人民共和国",
+					'JOB_SQRXXB.FGYQK': "单独所有",
+					'JOB_SQRXXB.FGZDW': "",
+					'JOB_SQRXXB.FHJSZSS': "广东",
+					'JOB_SQRXXB.FLXDH': "18312410987",
+					'JOB_SQRXXB.FLXR': "",
+					'JOB_SQRXXB.FQLBL': "全部",
+					'JOB_SQRXXB.FSQRLX': "房地产权利人",
+					'JOB_SQRXXB.FSQRMC': "1234",
+					'JOB_SQRXXB.FSSHY': "",
+					'JOB_SQRXXB.FTXDZ': "",
+					'JOB_SQRXXB.FXB': "男性",
+					'JOB_SQRXXB.FXXQRZT': "0",
+					'JOB_SQRXXB.FYB': "",
+					'JOB_SQRXXB.FZJHM': "222222222222222222",
+					'JOB_SQRXXB.FZJZL': "身份证",
+					'JOB_SQRXXB.FZP': "",
+					'JOB_SQRXXB.RID': "",
+					'JOB_SQRXXB.SYS_MRID': "cf5647f9-53e4-40a4-a914-ca60e075ebaf",
+					'JOB_SQRXXB.XH': 1,
 				},
 				assignor: { // 转让人信息 转让人 = 义务人
 					//此处需要更改信息字段保证与传递过来的数据字段一致,便于直接赋值见下面
 					//created()方法
-					JOB_SQRXXB_OLD.FBZ: null
-					JOB_SQRXXB_OLD.FCQZH: null
-					JOB_SQRXXB_OLD.FDLJG: null
-					JOB_SQRXXB_OLD.FDLRDH: null
-					JOB_SQRXXB_OLD.FDLRMC: null
-					JOB_SQRXXB_OLD.FDLRZJHM: null
-					JOB_SQRXXB_OLD.FDWXZ: "个人"
-					JOB_SQRXXB_OLD.FDZYJ: null
-					JOB_SQRXXB_OLD.FFRMC: null
-					JOB_SQRXXB_OLD.FFRZJHM: null
-					JOB_SQRXXB_OLD.FGJDQ: null
-					JOB_SQRXXB_OLD.FGYQK: "单独所有"
-					JOB_SQRXXB_OLD.FGZDW: null
-					JOB_SQRXXB_OLD.FHJSZSS: null
-					JOB_SQRXXB_OLD.FLXDH: "18312410987"
-					JOB_SQRXXB_OLD.FLXR: null
-					JOB_SQRXXB_OLD.FQLBL: "全部"
-					JOB_SQRXXB_OLD.FSQRLX: "权利转让人"
-					JOB_SQRXXB_OLD.FSQRMC: "胡化金"
-					JOB_SQRXXB_OLD.FSSHY: null
-					JOB_SQRXXB_OLD.FTXDZ: null
-					JOB_SQRXXB_OLD.FXB: null
-					JOB_SQRXXB_OLD.FXXQRZT: null
-					JOB_SQRXXB_OLD.FYB: null
-					JOB_SQRXXB_OLD.FZJHM: "432927196507130815"
-					JOB_SQRXXB_OLD.FZJZL: "身份证                                       "
-					JOB_SQRXXB_OLD.FZP: null
-					JOB_SQRXXB_OLD.RID: "0518498a-1414-4a60-8dcb-36190b6b52f0"
-					JOB_SQRXXB_OLD.SYS_MRID: "c6b2ed56-d406-40de-b07a-73f8283f7bc5"
-					JOB_SQRXXB_OLD.XH: "1"
+					'JOB_SQRXXB_OLD.FBZ': null,
+					'JOB_SQRXXB_OLD.FCQZH': null,
+					'JOB_SQRXXB_OLD.FDLJG': null,
+					'JOB_SQRXXB_OLD.FDLRDH': null,
+					'JOB_SQRXXB_OLD.FDLRMC': null,
+					'JOB_SQRXXB_OLD.FDLRZJHM': null,
+					'JOB_SQRXXB_OLD.FDWXZ': "个人",
+					'JOB_SQRXXB_OLD.FDZYJ': null,
+					'JOB_SQRXXB_OLD.FFRMC': null,
+					'JOB_SQRXXB_OLD.FFRZJHM': null,
+					'JOB_SQRXXB_OLD.FGJDQ': null,
+					'JOB_SQRXXB_OLD.FGYQK': "单独所有",
+					'JOB_SQRXXB_OLD.FGZDW': null,
+					'JOB_SQRXXB_OLD.FHJSZSS': null,
+					'JOB_SQRXXB_OLD.FLXDH': "18312410987",
+					'JOB_SQRXXB_OLD.FLXR': null,
+					'JOB_SQRXXB_OLD.FQLBL': "全部",
+					'JOB_SQRXXB_OLD.FSQRLX': "权利转让人",
+					'JOB_SQRXXB_OLD.FSQRMC': "胡化金",
+					'JOB_SQRXXB_OLD.FSSHY': null,
+					'JOB_SQRXXB_OLD.FTXDZ': null,
+					'JOB_SQRXXB_OLD.FXB': null,
+					'JOB_SQRXXB_OLD.FXXQRZT': null,
+					'JOB_SQRXXB_OLD.FYB': null,
+					'JOB_SQRXXB_OLD.FZJHM': "432927196507130815",
+					'JOB_SQRXXB_OLD.FZJZL': "身份证                                       ",
+					'JOB_SQRXXB_OLD.FZP': null,
+					'JOB_SQRXXB_OLD.RID': "0518498a-1414-4a60-8dcb-36190b6b52f0",
+					'JOB_SQRXXB_OLD.SYS_MRID': "c6b2ed56-d406-40de-b07a-73f8283f7bc5",
+					'JOB_SQRXXB_OLD.XH': "1",
 				},
 				applications: [{
 						name: '房地产权（独幢、层、套、间房屋）转移登记'

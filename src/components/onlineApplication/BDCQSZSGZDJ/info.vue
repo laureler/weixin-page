@@ -8,58 +8,67 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>申请事项
 						</div>
-						<van-field id="JOB_SJDJB.FDJLX" v-model="this.$data['JOB_BDCQK']['JOB_SJDJB.FDJLX']" right-icon="arrow" placeholder="请选择申请事项" disabled clickable
+						<van-field id="JOB_SJDJB.FDJLX" v-model="this.$data['JOB_BDCQK']['JOB_SJDJB.FDJLX']"
+							right-icon="arrow" placeholder="请选择申请事项" disabled clickable
 							@click.native="actionsheetClicked('itemOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>镇区
 						</div>
-						<van-field id="JOB_SJDJB.FZQDM" v-model="this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM']" right-icon="arrow" placeholder="请选择镇区" disabled clickable
+						<van-field id="JOB_SJDJB.FZQDM" v-model="this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM']"
+							right-icon="arrow" placeholder="请选择镇区" disabled clickable
 							@click.native="actionsheetClicked('townshipOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>不动产单元号
 						</div>
-						<van-field id="JOB_BDCQK.FBDCDYH" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCDYH']" placeholder="不动产单元号" clickable />
+						<van-field id="JOB_BDCQK.FBDCDYH" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCDYH']"
+							placeholder="不动产单元号" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>不动产类型
 						</div>
-						<van-field id="JOB_BDCQK.FBDCLX" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCLX']" right-icon="arrow" placeholder="不动产类型" disabled clickable
+						<van-field id="JOB_BDCQK.FBDCLX" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCLX']"
+							right-icon="arrow" placeholder="不动产类型" disabled clickable
 							@click.native="actionsheetClicked('estateOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>坐落
 						</div>
-						<van-field id="JOB_BDCQK.FFDZL" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FFDZL']" placeholder="坐落" clickable />
+						<van-field id="JOB_BDCQK.FFDZL" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FFDZL']"
+							placeholder="坐落" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							面积
 						</div>
-						<van-field id="JOB_BDCQK.FMJ" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FMJ']" placeholder="面积" clickable />
+						<van-field id="JOB_BDCQK.FMJ" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FMJ']"
+							placeholder="面积" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							用途
 						</div>
-						<van-field id="JOB_BDCQK.FYT" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FYT']" placeholder="用途" clickable />
+						<van-field id="JOB_BDCQK.FYT" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FYT']"
+							placeholder="用途" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>原不动产权证号
 						</div>
-						<van-field id="JOB_BDCQK.FYBDCQSZH" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FYBDCQSZH']" placeholder="原不动产权证号" clickable />
+						<van-field id="JOB_BDCQK.FYBDCQSZH" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FYBDCQSZH']"
+							placeholder="原不动产权证号" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>登记原因
 						</div>
-						<van-field id="JOB_BDCQK.FDJYY" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FDJYY']" right-icon="arrow" disabled clearable placeholder="登记原因"
+						<van-field id="JOB_BDCQK.FDJYY" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FDJYY']"
+							right-icon="arrow" disabled clearable placeholder="登记原因"
 							@click.native="actionsheetClicked('reasonOptions')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -424,9 +433,9 @@
 			},
 			onSelect: function (val) {
 				// debugger;
-				if (this.optionsTitle === 'itemOptions') {  // 申请事项
+				if (this.optionsTitle === 'itemOptions') { // 申请事项
 					this.$data['JOB_BDCQK']['JOB_SJDJB.FDJLX'] = val.name;
-				} else if (this.optionsTitle === 'townshipOptions') {  // 镇区
+				} else if (this.optionsTitle === 'townshipOptions') { // 镇区
 					this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = val.name;
 				} else if (this.optionsTitle === 'estateOptions') { // 不动产类型
 					this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCLX'] = val.name;
@@ -500,8 +509,8 @@
 				this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'] = this.qtyy;
 				this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'] = this.bz;
 				console.log(this.$data['JOB_BDCQK']);
-				debugger;
-				// sessionStorage.setItem('formdata', JSON.stringify(this.valuesParams));
+
+				sessionStorage.setItem('formdata', JSON.stringify(this.$data['JOB_BDCQK']));
 				Toast.loading({
 					mask: true,
 					message: '加载中...'
@@ -577,34 +586,70 @@
 			},
 			startExactBusiness: function (rid, businessNumber) {
 				sessionStorage.setItem('jid', businessNumber);
+				var _this = this;
+				//判断产权是否土地，是土地的提取土地的产权
+				var configureName = '土地和房屋证书更正登记';
+				if (rid.indexOf('TD') >= 0) {
+						configureName = "土地证书更正登记";
+					}
+				else if (rid.indexOf('FW') >= 0) {
+					configureName = "土地和房屋证书更正登记";
+				}
 				this.$fetch(START_EXACT_BUSINNESS, {
 						srcMark: '$bdcsjtq_cq:RID=' + rid + '&type=1',
 						targetJid: businessNumber,
-						configureName: '土地和房屋证书更正登记'
+						configureName: configureName
 					}).then(response => {
 						console.log(response);
 						Toast.clear();
-
+						//获取不动产类型
 						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
 						var bdclx = getBdcType(qllx);
-						this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCLX'] = bdclx;
-						this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'] = '';
-						this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'] = '';
+						//补充权利人信息
+						for (var key in response) {
+							if (key == "JOB_SQRXXB_LINK.IQLR") {
+								var rows = response[key];
+								for (var inx = 0; inx < rows.length; ++inx) {
+									rows[inx]["JOB_SQRXXB.XH"] = inx + 1;
+									if (bdclx == "土地和房屋") {
+										rows[inx]["JOB_SQRXXB.FSQRLX"] = "房地产权利人";
+									} else if (qllx == "国有建设用地使用权" || qllx == "集体建设用地使用权") {
+										rows[inx]["JOB_SQRXXB.FSQRLX"] = "建设用地使用权人";
+									} else if (qllx == "宅基地使用权") {
+										rows[inx]["JOB_SQRXXB.FSQRLX"] = "宅基地使用权人";
+									}
+									rows[inx]["JOB_SQRXXB.FDWXZ"] = "个人";
+									if (rows.length == 1) {
+										rows[inx]["JOB_SQRXXB.FGYQK"] = "单独所有";
+										rows[inx]["JOB_SQRXXB.FQLBL"] = "全部";
+									}
+								}
+							}
+						}
+
+						_this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCLX'] = bdclx;
+						_this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'] = '';
+						_this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'] = '';
 						var masterList = response;
 						for (const key in masterList) {
 							if (masterList.hasOwnProperty(key)) {
 								//if (Object.prototype.toString.call(masterList[key]) !== '[object Object]') {
 								if (!(masterList[key] instanceof Object)) {
-									this.$data['JOB_BDCQK'][key] = masterList[key]
+									_this.$data['JOB_BDCQK'][key] = masterList[key]
 								}
 							}
 						}
 
-						this.$data['JOB_SQRXXB_LINK.IQLR'] = response['JOB_SQRXXB_LINK.IQLR'];
-						// this.$data['JOB_SQRXXB_LINK.IQLR']['JOB_BDCQK.FBDCLX'] = bdclx;
 
-						this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response['JOB_GLQLXXB_LINK.OLD_IQLDJ']);
-						this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', response['JOB_SQRXXB_LINK.IQLR']);
+
+						_this.$data['JOB_SQRXXB_LINK.IQLR'] = response['JOB_SQRXXB_LINK.IQLR'];
+						_this.applicant = response['JOB_SQRXXB_LINK.IQLR'][0];
+						_this.applicantIndex = 0;
+						// _this.$data['JOB_SQRXXB_LINK.IQLR']['JOB_BDCQK.FBDCLX'] = bdclx;
+
+						_this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response[
+							'JOB_GLQLXXB_LINK.OLD_IQLDJ']);
+						_this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', response['JOB_SQRXXB_LINK.IQLR']);
 
 					})
 					.catch(error => {
@@ -630,7 +675,6 @@
 				})
 				.then(function (response) {
 					var businessNumber = response.businessNumber;
-					_this.startExactBusiness(rid, businessNumber);
 					var result = JSON.parse(response.result);
 					var values = result.data.values;
 					var taskId = response.taskId;
@@ -639,6 +683,7 @@
 					_this.taskId = taskId;
 					console.log('taskId:', _this.taskId);
 					_this.$data['JOB_BDCQK'] = values;
+					_this.startExactBusiness(rid, businessNumber);
 				})
 				.catch(function (error) {
 					console.log(error);

@@ -65,8 +65,8 @@
 				estateType: '',
 				cqlx: '',
 				show: false,
-				qlr: '胡化金',
-				cqzh: '00070093',
+				qlr: '湖南建工相山房地产开发有限公司',
+				cqzh: '湘（2017）苏仙不动产权第0022934号',
 				customStatus: '',
 				actions: [{
 						name: '房屋'
@@ -160,6 +160,7 @@
 					mask: true,
 					message: '加载中...'
 				});
+				var _this = this;
 				this.axios.get(CHECKOUT_REAL_ESTATE, {
 					params: {
 						strJson: {
@@ -172,36 +173,40 @@
 				}).then(res => {
 					Toast.clear();
 					console.log(res)
-					this.checkout = res.data;
-					sessionStorage.setItem('rid', this.checkout.cqxx[0].RID);
-					if (this.checkout.cqxx.length == 0) {
+					_this.checkout = res.data;
+					if (_this.checkout.resultcode === '0') {
+						Toast.fail(_this.checkout.resultmsg);
+						return;
+					}
+					sessionStorage.setItem('rid', _this.checkout.cqxx[0].RID);
+					if (_this.checkout.cqxx.length == 0) {
 						Toast('证书不存在!');
-						this.customStatus = '证书不存在!';
-					} else if (this.checkout.cqxx.length == 1) {
+						_this.customStatus = '证书不存在!';
+					} else if (_this.checkout.cqxx.length == 1) {
 						var state = '';
-						if (this.checkout.cqxx[0].SFYG == 1) {
+						if (_this.checkout.cqxx[0].SFYG == 1) {
 							state += '已预告、'
-						} else if (this.checkout.cqxx[0].SFYDY == 1) {
+						} else if (_this.checkout.cqxx[0].SFYDY == 1) {
 							state += '已抵押、'
-						} else if (this.checkout.cqxx[0].SFBGL == 1) {
+						} else if (_this.checkout.cqxx[0].SFBGL == 1) {
 							state += '已被其他业务关联、'
-						} else if (this.checkout.cqxx[0].SFCF == 1) {
+						} else if (_this.checkout.cqxx[0].SFCF == 1) {
 							state += '已查封、'
-						} else if (this.checkout.cqxx[0].SFDY == 1) {
+						} else if (_this.checkout.cqxx[0].SFDY == 1) {
 							state += '已抵押、'
-						} else if (this.checkout.cqxx[0].SFYY == 1) {
+						} else if (_this.checkout.cqxx[0].SFYY == 1) {
 							state += '已异议、'
-						} else if (this.checkout.cqxx[0].SFDJ == 1) {
+						} else if (_this.checkout.cqxx[0].SFDJ == 1) {
 							state += '已冻结、'
-						} else if (this.checkout.cqxx[0].SFLZ == 0) {
+						} else if (_this.checkout.cqxx[0].SFLZ == 0) {
 							state += '未落宗、'
-						} else if (this.checkout.cqxx[0].SFXZXZ == 1) {
+						} else if (_this.checkout.cqxx[0].SFXZXZ == 1) {
 							state += '已行政限制、'
 						} else {
 							state += "校验通过、"
 						}
 						if (state != '') {
-							this.customStatus = state.substring(0, state.length - 1);
+							_this.customStatus = state.substring(0, state.length - 1);
 						}
 					}
 				}).catch(err => {
