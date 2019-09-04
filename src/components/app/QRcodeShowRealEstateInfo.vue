@@ -131,9 +131,6 @@
 			// 初始化地图
 			initMap() {
 				const _this = this;
-				console.log('fadsad');
-				console.log(window.T);
-				console.log(T);
 				//创建地图实例
 				//let map = new BMap.Map('container', {enableMapClick: false});
 				let map = new window.T.Map('container');
@@ -149,7 +146,9 @@
 				map.addControl(control);
 				//地图初始化，设置中心点坐标和地图级别
 				map.centerAndZoom(point, 18);
-
+				marker.addEventListener('click', function () {
+					_this.isShowInfo = !_this.isShowInfo;
+				});
 				/*let pointArr = [];
 				pointArr.push(point);
 				new BMap.Convertor().translate(pointArr, 1, 5, data => {
