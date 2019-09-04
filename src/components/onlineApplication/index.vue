@@ -62,7 +62,7 @@
 							}
 						}, {
 							title: "房地产（独幢、层、套、间房屋）变更登记",
-							path: "",
+							path: "/onlineApplication/FDCQBGDJ/bookIn",
 							query: {
 								businessDefinitionId: '9745D08769364072820252BFE9E742F9'
 							}

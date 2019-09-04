@@ -1,18 +1,11 @@
 <template>
 	<div class="container">
-		<page-head title="异议登记"></page-head>
+		<page-head title="房地产权（独幢、层、套、间房屋）变更登记"></page-head>
 		<van-cell-group>
 			<div class="cell-title">
-				<span class="required-span">*</span>不动产类型
+				<span class="required-span">*</span>申请人姓名
 			</div>
-			<van-field v-model="estateType" right-icon="arrow" placeholder="请输入不动产类型" disabled clickable
-				@click.native="estateTypeClicked()" />
-		</van-cell-group>
-		<van-cell-group>
-			<div class="cell-title">
-				<span class="required-span">*</span>申请人名字
-			</div>
-			<van-field v-model="qlr" clearable placeholder="请输入申请人名字" />
+			<van-field v-model="qlr" clearable placeholder="产权证上的权利人,多个权利人只需输入一个" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
@@ -21,7 +14,7 @@
 			<van-field v-model="cqzh" clearable placeholder="请输入权利证书号码" />
 		</van-cell-group>
 		<div class="tips">
-			提示: 可通过公众号的“信息查询-个人产权查询”查询权利证书号码
+			提示：如果您不清楚权利证书号码，可关注“中山不动产登记”微信公众号，选择菜单中的“信息查询-个人产权查询”查询个人产权信息。
 		</div>
 		<van-cell-group>
 			<van-cell class="custom-cell">
@@ -42,9 +35,6 @@
 		</van-cell-group>
 		<div style="height: 50px;"></div>
 		<van-button size="large" type="info" class="bottom-button" @click.native="nextStep()">下一步</van-button>
-		<van-actionsheet v-model="show" :actions="actions" cancel-text="取消" @select="onSelect">
-			<!-- <p v-for="(action, index) in actions">{{ action.name }}</p> -->
-		</van-actionsheet>
 	</div>
 </template>
 
@@ -60,13 +50,12 @@
 		components: {
 			'page-head': Head
 		},
-		data () {
+		data() {
 			return {
 				estateType: '',
-				cqlx: '',
 				show: false,
-				qlr: '湖南建工相山房地产开发有限公司',
-				cqzh: '湘（2017）苏仙不动产权第0022934号',
+				qlr: '杨智勇',
+				cqzh: '湘（2017）苏仙不动产权第0022928号',
 				customStatus: '',
 				actions: [{
 						name: '房屋'
@@ -106,24 +95,15 @@
 						"FZJHM": '',
 						"FDJSJ": '',
 						"FDBR": '',
-						// 是否预告
-						"SFYG": '',
-						// 是否预抵押
-						"SFYDY": '',
-						// 是否被其他业务关联
-						"SFBGL": '',
-						// 是否查封
-						"SFCF": '',
-						// 是否抵押
-						"SFDY": '',
-						// 是否异议
-						"SFYY": '',
-						// 是否冻结
-						"SFDJ": '',
-						// 是否落宗
-						"SFLZ": '',
-						// 是否行政限制
-						"SFXZXZ": ''
+						"SFYG": '', //是否预告
+						"SFYDY": '', //是否预抵押
+						"SFBGL": '', //是否被其他业务关联
+						"SFCF": '', //是否查封
+						"SFDY": '', //是否抵押
+						"SFYY": '', //是否异议
+						"SFDJ": '', //是否冻结
+						"SFLZ": '', //是否落宗
+						"SFXZXZ": '' //是否行政限制
 					}],
 					"dyxx": '',
 					"result": '',
@@ -135,94 +115,68 @@
 			}
 		},
 		methods: {
-			estateTypeClicked: function () {
-				console.log(this.show);
-				this.show = true;
-			},
-			onSelect: function (val) {
-				console.log(val)
-				if (val.name == '房屋') {
-					this.cqlx = 'FW';
-					this.estateType = '房屋';
-				} else if (val.name == '土地') {
-					this.cqlx = 'TD';
-					this.estateType = '土地';
-				}
-				this.show = false;
-			},
 			checkoutID: function () {
-				if (!this.cqlx.length) {
-					Toast('请选择不动产类型!');
-					return;
-				}
 				this.customStatus = '';
 				Toast.loading({
 					mask: true,
 					message: '加载中...'
 				});
-				var _this = this;
 				this.axios.get(CHECKOUT_REAL_ESTATE, {
 					params: {
 						strJson: {
 							qlr: this.qlr,
 							cqzh: this.cqzh,
-							cqlx: this.cqlx,
+							cqlx: 'FW',
 						},
 						path: '/WSYY/GetPropertyRightInfo'
 					}
 				}).then(res => {
 					Toast.clear();
 					console.log(res)
-					_this.checkout = res.data;
-					if (_this.checkout.resultcode === '0') {
-						Toast.fail(_this.checkout.resultmsg);
-						return;
-					}
-					sessionStorage.setItem('rid', _this.checkout.cqxx[0].RID);
-					if (_this.checkout.cqxx.length == 0) {
+					this.checkout = res.data;
+					sessionStorage.setItem('rid', this.checkout.cqxx[0].RID);
+					if (this.checkout.cqxx.length == 0) {
 						Toast('证书不存在!');
-						_this.customStatus = '证书不存在!';
-					} else if (_this.checkout.cqxx.length == 1) {
+						this.customStatus = '证书不存在!';
+					} else if (this.checkout.cqxx.length == 1) {
 						var state = '';
-						if (_this.checkout.cqxx[0].SFYG == 1) {
+						if (this.checkout.cqxx[0].SFYG == 1) {
 							state += '已预告、'
-						} else if (_this.checkout.cqxx[0].SFYDY == 1) {
+						} else if (this.checkout.cqxx[0].SFYDY == 1) {
 							state += '已抵押、'
-						} else if (_this.checkout.cqxx[0].SFBGL == 1) {
+						} else if (this.checkout.cqxx[0].SFBGL == 1) {
 							state += '已被其他业务关联、'
-						} else if (_this.checkout.cqxx[0].SFCF == 1) {
+						} else if (this.checkout.cqxx[0].SFCF == 1) {
 							state += '已查封、'
-						} else if (_this.checkout.cqxx[0].SFDY == 1) {
+						} else if (this.checkout.cqxx[0].SFDY == 1) {
 							state += '已抵押、'
-						} else if (_this.checkout.cqxx[0].SFYY == 1) {
+						} else if (this.checkout.cqxx[0].SFYY == 1) {
 							state += '已异议、'
-						} else if (_this.checkout.cqxx[0].SFDJ == 1) {
+						} else if (this.checkout.cqxx[0].SFDJ == 1) {
 							state += '已冻结、'
-						} else if (_this.checkout.cqxx[0].SFLZ == 0) {
+						} else if (this.checkout.cqxx[0].SFLZ == 0) {
 							state += '未落宗、'
-						} else if (_this.checkout.cqxx[0].SFXZXZ == 1) {
+						} else if (this.checkout.cqxx[0].SFXZXZ == 1) {
 							state += '已行政限制、'
 						} else {
 							state += "校验通过、"
 						}
 						if (state != '') {
-							_this.customStatus = state.substring(0, state.length - 1);
+							this.customStatus = state.substring(0, state.length - 1);
 						}
 					}
 				}).catch(err => {
 					Toast.clear();
 					console.log(err)
-					Toast.fail(err);
 				})
 			},
-			onCancel: function () {},
 			nextStep: function () {
 				if (!this.checkout.cqxx[0] || !this.checkout.cqxx[0].RID || this.checkout.cqxx[0].RID == '') {
 					Toast('请校验证书通过后进行下一步!');
 				} else {
 					var businessDefinitionId = this.$route.query.businessDefinitionId;
 					this.$router.push({
-						path: '/onlineApplication/YYDJ/info',
+						path: '/onlineApplication/FDCQBGDJ/info',
 						query: {
 							cqxx: this.checkout.cqxx[0],
 							businessDefinitionId: businessDefinitionId
@@ -230,11 +184,7 @@
 					})
 				}
 			}
-		},
-		mounted () {
-			console.log('bookIn');
-			console.log('businessDefinitionId:', this.$route.query.businessDefinitionId);
-		},
+		}
 	}
 
 </script>

@@ -72,14 +72,14 @@
 			return {
 				show: false,
 				type: 0,
-				material: "",
-				credential: "",
-				township: "",
-				contacts: "",
-				phone: "",
-				idNum: "",
-				company: "",
-				address: "",
+				material: "是",
+				credential: "是",
+				township: "石岐区",
+				contacts: "黄油成",
+				phone: "13631130332",
+				idNum: "440981199301053238",
+				company: "南方数码",
+				address: "天河区科韵路24-26号",
 				materials: [{
 						name: '是'
 					},

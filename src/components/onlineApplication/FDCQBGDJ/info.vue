@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<page-head title="不动产权利证书更正登记"></page-head>
+		<page-head title="房地产权（独幢、层、套、间房屋）变更登记"></page-head>
 		<div class="box-body">
 			<van-tabs>
 				<van-tab title="基本信息">
@@ -8,7 +8,7 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>申请事项
 						</div>
-						<van-field id="JOB_SJDJB.FDJLX" v-model="this.$data['JOB_BDCQK']['JOB_SJDJB.FDJLX']"
+						<van-field id="JOB_SJDJB.FDJLX" v-model="JOB_BDCQK['JOB_SJDJB.FDJLX']"
 							right-icon="arrow" placeholder="请选择申请事项" disabled clickable
 							@click.native="actionsheetClicked('itemOptions')" />
 					</van-cell-group>
@@ -16,7 +16,7 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>镇区
 						</div>
-						<van-field id="JOB_SJDJB.FZQDM" v-model="this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM']"
+						<van-field id="JOB_SJDJB.FZQDM" v-model="JOB_BDCQK['JOB_SJDJB.FZQDM']"
 							right-icon="arrow" placeholder="请选择镇区" disabled clickable
 							@click.native="actionsheetClicked('townshipOptions')" />
 					</van-cell-group>
@@ -24,14 +24,14 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>不动产单元号
 						</div>
-						<van-field id="JOB_BDCQK.FBDCDYH" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCDYH']"
+						<van-field id="JOB_FDCQXXB.FBDCDYH" v-model="JOB_BDCQK['JOB_FDCQXXB.FBDCDYH']"
 							placeholder="不动产单元号" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>不动产类型
 						</div>
-						<van-field id="JOB_BDCQK.FBDCLX" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCLX']"
+						<van-field id="JOB_FDCQXXB.FBDCLX" v-model="JOB_BDCQK['JOB_FDCQXXB.FBDCLX']"
 							right-icon="arrow" placeholder="不动产类型" disabled clickable
 							@click.native="actionsheetClicked('estateOptions')" />
 					</van-cell-group>
@@ -39,35 +39,35 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>坐落
 						</div>
-						<van-field id="JOB_BDCQK.FFDZL" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FFDZL']"
+						<van-field id="JOB_FDCQXXB.FFDZL" v-model="JOB_BDCQK['JOB_FDCQXXB.FFDZL']"
 							placeholder="坐落" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							面积
 						</div>
-						<van-field id="JOB_BDCQK.FMJ" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FMJ']"
+						<van-field id="JOB_FDCQXXB.FJZMJ" v-model="JOB_BDCQK['JOB_FDCQXXB.FJZMJ']"
 							placeholder="面积" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							用途
 						</div>
-						<van-field id="JOB_BDCQK.FYT" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FYT']"
+						<van-field id="JOB_FDCQXXB.FGHYT" v-model="JOB_BDCQK['JOB_FDCQXXB.FGHYT']"
 							placeholder="用途" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>原不动产权证号
 						</div>
-						<van-field id="JOB_BDCQK.FYBDCQSZH" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FYBDCQSZH']"
+						<van-field id="JOB_FDCQXXB.FBDCQZH" v-model="JOB_BDCQK['JOB_FDCQXXB.FBDCQZH']"
 							placeholder="原不动产权证号" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>登记原因
 						</div>
-						<van-field id="JOB_BDCQK.FDJYY" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FDJYY']"
+						<van-field id="JOB_FDCQXXB.FDJYY" v-model="JOB_BDCQK['JOB_FDCQXXB.FDJYY']"
 							right-icon="arrow" disabled clearable placeholder="登记原因"
 							@click.native="actionsheetClicked('reasonOptions')" />
 					</van-cell-group>
@@ -75,13 +75,13 @@
 						<div class="cell-title">
 							其他原因
 						</div>
-						<van-field id="JOB_BDCQK.FQTYY" v-model="qtyy" clearable placeholder="其他原因" />
+						<van-field id="JOB_FDCQXXB.FQTYY" v-model="qtyy" clearable placeholder="其他原因" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							备注
 						</div>
-						<van-field id="JOB_BDCQK.FBZ" v-model="bz" clearable placeholder="备注" />
+						<van-field id="JOB_FDCQXXB.FBZ" v-model="bz" clearable placeholder="备注" />
 					</van-cell-group>
 				</van-tab>
 				<van-tab title="权利人">
@@ -287,7 +287,7 @@
 				JOB_XGXXB: {}, // 更新事项 JOB_XGXXB_LINK.IXG
 
 				itemOptions: [{
-					name: '不动产权利证书更正登记'
+					name: '建设用地使用权、宅基地使用权变更登记'
 				}], // 事项
 				townshipOptions: [{
 					name: '石岐区'
@@ -344,9 +344,11 @@
 					name: '房屋与土地'
 				}], // 不动产类型
 				reasonOptions: [{
-					name: '更名更正'
+					name: '更名变更'
 				}, {
 					name: '状态更正'
+				}, {
+					name: '其他变更'
 				}], // 登记原因
 				countryOptions: [{
 					name: '中华人民共和国'
@@ -413,7 +415,7 @@
 				}],
 				actions: [],
 				actionsheetShow: false,
-				'JOB_BDCQK': {}, // 主表
+				JOB_BDCQK: {}, // 主表
 				'JOB_SQRXXB_LINK.IQLR': [], // 权利人
 				applicant: {},
 				applicantIndex: -1,
@@ -438,9 +440,9 @@
 				} else if (this.optionsTitle === 'townshipOptions') { // 镇区
 					this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = val.name;
 				} else if (this.optionsTitle === 'estateOptions') { // 不动产类型
-					this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCLX'] = val.name;
+					this.$data['JOB_BDCQK']['JOB_FDCQXXB.FBDCLX'] = val.name;
 				} else if (this.optionsTitle === 'reasonOptions') { // 登记原因
-					this.$data['JOB_BDCQK']['JOB_BDCQK.FDJYY'] = val.name;
+					this.$data['JOB_BDCQK']['JOB_FDCQXXB.FDJYY'] = val.name;
 				} else if (this.optionsTitle === 'sexOptions') { // 性别
 					this.applicant['JOB_SQRXXB.FXB'] = val.name;
 				} else if (this.optionsTitle === 'companyTypeOptions') { // 单位性质
@@ -506,8 +508,8 @@
 				return;
 			},
 			saveTaskFormData: function () {
-				this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'] = this.qtyy;
-				this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'] = this.bz;
+				this.$data['JOB_BDCQK']['JOB_FDCQXXB.FQTYY'] = this.qtyy;
+				this.$data['JOB_BDCQK']['JOB_FDCQXXB.FBZ'] = this.bz;
 				console.log(this.$data['JOB_BDCQK']);
 
 				sessionStorage.setItem('formdata', JSON.stringify(this.$data['JOB_BDCQK']));
@@ -534,7 +536,7 @@
 					Toast.clear();
 					debugger;
 					this.$router.push({
-						path: '/onlineApplication/BDCQSZSGZDJ/attachment'
+						path: '/onlineApplication/FDCQBGDJ/attachment'
 					});
 				}).catch(error => {
 					Toast.clear();
@@ -588,13 +590,7 @@
 				sessionStorage.setItem('jid', businessNumber);
 				var _this = this;
 				//判断产权是否土地，是土地的提取土地的产权
-				var configureName = '土地和房屋证书更正登记';
-				if (rid.indexOf('TD') >= 0) {
-						configureName = "土地证书更正登记";
-					}
-				else if (rid.indexOf('FW') >= 0) {
-					configureName = "土地和房屋证书更正登记";
-				}
+				var configureName = '土地和房屋变更登记';
 				this.$fetch(START_EXACT_BUSINNESS, {
 						srcMark: '$bdcsjtq_cq:RID=' + rid + '&type=1',
 						targetJid: businessNumber,
@@ -627,9 +623,9 @@
 							}
 						}
 
-						_this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCLX'] = bdclx;
-						_this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'] = '';
-						_this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'] = '';
+						_this.$data['JOB_BDCQK']['JOB_FDCQXXB.FBDCLX'] = bdclx;
+						_this.$data['JOB_BDCQK']['JOB_FDCQXXB.FQTYY'] = '';
+						_this.$data['JOB_BDCQK']['JOB_FDCQXXB.FBZ'] = '';
 						var masterList = response;
 						for (const key in masterList) {
 							if (masterList.hasOwnProperty(key)) {
@@ -645,7 +641,7 @@
 						_this.$data['JOB_SQRXXB_LINK.IQLR'] = response['JOB_SQRXXB_LINK.IQLR'];
 						_this.applicant = response['JOB_SQRXXB_LINK.IQLR'][0];
 						_this.applicantIndex = 0;
-						// _this.$data['JOB_SQRXXB_LINK.IQLR']['JOB_BDCQK.FBDCLX'] = bdclx;
+						// _this.$data['JOB_SQRXXB_LINK.IQLR']['JOB_FDCQXXB.FBDCLX'] = bdclx;
 
 						_this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response[
 							'JOB_GLQLXXB_LINK.OLD_IQLDJ']);
@@ -683,6 +679,8 @@
 					_this.taskId = taskId;
 					console.log('taskId:', _this.taskId);
 					_this.$data['JOB_BDCQK'] = values;
+					console.log('>>>:',_this.$data['JOB_BDCQK']);
+					debugger;
 					_this.startExactBusiness(rid, businessNumber);
 				})
 				.catch(function (error) {

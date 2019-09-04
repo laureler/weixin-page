@@ -335,7 +335,6 @@
 				applicant: { // 受让人信息 受让人 = 权利人
 					//此处需要更改信息字段保证与传递过来的数据字段一致,便于直接赋值见下面
 					//created()方法
-					
 					'JOB_SQRXXB.FBZ': "",
 					'JOB_SQRXXB.FDLJG': "",
 					'JOB_SQRXXB.FDLRDH': "",
@@ -364,7 +363,7 @@
 					'JOB_SQRXXB.FZP': "",
 					'JOB_SQRXXB.RID': "",
 					'JOB_SQRXXB.SYS_MRID': "",
-					'JOB_SQRXXB.XH': "",
+					'JOB_SQRXXB.XH': ""
 				},
 				assignor: { // 转让人信息 转让人 = 义务人
 					//此处需要更改信息字段保证与传递过来的数据字段一致,便于直接赋值见下面

@@ -88,7 +88,7 @@
 			</div>
 			<div class="attachment-item">
 				<div class="item-title">
-					与原不动产登记事项有利害关系的证明材料及不动产权利人同意更正的书面证明材料
+					国有建设用地使用权及房屋所有权变更证明材料
 				</div>
 				<div class="item-content">
 					<div class="content-div">必须提供：否</div>
@@ -113,34 +113,6 @@
 
 				<div class="triangle"></div>
 				<div class="num">4</div>
-			</div>
-			<div class="attachment-item">
-				<div class="item-title">
-					证实不动产登记薄记载事项错误的材料
-				</div>
-				<div class="item-content">
-					<div class="content-div">必须提供：否</div>
-					<div class="content-div">附件内容：</div>
-					<div class="attachments flex-box">
-						<div class="attachment" v-for="(item, index) in imgs5">
-							<div class="attachment-img" :style="{backgroundImage:'url(' + item.content + ')'}">
-								<img class="attachment-del" src="../../../assets/images/online-application/delete.png"
-									alt="" @click="delImg(5, index)">
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<van-uploader name="uploader" :after-read="onRead5">
-					<van-button plain hairline type="default">
-						<img src="../../../assets/images/online-application/上传.png"
-							style="width: 15px; display: inline-block; position: relative; top: -2px;" alt="">
-						上传
-					</van-button>
-				</van-uploader>
-
-				<div class="triangle"></div>
-				<div class="num">5</div>
 			</div>
 		</div>
 
@@ -467,7 +439,7 @@
 					false && this.loading5 === false) {
 					console.log('结束保存子表单');
 					this.$router.push({
-						path: '/onlineApplication/BDCQSZSGZDJ/ems'
+						path: '/onlineApplication/FDCQBGDJ/ems'
 					});
 				}
 			},
@@ -504,7 +476,7 @@
 					'JOB_FILES.FYS': 1,
 					'JOB_FILES.RID': null,
 					'JOB_FILES.SYS_MRID': null,
-					'JOB_FILES.XH': 1,
+					'JOB_FILES.XH': 2,
 					'JOB_FILES.XYTG': "否",
 					'JOB_FILES.ZLMC': "申请人身份证明"
 				}]);
@@ -518,7 +490,7 @@
 					'JOB_FILES.FYS': 1,
 					'JOB_FILES.RID': null,
 					'JOB_FILES.SYS_MRID': null,
-					'JOB_FILES.XH': 1,
+					'JOB_FILES.XH': 3,
 					'JOB_FILES.XYTG': "否",
 					'JOB_FILES.ZLMC': "不动产权证书"
 				}]);
@@ -532,23 +504,9 @@
 					'JOB_FILES.FYS': 1,
 					'JOB_FILES.RID': null,
 					'JOB_FILES.SYS_MRID': null,
-					'JOB_FILES.XH': 1,
+					'JOB_FILES.XH': 4,
 					'JOB_FILES.XYTG': "否",
-					'JOB_FILES.ZLMC': "与原不动产登记事项有利害关系的证明材料及不动产权利人同意更正的书面证明材料"
-				}]);
-				this.fillSubFormData5('JOB_FILES_LINK.IFJQD', [{
-					'JOB_FILES.CCJZ': "原件正本",
-					'JOB_FILES.CLFL': null,
-					'JOB_FILES.FBZ': null,
-					'JOB_FILES.FPATH': files5Str,
-					'JOB_FILES.FSL': 0,
-					'JOB_FILES.FYM': "0",
-					'JOB_FILES.FYS': 1,
-					'JOB_FILES.RID': null,
-					'JOB_FILES.SYS_MRID': null,
-					'JOB_FILES.XH': 1,
-					'JOB_FILES.XYTG': "否",
-					'JOB_FILES.ZLMC': "证实不动产登记薄记载事项错误的材料"
+					'JOB_FILES.ZLMC': "国有建设用地使用权及房屋所有权变更证明材料"
 				}]);
 			}
 		},

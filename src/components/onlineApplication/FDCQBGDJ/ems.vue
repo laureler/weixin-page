@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<page-head title="建设用地使用权变更登记"></page-head>
+		<page-head title="房地产权（独幢、层、套、间房屋）变更登记"></page-head>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄材料
@@ -176,7 +176,7 @@
 					console.log(response);
 					if (response.status == 200) {
 						this.$router.push({
-							path: '/onlineApplication/JSYDSYQBGDJ/success'
+							path: '/onlineApplication/FDCQBGDJ/success'
 						});
 					}
 				}).catch(error => {

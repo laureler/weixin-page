@@ -133,6 +133,31 @@ export default {
 			name: "JSYDSYQBGDJSuccess",
 			component: resolve => require(['@/components/onlineApplication/JSYDSYQBGDJ/success'], resolve),
 		},
+		// 房地产权（独幢、层、套、间房屋）变更登记
+		{
+			path: "/onlineApplication/FDCQBGDJ/bookIn",
+			name: "FDCQBGDJBookIn",
+			component: resolve => require(['@/components/onlineApplication/FDCQBGDJ/bookIn'], resolve),
+			meta: {
+				isNeedLogin: true
+			}
+		}, {
+			path: "/onlineApplication/FDCQBGDJ/info",
+			name: "FDCQBGDJInfo",
+			component: resolve => require(['@/components/onlineApplication/FDCQBGDJ/info'], resolve)
+		}, {
+			path: "/onlineApplication/FDCQBGDJ/attachment",
+			name: "FDCQBGDJattachment",
+			component: resolve => require(['@/components/onlineApplication/FDCQBGDJ/attachment'], resolve),
+		}, {
+			path: "/onlineApplication/FDCQBGDJ/ems",
+			name: "FDCQBGDJEMS",
+			component: resolve => require(['@/components/onlineApplication/FDCQBGDJ/ems'], resolve),
+		}, {
+			path: "/onlineApplication/FDCQBGDJ/success",
+			name: "FDCQBGDJSuccess",
+			component: resolve => require(['@/components/onlineApplication/FDCQBGDJ/success'], resolve),
+		},
 		// 异议登记
 		{
 			path: "/onlineApplication/YYDJ/bookIn",
