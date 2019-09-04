@@ -40,8 +40,7 @@
 <script>
 
 	import { request } from '../../utils/http.js'
-	import { baiduMap } from '../../utils/map'
-
+	/*import { baiduMap } from '../../utils/map'*/
 	import { Dialog } from 'vant'
 
 	export default {
@@ -132,13 +131,26 @@
 			// 初始化地图
 			initMap() {
 				const _this = this;
+				console.log('fadsad');
+				console.log(window.T);
+				console.log(T);
 				//创建地图实例
-				let map = new BMap.Map('container', {enableMapClick: false});
-				let point = new BMap.Point(_this.realEstateInfo.zb.split(',')[0], _this.realEstateInfo.zb.split(',')[1]);
+				//let map = new BMap.Map('container', {enableMapClick: false});
+				let map = new window.T.Map('container');
+				//let point = new BMap.Point(_this.realEstateInfo.zb.split(',')[0], _this.realEstateInfo.zb.split(',')[1]);
+				let point = new T.LngLat(_this.realEstateInfo.zb.split(',')[0], _this.realEstateInfo.zb.split(',')[1])
+				//创建标注对象
+				let marker = new  T.Marker(point);
+				map.addOverLay(marker)
+				//创建缩放平移控件
+				let control = new T.Control.Zoom();
+				control.setPosition(T_ANCHOR_TOP_LEFT);
+				//添加缩放平移控件
+				map.addControl(control);
 				//地图初始化，设置中心点坐标和地图级别
-				map.centerAndZoom(point, 19);
+				map.centerAndZoom(point, 18);
 
-				let pointArr = [];
+				/*let pointArr = [];
 				pointArr.push(point);
 				new BMap.Convertor().translate(pointArr, 1, 5, data => {
 					//坐标转换完之后的回调函数
@@ -151,7 +163,7 @@
 							_this.isShowInfo = !_this.isShowInfo;
 						});
 					}
-				});
+				});*/
 			},
 		},
 		mounted() {
@@ -166,24 +178,29 @@
 						_this.realEstateInfo = response.result;
 
 						_this.isShowInfo = true;
-
+						_this.getZdtAndFhtInfo();
 						// 不动产类型为 土地和房屋 时才显示分户图
 						if (response.result.bdclx === '土地和房屋') {
 							_this.isHouse = true;
 							_this.newBtnClass += ' new-btn-div';
 						}
-
-						baiduMap.init().then(BMap => {
+						if(window.T !== undefined){
 							_this.initMap();
+						}else {
+							Dialog.alert({
+								message: '地图初始化失败，请刷新重试!'
+							})
+						}
+						/*TDMap.init().then((T) => {
+							console.log(T)
+							_this.initMap()
 						}).catch(error => {
 							console.log(error);
 							Dialog.alert({
 								message: '百度地图初始化失败，请刷新重试!'
 							}).then({
 							});
-						});
-
-						_this.getZdtAndFhtInfo();
+						});*/
 					} else {
 						_this.isShow = false;
 						Dialog.alert({
@@ -196,7 +213,6 @@
 					console.log(error);
 				}
 			});
-
 		}
 	}
 
