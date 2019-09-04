@@ -573,16 +573,6 @@
 						this.assignorIdCard = '';
 					}
 				}
-				/* 				if (this.editApplicantState) {  // 编辑状态
-									this.applicants[this.applicantIndex] = this.applicant;
-									this.applicant = cleanParams(this.applicant);
-									this.applicantIndex = 0;
-									this.editApplicantState = false;
-								} else {  // 新增状态
-									this.applicants.push(this.applicant);
-									this.applicantIndex = 0;
-									this.editApplicantState = false;
-								} */
 			},
 			editApplicant: function (item, index, type) {
 				// this.editApplicantState = true;
@@ -710,9 +700,10 @@
 		created() {
 			var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
 			console.log('cqxx:', this.$route.query.cqxx);
+			console.log('businessDefinitionId:', this.$route.query.businessDefinitionId);
 			var _this = this;
 			this.$fetch(GET_BUSINESS_START_FROM, {
-					businessDefinitionId: 'b07eb2ba-cbae-4a9f-bf94-d42be317ae99' // 业务ID
+					businessDefinitionId: _this.$route.query.businessDefinitionId // 业务ID
 				}).then(function (response) {
 					var businessNumber = response.businessNumber;
 					_this.startExactBusiness(rid, businessNumber);

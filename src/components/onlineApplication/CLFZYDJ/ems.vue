@@ -94,18 +94,31 @@
 						name: '否'
 					}
 				],
-				townships: [{
-						name: '石岐区'
-					},
-					{
-						name: '东区'
-					},
-					{
-						name: '南区'
-					},
-					{
-						name: '西区'
-					}
+				townships: [
+					{name: '石岐区'},
+					{ name: '东区' },
+					{ name: '南区' },
+					{ name: '西区' },
+					{ name: '东升' },
+					{ name: '板芙' },
+					{ name: '三角' },
+					{ name: '三乡' },
+					{ name: '民众' },
+					{ name: '横栏' },
+					{ name: '阜沙' },
+					{ name: '港口' },
+					{ name: '沙溪' },
+					{ name: '东凤' },
+					{ name: '大涌' },
+					{ name: '南朗' },
+					{ name: '古镇' },
+					{ name: '南头' },
+					{ name: '五桂山' },
+					{ name: '黄圃' },
+					{ name: '火炬开发区' },
+					{ name: '神湾' },
+					{ name: '坦洲' },
+					{ name: '小榄' }
 				],
 				actions: [],
 			}

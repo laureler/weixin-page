@@ -166,10 +166,12 @@
 				if (!this.checkout.cqxx[0] || !this.checkout.cqxx[0].RID || this.checkout.cqxx[0].RID == '') {
 					Toast('请校验证书通过后进行下一步!');
 				}else {
+					var businessDefinitionId = this.$route.query.businessDefinitionId;
 					this.$router.push({
 							path: '/onlineApplication/FDCQZYDJ/info', 
 							query: {
-								cqxx: this.checkout.cqxx[0]
+								cqxx: this.checkout.cqxx[0],
+								businessDefinitionId: businessDefinitionId
 							}
 						})
 				}

@@ -95,10 +95,8 @@
 
 <script>
 	import Head from '../../app/head.vue';
-	import {
-		UPLOAD_FILES,
-		FILL_SUB_FORM_DATA
-	} from '../../../constants/index.js'
+	import {Toast } from 'vant'; 
+	import {UPLOAD_FILES, FILL_SUB_FORM_DATA } from '../../../constants/index.js'
 	export default {
 		components: {
 			'page-head': Head
@@ -303,6 +301,18 @@
 				console.log("files:", this.files);
 				console.log("files2:", this.files2);
 				console.log("files3:", this.files3);
+				if (this.files.length == 0) {
+					Toast('未上传不动产登记申请表!');
+					return;
+				}
+				if (this.files2.length == 0) {
+					Toast('未上传不动产权证书!');
+					return;
+				}
+				if (this.files3.length == 0) {
+					Toast('未上传申请人身份证明!');
+					return;
+				}
 
 				var filesStr = this.files.join("::");
 				var files2Str = this.files2.join("::");
@@ -355,6 +365,7 @@
 			console.log('进入附件页面');
 			this.loading1 = false;
 			this.loading2 = false;
+			this.loading3 = false;
 		}
 	}
 

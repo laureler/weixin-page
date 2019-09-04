@@ -129,13 +129,15 @@
 					"resultmsg": '',
 					"type": '',
 					"ygxx": ''
-				}
+				},
+				checkType: 0,
 			}
 		},
 		methods: {
-			onChange:function(){
+			onChange:function(name, title){
 				this.customStatus = '';
 				this.checkout.cqxx[0] = '';
+				this.checkType = name;
 			},
 			checkoutID: function () {
 				this.customStatus = '';
@@ -143,13 +145,24 @@
 					mask: true,
 					message: '加载中...'
 				});
+				var strJsonType = {};
+				if (this.checkType == 0) {
+					if (this.wqhth == '') {
+						Toast('未输入网签合同号!');
+						return;
+					}
+					strJsonType = {
+						wqhth: this.wqhth
+					}
+				}else if (this.checkType == 1) {
+					strJsonType = {
+						qlr: this.qlr,
+						cqzh: this.cqzh
+					}
+				}
 				this.axios.get(CHECKOUT_REAL_ESTATE, {
 					params: {
-						strJson: {
-							wqhth: this.wqhth,
-							qlr: this.qlr,
-							cqzh: this.cqzh
-						},
+						strJson: strJsonType,
 						path: '/WSYY/GetPropertyRightInfo'
 					}
 				}).then(res => {
@@ -202,7 +215,8 @@
 						path: '/onlineApplication/CLFZYDJ/info',
 						query: {
 							cqxx: this.checkout.cqxx[0],
-							businessDefinitionId: businessDefinitionId
+							businessDefinitionId: businessDefinitionId,
+							checkType: this.checkType
 						}
 					})
 				}
