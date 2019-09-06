@@ -264,18 +264,54 @@
 					}
 				],
 				townships: [{
-						name: '石岐区'
-					},
-					{
-						name: '东区'
-					},
-					{
-						name: '南区'
-					},
-					{
-						name: '西区'
-					}
-				],
+					name: '石岐区'
+				}, {
+					name: '东区'
+				}, {
+					name: '南区'
+				}, {
+					name: '西区'
+				}, {
+					name: '东升'
+				}, {
+					name: '板芙'
+				}, {
+					name: '三角'
+				}, {
+					name: '三乡'
+				}, {
+					name: '民众'
+				}, {
+					name: '横栏'
+				}, {
+					name: '阜沙'
+				}, {
+					name: '港口'
+				}, {
+					name: '沙溪'
+				}, {
+					name: '东凤'
+				}, {
+					name: '大涌'
+				}, {
+					name: '南朗'
+				}, {
+					name: '古镇'
+				}, {
+					name: '南头'
+				}, {
+					name: '五桂山'
+				}, {
+					name: '黄圃'
+				}, {
+					name: '火炬开发区'
+				}, {
+					name: '神湾'
+				}, {
+					name: '坦洲'
+				}, {
+					name: '小榄'
+				}],
 				types: [{
 					name: '土地'
 				}, {
@@ -287,6 +323,7 @@
 				applicantIndex: 0,
 				taskId: '',
 				valuesParams: {},
+				goBack: false,
 			}
 		},
 		methods: {
@@ -339,46 +376,8 @@
 				if (this.applicant['JOB_SQRXXB.SYS_MRID'].length == 0) {
 					this.$toast('请选择申请人!');
 				} else {
-
 					this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant], true);
-
-					/* 					var title = 'JOB_SQRXXB_LINK.IQLR';
-										var business = JSON.parse(sessionStorage.getItem('business'));
-										var result = JSON.parse(business.result);
-										console.log(result);
-										var link = title.split('.')[0];
-										var domains = title.split('_LINK')[0]
-										var parentrid = result.data.values[link + '.RID'];
-										var templateid = result.data.controls[title].linkTplId;
-										console.log(result.data.values[link + '.RID']);
-										console.log(result.data.controls[title].linkTplId);
-
-										this.axios({
-											url: FILL_SUB_FORM_DATA + '?parentdomname=' + title + '&type=0' + '&parentrid=' + parentrid +
-												'&templateid=' + templateid  + '&domains=' + domains +
-												'&jid=' + sessionStorage.getItem('jid'),
-											//'?jid=' + sessionStorage.getItem('jid') +
-											//	'&parentdomname=' + title + '&parentrid=' + parentrid +
-											//	'&templateid=' + templateid + '&mrid=' + this.applicant['JOB_SQRXXB.SYS_MRID'],
-											method: 'post',
-											data: this.applicant,
-										}).then(response => {
-											console.log('ADD_SUB_FORM_DATA:', response);
-										}).catch(error => {
-											console.log(error);
-										}); */
 				}
-
-				/* 				if (this.editApplicantState) {  // 编辑状态
-									this.applicants[this.applicantIndex] = this.applicant;
-									this.applicant = cleanParams(this.applicant);
-									this.applicantIndex = 0;
-									this.editApplicantState = false;
-								} else {  // 新增状态
-									this.applicants.push(this.applicant);
-									this.applicantIndex = 0;
-									this.editApplicantState = false;
-								} */
 			},
 			editApplicant: function (item, index) { // 编辑申请人
 				// this.editApplicantState = true;
@@ -391,18 +390,22 @@
 
 			},
 			saveTaskFormData: function () {
-				this.valuesParams['JOB_BDCQK.FBDCDYH'] = this.estateInfo['JOB_BDCQK.FBDCDYH'];
-				this.valuesParams['JOB_BDCQK.FBDCLX'] = this.estateInfo['JOB_BDCQK.FBDCLX'];
-				this.valuesParams['JOB_BDCQK.FFDZL'] = this.estateInfo['JOB_BDCQK.FFDZL'];
+				/* 				this.valuesParams['JOB_BDCQK.FBDCDYH'] = this.estateInfo['JOB_BDCQK.FBDCDYH'];
+								this.valuesParams['JOB_BDCQK.FBDCLX'] = this.estateInfo['JOB_BDCQK.FBDCLX'];
+								this.valuesParams['JOB_BDCQK.FFDZL'] = this.estateInfo['JOB_BDCQK.FFDZL'];
 
-				this.valuesParams['JOB_BDCQK.FMJ'] = this.estateInfo['JOB_BDCQK.FMJ'];
-				this.valuesParams['JOB_BDCQK.FYT'] = this.estateInfo['JOB_BDCQK.FYT'];
+								this.valuesParams['JOB_BDCQK.FMJ'] = this.estateInfo['JOB_BDCQK.FMJ'];
+								this.valuesParams['JOB_BDCQK.FYT'] = this.estateInfo['JOB_BDCQK.FYT'];
 
-				this.valuesParams['JOB_BDCQK.FYBDCQSZH'] = this.estateInfo['JOB_BDCQK.FYBDCQSZH'];
-				this.valuesParams['JOB_BDCQK.FDJYY'] = this.estateInfo['JOB_BDCQK.FDJYY'];
-				this.valuesParams['JOB_BDCQK.FBZ'] = this.estateInfo['JOB_BDCQK.FBZ'];
-				this.valuesParams['JOB_SJDJB.FDJLX'] = this.application;
-				this.valuesParams['JOB_SJDJB.FZQDM'] = this.township;
+								this.valuesParams['JOB_BDCQK.FYBDCQSZH'] = this.estateInfo['JOB_BDCQK.FYBDCQSZH'];
+								this.valuesParams['JOB_BDCQK.FDJYY'] = this.estateInfo['JOB_BDCQK.FDJYY'];
+								this.valuesParams['JOB_BDCQK.FBZ'] = this.estateInfo['JOB_BDCQK.FBZ'];
+								this.valuesParams['JOB_SJDJB.FDJLX'] = this.application;
+								this.valuesParams['JOB_SJDJB.FZQDM'] = this.township; */
+
+				this.estateInfo['JOB_SJDJB.FDJLX'] = this.application;
+				this.estateInfo['JOB_SJDJB.FZQDM'] = this.township;
+
 
 				sessionStorage.setItem('formdata', JSON.stringify(this.valuesParams));
 				Toast.loading({
@@ -412,7 +415,7 @@
 				this.axios({
 					url: SAVE_TASK_FORM_DATA + '?taskId=' + this.taskId + '&createType=2',
 					method: 'post',
-					data: this.valuesParams,
+					data: this.estateInfo,
 					transformRequest: [function (data) {
 						let ret = ''
 						for (let it in data) {
@@ -426,6 +429,11 @@
 				}).then(response => {
 					console.log(response);
 					Toast.clear();
+					if (_this.goBack) {
+						_this.goBack = false;
+						next();
+						return;
+					}
 					this.$router.push({
 						path: '/onlineApplication/BDCQSZSYSDJ/attachment'
 					});
@@ -434,6 +442,38 @@
 					Toast('请求出错!');
 					console.log(error);
 				});
+			},
+			// 查询子表单
+			querySubFormData: function (title, showLoading = false) {
+				var business = JSON.parse(sessionStorage.getItem('business'));
+				var result = JSON.parse(business.result);
+				console.log(result);
+				var link = title.split('.')[0];
+				var domains = title.split('_LINK')[0]
+				var parentrid = result.data.values[link + '.RID'];
+				var templateid = result.data.controls[title].linkTplId;
+				var _this = this;
+				this
+					.$fetch('/formengineWebService/querySubFormData' + '?parentdomname=' + title + '&parentrid=' +
+						parentrid + '&doms=' + domains + '&templateid=' + templateid + '&random=19')
+					.then(response => {
+						console.log('response:', response);
+						debugger;
+						if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
+							_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.rows;
+							if (!response.rows) return;
+							_this.applicantIndex = 0;
+							_this.applicant = response.rows[0];
+						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
+							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
+							if (!response.rows) return;
+							_this.changeItemIndex = 0;
+							_this.changeItem = response.rows[0];
+						}
+					})
+					.catch(error => {
+						console.log('error:', error);
+					});
 			},
 			fillSubFormData: function (title, params, showLoading = false) {
 				var business = JSON.parse(sessionStorage.getItem('business'));
@@ -470,29 +510,66 @@
 				console.log(rid);
 				console.log(businessNumber);
 				sessionStorage.setItem('jid', businessNumber);
+				var _this = this;
+				//判断产权是否土地，是土地的提取土地的产权
+				var configureName = '土地及房屋权属证书补换证提取房屋产权';
+				if (rid.indexOf('TD') >= 0) {
+					configureName = "土地及房屋权属证书补换证提取土地产权";
+				} else if (rid.indexOf('FW') >= 0) {
+					configureName = "土地及房屋权属证书补换证提取房屋产权";
+				}
 				this.$fetch(START_EXACT_BUSINNESS, {
 						srcMark: '$bdcsjtq_cq:RID=' + rid + '&type=1',
 						targetJid: businessNumber,
-						configureName: '土地及房屋权属证书补换证提取房屋产权'
+						configureName: configureName
 					}).then(response => {
 						console.log(response);
 						Toast.clear();
-						this.estateInfo['JOB_BDCQK.FBDCDYH'] = response['JOB_BDCQK.FBDCDYH'];
+
+
+
+						_this.estateInfo['JOB_BDCQK.FBDCDYH'] = response['JOB_BDCQK.FBDCDYH'];
 						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
 						var bdclx = getBdcType(qllx);
-						this.estateInfo['JOB_BDCQK.FBDCLX'] = bdclx;
-						this.estateInfo['JOB_BDCQK.FFDZL'] = response['JOB_BDCQK.FFDZL'];
 
-						this.estateInfo['JOB_BDCQK.FMJ'] = response['JOB_BDCQK.FJZMJ'];
-						this.estateInfo['JOB_BDCQK.FYT'] = response['JOB_BDCQK.FFWYT'];
+						//补充权利人信息
+						for (var key in response) {
+							if (key == "JOB_SQRXXB_LINK.IQLR") {
+								var rows = response[key];
+								for (var inx = 0; inx < rows.length; ++inx) {
+									rows[inx]["JOB_SQRXXB.XH"] = inx + 1;
+									if (bdclx == "土地和房屋") {
+										rows[inx]["JOB_SQRXXB.FSQRLX"] = "房地产权利人";
+									} else if (qllx == "国有建设用地使用权" || qllx == "集体建设用地使用权") {
+										rows[inx]["JOB_SQRXXB.FSQRLX"] = "建设用地使用权人";
+									} else if (qllx == "宅基地使用权") {
+										rows[inx]["JOB_SQRXXB.FSQRLX"] = "宅基地使用权人";
+									}
+									rows[inx]["JOB_SQRXXB.FDWXZ"] = "个人";
+									if (rows.length == 1) {
+										rows[inx]["JOB_SQRXXB.FGYQK"] = "单独所有";
+										rows[inx]["JOB_SQRXXB.FQLBL"] = "全部";
+									}
+								}
+							}
+						}
 
-						this.estateInfo['JOB_BDCQK.FYBDCQSZH'] = response['JOB_BDCQK.FYBDCQSZH'];
-						this.estateInfo['JOB_BDCQK.FZDMJ'] = response['JOB_BDCQK.FZDMJ'];
+						_this.estateInfo['JOB_BDCQK.FBDCLX'] = bdclx;
 
-						this.applicants = response['JOB_SQRXXB_LINK.IQLR'];
 
-						this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response['JOB_GLQLXXB_LINK.OLD_IQLDJ']);
-						this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', response['JOB_SQRXXB_LINK.IQLR']);
+						_this.estateInfo['JOB_BDCQK.FFDZL'] = response['JOB_BDCQK.FFDZL'];
+
+						_this.estateInfo['JOB_BDCQK.FMJ'] = response['JOB_BDCQK.FJZMJ'];
+						_this.estateInfo['JOB_BDCQK.FYT'] = response['JOB_BDCQK.FFWYT'];
+
+						_this.estateInfo['JOB_BDCQK.FYBDCQSZH'] = response['JOB_BDCQK.FYBDCQSZH'];
+						_this.estateInfo['JOB_BDCQK.FZDMJ'] = response['JOB_BDCQK.FZDMJ'];
+
+						_this.applicants = response['JOB_SQRXXB_LINK.IQLR'];
+
+						_this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response[
+							'JOB_GLQLXXB_LINK.OLD_IQLDJ']);
+						_this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', response['JOB_SQRXXB_LINK.IQLR']);
 					})
 					.catch(error => {
 						Toast.clear();
@@ -503,33 +580,89 @@
 		mouthed() {
 
 		},
-		created() {
-			var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
-			console.log('cqxx:', this.$route.query.cqxx);
+		beforeRouteLeave(to, from, next) {
 			var _this = this;
-			Toast.loading({
-				mask: true,
-				message: '加载中...'
-			});
-			this.$fetch(GET_BUSINESS_START_FROM, {
-					businessDefinitionId: _this.$route.query.businessDefinitionId // 业务ID
-				}).then(function (response) {
-					var businessNumber = response.businessNumber;
-					_this.startExactBusiness(rid, businessNumber);
-					var result = JSON.parse(response.result);
-					var values = result.data.values;
-					var taskId = response.taskId;
-					sessionStorage.setItem('taskId', taskId);
-					sessionStorage.setItem('business', JSON.stringify(response));
-					_this.taskId = taskId;
-					_this.valuesParams = values;
-					console.log('result:', result);
-					console.log('taskId:', _this.taskId);
-				})
-				.catch(function (error) {
-					console.log(error);
+			if (to.path === '/onlineApplication/BDCQSZSYSDJ/bookIn') {
+				Dialog.confirm({
+					title: '提示',
+					message: '是否保存表单?'
+				}).then(() => {
+					_this.goBack = true;
+					_this.saveTaskFormData(next);
+				}).catch(() => {
+					next();
+				});
+			}
+		},
+		created() {
+
+			if (this.$route.query && this.$route.query.processInstanceId) {
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				// 查询首环节？
+				this.$fetch('/workflowWebService/getFirstLinkInfoByProcessInstanceId', {
+					processInstanceId: this.$route.query.processInstanceId
+				}).then(res => {
+					console.log('res:', res);
+
+					var _taskId = res.taskId;
+
+					_this.$fetch('/workflowWebService/renderFormByTaskId', {
+						taskId: _taskId
+					}).then(response => {
+						var businessNumber = response.businessNumber;
+						_this.startExactBusiness(rid, businessNumber);
+						var result = JSON.parse(response.result);
+						var values = result.data.values;
+						var taskId = response.taskId;
+						sessionStorage.setItem('taskId', taskId);
+						sessionStorage.setItem('business', JSON.stringify(response));
+						_this.taskId = taskId;
+						_this.estateInfo = values;
+						console.log('result:', result);
+						console.log('taskId:', _this.taskId);
+						Toast.clear();
+					}).catch(err => {
+						console.log('err:', err);
+						Toast.clear();
+					});
+				}).catch(err => {
+					console.log('err:', err);
 					Toast.clear();
 				});
+
+			} else {
+				var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
+				console.log('cqxx:', this.$route.query.cqxx);
+				var _this = this;
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				this.$fetch(GET_BUSINESS_START_FROM, {
+						businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
+					}).then(function (response) {
+						var businessNumber = response.businessNumber;
+						_this.startExactBusiness(rid, businessNumber);
+						var result = JSON.parse(response.result);
+						var values = result.data.values;
+						var taskId = response.taskId;
+						sessionStorage.setItem('taskId', taskId);
+						sessionStorage.setItem('business', JSON.stringify(response));
+						_this.taskId = taskId;
+						_this.estateInfo = values;
+						console.log('result:', result);
+						console.log('taskId:', _this.taskId);
+					})
+					.catch(function (error) {
+						console.log(error);
+						Toast.clear();
+					});
+			}
+
+
 		}
 	}
 

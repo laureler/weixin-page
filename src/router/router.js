@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-07-16 11:42:54
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-08-29 16:54:51
+ * @LastEditTime: 2019-09-06 13:36:03
  * @Description: 头部注释
  */
 import Vue from 'vue';
@@ -221,7 +221,10 @@ const router = new Router({
 		{
 			path: '/myApplications',
 			name: 'myApplications',
-			component: resolve => require(['@/components/onlineApplication/myApplications'], resolve)
+			component: resolve => require(['@/components/onlineApplication/myApplications'], resolve),
+			meta: {
+				isNeedLogin: true
+			}
 		},
 		// 导航功能主页
 		{
@@ -280,6 +283,9 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+	console.log("to:", to.path);
+	console.log("from:", from.path);
+
 	// 如果是要进入个人中心首页或相关页面，需要验证配置和人脸识别
 	if (!to.meta.isNeedLogin && to.meta.isPersonalHomePage) {
 		if ((/^true$/i).test(store.getters.getVerifyState)) {

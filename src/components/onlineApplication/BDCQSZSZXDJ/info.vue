@@ -8,53 +8,51 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>申请事项
 						</div>
-						<van-field id="JOB_SJDJB.FDJLX" v-model="JOB_BDCQK['JOB_SJDJB.FDJLX']"
-							right-icon="arrow" placeholder="请选择申请事项" disabled clickable
+						<van-field id="JOB_SJDJB.FDJLX" v-model="JOB_BDCQK['JOB_SJDJB.FDJLX']" right-icon="arrow"
+							placeholder="请选择申请事项" disabled clickable
 							@click.native="actionsheetClicked('itemOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>镇区
 						</div>
-						<van-field id="JOB_SJDJB.FZQDM" v-model="JOB_BDCQK['JOB_SJDJB.FZQDM']"
-							right-icon="arrow" placeholder="请选择镇区" disabled clickable
+						<van-field id="JOB_SJDJB.FZQDM" v-model="JOB_BDCQK['JOB_SJDJB.FZQDM']" right-icon="arrow"
+							placeholder="请选择镇区" disabled clickable
 							@click.native="actionsheetClicked('townshipOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>不动产单元号
 						</div>
-						<van-field id="JOB_BDCQK.FBDCDYH" v-model="JOB_BDCQK['JOB_BDCQK.FBDCDYH']"
-							placeholder="不动产单元号" clickable />
+						<van-field id="JOB_BDCQK.FBDCDYH" v-model="JOB_BDCQK['JOB_BDCQK.FBDCDYH']" placeholder="不动产单元号"
+							clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>不动产类型
 						</div>
-						<van-field id="JOB_BDCQK.FBDCLX" v-model="JOB_BDCQK['JOB_BDCQK.FBDCLX']"
-							right-icon="arrow" placeholder="不动产类型" disabled clickable
+						<van-field id="JOB_BDCQK.FBDCLX" v-model="JOB_BDCQK['JOB_BDCQK.FBDCLX']" right-icon="arrow"
+							placeholder="不动产类型" disabled clickable
 							@click.native="actionsheetClicked('estateOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>坐落
 						</div>
-						<van-field id="JOB_BDCQK.FFDZL" v-model="JOB_BDCQK['JOB_BDCQK.FFDZL']"
-							placeholder="坐落" clickable />
+						<van-field id="JOB_BDCQK.FFDZL" v-model="JOB_BDCQK['JOB_BDCQK.FFDZL']" placeholder="坐落"
+							clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							面积
 						</div>
-						<van-field id="JOB_BDCQK.FMJ" v-model="JOB_BDCQK['JOB_BDCQK.FMJ']"
-							placeholder="面积" clickable />
+						<van-field id="JOB_BDCQK.FMJ" v-model="JOB_BDCQK['JOB_BDCQK.FMJ']" placeholder="面积" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							用途
 						</div>
-						<van-field id="JOB_BDCQK.FYT" v-model="JOB_BDCQK['JOB_BDCQK.FYT']"
-							placeholder="用途" clickable />
+						<van-field id="JOB_BDCQK.FYT" v-model="JOB_BDCQK['JOB_BDCQK.FYT']" placeholder="用途" clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -67,47 +65,45 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>是否重新出具土地证
 						</div>
-						<van-field id="JOB_BDCQK.FSFCXCZ" v-model="JOB_BDCQK['JOB_BDCQK.FSFCXCZ']"
-							right-icon="arrow" disabled clearable placeholder="是否重新出具土地证"
+						<van-field id="JOB_BDCQK.FSFCXCZ" v-model="JOB_BDCQK['JOB_BDCQK.FSFCXCZ']" right-icon="arrow"
+							disabled clearable placeholder="是否重新出具土地证"
 							@click.native="actionsheetClicked('chooseOneOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>是否两证分开
 						</div>
-						<van-field id="JOB_BDCQK.FSFLZFK" v-model="JOB_BDCQK['JOB_BDCQK.FSFLZFK']"
-							right-icon="arrow" disabled clearable placeholder="是否两证分开"
+						<van-field id="JOB_BDCQK.FSFLZFK" v-model="JOB_BDCQK['JOB_BDCQK.FSFLZFK']" right-icon="arrow"
+							disabled clearable placeholder="是否两证分开"
 							@click.native="actionsheetClicked('chooseTwoOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>是否拆除房屋
 						</div>
-						<van-field id="JOB_BDCQK.FSFCCFW" v-model="JOB_BDCQK['JOB_BDCQK.FSFCCFW']"
-							right-icon="arrow" disabled clearable placeholder="是否拆除房屋"
+						<van-field id="JOB_BDCQK.FSFCCFW" v-model="JOB_BDCQK['JOB_BDCQK.FSFCCFW']" right-icon="arrow"
+							disabled clearable placeholder="是否拆除房屋"
 							@click.native="actionsheetClicked('chooseThreeOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>登记原因
 						</div>
-						<van-field id="JOB_BDCQK.FDJYY" v-model="JOB_BDCQK['JOB_BDCQK.FDJYY']"
-							right-icon="arrow" disabled clearable placeholder="登记原因"
-							@click.native="actionsheetClicked('reasonOptions')" />
+						<van-field id="JOB_BDCQK.FDJYY" v-model="JOB_BDCQK['JOB_BDCQK.FDJYY']" right-icon="arrow"
+							disabled clearable placeholder="登记原因" @click.native="actionsheetClicked('reasonOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>其他原因
 						</div>
-						<van-field id="JOB_BDCQK.FQTYY" v-model="JOB_BDCQK['JOB_BDCQK.FQTYY']"
-							placeholder="其他原因" clickable />
+						<van-field id="JOB_BDCQK.FQTYY" v-model="JOB_BDCQK['JOB_BDCQK.FQTYY']" placeholder="其他原因"
+							clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							备注
 						</div>
-						<van-field id="JOB_BDCQK.FBZ" v-model="JOB_BDCQK['JOB_BDCQK.FBZ']"
-							placeholder="备注" clearable />
+						<van-field id="JOB_BDCQK.FBZ" v-model="JOB_BDCQK['JOB_BDCQK.FBZ']" placeholder="备注" clearable />
 					</van-cell-group>
 				</van-tab>
 				<van-tab title="申请人">
@@ -381,6 +377,7 @@
 				applicant: {},
 				applicantIndex: -1,
 				optionsTitle: '',
+				goBack: false,
 			}
 		},
 		methods: {
@@ -475,6 +472,11 @@
 				}).then(response => {
 					console.log(response);
 					Toast.clear();
+					if (_this.goBack) {
+						_this.goBack = false;
+						next();
+						return;
+					}
 					this.$router.push({
 						path: '/onlineApplication/BDCQSZSZXDJ/attachment'
 					});
@@ -483,6 +485,38 @@
 					Toast('请求出错!');
 					console.log(error);
 				});
+			},
+			// 查询子表单
+			querySubFormData: function (title, showLoading = false) {
+				var business = JSON.parse(sessionStorage.getItem('business'));
+				var result = JSON.parse(business.result);
+				console.log(result);
+				var link = title.split('.')[0];
+				var domains = title.split('_LINK')[0]
+				var parentrid = result.data.values[link + '.RID'];
+				var templateid = result.data.controls[title].linkTplId;
+				var _this = this;
+				this
+					.$fetch('/formengineWebService/querySubFormData' + '?parentdomname=' + title + '&parentrid=' +
+						parentrid + '&doms=' + domains + '&templateid=' + templateid + '&random=19')
+					.then(response => {
+						console.log('response:', response);
+						debugger;
+						if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
+							_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.rows;
+							if (!response.rows) return;
+							_this.applicantIndex = 0;
+							_this.applicant = response.rows[0];
+						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
+							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
+							if (!response.rows) return;
+							_this.changeItemIndex = 0;
+							_this.changeItem = response.rows[0];
+						}
+					})
+					.catch(error => {
+						console.log('error:', error);
+					});
 			},
 			fillSubFormData: function (title, params, showLoading = false) {
 				var business = JSON.parse(sessionStorage.getItem('business'));
@@ -588,34 +622,89 @@
 		mouthed() {
 
 		},
-		created() {
-			var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
-			console.log('cqxx:', this.$route.query.cqxx);
+		beforeRouteLeave(to, from, next) {
 			var _this = this;
-			Toast.loading({
-				mask: true,
-				message: '加载中...'
-			});
-			this
-				.$fetch(GET_BUSINESS_START_FROM, {
-					businessDefinitionId: _this.$route.query.businessDefinitionId // 业务ID
-				})
-				.then(function (response) {
-					var businessNumber = response.businessNumber;
-					var result = JSON.parse(response.result);
-					var values = result.data.values;
-					var taskId = response.taskId;
-					sessionStorage.setItem('taskId', taskId);
-					sessionStorage.setItem('business', JSON.stringify(response));
-					_this.taskId = taskId;
-					console.log('taskId:', _this.taskId);
-					_this.$data['JOB_BDCQK'] = values;
-					_this.startExactBusiness(rid, businessNumber);
-				})
-				.catch(function (error) {
-					console.log(error);
+			if (to.path === '/onlineApplication/BDCQSZSZXDJ/bookIn') {
+				Dialog.confirm({
+					title: '提示',
+					message: '是否保存表单?'
+				}).then(() => {
+					_this.goBack = true;
+					_this.saveTaskFormData(next);
+				}).catch(() => {
+					next();
+				});
+			}
+		},
+		created() {
+
+			if (this.$route.query && this.$route.query.processInstanceId) {
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				// 查询首环节？
+				this.$fetch('/workflowWebService/getFirstLinkInfoByProcessInstanceId', {
+					processInstanceId: this.$route.query.processInstanceId
+				}).then(res => {
+					console.log('res:', res);
+
+					var _taskId = res.taskId;
+
+					_this.$fetch('/workflowWebService/renderFormByTaskId', {
+						taskId: _taskId
+					}).then(response => {
+						var businessNumber = response.businessNumber;
+						var result = JSON.parse(response.result);
+						var values = result.data.values;
+						var taskId = response.taskId;
+						sessionStorage.setItem('taskId', taskId);
+						sessionStorage.setItem('business', JSON.stringify(response));
+						_this.taskId = taskId;
+						console.log('taskId:', _this.taskId);
+						_this.$data['JOB_BDCQK'] = values;
+						_this.startExactBusiness(rid, businessNumber);
+						Toast.clear();
+					}).catch(err => {
+						console.log('err:', err);
+						Toast.clear();
+					});
+				}).catch(err => {
+					console.log('err:', err);
 					Toast.clear();
 				});
+
+			} else {
+				var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
+				console.log('cqxx:', this.$route.query.cqxx);
+				var _this = this;
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				this
+					.$fetch(GET_BUSINESS_START_FROM, {
+						businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
+					})
+					.then(function (response) {
+						var businessNumber = response.businessNumber;
+						var result = JSON.parse(response.result);
+						var values = result.data.values;
+						var taskId = response.taskId;
+						sessionStorage.setItem('taskId', taskId);
+						sessionStorage.setItem('business', JSON.stringify(response));
+						_this.taskId = taskId;
+						console.log('taskId:', _this.taskId);
+						_this.$data['JOB_BDCQK'] = values;
+						_this.startExactBusiness(rid, businessNumber);
+					})
+					.catch(function (error) {
+						console.log(error);
+						Toast.clear();
+					});
+			}
+
+
 		}
 	}
 

@@ -24,38 +24,39 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>不动产单元号
 						</div>
-						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FBDCDYH']" disabled/>
+						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FBDCDYH']" disabled />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>不动产类型
 						</div>
-						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FBDCLX']" disabled/>
+						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FBDCLX']" disabled />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>坐落
 						</div>
-						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FFDZL']" disabled/>
+						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FFDZL']" disabled />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							土地性质
 						</div>
-						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FQLXZ']" disabled/>
+						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FQLXZ']" disabled />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							土地用途
 						</div>
-						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FTDYT']" disabled/>
+						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FTDYT']" disabled />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							土地使用面积
 						</div>
 						<div class="unFillText">
-							<van-field style="flex:80%" class="field-background" v-model="estateInfo['JOB_FDCQXXB.FZDMJ']" disabled/>
+							<van-field style="flex:80%" class="field-background"
+								v-model="estateInfo['JOB_FDCQXXB.FZDMJ']" disabled />
 							<span class="unit">平方米</span>
 						</div>
 					</van-cell-group>
@@ -63,48 +64,54 @@
 						<div class="cell-title">
 							土地使用起始时间
 						</div>
-						<van-field v-model="LUStartTime" @click="LUStartDrop($event)" placeholder="请选择土地使用起始时间" readonly/>
+						<van-field v-model="LUStartTime" @click="LUStartDrop($event)" placeholder="请选择土地使用起始时间"
+							readonly />
 						<transition name="fade">
-						    <div class="calendar-dropdown" :style="{'left':calendar.left+'px','top':calendar.top+'px'}" v-if="calendar.show">
-						        <calendar-view :zero="calendar.zero" :lunar="calendar.lunar" :value="calendar.value" :begin="calendar.begin" :end="calendar.end" @select="calendar.select"/>
-						    </div>
-					    </transition>
+							<div class="calendar-dropdown" :style="{'left':calendar.left+'px','top':calendar.top+'px'}"
+								v-if="calendar.show">
+								<calendar-view :zero="calendar.zero" :lunar="calendar.lunar" :value="calendar.value"
+									:begin="calendar.begin" :end="calendar.end" @select="calendar.select" />
+							</div>
+						</transition>
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							土地使用结束时间
 						</div>
-						<van-field v-model="LUEndTime" @click="LUEndDrop($event)" placeholder="请选择土地使用结束时间" readonly/>
+						<van-field v-model="LUEndTime" @click="LUEndDrop($event)" placeholder="请选择土地使用结束时间" readonly />
 						<transition name="fade">
-						    <div class="calendar-dropdown" :style="{'left':calendar2.left+'px','top':calendar2.top+'px'}" v-if="calendar2.show">
-						        <calendar-view :zero="calendar2.zero" :lunar="calendar2.lunar" :value="calendar2.value" :begin="calendar2.begin" :end="calendar2.end" @select="calendar2.select"/>
-						    </div>
-					    </transition>
+							<div class="calendar-dropdown"
+								:style="{'left':calendar2.left+'px','top':calendar2.top+'px'}" v-if="calendar2.show">
+								<calendar-view :zero="calendar2.zero" :lunar="calendar2.lunar" :value="calendar2.value"
+									:begin="calendar2.begin" :end="calendar2.end" @select="calendar2.select" />
+							</div>
+						</transition>
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							房屋结构
 						</div>
-						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FFWJG']" disabled/>
+						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FFWJG']" disabled />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							房屋性质
 						</div>
-						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FFWXZ']" disabled/>
+						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FFWXZ']" disabled />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							房屋用途
 						</div>
-						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FFWYT']" disabled/>
+						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FFWYT']" disabled />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							建筑面积
 						</div>
 						<div class="unFillText">
-							<van-field style="flex:80%" class="field-background" v-model="estateInfo['JOB_FDCQXXB.FJZMJ']" disabled/>
+							<van-field style="flex:80%" class="field-background"
+								v-model="estateInfo['JOB_FDCQXXB.FJZMJ']" disabled />
 							<span class="unit">平方米</span>
 						</div>
 					</van-cell-group>
@@ -113,7 +120,8 @@
 							专有建筑面积
 						</div>
 						<div class="unFillText">
-							<van-field style="flex:80%" class="field-background" v-model="estateInfo['JOB_FDCQXXB.FZYJZMJ']" disabled/>
+							<van-field style="flex:80%" class="field-background"
+								v-model="estateInfo['JOB_FDCQXXB.FZYJZMJ']" disabled />
 							<span class="unit">平方米</span>
 						</div>
 					</van-cell-group>
@@ -122,7 +130,8 @@
 							分摊建筑面积
 						</div>
 						<div class="unFillText">
-							<van-field style="flex:80%" class="field-background" v-model="estateInfo['JOB_FDCQXXB.FFTJZMJ']" disabled/>
+							<van-field style="flex:80%" class="field-background"
+								v-model="estateInfo['JOB_FDCQXXB.FFTJZMJ']" disabled />
 							<span class="unit">平方米</span>
 						</div>
 					</van-cell-group>
@@ -130,15 +139,15 @@
 						<div class="cell-title">
 							合同号
 						</div>
-						<van-field v-model="estateInfo['JOB_FDCQXXB.FHTBH']" clearable
-							placeholder="合同号" />
+						<van-field v-model="estateInfo['JOB_FDCQXXB.FHTBH']" clearable placeholder="合同号" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							取得价格
 						</div>
 						<div class="unFillText">
-							<van-field style="flex:80%" v-model="estateInfo['JOB_FDCQXXB.FFDCJYJG']" clearable placeholder="取得价格"/>
+							<van-field style="flex:80%" v-model="estateInfo['JOB_FDCQXXB.FFDCJYJG']" clearable
+								placeholder="取得价格" />
 							<span class="unit">万元</span>
 						</div>
 					</van-cell-group>
@@ -146,12 +155,15 @@
 						<div class="cell-title">
 							交易日期
 						</div>
-						<van-field v-model="tradingDate" @click="tradingDateDrop($event)" placeholder="请选择交易日期" readonly/>
+						<van-field v-model="tradingDate" @click="tradingDateDrop($event)" placeholder="请选择交易日期"
+							readonly />
 						<transition name="fade">
-						    <div class="calendar-dropdown" :style="{'left':calendar3.left+'px','top':calendar3.top+'px'}" v-if="calendar3.show">
-						        <calendar-view :zero="calendar3.zero" :lunar="calendar3.lunar" :value="calendar3.value" :begin="calendar3.begin" :end="calendar3.end" @select="calendar3.select"/>
-						    </div>
-					    </transition>
+							<div class="calendar-dropdown"
+								:style="{'left':calendar3.left+'px','top':calendar3.top+'px'}" v-if="calendar3.show">
+								<calendar-view :zero="calendar3.zero" :lunar="calendar3.lunar" :value="calendar3.value"
+									:begin="calendar3.begin" :end="calendar3.end" @select="calendar3.select" />
+							</div>
+						</transition>
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -165,7 +177,7 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>原不动产权证号
 						</div>
-						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FBDCQZH']" disabled/>
+						<van-field class="field-background" v-model="estateInfo['JOB_FDCQXXB.FBDCQZH']" disabled />
 					</van-cell-group>
 				</van-tab>
 				<van-tab title="受让人">
@@ -197,7 +209,7 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>单位性质
 						</div>
-						<van-field v-model="applicant['JOB_SQRXXB.FDWXZ']" clearable placeholder="单位性质"/>
+						<van-field v-model="applicant['JOB_SQRXXB.FDWXZ']" clearable placeholder="单位性质" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -287,7 +299,7 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>单位性质
 						</div>
-						<van-field class="field-background" v-model="assignor['JOB_SQRXXB_OLD.FDWXZ']" disabled/>
+						<van-field class="field-background" v-model="assignor['JOB_SQRXXB_OLD.FDWXZ']" disabled />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -301,8 +313,8 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>户籍所属省份
 						</div>
-						<van-field v-model="assignor['JOB_SQRXXB_OLD.FHJSZSS']" right-icon="arrow" placeholder="请选择户籍所属省份"
-							@click-right-icon="$toast('question')" disabled clickable
+						<van-field v-model="assignor['JOB_SQRXXB_OLD.FHJSZSS']" right-icon="arrow"
+							placeholder="请选择户籍所属省份" @click-right-icon="$toast('question')" disabled clickable
 							@click.native="provinceClicked(1)" />
 					</van-cell-group>
 					<van-cell-group>
@@ -354,8 +366,7 @@
 				<van-button size="large" plain type="default">查看申请书</van-button>
 				<van-button size="large" type="info" @click.native="nextStep()">下一步</van-button>
 			</div>
-			<van-actionsheet v-model="show" :actions="actions" cancel-text="取消" 
-			@select="onSelect">
+			<van-actionsheet v-model="show" :actions="actions" cancel-text="取消" @select="onSelect">
 			</van-actionsheet>
 		</div>
 	</div>
@@ -400,60 +411,60 @@
 	export default {
 		components: {
 			'page-head': Head,
-			'calendar-view':AgmDatePicker
+			'calendar-view': AgmDatePicker
 		},
 		data() {
 			return {
-				calendar:{
-	                show:false,
-	                value:[], //默认日期
-	                zero:true,
-	                lunar:false, //显示农历
-	                select:(value)=>{
-	                	console.log('value',value);
-	                    this.calendar.show=false;
-	                    this.calendar.value = value;
-	                    this.LUStartTime=value.join("/");
-	                }
-            	},
-            	calendar2:{
-	                show:false,
-	                value:[], //默认日期
-	                zero:true,
-	                lunar:false, //显示农历
-	                select:(value)=>{
-	                	console.log('value',value);
-	                    this.calendar2.show=false;
-	                    this.calendar2.value = value;
-	                    this.LUEndTime=value.join("/");
-	                }
-            	},
-            	calendar3:{
-	                show:false,
-	                value:[], //默认日期
-	                zero:true,
-	                lunar:false, //显示农历
-	                select:(value)=>{
-	                	console.log('value',value);
-	                    this.calendar3.show=false;
-	                    this.calendar3.value = value;
-	                    this.tradingDate=value.join("/");
-	                }
-            	},
+				calendar: {
+					show: false,
+					value: [], //默认日期
+					zero: true,
+					lunar: false, //显示农历
+					select: (value) => {
+						console.log('value', value);
+						this.calendar.show = false;
+						this.calendar.value = value;
+						this.LUStartTime = value.join("/");
+					}
+				},
+				calendar2: {
+					show: false,
+					value: [], //默认日期
+					zero: true,
+					lunar: false, //显示农历
+					select: (value) => {
+						console.log('value', value);
+						this.calendar2.show = false;
+						this.calendar2.value = value;
+						this.LUEndTime = value.join("/");
+					}
+				},
+				calendar3: {
+					show: false,
+					value: [], //默认日期
+					zero: true,
+					lunar: false, //显示农历
+					select: (value) => {
+						console.log('value', value);
+						this.calendar3.show = false;
+						this.calendar3.value = value;
+						this.tradingDate = value.join("/");
+					}
+				},
 				taskId: '',
 				show: false,
 				type: 0,
 				application: '',
 				township: '',
-				tradingDate:'',//交易日期
-				propertySource:'',
-				person:'',
-				idCard:'',
-				assignorPerson:'',
-				assignorIdCard:'',
-				currentDate:[],
-				LUStartTime:'',//土地使用起始时间
-				LUEndTime:'',//土地使用结束时间
+				tradingDate: '', //交易日期
+				propertySource: '',
+				person: '',
+				idCard: '',
+				assignorPerson: '',
+				assignorIdCard: '',
+				currentDate: [],
+				LUStartTime: '', //土地使用起始时间
+				LUEndTime: '', //土地使用结束时间
 				estateInfo: { // 不动产信息 
 					//此处需要更改信息字段保证与传递过来的数据字段一致,便于直接赋值见下面
 					//created()方法
@@ -463,14 +474,14 @@
 					'JOB_FDCQXXB.FQLXZ': "", //土地性质
 					'JOB_FDCQXXB.FTDYT': "", //土地用途
 					'JOB_FDCQXXB.FZDMJ': "", //土地使用面积
-					'JOB_FDCQXXB.FFWJG':"", //房屋结构
-					'JOB_FDCQXXB.FFWXZ':"", //房屋性质
+					'JOB_FDCQXXB.FFWJG': "", //房屋结构
+					'JOB_FDCQXXB.FFWXZ': "", //房屋性质
 					'JOB_FDCQXXB.FFWYT': "", //房屋用途
-					'JOB_FDCQXXB.FJZMJ': "",  //建筑面积
-					'JOB_FDCQXXB.FZYJZMJ':"", //专有建筑面积
-					'JOB_FDCQXXB.FFTJZMJ': "",  //分摊建筑面积
-					'JOB_FDCQXXB.FHTBH':"", //合同编号
-					'JOB_FDCQXXB.FFDCJYJG':"", //取得价格
+					'JOB_FDCQXXB.FJZMJ': "", //建筑面积
+					'JOB_FDCQXXB.FZYJZMJ': "", //专有建筑面积
+					'JOB_FDCQXXB.FFTJZMJ': "", //分摊建筑面积
+					'JOB_FDCQXXB.FHTBH': "", //合同编号
+					'JOB_FDCQXXB.FFDCJYJG': "", //取得价格
 					'JOB_FDCQXXB.FBDCQZH': "", // 原不动产权证明
 				},
 				applicant: { // 受让人信息
@@ -541,103 +552,150 @@
 					'JOB_SQRXXB_OLD.XH': "",
 				},
 				applications: [{
-						name: '国有建设用地使用权及房屋所有权转移登记'
+					name: '国有建设用地使用权及房屋所有权转移登记'
+				}],
+				townships: [{
+						name: '石岐区'
+					},
+					{
+						name: '东区'
+					},
+					{
+						name: '南区'
+					},
+					{
+						name: '西区'
+					},
+					{
+						name: '东升'
+					},
+					{
+						name: '板芙'
+					},
+					{
+						name: '三角'
+					},
+					{
+						name: '三乡'
+					},
+					{
+						name: '民众'
+					},
+					{
+						name: '横栏'
+					},
+					{
+						name: '阜沙'
+					},
+					{
+						name: '港口'
+					},
+					{
+						name: '沙溪'
+					},
+					{
+						name: '东凤'
+					},
+					{
+						name: '大涌'
+					},
+					{
+						name: '南朗'
+					},
+					{
+						name: '古镇'
+					},
+					{
+						name: '南头'
+					},
+					{
+						name: '五桂山'
+					},
+					{
+						name: '黄圃'
+					},
+					{
+						name: '火炬开发区'
+					},
+					{
+						name: '神湾'
+					},
+					{
+						name: '坦洲'
+					},
+					{
+						name: '小榄'
 					}
 				],
-				townships: [
-					{name: '石岐区'},
-					{ name: '东区' },
-					{ name: '南区' },
-					{ name: '西区' },
-					{ name: '东升' },
-					{ name: '板芙' },
-					{ name: '三角' },
-					{ name: '三乡' },
-					{ name: '民众' },
-					{ name: '横栏' },
-					{ name: '阜沙' },
-					{ name: '港口' },
-					{ name: '沙溪' },
-					{ name: '东凤' },
-					{ name: '大涌' },
-					{ name: '南朗' },
-					{ name: '古镇' },
-					{ name: '南头' },
-					{ name: '五桂山' },
-					{ name: '黄圃' },
-					{ name: '火炬开发区' },
-					{ name: '神湾' },
-					{ name: '坦洲' },
-					{ name: '小榄' }
-				],
-				propertySources:[{
-					name : '买卖'
-				},{
-					name : '赠与'
-				},{
-					name : '作价出资(入股)'
-				},{
-					name : '房改房'
+				propertySources: [{
+					name: '买卖'
+				}, {
+					name: '赠与'
+				}, {
+					name: '作价出资(入股)'
+				}, {
+					name: '房改房'
 				}],
-				countries:[{
+				countries: [{
 					name: '中华人民共和国'
-				}],// 国家/地区
+				}], // 国家/地区
 				provinces: [{
 					name: '广东'
 				}], // 省市
 				actions: [],
 				actionsheetShow: false,
 				applicants: [],
-				assignors:[],
+				assignors: [],
 				editApplicantState: false,
 				editAssignorState: false,
 				applicantIndex: -1,
 				assignorIndex: -1,
 				valuesParams: {},
-				countryType:'',
-				provincesType:''
+				countryType: '',
+				provincesType: '',
+				goBack: false
 			}
 		},
 		methods: {
-			LUStartDrop(e){
-	            this.calendar.show=true;
-	            this.calendar.left=e.target.offsetLeft+19;
-	            this.calendar.top=e.target.offsetTop+70;
-	           
-	            e.stopPropagation();
-	            window.setTimeout(()=>{
-	                document.addEventListener("click",(e)=>{
-	                    this.calendar.show=false;
-	                    document.removeEventListener("click",()=>{},false);
-	                },false);
-	            },1000)
-        	},
-        	LUEndDrop(e){
-	            this.calendar2.show=true;
-	            this.calendar2.left=e.target.offsetLeft+19;
-	            this.calendar2.top=e.target.offsetTop+70;
-	           
-	            e.stopPropagation();
-	            window.setTimeout(()=>{
-	                document.addEventListener("click",(e)=>{
-	                    this.calendar2.show=false;
-	                    document.removeEventListener("click",()=>{},false);
-	                },false);
-	            },1000)
-        	},
-        	tradingDateDrop(e){
-	            this.calendar3.show=true;
-	            this.calendar3.left=e.target.offsetLeft+19;
-	            this.calendar3.top=e.target.offsetTop+70;
-	           
-	            e.stopPropagation();
-	            window.setTimeout(()=>{
-	                document.addEventListener("click",(e)=>{
-	                    this.calendar3.show=false;
-	                    document.removeEventListener("click",()=>{},false);
-	                },false);
-	            },1000)
-        	},
+			LUStartDrop(e) {
+				this.calendar.show = true;
+				this.calendar.left = e.target.offsetLeft + 19;
+				this.calendar.top = e.target.offsetTop + 70;
+
+				e.stopPropagation();
+				window.setTimeout(() => {
+					document.addEventListener("click", (e) => {
+						this.calendar.show = false;
+						document.removeEventListener("click", () => {}, false);
+					}, false);
+				}, 1000)
+			},
+			LUEndDrop(e) {
+				this.calendar2.show = true;
+				this.calendar2.left = e.target.offsetLeft + 19;
+				this.calendar2.top = e.target.offsetTop + 70;
+
+				e.stopPropagation();
+				window.setTimeout(() => {
+					document.addEventListener("click", (e) => {
+						this.calendar2.show = false;
+						document.removeEventListener("click", () => {}, false);
+					}, false);
+				}, 1000)
+			},
+			tradingDateDrop(e) {
+				this.calendar3.show = true;
+				this.calendar3.left = e.target.offsetLeft + 19;
+				this.calendar3.top = e.target.offsetTop + 70;
+
+				e.stopPropagation();
+				window.setTimeout(() => {
+					document.addEventListener("click", (e) => {
+						this.calendar3.show = false;
+						document.removeEventListener("click", () => {}, false);
+					}, false);
+				}, 1000)
+			},
 			applicationClicked: function () {
 				console.log(this.cqxx);
 				this.show = true;
@@ -649,13 +707,13 @@
 				this.type = 1;
 				this.actions = this.townships;
 			},
-			countryClicked:function(type){
+			countryClicked: function (type) {
 				this.show = true;
 				this.type = 2;
 				this.actions = this.countries;
 				this.countryType = type;
 			},
-			provinceClicked: function(type){
+			provinceClicked: function (type) {
 				this.show = true;
 				this.type = 3;
 				this.actions = this.provinces;
@@ -677,17 +735,17 @@
 					if (this.countryType == 0) {
 						//受让人
 						this.applicant['JOB_SQRXXB.FGJDQ'] = val.name;
-					}else if (this.countryType == 1) {
+					} else if (this.countryType == 1) {
 						//转让人
 						this.assignor['JOB_SQRXXB_OLD.FGJDQ'] = val.name;
 					}
 				} else if (this.type == 3) {
 					if (this.provincesType == 0) {
 						//受让人
-						this.applicant['JOB_SQRXXB.FHJSZSS']= val.name;
-					}else if (this.provincesType == 1) {
+						this.applicant['JOB_SQRXXB.FHJSZSS'] = val.name;
+					} else if (this.provincesType == 1) {
 						//转让人
-						this.assignor['JOB_SQRXXB_OLD.FHJSZSS']= val.name;
+						this.assignor['JOB_SQRXXB_OLD.FHJSZSS'] = val.name;
 					}
 				} else if (this.type == 4) {
 					this.propertySource = val.name;
@@ -706,7 +764,7 @@
 						this.applicants.splice(this.applicantIndex, 1);
 						this.applicantIndex = -1;
 						this.editApplicantState = false;
-					}else if (type == 1) {
+					} else if (type == 1) {
 						//转让人
 						this.assignors.splice(this.assignorIndex, 1);
 						this.assignorIndex = -1;
@@ -729,10 +787,10 @@
 						this.applicant['JOB_SQRXXB.FZJHM'] = this.idCard;
 						this.applicant['JOB_SQRXXB.FSQRLX'] = '房地产权利人';
 						if (this.applicantIndex != -1) {
-							this.applicant['JOB_SQRXXB.XH'] = this.applicantIndex+1;
+							this.applicant['JOB_SQRXXB.XH'] = this.applicantIndex + 1;
 							this.applicants[this.applicantIndex] = this.applicant;
-						}else {
-							this.applicant['JOB_SQRXXB.XH'] = this.applicants.length+1;
+						} else {
+							this.applicant['JOB_SQRXXB.XH'] = this.applicants.length + 1;
 							this.applicants.push(this.applicant);
 						}
 
@@ -742,7 +800,7 @@
 						this.person = '';
 						this.idCard = '';
 					}
-				}else if (type == 1) {
+				} else if (type == 1) {
 					//转让人(义务人)
 					//将当前数据保存至assignors数组用作遍历展示
 					if (this.assignorPerson == '' || this.assignorIdCard == '') {
@@ -752,11 +810,11 @@
 						this.assignor['JOB_SQRXXB_OLD.FZJHM'] = this.assignorIdCard;
 						this.assignor['JOB_SQRXXB_OLD.FSQRLX'] = '权利转让人';
 						if (this.assignorIndex != -1) {
-							this.assignor['JOB_SQRXXB_OLD.XH'] = this.assignorIndex+1;
+							this.assignor['JOB_SQRXXB_OLD.XH'] = this.assignorIndex + 1;
 							this.assignors[this.assignorIndex] = this.assignor;
-						}else {
+						} else {
 							this.assignor['JOB_SQRXXB_OLD.XH'] = this.assignors
-								.length+1;
+								.length + 1;
 							this.assignors.push(this.assignor);
 						}
 						this.assignorIndex = -1;
@@ -774,14 +832,14 @@
 					this.applicant = item;
 					this.person = item['JOB_SQRXXB.FSQRMC'];
 					this.idCard = item['JOB_SQRXXB.FZJHM'];
-				}else if (type == 1) {
+				} else if (type == 1) {
 					//转让人
 					this.assignorIndex = index;
 					this.assignor = item;
 					this.assignorPerson = item['JOB_SQRXXB_OLD.FSQRMC'];
 					this.assignorIdCard = item['JOB_SQRXXB_OLD.FZJHM'];
 				}
-				console.log("applicantIndex="+this.applicantIndex);
+				console.log("applicantIndex=" + this.applicantIndex);
 			},
 			nextStep: function () {
 				this.saveTaskFormData();
@@ -832,6 +890,11 @@
 				}).then(response => {
 					console.log(response);
 					Toast.clear();
+					if (_this.goBack) {
+						_this.goBack = false;
+						next();
+						return;
+					}
 					this.$router.push({
 						path: '/onlineApplication/CLFZYDJ/attachment'
 					});
@@ -840,6 +903,38 @@
 					Toast('请求出错!');
 					console.log(error);
 				});
+			},
+			// 查询子表单
+			querySubFormData: function (title, showLoading = false) {
+				var business = JSON.parse(sessionStorage.getItem('business'));
+				var result = JSON.parse(business.result);
+				console.log(result);
+				var link = title.split('.')[0];
+				var domains = title.split('_LINK')[0]
+				var parentrid = result.data.values[link + '.RID'];
+				var templateid = result.data.controls[title].linkTplId;
+				var _this = this;
+				this
+					.$fetch('/formengineWebService/querySubFormData' + '?parentdomname=' + title + '&parentrid=' +
+						parentrid + '&doms=' + domains + '&templateid=' + templateid + '&random=19')
+					.then(response => {
+						console.log('response:', response);
+						debugger;
+						if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
+							_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.rows;
+							if (!response.rows) return;
+							_this.applicantIndex = 0;
+							_this.applicant = response.rows[0];
+						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
+							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
+							if (!response.rows) return;
+							_this.changeItemIndex = 0;
+							_this.changeItem = response.rows[0];
+						}
+					})
+					.catch(error => {
+						console.log('error:', error);
+					});
 			},
 			fillSubFormData: function (title, params, showLoading = false) {
 				var business = JSON.parse(sessionStorage.getItem('business'));
@@ -874,12 +969,12 @@
 			},
 			startExactBusiness: function (rid, businessNumber) {
 				sessionStorage.setItem('jid', businessNumber);
-				console.log('businessNumber',businessNumber);
+				console.log('businessNumber', businessNumber);
 				var checkType = this.$route.query.checkType;
 				var configureText = '';
 				if (checkType == 0) {
 					configureText = '存量房提取合同';
-				}else if (checkType == 1) {
+				} else if (checkType == 1) {
 					configureText = '存量房提取产权';
 				}
 				this.$fetch(START_EXACT_BUSINNESS, {
@@ -923,12 +1018,13 @@
 						this.estateInfo['JOB_FDCQXXB.FBDCQZH'] = response["JOB_FDCQXXB.FBDCQZH"];
 
 						this.assignors = response['JOB_SQRXXB_OLD_LINK.OLD_IQLR'];
-						for(var i = 0; i < this.assignors.length; i++){
+						for (var i = 0; i < this.assignors.length; i++) {
 							this.assignors[i]['JOB_SQRXXB_OLD.XH'] = i + 1;
 						}
 
 						this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response['JOB_GLQLXXB_LINK.OLD_IQLDJ']);
-						this.fillSubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR', response['JOB_SQRXXB_OLD_LINK.OLD_IQLR']);
+						this.fillSubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR', response[
+							'JOB_SQRXXB_OLD_LINK.OLD_IQLR']);
 
 					})
 					.catch(error => {
@@ -940,45 +1036,100 @@
 		mouthed() {
 
 		},
-		created() {
-			var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
-			console.log('cqxx:', this.$route.query.cqxx);
-			console.log('businessDefinitionId:', this.$route.query.businessDefinitionId);
+		beforeRouteLeave(to, from, next) {
 			var _this = this;
-			Toast.loading({
-				mask: true,
-				message: '加载中...'
-			});
-			this.$fetch(GET_BUSINESS_START_FROM, {
-					businessDefinitionId: _this.$route.query.businessDefinitionId // 业务ID
-				})
-				.then(function (response) {
-					var businessNumber = response.businessNumber;
-					_this.startExactBusiness(rid, businessNumber);
-					var result = JSON.parse(response.result);
-					var values = result.data.values;
-					var taskId = response.taskId;
-					sessionStorage.setItem('taskId', taskId);
-					sessionStorage.setItem('business', JSON.stringify(response));
-					_this.taskId = taskId;
-					_this.valuesParams = values;
-					console.log('taskId:', _this.taskId);
-				})
-				.catch(function (error) {
-					console.log(error);
+			if (to.path === '/onlineApplication/CLFZYDJ/bookIn') {
+				Dialog.confirm({
+					title: '提示',
+					message: '是否保存表单?'
+				}).then(() => {
+					_this.goBack = true;
+					_this.saveTaskFormData(next);
+				}).catch(() => {
+					next();
+				});
+			}
+		},
+		created() {
+
+			if (this.$route.query && this.$route.query.processInstanceId) {
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				// 查询首环节？
+				this.$fetch('/workflowWebService/getFirstLinkInfoByProcessInstanceId', {
+					processInstanceId: this.$route.query.processInstanceId
+				}).then(res => {
+					console.log('res:', res);
+
+					var _taskId = res.taskId;
+
+					_this.$fetch('/workflowWebService/renderFormByTaskId', {
+						taskId: _taskId
+					}).then(response => {
+						var businessNumber = response.businessNumber;
+						_this.startExactBusiness(rid, businessNumber);
+						var result = JSON.parse(response.result);
+						var values = result.data.values;
+						var taskId = response.taskId;
+						sessionStorage.setItem('taskId', taskId);
+						sessionStorage.setItem('business', JSON.stringify(response));
+						_this.taskId = taskId;
+						_this.valuesParams = values;
+						console.log('taskId:', _this.taskId);
+						Toast.clear();
+					}).catch(err => {
+						console.log('err:', err);
+						Toast.clear();
+					});
+				}).catch(err => {
+					console.log('err:', err);
 					Toast.clear();
 				});
+
+			} else {
+				var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
+				console.log('cqxx:', this.$route.query.cqxx);
+				console.log('businessDefinitionId:', this.$route.query.businessDefinitionId);
+				var _this = this;
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				this.$fetch(GET_BUSINESS_START_FROM, {
+						businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
+					})
+					.then(function (response) {
+						var businessNumber = response.businessNumber;
+						_this.startExactBusiness(rid, businessNumber);
+						var result = JSON.parse(response.result);
+						var values = result.data.values;
+						var taskId = response.taskId;
+						sessionStorage.setItem('taskId', taskId);
+						sessionStorage.setItem('business', JSON.stringify(response));
+						_this.taskId = taskId;
+						_this.valuesParams = values;
+						console.log('taskId:', _this.taskId);
+					})
+					.catch(function (error) {
+						console.log(error);
+						Toast.clear();
+					});
+			}
+
+
 			var nowDate = new Date();
 			var year = nowDate.getFullYear();
-            var month = nowDate.getMonth() + 1;
-            var date = nowDate.getDate();
-            this.currentDate[0] = year;
-            this.currentDate[1] = month;
-            this.currentDate[2] = date;
-            
-            this.calendar.value = this.currentDate;
-            this.calendar2.value = this.currentDate;
-            this.calendar3.value = this.currentDate;
+			var month = nowDate.getMonth() + 1;
+			var date = nowDate.getDate();
+			this.currentDate[0] = year;
+			this.currentDate[1] = month;
+			this.currentDate[2] = date;
+
+			this.calendar.value = this.currentDate;
+			this.calendar2.value = this.currentDate;
+			this.calendar3.value = this.currentDate;
 		}
 	}
 
@@ -1087,30 +1238,32 @@
 		background: linear-gradient(to right, #2db6ff, #2edbfd) !important;
 	}
 
-	.field-background{
+	.field-background {
 		background-color: #E5E5E5;
 		color: #333333;
 	}
 
-	.unFillText{
-		display:flex;
-		align-items:center;
+	.unFillText {
+		display: flex;
+		align-items: center;
 	}
 
-	.unit{
-		flex:20%;
-		margin-left:10px;
+	.unit {
+		flex: 20%;
+		margin-left: 10px;
 	}
+
 	/*下拉框*/
-	.calendar-dropdown{
-	    background: #fff;
-	    left:0;
-	    top:0;
-	    margin-top: 10px;
-	    padding-top:20px;
-	    padding-left: 20px;
-	    padding-right: 20px;
-	    border: 1px solid #eee;
-	    border-radius: 2px;
+	.calendar-dropdown {
+		background: #fff;
+		left: 0;
+		top: 0;
+		margin-top: 10px;
+		padding-top: 20px;
+		padding-left: 20px;
+		padding-right: 20px;
+		border: 1px solid #eee;
+		border-radius: 2px;
 	}
+
 </style>

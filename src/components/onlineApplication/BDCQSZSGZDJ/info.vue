@@ -422,7 +422,8 @@
 				changeItemIndex: -1,
 				optionsTitle: '',
 				qtyy: '',
-				bz: ''
+				bz: '',
+				goBack: false
 			}
 		},
 		methods: {
@@ -532,7 +533,11 @@
 				}).then(response => {
 					console.log(response);
 					Toast.clear();
-					debugger;
+					if (_this.goBack) {
+						_this.goBack = false;
+						next();
+						return;
+					}
 					this.$router.push({
 						path: '/onlineApplication/BDCQSZSGZDJ/attachment'
 					});
@@ -541,6 +546,38 @@
 					Toast('请求出错!');
 					console.log(error);
 				});
+			},
+			// 查询子表单
+			querySubFormData: function (title, showLoading = false) {
+				var business = JSON.parse(sessionStorage.getItem('business'));
+				var result = JSON.parse(business.result);
+				console.log(result);
+				var link = title.split('.')[0];
+				var domains = title.split('_LINK')[0]
+				var parentrid = result.data.values[link + '.RID'];
+				var templateid = result.data.controls[title].linkTplId;
+				var _this = this;
+				this
+					.$fetch('/formengineWebService/querySubFormData' + '?parentdomname=' + title + '&parentrid=' +
+						parentrid + '&doms=' + domains + '&templateid=' + templateid + '&random=19')
+					.then(response => {
+						console.log('response:', response);
+						debugger;
+						if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
+							_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.rows;
+							if (!response.rows) return;
+							_this.applicantIndex = 0;
+							_this.applicant = response.rows[0];
+						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
+							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
+							if (!response.rows) return;
+							_this.changeItemIndex = 0;
+							_this.changeItem = response.rows[0];
+						}
+					})
+					.catch(error => {
+						console.log('error:', error);
+					});
 			},
 			fillSubFormData: function (title, params, showLoading = false) {
 				var business = JSON.parse(sessionStorage.getItem('business'));
@@ -590,9 +627,8 @@
 				//判断产权是否土地，是土地的提取土地的产权
 				var configureName = '土地和房屋证书更正登记';
 				if (rid.indexOf('TD') >= 0) {
-						configureName = "土地证书更正登记";
-					}
-				else if (rid.indexOf('FW') >= 0) {
+					configureName = "土地证书更正登记";
+				} else if (rid.indexOf('FW') >= 0) {
 					configureName = "土地和房屋证书更正登记";
 				}
 				this.$fetch(START_EXACT_BUSINNESS, {
@@ -658,37 +694,90 @@
 					});
 			}
 		},
-		mouthed() {
-
+		mouthed() {},
+		beforeRouteLeave(to, from, next) {
+			var _this = this;
+			if (to.path === '/onlineApplication/BDCQSZSGZDJ/bookIn') {
+				Dialog.confirm({
+					title: '提示',
+					message: '是否保存表单?'
+				}).then(() => {
+					_this.goBack = true;
+					_this.saveTaskFormData(next);
+				}).catch(() => {
+					next();
+				});
+			}
 		},
 		created() {
-			var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
-			console.log('cqxx:', this.$route.query.cqxx);
-			var _this = this;
-			Toast.loading({
-				mask: true,
-				message: '加载中...'
-			});
-			this
-				.$fetch(GET_BUSINESS_START_FROM, {
-					businessDefinitionId: _this.$route.query.businessDefinitionId // 业务ID
-				})
-				.then(function (response) {
-					var businessNumber = response.businessNumber;
-					var result = JSON.parse(response.result);
-					var values = result.data.values;
-					var taskId = response.taskId;
-					sessionStorage.setItem('taskId', taskId);
-					sessionStorage.setItem('business', JSON.stringify(response));
-					_this.taskId = taskId;
-					console.log('taskId:', _this.taskId);
-					_this.$data['JOB_BDCQK'] = values;
-					_this.startExactBusiness(rid, businessNumber);
-				})
-				.catch(function (error) {
-					console.log(error);
+
+			if (this.$route.query && this.$route.query.processInstanceId) {
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				// 查询首环节？
+				this.$fetch('/workflowWebService/getFirstLinkInfoByProcessInstanceId', {
+					processInstanceId: this.$route.query.processInstanceId
+				}).then(res => {
+					console.log('res:', res);
+
+					var _taskId = res.taskId;
+
+					_this.$fetch('/workflowWebService/renderFormByTaskId', {
+						taskId: _taskId
+					}).then(response => {
+						var businessNumber = response.businessNumber;
+						var result = JSON.parse(response.result);
+						var values = result.data.values;
+						var taskId = response.taskId;
+						sessionStorage.setItem('taskId', taskId);
+						sessionStorage.setItem('business', JSON.stringify(response));
+						_this.taskId = taskId;
+						console.log('taskId:', _this.taskId);
+						_this.$data['JOB_BDCQK'] = values;
+						_this.startExactBusiness(rid, businessNumber);
+						Toast.clear();
+					}).catch(err => {
+						console.log('err:', err);
+						Toast.clear();
+					});
+				}).catch(err => {
+					console.log('err:', err);
 					Toast.clear();
 				});
+
+			} else {
+				var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
+				console.log('cqxx:', this.$route.query.cqxx);
+				var _this = this;
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				this
+					.$fetch(GET_BUSINESS_START_FROM, {
+						businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
+					})
+					.then(function (response) {
+						var businessNumber = response.businessNumber;
+						var result = JSON.parse(response.result);
+						var values = result.data.values;
+						var taskId = response.taskId;
+						sessionStorage.setItem('taskId', taskId);
+						sessionStorage.setItem('business', JSON.stringify(response));
+						_this.taskId = taskId;
+						console.log('taskId:', _this.taskId);
+						_this.$data['JOB_BDCQK'] = values;
+						_this.startExactBusiness(rid, businessNumber);
+					})
+					.catch(function (error) {
+						console.log(error);
+						Toast.clear();
+					});
+			}
+
+
 		}
 	}
 
