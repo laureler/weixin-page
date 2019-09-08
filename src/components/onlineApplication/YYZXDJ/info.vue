@@ -359,6 +359,7 @@
 					mask: true,
 					message: '加载中...'
 				});
+				var _this = this;
 				this.axios({
 					url: SAVE_TASK_FORM_DATA + '?taskId=' + this.taskId + '&createType=2',
 					method: 'post',
@@ -491,6 +492,8 @@
 				}).catch(() => {
 					next();
 				});
+			} else {
+				next();
 			}
 		},
 		created() {
@@ -501,6 +504,7 @@
 					message: '加载中...'
 				});
 				// 查询首环节？
+var _this = this;
 				this.$fetch('/workflowWebService/getFirstLinkInfoByProcessInstanceId', {
 					processInstanceId: this.$route.query.processInstanceId
 				}).then(res => {
@@ -512,6 +516,7 @@
 						taskId: _taskId
 					}).then(response => {
 						var businessNumber = response.businessNumber;
+						sessionStorage.setItem('jid', businessNumber);
 						_this.startExactBusiness(rid, businessNumber);
 						var result = JSON.parse(response.result);
 						var values = result.data.values;
@@ -543,6 +548,7 @@
 					})
 					.then(function (response) {
 						var businessNumber = response.businessNumber;
+						sessionStorage.setItem('jid', businessNumber);
 						_this.startExactBusiness(rid, businessNumber);
 						var result = JSON.parse(response.result);
 						var values = result.data.values;

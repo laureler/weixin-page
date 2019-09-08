@@ -268,7 +268,7 @@
 			</van-tabs>
 			<div style="height: 50px;"></div>
 			<div class="bottom-box">
-				<van-button size="large" plain type="default">查看申请书</van-button>
+				<van-button size="large" plain type="default" @click="checkBox()">查看申请书</van-button>
 				<van-button size="large" type="info" @click.native="nextStep()">下一步</van-button>
 			</div>
 			<van-actionsheet v-model="show" :actions="actions" cancel-text="取消" @select="onSelect">
@@ -449,6 +449,9 @@
 			}
 		},
 		methods: {
+			checkBox: function() {
+				window.open('/SouthGISBI/vision/openresource.jsp?resid=I2c9591a8016a69c669c6c39d016a8704d9b97d32&user=admin&password=12345&paramsInfo=%5B%7Bname%3A%22jid%22%2Cvalue%3A%22201908281931%22%7D%5D')
+			},
 			onSelect: function (val) {
 				console.log(val)
 				this.show = false;
@@ -615,7 +618,7 @@
 				this.valuesParams['JOB_SJDJB.FDJLX'] = this.application;
 				this.valuesParams['JOB_SJDJB.FZQDM'] = this.township;
 				this.valuesParams['JOB_JSYDCQXXB.FDJYY'] = this.registerReason;
-
+				var _this = this;
 				sessionStorage.setItem('formdata', JSON.stringify(this.valuesParams));
 				this.axios({
 					url: SAVE_TASK_FORM_DATA + '?taskId=' + this.taskId + '&createType=2',
@@ -752,6 +755,8 @@
 				}).catch(() => {
 					next();
 				});
+			} else {
+				next();
 			}
 		},
 		created() {
@@ -762,6 +767,7 @@
 					message: '加载中...'
 				});
 				// 查询首环节？
+var _this = this;
 				this.$fetch('/workflowWebService/getFirstLinkInfoByProcessInstanceId', {
 					processInstanceId: this.$route.query.processInstanceId
 				}).then(res => {
@@ -773,6 +779,7 @@
 						taskId: _taskId
 					}).then(response => {
 						var businessNumber = response.businessNumber;
+						sessionStorage.setItem('jid', businessNumber);
 						_this.startExactBusiness(rid, businessNumber);
 						var result = JSON.parse(response.result);
 						var values = result.data.values;
@@ -801,6 +808,7 @@
 						businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
 					}).then(function (response) {
 						var businessNumber = response.businessNumber;
+						sessionStorage.setItem('jid', businessNumber);
 						_this.startExactBusiness(rid, businessNumber);
 						var result = JSON.parse(response.result);
 						var values = result.data.values;

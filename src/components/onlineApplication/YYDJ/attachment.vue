@@ -153,8 +153,12 @@
 	import Head from '../../app/head.vue';
 	import {
 		UPLOAD_FILES,
-		FILL_SUB_FORM_DATA
-	} from '../../../constants/index.js'
+		FILL_SUB_FORM_DATA,
+		SUBMIT_TASK_FORM_DATA
+	} from '../../../constants/index.js';
+	import {
+		Toast
+	} from 'vant';
 	export default {
 		components: {
 			'page-head': Head
@@ -466,9 +470,10 @@
 				if (this.loading1 === false && this.loading2 === false && this.loading3 === false && this.loading4 ===
 					false && this.loading5 === false) {
 					console.log('结束保存子表单');
-					this.$router.push({
+					this.submitTaskFormData();
+					/* this.$router.push({
 						path: '/onlineApplication/YYDJ/ems'
-					});
+					}); */
 				}
 			},
 			nextStep: function () {
@@ -550,6 +555,40 @@
 					'JOB_FILES.XYTG': "否",
 					'JOB_FILES.ZLMC': "对登记的不动产权利有利害关系的材料"
 				}]);
+			},
+			submitTaskFormData: function () {
+				Toast.loading({
+					mask: true,
+					message: '提交中...'
+				});
+				var taskId = sessionStorage.getItem('taskId');
+				var formData = JSON.parse(sessionStorage.getItem('formdata'));
+				this.axios({
+					url: SUBMIT_TASK_FORM_DATA + '?taskId=' + taskId,
+					method: 'post',
+					data: formData,
+					transformRequest: [function (data) {
+						let ret = ''
+						for (let it in data) {
+							ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+						}
+						return ret
+					}],
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					}
+				}).then(response => {
+					console.log(response);
+					Toast.clear();
+					if (response.status == 200) {
+						this.$router.push({
+							path: '/onlineApplication/YYDJ/success'
+						});
+					}
+				}).catch(error => {
+					console.log(error);
+					Toast.clear();
+				});
 			}
 		},
 		mounted() {

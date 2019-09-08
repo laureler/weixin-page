@@ -775,7 +775,7 @@
 				this.valuesParams['JOB_SJDJB.FZQDM'] = this.township;
 				this.valuesParams['JOB_FDCQXXB.FCQLY'] = this.propertySource;
 				this.valuesParams['JOB_FDCQXXB.FDJYY'] = this.registerReason;
-
+				var _this = this;
 				sessionStorage.setItem('formdata', JSON.stringify(this.valuesParams));
 				this.axios({
 					url: SAVE_TASK_FORM_DATA + '?taskId=' + this.taskId + '&createType=2',
@@ -916,6 +916,8 @@
 				}).catch(() => {
 					next();
 				});
+			} else {
+				next();
 			}
 		},
 		created() {
@@ -926,6 +928,7 @@
 					message: '加载中...'
 				});
 				// 查询首环节？
+var _this = this;
 				this.$fetch('/workflowWebService/getFirstLinkInfoByProcessInstanceId', {
 					processInstanceId: this.$route.query.processInstanceId
 				}).then(res => {
@@ -937,6 +940,7 @@
 						taskId: _taskId
 					}).then(response => {
 						var businessNumber = response.businessNumber;
+						sessionStorage.setItem('jid', businessNumber);
 						_this.startExactBusiness(rid, businessNumber);
 						var result = JSON.parse(response.result);
 						var values = result.data.values;
@@ -970,6 +974,7 @@
 						businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
 					}).then(function (response) {
 						var businessNumber = response.businessNumber;
+						sessionStorage.setItem('jid', businessNumber);
 						_this.startExactBusiness(rid, businessNumber);
 						var result = JSON.parse(response.result);
 						var values = result.data.values;

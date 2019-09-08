@@ -25,47 +25,42 @@
 							<span class="required-span">*</span>权利人名称
 						</div>
 						<van-field id="JOB_BDCQK.FQLRMC" v-model="JOB_BDCQK['JOB_BDCQK.FQLRMC']" placeholder="权利人名称"
-							clickable />
+							clickable disabled class="disabled-field" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>不动产单元号
 						</div>
 						<van-field id="JOB_BDCQK.FBDCDYH" v-model="JOB_BDCQK['JOB_BDCQK.FBDCDYH']" placeholder="不动产单元号"
-							clickable />
+							clickable disabled class="disabled-field" />
 					</van-cell-group>
-					<!-- 					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>不动产类型
-						</div>
-						<van-field id="JOB_BDCQK.FBDCLX" v-model="JOB_BDCQK['JOB_BDCQK.FBDCLX']" right-icon="arrow" placeholder="不动产类型" disabled clickable
-							@click.native="actionsheetClicked('estateOptions')" />
-					</van-cell-group> -->
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>坐落
 						</div>
 						<van-field id="JOB_BDCQK.FFDZL" v-model="JOB_BDCQK['JOB_BDCQK.FFDZL']" placeholder="坐落"
-							clickable />
+							clickable disabled class="disabled-field" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							面积
 						</div>
-						<van-field id="JOB_BDCQK.FMJ" v-model="JOB_BDCQK['JOB_BDCQK.FMJ']" placeholder="面积" clickable />
+						<van-field id="JOB_BDCQK.FMJ" v-model="JOB_BDCQK['JOB_BDCQK.FMJ']" placeholder="面积" clickable
+							disabled class="disabled-field" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							用途
 						</div>
-						<van-field id="JOB_BDCQK.FYT" v-model="JOB_BDCQK['JOB_BDCQK.FYT']" placeholder="用途" clickable />
+						<van-field id="JOB_BDCQK.FYT" v-model="JOB_BDCQK['JOB_BDCQK.FYT']" placeholder="用途" clickable
+							disabled class="disabled-field" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>原不动产权证号
 						</div>
 						<van-field id="JOB_BDCQK.FYBDCQSZH" v-model="JOB_BDCQK['JOB_BDCQK.FYBDCQSZH']"
-							placeholder="原不动产权证号" clickable />
+							placeholder="原不动产权证号" clickable disabled class="disabled-field" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -178,6 +173,66 @@
 						</div>
 					</div>
 				</van-tab>
+				<van-tab title="EMS寄件信息">
+					<van-cell-group>
+						<div class="cell-title">
+							<span class="required-span">*</span>快递寄材料
+						</div>
+						<van-field id="JOB_SJDJB.FSFKDJCL" v-model="JOB_BDCQK['JOB_SJDJB.FSFKDJCL']" right-icon="arrow"
+							placeholder="请选择快递寄材料" disabled clickable
+							@click.native="actionsheetClicked('materialOptions')" />
+					</van-cell-group>
+					<van-cell-group>
+						<div class="cell-title">
+							<span class="required-span">*</span>快递寄证
+						</div>
+						<van-field id="JOB_SJDJB.FSFKDJZ" v-model="JOB_BDCQK['JOB_SJDJB.FSFKDJZ']" right-icon="arrow"
+							placeholder="请选择快递寄证" disabled clickable
+							@click.native="actionsheetClicked('credentialOptions')" />
+					</van-cell-group>
+					<van-cell-group>
+						<div class="cell-title">
+							<span class="required-span" v-show="emsNecessary">*</span>联系人
+						</div>
+						<van-field id="JOB_SJDJB.FDXLXR" v-model="JOB_BDCQK['JOB_SJDJB.FDXLXR']" clearable
+							placeholder="联系人" />
+					</van-cell-group>
+					<van-cell-group>
+						<div class="cell-title">
+							<span class="required-span" v-show="emsNecessary">*</span>联系电话
+						</div>
+						<van-field id="JOB_SJDJB.FDXTZDH" v-model="JOB_BDCQK['JOB_SJDJB.FDXTZDH']" clearable
+							placeholder="联系电话" />
+					</van-cell-group>
+					<van-cell-group>
+						<div class="cell-title">
+							身份证号码
+						</div>
+						<van-field id="JOB_SJDJB.FLXRSFZHM" v-model="JOB_BDCQK['JOB_SJDJB.FLXRSFZHM']" clearable
+							placeholder="身份证号码" />
+					</van-cell-group>
+					<van-cell-group>
+						<div class="cell-title">
+							所在镇区
+						</div>
+						<van-field id="JOB_SJDJB.FZQ" v-model="JOB_BDCQK['JOB_SJDJB.FZQ']" right-icon="arrow"
+							placeholder="请选择所在镇区" disabled clickable
+							@click.native="actionsheetClicked('township2Options')" />
+					</van-cell-group>
+					<van-cell-group>
+						<div class="cell-title">
+							单位
+						</div>
+						<van-field id="JOB_SJDJB.FDW" v-model="JOB_BDCQK['JOB_SJDJB.FDW']" clearable placeholder="单位" />
+					</van-cell-group>
+					<van-cell-group>
+						<div class="cell-title">
+							<span class="required-span" v-show="emsNecessary">*</span>联系地址
+						</div>
+						<van-field id="JOB_SJDJB.FDZ" v-model="JOB_BDCQK['JOB_SJDJB.FDZ']" clearable
+							placeholder="联系地址" />
+					</van-cell-group>
+				</van-tab>
 			</van-tabs>
 			<div style="height: 50px;"></div>
 			<div class="bottom-box">
@@ -287,6 +342,55 @@
 				}, {
 					name: '小榄'
 				}],
+				township2Options: [{
+					name: '石岐区'
+				}, {
+					name: '东区'
+				}, {
+					name: '南区'
+				}, {
+					name: '西区'
+				}, {
+					name: '东升'
+				}, {
+					name: '板芙'
+				}, {
+					name: '三角'
+				}, {
+					name: '三乡'
+				}, {
+					name: '民众'
+				}, {
+					name: '横栏'
+				}, {
+					name: '阜沙'
+				}, {
+					name: '港口'
+				}, {
+					name: '沙溪'
+				}, {
+					name: '东凤'
+				}, {
+					name: '大涌'
+				}, {
+					name: '南朗'
+				}, {
+					name: '古镇'
+				}, {
+					name: '南头'
+				}, {
+					name: '五桂山'
+				}, {
+					name: '黄圃'
+				}, {
+					name: '火炬开发区'
+				}, {
+					name: '神湾'
+				}, {
+					name: '坦洲'
+				}, {
+					name: '小榄'
+				}],
 				estateOptions: [{
 					name: '土地'
 				}, {
@@ -333,6 +437,20 @@
 				}, {
 					name: '其他'
 				}],
+				materialOptions: [{
+						name: '是'
+					},
+					{
+						name: '否'
+					}
+				],
+				credentialOptions: [{
+						name: '是'
+					},
+					{
+						name: '否'
+					}
+				],
 				actions: [],
 				actionsheetShow: false,
 				JOB_BDCQK: {}, // 主表
@@ -343,6 +461,7 @@
 				qtyy: '',
 				bz: '',
 				goBack: false,
+				emsNecessary: false
 			}
 		},
 		methods: {
@@ -374,6 +493,22 @@
 					this.applicant['JOB_SQRXXB.FZJZL'] = val.name;
 				} else if (this.optionsTitle === 'contentOptions') { // 更改事项
 					this.changeItem['JOB_XGXXB.FXGSX'] = val.name;
+				} else if (this.optionsTitle === 'materialOptions') { // 是否寄件
+					this.$data['JOB_BDCQK']['JOB_SJDJB.FSFKDJCL'] = val.name;
+					if (val.name === '是' || this.$data['JOB_BDCQK']['JOB_SJDJB.FSFKDJZ'] === '是') {
+						this.emsNecessary = true;
+					} else {
+						this.emsNecessary = false;
+					}
+				} else if (this.optionsTitle === 'credentialOptions') { // 是否寄证
+					this.$data['JOB_BDCQK']['JOB_SJDJB.FSFKDJZ'] = val.name;
+					if (val.name === '是' || this.$data['JOB_BDCQK']['JOB_SJDJB.FSFKDJCL'] === '是') {
+						this.emsNecessary = true;
+					} else {
+						this.emsNecessary = false;
+					}
+				} else if (this.optionsTitle === 'township2Options') { // 镇区
+					this.$data['JOB_BDCQK']['JOB_SJDJB.FZQ'] = val.name;
 				}
 				this.actionsheetShow = false;
 			},
@@ -392,10 +527,46 @@
 				});
 			},
 			saveApplicant: function () {
-				/* 				if (this.applicant['JOB_SQRXXB.SYS_MRID'].length == 0) {
-									this.$toast('请选择申请人!');
-								} else { */
-				debugger;
+				var applicant = this.applicant;
+				var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+				var reg2 = /(^[1]+[3-9]+\d{9}$)/;
+				if (!applicant['JOB_SQRXXB.FSQRMC'] || applicant['JOB_SQRXXB.FSQRMC'].length == 0) {
+					Toast('请填写权利人!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FXB'] || applicant['JOB_SQRXXB.FXB'].length == 0) {
+					Toast('请选择权利人性别!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FZJZL'] || applicant['JOB_SQRXXB.FZJZL'].length == 0) {
+					Toast('请选择权利人证件种类!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FZJHM'] || applicant['JOB_SQRXXB.FZJHM'].length == 0) {
+					Toast('请选择权利人证件号码!');
+					return;
+				} else if (!reg.test(applicant['JOB_SQRXXB.FZJHM'])) {
+					Toast('请填写权利人正确的证件号码!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FDWXZ'] || applicant['JOB_SQRXXB.FDWXZ'].length == 0) {
+					Toast('请选择权利人单位性质!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FGJDQ'] || applicant['JOB_SQRXXB.FGJDQ'].length == 0) {
+					Toast('请选择权利人国家/地区!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
+					Toast('请选择权利人户籍所属省份!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
+					Toast('请填写权利人联系电话!');
+					return;
+				} else if (!reg2.test(applicant['JOB_SQRXXB.FLXDH'])) {
+					Toast('请填写权利人正确的联系电话!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FGYQK'] || applicant['JOB_SQRXXB.FGYQK'].length == 0) {
+					Toast('请选择权利人共有情况!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FQLBL'] || applicant['JOB_SQRXXB.FQLBL'].length == 0) {
+					Toast('请填写权利人权利比例!');
+					return;
+				}
 				this.applicant['JOB_SQRXXB.XH'] = 1; // 序号
 				this.applicant['JOB_SQRXXB.FSQRLX'] = '其他'; // 申请人类型
 				this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant], true);
@@ -406,8 +577,101 @@
 				this.applicantIndex = index;
 			},
 			nextStep: function () {
+				var applicant = this.$data['JOB_SQRXXB_LINK.IQLR'][0] || {};
+				var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+				var reg2 = /(^[1]+[3-9]+\d{9}$)/;
+				if (!this.$data['JOB_BDCQK']['JOB_SJDJB.FDJLX'] || this.$data['JOB_BDCQK']['JOB_SJDJB.FDJLX'].length ==
+					0) {
+					Toast('请选择申请事项!');
+					return;
+				} else if (!this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] || this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM']
+					.length == 0) {
+					Toast('请选择镇区!');
+					return;
+				} else if (!this.$data['JOB_BDCQK']['JOB_BDCQK.FQLRMC'] || this.$data['JOB_BDCQK'][
+						'JOB_BDCQK.FQLRMC'
+					].length == 0) {
+					Toast('请填写权利人名称!');
+					return;
+				} else if (!this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCDYH'] || this.$data['JOB_BDCQK'][
+						'JOB_BDCQK.FBDCDYH'
+					].length == 0) {
+					Toast('请填写不动产单元号!');
+					return;
+				} else if (!this.$data['JOB_BDCQK']['JOB_BDCQK.FFDZL'] || this.$data['JOB_BDCQK'][
+						'JOB_BDCQK.FFDZL'
+					].length == 0) {
+					Toast('请填写坐落!');
+					return;
+				} else if (!this.$data['JOB_BDCQK']['JOB_BDCQK.FYBDCQSZH'] || this.$data['JOB_BDCQK'][
+						'JOB_BDCQK.FYBDCQSZH'
+					].length == 0) {
+					Toast('请填写原不动产权证号!');
+					return;
+				} else if (!this.$data['JOB_BDCQK']['JOB_BDCQK.FDJYY'] || this.$data['JOB_BDCQK'][
+						'JOB_BDCQK.FDJYY'
+					].length == 0) {
+					Toast('请填写异议原因!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FSQRMC'] || applicant['JOB_SQRXXB.FSQRMC'].length == 0) {
+					Toast('请填写申请人!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FXB'] || applicant['JOB_SQRXXB.FXB'].length == 0) {
+					Toast('请选择申请人性别!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FZJZL'] || applicant['JOB_SQRXXB.FZJZL'].length == 0) {
+					Toast('请选择申请人证件种类!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FZJHM'] || applicant['JOB_SQRXXB.FZJHM'].length == 0) {
+					Toast('请选择申请人证件号码!');
+					return;
+				} else if (!reg.test(applicant['JOB_SQRXXB.FZJHM'])) {
+					Toast('请填写申请人正确的证件号码!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FDWXZ'] || applicant['JOB_SQRXXB.FDWXZ'].length == 0) {
+					Toast('请选择申请人单位性质!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FGJDQ'] || applicant['JOB_SQRXXB.FGJDQ'].length == 0) {
+					Toast('请选择申请人国家/地区!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
+					Toast('请选择申请人户籍所属省份!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
+					Toast('请填写申请人联系电话!');
+					return;
+				} else if (!reg2.test(applicant['JOB_SQRXXB.FLXDH'])) {
+					Toast('请填写申请人正确的联系电话!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FGYQK'] || applicant['JOB_SQRXXB.FGYQK'].length == 0) {
+					Toast('请选择申请人共有情况!');
+					return;
+				} else if (!applicant['JOB_SQRXXB.FQLBL'] || applicant['JOB_SQRXXB.FQLBL'].length == 0) {
+					Toast('请填写申请人权利比例!');
+					return;
+				}
+
+				if (this.$data['JOB_BDCQK']['JOB_SJDJB.FSFKDJCL'] === '是' || this.$data['JOB_BDCQK'][
+						'JOB_SJDJB.FSFKDJZ'
+					] === '是') {
+					if (!this.$data['JOB_BDCQK']['JOB_SJDJB.FDXLXR'] || this.$data['JOB_BDCQK']['JOB_SJDJB.FDXLXR']
+						.length == 0) {
+						Toast('请填写EMS寄件信息联系人!');
+						return;
+					} else if (!reg2.test(this.$data['JOB_BDCQK']['JOB_SJDJB.FDXTZDH'])) {
+						Toast('请填写EMS寄件信息正确的联系电话!');
+						return;
+					} else if (this.$data['JOB_BDCQK']['JOB_SJDJB.FLXRSFZHM'].length > 0 && !reg.test(this.$data[
+							'JOB_BDCQK']['JOB_SJDJB.FLXRSFZHM'])) {
+						Toast('请填写EMS寄件信息正确的证件号码!');
+						return;
+					} else if (!this.$data['JOB_BDCQK']['JOB_SJDJB.FDZ'] || this.$data['JOB_BDCQK']['JOB_SJDJB.FDZ']
+						.length == 0) {
+						Toast('请填写EMS寄件信息联系地址!');
+						return;
+					}
+				}
 				this.saveTaskFormData();
-				return;
 			},
 			saveTaskFormData: function () {
 				/* 				this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'] = this.qtyy;
@@ -597,7 +861,7 @@
 		},
 		beforeRouteLeave(to, from, next) {
 			var _this = this;
-			if (to.path === '/onlineApplication/JSYDSYQBGDJ/bookIn') {
+			if (to.path === '/onlineApplication/YYDJ/bookIn') {
 				Dialog.confirm({
 					title: '提示',
 					message: '是否保存表单?'
@@ -607,6 +871,8 @@
 				}).catch(() => {
 					next();
 				});
+			} else {
+				next();
 			}
 		},
 		created() {
@@ -616,6 +882,7 @@
 					message: '加载中...'
 				});
 				// 查询首环节？
+				var _this = this;
 				this.$fetch('/workflowWebService/getFirstLinkInfoByProcessInstanceId', {
 					processInstanceId: this.$route.query.processInstanceId
 				}).then(res => {
@@ -634,6 +901,7 @@
 						sessionStorage.setItem('business', JSON.stringify(response));
 						_this.taskId = taskId;
 						_this.$data['JOB_BDCQK'] = values;
+						sessionStorage.setItem('jid', businessNumber);
 						_this.startExactBusiness(rid, businessNumber);
 						console.log('taskId:', _this.taskId);
 					}).catch(err => {
@@ -666,6 +934,7 @@
 						sessionStorage.setItem('business', JSON.stringify(response));
 						_this.taskId = taskId;
 						_this.$data['JOB_BDCQK'] = values;
+						sessionStorage.setItem('jid', businessNumber);
 						_this.startExactBusiness(rid, businessNumber);
 						console.log('taskId:', _this.taskId);
 					})
@@ -781,6 +1050,11 @@
 		border-radius: 0;
 		background: -webkit-gradient(linear, left top, right top, from(#2db6ff), to(#2edbfd)) !important;
 		background: linear-gradient(to right, #2db6ff, #2edbfd) !important;
+	}
+
+	.disabled-field {
+		background-color: #E5E5E5;
+		color: #333333;
 	}
 
 </style>
