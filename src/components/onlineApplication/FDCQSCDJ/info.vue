@@ -675,9 +675,6 @@
 						Toast('请填写EMS寄件信息联系地址!');
 						return;
 					}
-				}else {
-					Toast('请填写EMS寄件信息!');
-					return;
 				}
 				this.saveTaskFormData();
 				return;
@@ -706,7 +703,7 @@
 					console.log(response);
 					Toast.clear();
 					this.$router.push({
-						path: '/onlineApplication/CLFZYDJ/attachment'
+						path: '/onlineApplication/FDCQSCDJ/attachment'
 					});
 				}).catch(error => {
 					Toast.clear();
