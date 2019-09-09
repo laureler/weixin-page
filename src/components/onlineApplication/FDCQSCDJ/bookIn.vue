@@ -1,33 +1,18 @@
 <template>
 	<div class="container">
-		<page-head title="存量房转移登记"></page-head>
-
-		<div class="box-body">
-			<van-tabs @click="onChange">
-				<van-tab title="根据合同号查询">
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>网签合同号
-						</div>
-						<van-field v-model="wqhth" clearable placeholder="请输入网签合同号码" />
-					</van-cell-group>
-				</van-tab>
-				<van-tab title="根据证号查询">
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>申请人名字
-						</div>
-						<van-field v-model="qlr" clearable placeholder="产权证上的权利人,多个权利人只需输入一个" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>权利证书号码
-						</div>
-						<van-field v-model="cqzh" clearable placeholder="请输入权利证书号码" />
-					</van-cell-group>
-				</van-tab>
-			</van-tabs>
-		</div>
+		<page-head title="房地产权首次登记"></page-head>
+			<van-cell-group>
+				<div class="cell-title">
+					<span class="required-span">*</span>申请人名字
+				</div>
+				<van-field v-model="qlr" clearable placeholder="产权证上的权利人,多个权利人只需输入一个" />
+			</van-cell-group>
+			<van-cell-group>
+				<div class="cell-title">
+					<span class="required-span">*</span>权利证书号码
+				</div>
+				<van-field v-model="cqzh" clearable placeholder="请输入权利证书号码" />
+			</van-cell-group>
 		
 		<div class="tips">
 			提示: 可通过公众号的“信息查询-个人产权查询”查询权利证书号码
@@ -69,9 +54,8 @@
 		data () {
 			return {
 				show: false,
-				wqhth: '',
-				qlr: '胡化金',
-				cqzh: '00070093',
+				qlr: '王书凤',
+				cqzh: '湘（2017）北湖不动产权第0034063号',
 				customStatus: '',
 				checkout: {
 					"cqxx": [{
@@ -129,46 +113,28 @@
 					"resultmsg": '',
 					"type": '',
 					"ygxx": ''
-				},
-				checkType: 0,
+				}
 			}
 		},
 		methods: {
-			onChange:function(name, title){
-				this.customStatus = '';
-				this.checkout.cqxx[0] = '';
-				this.checkType = name;
-			},
 			checkoutID: function () {
 				this.customStatus = '';
 				Toast.loading({
 					mask: true,
 					message: '加载中...'
 				});
-				var strJsonType = {};
-				if (this.checkType == 0) {
-					if (this.wqhth == '') {
-						Toast('未输入网签合同号!');
-						return;
-					}
-					strJsonType = {
-						wqhth: this.wqhth
-					}
-				}else if (this.checkType == 1) {
-					strJsonType = {
-						qlr: this.qlr,
-						cqzh: this.cqzh,
-						cqlx:'FW'
-					}
-				}
 				this.axios.get(CHECKOUT_REAL_ESTATE, {
 					params: {
-						strJson: strJsonType,
-						path: '/WSYY/GetPropertyRightInfo'
+						strJson: {
+							qlr: this.qlr,
+							cqzh: this.cqzh,
+							cqlx:'TD'
+						},
+					path: '/WSYY/GetPropertyRightInfo'
 					}
 				}).then(res => {
 					Toast.clear();
-					console.log(res)
+					console.log('checkoutID',res)
 					this.checkout = res.data;
 					sessionStorage.setItem('rid', this.checkout.cqxx[0].RID);
 					if (this.checkout.cqxx.length == 0) {
@@ -204,7 +170,6 @@
 				}).catch(err => {
 					Toast.clear();
 					console.log(err)
-					Toast.fail(err);
 				})
 			},
 			nextStep: function () {
@@ -213,11 +178,10 @@
 				} else {
 					var businessDefinitionId = this.$route.query.businessDefinitionId;
 					this.$router.push({
-						path: '/onlineApplication/CLFZYDJ/info',
+						path: '/onlineApplication/FDCQSCDJ/info',
 						query: {
 							cqxx: this.checkout.cqxx[0],
-							businessDefinitionId: businessDefinitionId,
-							checkType: this.checkType
+							businessDefinitionId: businessDefinitionId
 						}
 					})
 				}
