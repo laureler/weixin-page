@@ -203,7 +203,7 @@
 				if (this.loading1 === false && this.loading2 === false) {
 					console.log('结束保存子表单');
 					this.$router.push({
-						path: '/onlineApplication/CLFZYDJ/ems'
+						path: '/onlineApplication/CLFZYDJ/success'
 					});
 				}
 			},
