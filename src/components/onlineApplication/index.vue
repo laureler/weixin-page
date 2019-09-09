@@ -108,6 +108,16 @@
 						}]
 					},
 					{
+						groupTitle: "首次登记",
+						groupCells: [{
+							title: "房地产权（独幢、层、套、间房屋）首次登记",
+							path: "/onlineApplication/FDCQSCDJ/bookIn",
+							query: {
+								businessDefinitionId: '713e39bd-b268-4b16-a1a7-a3251d2f28ea'
+							}
+						}]
+					},
+					{
 						groupTitle: "其他登记",
 						groupCells: [{
 								title: "不动产权属证书遗失（换证）登记",

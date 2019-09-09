@@ -258,6 +258,31 @@ export default {
 			name: "JSYDSYQZYDJSuccess",
 			component: resolve => require(['@/components/onlineApplication/JSYDSYQZYDJ/success'], resolve),
 		},
+		// 房地产权（独幢、层、套、间房屋）首次登记
+		{
+			path: "/onlineApplication/FDCQSCDJ/bookIn",
+			name: "FDCQSCDJBookIn",
+			component: resolve => require(['@/components/onlineApplication/FDCQSCDJ/bookIn'], resolve),
+			meta: {
+				isNeedLogin: true
+			}
+		}, {
+			path: "/onlineApplication/FDCQSCDJ/info",
+			name: "FDCQSCDJInfo",
+			component: resolve => require(['@/components/onlineApplication/FDCQSCDJ/info'], resolve)
+		}, {
+			path: "/onlineApplication/FDCQSCDJ/attachment",
+			name: "FDCQSCDJattachment",
+			component: resolve => require(['@/components/onlineApplication/FDCQSCDJ/attachment'], resolve),
+		}, {
+			path: "/onlineApplication/FDCQSCDJ/ems",
+			name: "FDCQSCDJEMS",
+			component: resolve => require(['@/components/onlineApplication/FDCQSCDJ/ems'], resolve),
+		}, {
+			path: "/onlineApplication/FDCQSCDJ/success",
+			name: "FDCQSCDJSuccess",
+			component: resolve => require(['@/components/onlineApplication/FDCQSCDJ/success'], resolve),
+		},
 		// 其他
 		{
 			path: "/onlineApplication/test",
