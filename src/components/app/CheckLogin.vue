@@ -18,7 +18,7 @@
 			</van-field>
 		</van-cell-group>
 		<div style="margin-top: 20px">
-			<van-button size="large" class="blueButton" @click="checkInput()">登陆</van-button>
+			<van-button size="large" class="blueButton" @click="checkInput()">登录</van-button>
 		</div>
 	</div>
 </template>
