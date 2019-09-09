@@ -140,6 +140,7 @@
 			groupCellClicked: function (value) {
 				console.log(value);
 				if (value.path.length > 0) {
+					sessionStorage.setItem('businessDefinitionId', value.query.businessDefinitionId);
 					this.$router.push({
 						path: value.path,
 						query: value.query

@@ -125,8 +125,12 @@
 	import Head from '../../app/head.vue';
 	import {
 		UPLOAD_FILES,
-		FILL_SUB_FORM_DATA
+		FILL_SUB_FORM_DATA,
+		SUBMIT_TASK_FORM_DATA
 	} from '../../../constants/index.js'
+	import {
+		Toast
+	} from 'vant';
 	export default {
 		components: {
 			'page-head': Head
@@ -158,7 +162,7 @@
 		methods: {
 			onRead: function (file) {
 				console.log('file:', file);
-				this.imgs.push(file);
+
 				var form = new FormData();
 				form.append('mFile', file.file);
 				var _this = this;
@@ -171,15 +175,18 @@
 					}
 				}).then(response => {
 					console.log(response);
+					this.imgs.push(file);
 					_this.files.push(file.file.name + '|' + response.data[0]);
 					console.log(_this.files);
 				}).catch(error => {
 					console.log(error);
+					Toast('上传失败!');
+
 				});
 			},
 			onRead2: function (file) {
 				console.log('file:', file);
-				this.imgs2.push(file);
+
 				var form = new FormData();
 				form.append('mFile', file.file);
 				var _this = this;
@@ -192,15 +199,17 @@
 					}
 				}).then(response => {
 					console.log(response);
+					this.imgs2.push(file);
 					_this.files2.push(file.file.name + '|' + response.data[0]);
 					console.log(_this.files2);
 				}).catch(error => {
 					console.log(error);
+					Toast('上传失败!');
 				});
 			},
 			onRead3: function (file) {
 				console.log('file:', file);
-				this.imgs3.push(file);
+
 				var form = new FormData();
 				form.append('mFile', file.file);
 				var _this = this;
@@ -213,15 +222,17 @@
 					}
 				}).then(response => {
 					console.log(response);
+					this.imgs3.push(file);
 					_this.files3.push(file.file.name + '|' + response.data[0]);
 					console.log(_this.files3);
 				}).catch(error => {
 					console.log(error);
+					Toast('上传失败!');
 				});
 			},
 			onRead4: function (file) {
 				console.log('file:', file);
-				this.imgs4.push(file);
+
 				var form = new FormData();
 				form.append('mFile', file.file);
 				var _this = this;
@@ -234,15 +245,17 @@
 					}
 				}).then(response => {
 					console.log(response);
+					this.imgs4.push(file);
 					_this.files4.push(file.file.name + '|' + response.data[0]);
 					console.log(_this.files4);
 				}).catch(error => {
 					console.log(error);
+					Toast('上传失败!');
 				});
 			},
 			onRead5: function (file) {
 				console.log('file:', file);
-				this.imgs5.push(file);
+
 				var form = new FormData();
 				form.append('mFile', file.file);
 				var _this = this;
@@ -255,10 +268,12 @@
 					}
 				}).then(response => {
 					console.log(response);
+					this.imgs5.push(file);
 					_this.files5.push(file.file.name + '|' + response.data[0]);
 					console.log(_this.files5);
 				}).catch(error => {
 					console.log(error);
+					Toast('上传失败!');
 				});
 			},
 			delImg: function (item, index) {
@@ -438,10 +453,43 @@
 				if (this.loading1 === false && this.loading2 === false && this.loading3 === false && this.loading4 ===
 					false && this.loading5 === false) {
 					console.log('结束保存子表单');
-					this.$router.push({
+					this.submitTaskFormData();
+					/* this.$router.push({
 						path: '/onlineApplication/FDCQBGDJ/ems'
-					});
+					}); */
 				}
+			},
+			// 查询子表单
+			querySubFormData: function (title, showLoading = false) {
+				var business = JSON.parse(sessionStorage.getItem('business'));
+				var result = JSON.parse(business.result);
+				console.log(result);
+				var link = title.split('.')[0];
+				var domains = title.split('_LINK')[0]
+				var parentrid = result.data.values[link + '.RID'];
+				var templateid = result.data.controls[title].linkTplId;
+				var _this = this;
+				this
+					.$fetch('/formengineWebService/querySubFormData' + '?parentdomname=' + title + '&parentrid=' +
+						parentrid + '&doms=' + domains + '&templateid=' + templateid + '&random=19')
+					.then(response => {
+						console.log('response:', response);
+						debugger;
+						if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
+							_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.rows;
+							if (!response.rows) return;
+							_this.applicantIndex = 0;
+							_this.applicant = response.rows[0];
+						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
+							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
+							if (!response.rows) return;
+							_this.changeItemIndex = 0;
+							_this.changeItem = response.rows[0];
+						}
+					})
+					.catch(error => {
+						console.log('error:', error);
+					});
 			},
 			nextStep: function () {
 				console.log("files:", this.files);
@@ -508,6 +556,40 @@
 					'JOB_FILES.XYTG': "否",
 					'JOB_FILES.ZLMC': "国有建设用地使用权及房屋所有权变更证明材料"
 				}]);
+			},
+			submitTaskFormData: function () {
+				Toast.loading({
+					mask: true,
+					message: '提交中...'
+				});
+				var taskId = sessionStorage.getItem('taskId');
+				var formData = JSON.parse(sessionStorage.getItem('formdata'));
+				this.axios({
+					url: SUBMIT_TASK_FORM_DATA + '?taskId=' + taskId,
+					method: 'post',
+					data: formData,
+					transformRequest: [function (data) {
+						let ret = ''
+						for (let it in data) {
+							ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+						}
+						return ret
+					}],
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					}
+				}).then(response => {
+					console.log(response);
+					Toast.clear();
+					if (response.status == 200) {
+						this.$router.push({
+							path: '/onlineApplication/FDCQBGDJ/success'
+						});
+					}
+				}).catch(error => {
+					console.log(error);
+					Toast.clear();
+				});
 			}
 		},
 		mounted() {
@@ -517,7 +599,7 @@
 			this.loading3 = false;
 			this.loading4 = false;
 			this.loading5 = false;
-
+			this.querySubFormData('JOB_FILES_LINK.IFJQD');
 		}
 	}
 

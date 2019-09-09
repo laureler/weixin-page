@@ -16,7 +16,7 @@
 			</div>
 			<div class="buttons">
 				<van-button class="success-btn" plain size="normal" type="default">查看证书</van-button>
-				<van-button class="success-btn" plain size="normal" type="default">完成</van-button>
+				<van-button class="success-btn" plain size="normal" type="default" @click="finishClicked">完成</van-button>
 			</div>
 		</div>
 	</div>
@@ -34,7 +34,14 @@
 				jid: sessionStorage.getItem('jid')
 			}
 		},
-		methods: {}
+		methods: {
+			finishClicked: function () {
+				sessionStorage.removeItem('formdata');
+				sessionStorage.removeItem('business');
+				sessionStorage.removeItem('taskId');
+				this.$router.go(-3);
+			}
+		}
 	}
 
 </script>
