@@ -49,16 +49,9 @@
 			return {
 				estateType: '',
 				show: false,
-				qlr: '胡化金',
-				cqzh: '00070093',
+				qlr: '李四英',
+				cqzh: '湘（2017）北湖不动产权第0022977号',
 				customStatus:'',
-				actions: [{
-						name: '房屋'
-					},
-					{
-						name: '土地'
-					}
-				],
 				checkout:{
 				    "cqxx":[{
 							"RID": '',
@@ -120,7 +113,8 @@
 					params:{
 						strJson:{
 							qlr:this.qlr,
-							cqzh:this.cqzh
+							cqzh:this.cqzh,
+							cqlx:'FW'
 						},
 					path:'/WSYY/GetPropertyRightInfo'
 					}
