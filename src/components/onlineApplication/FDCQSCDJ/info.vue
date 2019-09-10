@@ -161,7 +161,7 @@
 						<van-field v-model="applicant['JOB_SQRXXB.FQLBL']" clearable placeholder="权利比例" />
 					</van-cell-group>
 					<div class="buttons">
-						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant()">保存
+						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant()" v-show="saveShow">保存
 						</van-button>
 						<van-button class="info-btn" size="small" type="default" v-if="editApplicantState"
 							@click.native="delApplicant()">删除申请人
@@ -462,6 +462,7 @@
 				applicantIndex: -1,
 				valuesParams: {},// 主表
 				emsNecessary:false,//EMS是否显示星号
+				saveShow:false,
 			}
 		},
 		methods: {
@@ -656,7 +657,7 @@
 					}
 
 					this.applicantIndex = -1;
-					this.fillSubFormData('JOB_SQRXXB_LINK.IQLR',[this.applicant],true);
+					this.fillSubFormData('JOB_SQRXXB_LINK.IQLR',[this.applicant], true, true);
 					this.applicant = {};
 					this.person = '';
 					this.idCard = '';
@@ -668,7 +669,7 @@
 				this.applicant = item;
 				this.person = item['JOB_SQRXXB.FSQRMC'];
 				this.idCard = item['JOB_SQRXXB.FZJHM'];
-				
+				this.saveShow = true;
 				console.log("applicantIndex="+this.applicantIndex);
 			},
 			nextStep: function () {
@@ -770,7 +771,7 @@
 					console.log(error);
 				});
 			},
-			fillSubFormData: function (title, params, showLoading = false) {
+			fillSubFormData: function (title, params, showLoading = false,saveTape = false) {
 				var business = JSON.parse(sessionStorage.getItem('business'));
 				var result = JSON.parse(business.result);
 				console.log(result);
@@ -794,6 +795,9 @@
 					data: params,
 				}).then(response => {
 					Toast.clear();
+					if (saveTape) {
+						this.saveShow = false;
+					}
 					console.log('FILL_SUB_FORM_DATA:', response);
 				}).catch(error => {
 					Toast.clear();
@@ -819,7 +823,7 @@
 						this.valuesParams['JOB_FDCQXXB.FTDYT'] = response['JOB_GLQLXXB_LINK.OLD_IQLDJ'][0]['JOB_GLQLXXB.FYT'];
 						//土地使用面积
 						this.valuesParams['JOB_FDCQXXB.FZDMJ'] = response['JOB_GLQLXXB_LINK.OLD_IQLDJ'][0]['JOB_GLQLXXB.FBDCDYMJ'];
-
+						this.applicants = response['JOB_SQRXXB_LINK.IQLR'];
 						Toast.clear();
 						this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response['JOB_GLQLXXB_LINK.OLD_IQLDJ']);
 						this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', response['JOB_SQRXXB_LINK.IQLR']);
