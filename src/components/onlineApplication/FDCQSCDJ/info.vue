@@ -844,7 +844,7 @@
 				message: '加载中...'
 			});
 			this.$fetch(GET_BUSINESS_START_FROM, {
-					businessDefinitionId: _this.$route.query.businessDefinitionId // 业务ID
+					businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
 				}).then(function (response) {
 					var businessNumber = response.businessNumber;
 					var result = JSON.parse(response.result);
