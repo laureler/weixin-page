@@ -283,6 +283,19 @@ export default {
 			name: "FDCQSCDJSuccess",
 			component: resolve => require(['@/components/onlineApplication/FDCQSCDJ/success'], resolve),
 		},
+		// 权籍调查申请
+		{
+			path: "/onlineApplication/QJDCSQ/info",
+			name: "QJDCSQInfo",
+			component: resolve => require(['@/components/onlineApplication/QJDCSQ/info'], resolve),
+			meta: {
+				isNeedLogin: true
+			}
+		}, {
+			path: "/onlineApplication/QJDCSQ/success",
+			name: "QJDCSQSuccess",
+			component: resolve => require(['@/components/onlineApplication/QJDCSQ/success'], resolve),
+		},
 		// 其他
 		{
 			path: "/onlineApplication/test",
