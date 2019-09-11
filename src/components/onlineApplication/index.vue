@@ -118,6 +118,16 @@
 						}]
 					},
 					{
+						groupTitle: "调查申请",
+						groupCells: [{
+							title: "权籍调查申请",
+							path: "/onlineApplication/QJDCSQ/info",
+							query: {
+								businessDefinitionId: '4606a31d-394f-4173-b0e9-0cf0aff05f75'
+							}
+						}]
+					},
+					{
 						groupTitle: "其他登记",
 						groupCells: [{
 								title: "不动产权属证书遗失（换证）登记",
