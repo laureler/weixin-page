@@ -3,13 +3,6 @@
 		<page-head title="异议注销登记"></page-head>
 		<van-cell-group>
 			<div class="cell-title">
-				<span class="required-span">*</span>不动产类型
-			</div>
-			<van-field v-model="estateType" right-icon="arrow" placeholder="请输入不动产类型" disabled clickable
-				@click.native="estateTypeClicked()" />
-		</van-cell-group>
-		<van-cell-group>
-			<div class="cell-title">
 				<span class="required-span">*</span>申请人名字
 			</div>
 			<van-field v-model="qlr" clearable placeholder="请输入申请人名字" />
@@ -33,7 +26,7 @@
 						</div>
 						<div class="content-right">
 							<van-button class="verification-button" plain round hairline type="info"
-								@click.native="checkoutID()">校验</van-button>
+								@click.native="checkoutInfo()">校验</van-button>
 						</div>
 					</div>
 				</template>
@@ -60,7 +53,7 @@
 		components: {
 			'page-head': Head
 		},
-		data () {
+		data() {
 			return {
 				estateType: '',
 				cqlx: '',
@@ -150,6 +143,9 @@
 				}
 				this.show = false;
 			},
+			checkoutInfo: function () {
+				console.log('校验');
+			},
 			checkoutID: function () {
 				if (!this.cqlx.length) {
 					Toast('请选择不动产类型!');
@@ -226,7 +222,7 @@
 				}
 			}
 		},
-		mounted () {
+		mounted() {
 			console.log('bookIn');
 			console.log('businessDefinitionId:', this.$route.query.businessDefinitionId);
 		},
