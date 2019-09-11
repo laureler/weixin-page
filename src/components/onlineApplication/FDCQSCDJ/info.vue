@@ -685,35 +685,13 @@
 					return;
 				} else if (!this.valuesParams['JOB_FDCQXXB.FTZBH'] || this.valuesParams['JOB_FDCQXXB.FTZBH']
 					.length == 0) {
-					Toast('填写图纸编号!');
+					Toast('请填写图纸编号!');
 					return;
-				} else if (!this.valuesParams['JOB_FDCQXXB.FCQLY'] || this.valuesParams[
-						'JOB_FDCQXXB.FCQLY'].length == 0) {
-					Toast('请填写产权来源!');
-					return;
-				}else if (!this.valuesParams['JOB_FDCQXXB.FFDZL'] || this.valuesParams[
+				} else if (!this.valuesParams['JOB_FDCQXXB.FFDZL'] || this.valuesParams[
 						'JOB_FDCQXXB.FFDZL'].length == 0) {
 					Toast('请填写坐落!');
 					return;
-				} else if (!this.valuesParams['JOB_FDCQXXB.FQLXZ'] || this.valuesParams['JOB_FDCQXXB.FQLXZ'].length == 0) {
-					Toast('请填写土地性质!');
-					return;
-				} else if (!this.valuesParams['JOB_FDCQXXB.FTDYT'] || this.valuesParams['JOB_FDCQXXB.FTDYT'].length == 0) {
-					Toast('请填写土地用途!');
-					return;
-				} else if (!this.valuesParams['JOB_FDCQXXB.FFWXZ'] || this.valuesParams['JOB_FDCQXXB.FFWXZ'].length == 0) {
-					Toast('请填写房屋性质!');
-					return;
-				} else if (!this.valuesParams['JOB_FDCQXXB.FFWYT'] || this.valuesParams['JOB_FDCQXXB.FFWYT'].length == 0) {
-					Toast('请填写房屋用途!');
-					return;
-				} else if (!this.valuesParams['JOB_FDCQXXB.FZDMJ'] || this.valuesParams['JOB_FDCQXXB.FZDMJ'].length == 0) {
-					Toast('请填写土地使用面积!');
-					return;
-				} else if (!this.valuesParams['JOB_FDCQXXB.FJZMJ'] || this.valuesParams['JOB_FDCQXXB.FJZMJ'].length == 0) {
-					Toast('请填写建筑面积!');
-					return;
-				} 
+				}
 				//申请人内容判断未填项
 				var _applicants = this.applicants;
 				if (_applicants.length == 0) {

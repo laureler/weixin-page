@@ -40,7 +40,7 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							产权来源
+							<span class="required-span">*</span>产权来源
 						</div>
 						<van-field v-model="valuesParams['JOB_FDCQXXB.FCQLY']" right-icon="arrow" placeholder="请选择产权来源"
 							@click-right-icon="$toast('question')" disabled clickable
@@ -48,7 +48,7 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							面积
+							<span class="required-span">*</span>面积
 						</div>
 						<van-field class="field-background" v-model="valuesParams['JOB_FDCQXXB.FJZMJ']" disabled />
 					</van-cell-group>
@@ -902,12 +902,6 @@
 					return;
 				} else if (!this.valuesParams['JOB_FDCQXXB.FBDCDYH'] || this.valuesParams['JOB_FDCQXXB.FBDCDYH'].length == 0) {
 					Toast('请填写不动产单元号!');
-					return;
-				} else if (!this.valuesParams['JOB_FDCQXXB.FBDCLX'] || this.valuesParams['JOB_FDCQXXB.FBDCLX'].length == 0) {
-					Toast('请填写不动产类型!');
-					return;
-				}else if (!this.valuesParams['JOB_FDCQXXB.FFDZL'] || this.valuesParams['JOB_FDCQXXB.FFDZL'].length == 0) {
-					Toast('请填写坐落!');
 					return;
 				} else if (!this.valuesParams['JOB_FDCQXXB.FCQLY'] || this.valuesParams['JOB_FDCQXXB.FCQLY'].length == 0) {
 					Toast('请选择产权来源!');
