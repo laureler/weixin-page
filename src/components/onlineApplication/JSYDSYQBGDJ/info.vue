@@ -207,6 +207,8 @@
 					<div class="buttons">
 						<van-button class="info-btn" size="small" type="info" @click.native="saveChangeItem()">保存
 						</van-button>
+						<van-button v-if="editChangeItemState" class="info-btn" size="small" type="danger" @click.native="delChangeItem()">删除
+						</van-button>
 					</div>
 					<div class="applicants">
 						<div class="title">
@@ -329,6 +331,7 @@
 		SAVE_TASK_FORM_DATA,
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
+		DEL_SUB_FORM_DATA,
 		TEST
 	} from '../../../constants/index.js';
 	import {
@@ -460,11 +463,19 @@
 				countryOptions: [{
 					name: '中华人民共和国'
 				}, {
+					name: '香港特别行政区'
+				}, {
+					name: '澳门特别行政区'
+				}, {
+					name: '台湾省'
+				}, {
 					name: '加拿大'
 				}, {
 					name: '美国'
 				}, {
 					name: '韩国'
+				}, {
+					name: '巴西'
 				}], // 国家/地区
 				contentOptions: [{
 					name: '权利人名称'
@@ -488,7 +499,73 @@
 					name: '容积率'
 				}], // 修改内容
 				censusOptions: [{
+					name: '北京'
+				},{
+					name: '天津'
+				},{
+					name: '河北'
+				},{
+					name: '山西'
+				},{
+					name: '内蒙古'
+				},{
+					name: '辽宁'
+				},{
+					name: '吉林'
+				},{
+					name: '黑龙江'
+				},{
+					name: '上海'
+				},{
+					name: '江苏'
+				},{
+					name: '浙江'
+				},{
+					name: '安徽'
+				},{
+					name: '福建'
+				},{
+					name: '江西'
+				},{
+					name: '山东'
+				},{
+					name: '河南'
+				},{
+					name: '湖北'
+				},{
+					name: '湖南'
+				},{
 					name: '广东'
+				},{
+					name: '广西'
+				},{
+					name: '海南'
+				},{
+					name: '重庆'
+				},{
+					name: '四川'
+				},{
+					name: '贵州'
+				},{
+					name: '云南'
+				},{
+					name: '西藏'
+				},{
+					name: '陕西'
+				},{
+					name: '甘肃'
+				},{
+					name: '青海'
+				},{
+					name: '宁夏'
+				},{
+					name: '新疆'
+				},{
+					name: '台湾'
+				},{
+					name: '香港'
+				},{
+					name: '澳门'
 				}],
 				commonOptions: [{
 					name: '单独所有'
@@ -508,6 +585,20 @@
 				}],
 				idTypeOptions: [{
 					name: '身份证'
+				},{
+					name: '港澳台身份证'
+				},{
+					name: '护照'
+				},{
+					name: '户口簿'
+				},{
+					name: '军官证（士兵证）'
+				},{
+					name: '组织机构代码'
+				},{
+					name: '营业执照'
+				},{
+					name: '其他'
 				}],
 				companyTypeOptions: [{
 					name: '个人'
@@ -543,6 +634,7 @@
 				'JOB_XGXXB_LINK.IXG': [], // 更改事项
 				changeItem: {},
 				changeItemIndex: -1,
+				editChangeItemState: false,
 				optionsTitle: '',
 				qtyy: '',
 				bz: '',
@@ -679,7 +771,7 @@
 					this.$data['JOB_XGXXB_LINK.IXG'].splice(this.changeItemIndex, 1, this.changeItem);
 				}
 				this.fillSubFormData('JOB_XGXXB_LINK.IXG', this.$data['JOB_XGXXB_LINK.IXG'], true);
-
+				this.editChangeItemState = false;
 			},
 			editApplicant: function (item, index) { // 编辑申请人
 				this.applicant = item;
@@ -688,6 +780,18 @@
 			editChangeItem: function (item, index) { // 编辑申请人
 				this.changeItem = item;
 				this.changeItemIndex = index;
+				this.editChangeItemState = true;
+			},
+			delChangeItem: function() {
+				var _this = this;
+				this.$dialog.confirm({
+					message: '确定要删除该变更事项吗?'
+				}).then(() => {
+					console.log('删除');
+					_this.delSubFormData('JOB_XGXXB_LINK.IXG', [_this.changeItem], true);
+				}).catch(() => {
+					console.log('取消');
+				});
 			},
 			nextStep: function () {
 				var applicant = this.$data['JOB_SQRXXB_LINK.IQLR'][0];
@@ -903,7 +1007,44 @@
 					Toast.clear();
 					console.log(error);
 				});
-
+			},
+			// 删除字表内容
+			delSubFormData: function (title, params, showLoading = false) {
+				var business = JSON.parse(sessionStorage.getItem('business'));
+				var result = JSON.parse(business.result);
+				console.log(result);
+				var link = title.split('.')[0];
+				var domains = title.split('_LINK')[0]
+				var parentrid = result.data.values[link + '.RID'];
+				var templateid = result.data.controls[title].linkTplId;
+				console.log(result.data.values[link + '.RID']);
+				console.log(result.data.controls[title].linkTplId);
+				var _this = this;
+				if (showLoading) {
+					Toast.loading({
+						mask: true,
+						message: '加载中...'
+					});
+				}
+				this.axios({
+					url: DEL_SUB_FORM_DATA + '?jid=' + sessionStorage.getItem('jid') + '&type=0' +
+						'&parentdomname=' + title + '&parentrid=' + parentrid + '&domains=' + domains +
+						'&templateid=' + templateid,
+					method: 'post',
+					data: params,
+				}).then(response => {
+					Toast.clear();
+					console.log(response);
+					if (response.data.code == 0 && title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
+						_this.$data['JOB_XGXXB_LINK.IXG'].splice(_this.changeItemIndex, 1);
+						_this.changeItemIndex = -1;
+						_this.changeItem = {};
+						_this.editChangeItemState = false;
+					}
+				}).catch(error => {
+					Toast.clear();
+					console.log(error);
+				});
 			},
 			startExactBusiness: function (rid, businessNumber) {
 				sessionStorage.setItem('jid', businessNumber);
@@ -1175,6 +1316,10 @@
 	.disabled-field {
 		background-color: #E5E5E5;
 		color: #333333;
+	}
+
+	.van-field__control:disabled {
+		color: #000;
 	}
 
 </style>

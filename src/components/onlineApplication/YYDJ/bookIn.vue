@@ -60,7 +60,7 @@
 		components: {
 			'page-head': Head
 		},
-		data () {
+		data() {
 			return {
 				estateType: '',
 				cqlx: '',
@@ -174,8 +174,10 @@
 					Toast.clear();
 					console.log(res)
 					_this.checkout = res.data;
+					
 					if (_this.checkout.resultcode === '0') {
 						Toast.fail(_this.checkout.resultmsg);
+						_this.customStatus = _this.checkout.resultmsg;
 						return;
 					}
 					sessionStorage.setItem('rid', _this.checkout.cqxx[0].RID);
@@ -217,7 +219,7 @@
 			},
 			onCancel: function () {},
 			nextStep: function () {
-				if (!this.checkout.cqxx[0] || !this.checkout.cqxx[0].RID || this.checkout.cqxx[0].RID == '') {
+				if (this.customStatus != '校验通过') {
 					Toast('请校验证书通过后进行下一步!');
 				} else {
 					var businessDefinitionId = this.$route.query.businessDefinitionId;
@@ -231,7 +233,7 @@
 				}
 			}
 		},
-		mounted () {
+		mounted() {
 			console.log('bookIn');
 			console.log('businessDefinitionId:', this.$route.query.businessDefinitionId);
 		},
@@ -299,6 +301,10 @@
 		border-radius: 0;
 		background: -webkit-gradient(linear, left top, right top, from(#2db6ff), to(#2edbfd)) !important;
 		background: linear-gradient(to right, #2db6ff, #2edbfd) !important;
+	}
+
+	.van-field__control:disabled {
+		color: #000;
 	}
 
 </style>

@@ -219,7 +219,6 @@
 				var files2Str = this.files2.join("::");
 				this.fillSubFormData('JOB_FILES_LINK.IFJQD', [{
 					'JOB_FILES.CCJZ': "原件正本",
-					'JOB_FILES.CLFL': null,
 					'JOB_FILES.FBZ': null,
 					'JOB_FILES.FPATH': filesStr,
 					'JOB_FILES.FSL': 0,
@@ -233,7 +232,6 @@
 				}]);
 				this.fillSubFormData2('JOB_FILES_LINK.IFJQD', [{
 					'JOB_FILES.CCJZ': "原件正本",
-					'JOB_FILES.CLFL': null,
 					'JOB_FILES.FBZ': null,
 					'JOB_FILES.FPATH': files2Str,
 					'JOB_FILES.FSL': 0,

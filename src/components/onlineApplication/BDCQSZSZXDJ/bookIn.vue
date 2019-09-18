@@ -173,6 +173,13 @@
 					Toast.clear();
 					console.log(res)
 					this.checkout = res.data;
+
+					if (this.checkout.resultcode === '0') {
+						Toast(this.checkout.resultmsg);
+						this.customStatus = this.checkout.resultmsg;
+						return;
+					}
+
 					sessionStorage.setItem('rid', this.checkout.cqxx[0].RID);
 					if (this.checkout.cqxx.length == 0) {
 						Toast('证书不存在!');
@@ -212,7 +219,7 @@
 			},
 			onCancel: function () {},
 			nextStep: function () {
-				if (!this.checkout.cqxx[0] || !this.checkout.cqxx[0].RID || this.checkout.cqxx[0].RID == '') {
+				if (this.customStatus != '校验通过') {
 					Toast('请校验证书通过后进行下一步!');
 				} else {
 					var businessDefinitionId = this.$route.query.businessDefinitionId;
@@ -294,6 +301,10 @@
 		border-radius: 0;
 		background: -webkit-gradient(linear, left top, right top, from(#2db6ff), to(#2edbfd)) !important;
 		background: linear-gradient(to right, #2db6ff, #2edbfd) !important;
+	}
+
+	.van-field__control:disabled {
+		color: #000;
 	}
 
 </style>

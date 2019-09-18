@@ -34,7 +34,7 @@
 						</div>
 						<van-field v-model="valuesParams['JOB_QDXXB.FMJ']" clearable placeholder="面积" />
 					</van-cell-group>
-					
+
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>产权坐落
@@ -106,7 +106,14 @@
 		Toast
 	} from 'vant';
 	import {
-		GET_BUSINESS_START_FROM, START_EXACT_BUSINNESS, SAVE_TASK_FORM_DATA, FILL_SUB_FORM_DATA, ADD_SUB_FORM_DATA, TEST, SUBMIT_TASK_FORM_DATA } from '../../../constants/index.js'
+		GET_BUSINESS_START_FROM,
+		START_EXACT_BUSINNESS,
+		SAVE_TASK_FORM_DATA,
+		FILL_SUB_FORM_DATA,
+		ADD_SUB_FORM_DATA,
+		TEST,
+		SUBMIT_TASK_FORM_DATA
+	} from '../../../constants/index.js'
 	export default {
 		components: {
 			'page-head': Head
@@ -115,53 +122,123 @@
 			return {
 				show: false,
 				type: 0,
-				valuesParams: {},// 主表
+				valuesParams: {}, // 主表
 				applications: [{
 					name: '权籍调查申请'
 				}],
-				townships: [
-					{name: '石岐区'}, 
-					{name: '东区'}, 
-					{name: '南区'}, 
-					{name: '西区'}, 
-					{name: '东升'}, 
-					{name: '板芙'}, 
-					{name: '三角'}, 
-					{name: '三乡'}, 
-					{name: '民众'}, 
-					{name: '横栏'}, 
-					{name: '阜沙'}, 
-					{name: '港口'}, 
-					{name: '沙溪'}, 
-					{name: '东凤'}, 
-					{name: '大涌'}, 
-					{name: '南朗'}, 
-					{name: '古镇'}, 
-					{name: '南头'}, 
-					{name: '五桂山'}, 
-					{name: '黄圃'}, 
-					{name: '火炬开发区'}, 
-					{name: '神湾'}, 
-					{name: '坦洲'}, 
-					{name: '小榄'} 
-				], 
+				townships: [{
+						name: '石岐区'
+					},
+					{
+						name: '东区'
+					},
+					{
+						name: '南区'
+					},
+					{
+						name: '西区'
+					},
+					{
+						name: '东升'
+					},
+					{
+						name: '板芙'
+					},
+					{
+						name: '三角'
+					},
+					{
+						name: '三乡'
+					},
+					{
+						name: '民众'
+					},
+					{
+						name: '横栏'
+					},
+					{
+						name: '阜沙'
+					},
+					{
+						name: '港口'
+					},
+					{
+						name: '沙溪'
+					},
+					{
+						name: '东凤'
+					},
+					{
+						name: '大涌'
+					},
+					{
+						name: '南朗'
+					},
+					{
+						name: '古镇'
+					},
+					{
+						name: '南头'
+					},
+					{
+						name: '五桂山'
+					},
+					{
+						name: '黄圃'
+					},
+					{
+						name: '火炬开发区'
+					},
+					{
+						name: '神湾'
+					},
+					{
+						name: '坦洲'
+					},
+					{
+						name: '小榄'
+					}
+				],
 				actions: [],
 				taskId: '',
-				investigateReasons: [
-					{name: '首次登记'}, 
-					{name: '面积变更'},
-					{name: '申请分割'},
-					{name: '申请合并'}
-				], 
-				certificates: [
-					{name: '身份证'}
+				investigateReasons: [{
+						name: '首次登记'
+					},
+					{
+						name: '面积变更'
+					},
+					{
+						name: '申请分割'
+					},
+					{
+						name: '申请合并'
+					}
 				],
+				certificates: [{
+					name: '身份证'
+				}, {
+					name: '港澳台身份证'
+				}, {
+					name: '护照'
+				}, {
+					name: '户口簿'
+				}, {
+					name: '军官证（士兵证）'
+				}, {
+					name: '组织机构代码'
+				}, {
+					name: '营业执照'
+				}, {
+					name: '其他'
+				}],
 				goBack: false,
 			}
 		},
 		methods: {
-			checkBox: function() {
-				window.open('/SouthGISBI/vision/openresource.jsp?resid=I2c9591a8016a69c669c6c39d016a8704d9b97d32&user=admin&password=12345&paramsInfo=%5B%7Bname%3A%22jid%22%2Cvalue%3A%22201908281931%22%7D%5D')
+			checkBox: function () {
+				window.open(
+					'/SouthGISBI/vision/openresource.jsp?resid=I2c9591a8016a69c669c6c39d016a8704d9b97d32&user=admin&password=12345&paramsInfo=%5B%7Bname%3A%22jid%22%2Cvalue%3A%22201908281931%22%7D%5D'
+					)
 			},
 			onCancel: function () {
 				this.show = false;
@@ -181,7 +258,7 @@
 				this.type = 2;
 				this.actions = this.investigateReasons;
 			},
-			certificateClicked: function() {
+			certificateClicked: function () {
 				this.show = true;
 				this.type = 3;
 				this.actions = this.certificates;
@@ -195,9 +272,9 @@
 					this.valuesParams['JOB_SJDJB.FZQDM'] = val.name;
 				} else if (this.type == 2) {
 					this.valuesParams['JOB_QDXXB.FQDYY'] = val.name;
-				}  else if (this.type == 3) {
+				} else if (this.type == 3) {
 					this.valuesParams['JOB_QDXXB.FZJZL'] = val.name;
-				} 
+				}
 			},
 			nextStep: function () {
 				var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
@@ -215,7 +292,7 @@
 				} else if (!this.valuesParams['JOB_QDXXB.FMJ'] || this.valuesParams['JOB_QDXXB.FMJ'].length == 0) {
 					Toast('请填写面积!');
 					return;
-				}else if (!this.valuesParams['JOB_QDXXB.FZL'] || this.valuesParams['JOB_QDXXB.FZL'].length == 0) {
+				} else if (!this.valuesParams['JOB_QDXXB.FZL'] || this.valuesParams['JOB_QDXXB.FZL'].length == 0) {
 					Toast('请填写产权坐落!');
 					return;
 				}
@@ -239,7 +316,7 @@
 					Toast('请填写申请人正确的证件号码!');
 					return;
 				}
-				
+
 				this.submitTaskFormData();
 				return;
 			},
@@ -308,10 +385,10 @@
 			}
 		},
 		mouthed() {
-			
+
 		},
 		created() {
-			console.log('businessDefinitionId:', 
+			console.log('businessDefinitionId:',
 				this.$route.query.businessDefinitionId);
 			var _this = this;
 			Toast.loading({
@@ -319,24 +396,24 @@
 				message: '加载中...'
 			});
 			this.$fetch(GET_BUSINESS_START_FROM, {
-					businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
-				}).then(function (response) {
-					Toast.clear();
-					var businessNumber = response.businessNumber;
-					var result = JSON.parse(response.result);
-					var values = result.data.values;
-					var taskId = response.taskId;
-					sessionStorage.setItem('taskId', taskId);
-					sessionStorage.setItem('business', JSON.stringify(response));
-					_this.taskId = taskId;
-					console.log('taskId:', _this.taskId);
-					_this.valuesParams = values;
-					console.log('>>>:', _this.valuesParams);
-					sessionStorage.setItem('jid', businessNumber);
-				}).catch(function (error) {
-					console.log(error);
-					Toast.clear();
-				});
+				businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
+			}).then(function (response) {
+				Toast.clear();
+				var businessNumber = response.businessNumber;
+				var result = JSON.parse(response.result);
+				var values = result.data.values;
+				var taskId = response.taskId;
+				sessionStorage.setItem('taskId', taskId);
+				sessionStorage.setItem('business', JSON.stringify(response));
+				_this.taskId = taskId;
+				console.log('taskId:', _this.taskId);
+				_this.valuesParams = values;
+				console.log('>>>:', _this.valuesParams);
+				sessionStorage.setItem('jid', businessNumber);
+			}).catch(function (error) {
+				console.log(error);
+				Toast.clear();
+			});
 		}
 	}
 
@@ -448,6 +525,10 @@
 	.field-background {
 		background-color: #E5E5E5;
 		color: #333333;
+	}
+
+	.van-field__control:disabled {
+		color: #000;
 	}
 
 </style>

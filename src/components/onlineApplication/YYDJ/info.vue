@@ -403,9 +403,89 @@
 				}], // 登记原因
 				countryOptions: [{
 					name: '中华人民共和国'
+				}, {
+					name: '香港特别行政区'
+				}, {
+					name: '澳门特别行政区'
+				}, {
+					name: '台湾省'
+				}, {
+					name: '加拿大'
+				}, {
+					name: '美国'
+				}, {
+					name: '韩国'
+				}, {
+					name: '巴西'
 				}], // 国家/地区
 				censusOptions: [{
+					name: '北京'
+				},{
+					name: '天津'
+				},{
+					name: '河北'
+				},{
+					name: '山西'
+				},{
+					name: '内蒙古'
+				},{
+					name: '辽宁'
+				},{
+					name: '吉林'
+				},{
+					name: '黑龙江'
+				},{
+					name: '上海'
+				},{
+					name: '江苏'
+				},{
+					name: '浙江'
+				},{
+					name: '安徽'
+				},{
+					name: '福建'
+				},{
+					name: '江西'
+				},{
+					name: '山东'
+				},{
+					name: '河南'
+				},{
+					name: '湖北'
+				},{
+					name: '湖南'
+				},{
 					name: '广东'
+				},{
+					name: '广西'
+				},{
+					name: '海南'
+				},{
+					name: '重庆'
+				},{
+					name: '四川'
+				},{
+					name: '贵州'
+				},{
+					name: '云南'
+				},{
+					name: '西藏'
+				},{
+					name: '陕西'
+				},{
+					name: '甘肃'
+				},{
+					name: '青海'
+				},{
+					name: '宁夏'
+				},{
+					name: '新疆'
+				},{
+					name: '台湾'
+				},{
+					name: '香港'
+				},{
+					name: '澳门'
 				}],
 				commonOptions: [{
 					name: '单独所有'
@@ -425,6 +505,20 @@
 				}],
 				idTypeOptions: [{
 					name: '身份证'
+				},{
+					name: '港澳台身份证'
+				},{
+					name: '护照'
+				},{
+					name: '户口簿'
+				},{
+					name: '军官证（士兵证）'
+				},{
+					name: '组织机构代码'
+				},{
+					name: '营业执照'
+				},{
+					name: '其他'
 				}],
 				companyTypeOptions: [{
 					name: '个人'
@@ -1055,6 +1149,10 @@
 	.disabled-field {
 		background-color: #E5E5E5;
 		color: #333333;
+	}
+
+	.van-field__control:disabled {
+		color: #000;
 	}
 
 </style>

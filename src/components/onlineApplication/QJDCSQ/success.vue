@@ -40,7 +40,7 @@
 				sessionStorage.removeItem('formdata');
 				sessionStorage.removeItem('business');
 				sessionStorage.removeItem('taskId');
-				this.$router.go(-3);
+				this.$router.go(-4);
 			}
 		}
 	}

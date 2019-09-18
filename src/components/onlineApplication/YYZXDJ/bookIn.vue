@@ -9,9 +9,9 @@
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
-				<span class="required-span">*</span>权利证书号码
+				<span class="required-span">*</span>登记证明号
 			</div>
-			<van-field v-model="cqzh" clearable placeholder="请输入权利证书号码" />
+			<van-field v-model="cqzh" clearable placeholder="请输入登记证明号" />
 		</van-cell-group>
 		<div class="tips">
 			提示: 可通过公众号的“信息查询-个人产权查询”查询权利证书号码
@@ -58,8 +58,8 @@
 				estateType: '',
 				cqlx: '',
 				show: false,
-				qlr: '胡化金',
-				cqzh: '00070093',
+				qlr: '陈卫行',
+				cqzh: '粤（2018）中山市不动产权证明第0029473号',  // 粤（）中山市不动产权证明第号
 				customStatus: '',
 				actions: [{
 						name: '房屋'
@@ -145,77 +145,81 @@
 			},
 			checkoutInfo: function () {
 				console.log('校验');
+				this.checkoutID();
 			},
 			checkoutID: function () {
-				if (!this.cqlx.length) {
-					Toast('请选择不动产类型!');
-					return;
-				}
 				this.customStatus = '';
 				Toast.loading({
 					mask: true,
 					message: '加载中...'
 				});
-				this.axios.get(CHECKOUT_REAL_ESTATE, {
-					params: {
-						strJson: {
-							qlr: this.qlr,
-							cqzh: this.cqzh,
-							cqlx: this.cqlx,
-						},
-						path: '/WSYY/GetPropertyRightInfo'
+				var formData = new FormData();
+				let strJson = JSON.stringify({
+					qlr: this.qlr,
+					djzmh: this.cqzh,
+					MethodName: 'GetObjectionData'
+				}) + '';
+				formData.append('strJson', strJson);
+				formData.append('path', '/WSYY/GeneralExtractData');
+				var config = {
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
 					}
-				}).then(res => {
-					Toast.clear();
-					console.log(res)
-					this.checkout = res.data;
-					sessionStorage.setItem('rid', this.checkout.cqxx[0].RID);
-					if (this.checkout.cqxx.length == 0) {
-						Toast('证书不存在!');
-						this.customStatus = '证书不存在!';
-					} else if (this.checkout.cqxx.length == 1) {
-						var state = '';
-						if (this.checkout.cqxx[0].SFYG == 1) {
-							state += '已预告、'
-						} else if (this.checkout.cqxx[0].SFYDY == 1) {
-							state += '已抵押、'
-						} else if (this.checkout.cqxx[0].SFBGL == 1) {
-							state += '已被其他业务关联、'
-						} else if (this.checkout.cqxx[0].SFCF == 1) {
-							state += '已查封、'
-						} else if (this.checkout.cqxx[0].SFDY == 1) {
-							state += '已抵押、'
-						} else if (this.checkout.cqxx[0].SFYY == 1) {
-							state += '已异议、'
-						} else if (this.checkout.cqxx[0].SFDJ == 1) {
-							state += '已冻结、'
-						} else if (this.checkout.cqxx[0].SFLZ == 0) {
-							state += '未落宗、'
-						} else if (this.checkout.cqxx[0].SFXZXZ == 1) {
-							state += '已行政限制、'
-						} else {
-							state += "校验通过、"
+				};
+				var _this = this;
+				this.axios({
+					url: CHECKOUT_REAL_ESTATE,
+					method: 'post',
+					data: {
+						strJson: strJson,
+						path: '/WSYY/GeneralExtractData'
+					},
+					transformRequest: [function (data) {
+						let ret = ''
+						for (let it in data) {
+							ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
 						}
-						if (state != '') {
-							this.customStatus = state.substring(0, state.length - 1);
-						}
+						return ret
+					}],
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
 					}
-				}).catch(err => {
+				}).then(response => {
+					console.log(response);
 					Toast.clear();
-					console.log(err)
-					Toast.fail(err);
-				})
+					_this.checkout = response.data;
+					if (_this.checkout.resultcode === '0') {
+						Toast.fail(_this.checkout.resultmsg);
+						return;
+					}
+					_this.customStatus = '校验通过';
+					sessionStorage.setItem('myyxx', JSON.stringify(_this.checkout.yyxx));
+					console.log(_this.checkout);
+				}).catch(error => {
+					Toast.clear();
+					console.log(error);
+				});
+
+
+				/* this
+					.$post(CHECKOUT_REAL_ESTATE, formData, config)
+					.then(response => {
+						console.log(response);
+					})
+					.catch(err => {
+						console.log(err);
+					}); */
+
 			},
 			onCancel: function () {},
 			nextStep: function () {
-				if (!this.checkout.cqxx[0] || !this.checkout.cqxx[0].RID || this.checkout.cqxx[0].RID == '') {
+				if (this.customStatus != '校验通过') {
 					Toast('请校验证书通过后进行下一步!');
 				} else {
 					var businessDefinitionId = this.$route.query.businessDefinitionId;
 					this.$router.push({
 						path: '/onlineApplication/YYZXDJ/info',
 						query: {
-							cqxx: this.checkout.cqxx[0],
 							businessDefinitionId: businessDefinitionId
 						}
 					})
@@ -290,6 +294,10 @@
 		border-radius: 0;
 		background: -webkit-gradient(linear, left top, right top, from(#2db6ff), to(#2edbfd)) !important;
 		background: linear-gradient(to right, #2db6ff, #2edbfd) !important;
+	}
+
+	.van-field__control:disabled {
+		color: #000;
 	}
 
 </style>

@@ -27,5 +27,6 @@ export const SUBMIT_TASK_FORM_DATA = '/workflowWebService/submitTaskFormData';  
 export const FILL_SUB_FORM_DATA = '/formengineWebService/fillSubFormData';  // 填充子表单
 export const ADD_SUB_FORM_DATA = '/formengineWebService/addSubFormData';  // 添加子表单数据
 export const GET_PROGRESS_JOBDATA_BY_MONGODB = '/workflowWebService/myjob/getProgressJobDataByMongoDB';  // 进度查询
+export const DEL_SUB_FORM_DATA = '/formengineWebService/deleteSubFormData';  // 删除子表单内容
 
 export const TEST =  '/pubWeb/public/weChatPublic/serviceConfirm'; // test
