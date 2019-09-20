@@ -121,9 +121,7 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>单位性质
 						</div>
-						<van-field v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
-							  clickable 
-								disabled class="field-background" />
+						<van-field v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质" disabled class="field-background" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -277,7 +275,8 @@
 	}
 	import Head from '../../app/head.vue';
 	import {
-		Toast
+		Toast,
+		Dialog
 	} from 'vant';
 	import {
 		GET_BUSINESS_START_FROM,
@@ -731,6 +730,7 @@
 				valuesParams: {}, // 主表
 				emsNecessary: false, //EMS是否显示星号
 				saveShow: false,
+				goBack: false,
 			}
 		},
 		methods: {
@@ -1007,6 +1007,10 @@
 						}
 					}
 				}
+				if (this.saveShow) {
+					Toast('请填写申请人信息未保存!');
+					return;
+				}
 				//EMS内容判断未填项
 				if (this.valuesParams['JOB_SJDJB.FSFKDJCL'] === '是' || this.valuesParams['JOB_SJDJB.FSFKDJZ'] ===
 					'是') {
@@ -1028,12 +1032,13 @@
 				this.saveTaskFormData();
 				return;
 			},
-			saveTaskFormData: function () {
+			saveTaskFormData: function (next) {
 				sessionStorage.setItem('formdata', JSON.stringify(this.valuesParams));
 				Toast.loading({
 					mask: true,
 					message: '加载中...'
 				});
+				var _this = this;
 				this.axios({
 					url: SAVE_TASK_FORM_DATA + '?taskId=' + this.taskId + '&createType=2',
 					method: 'post',
@@ -1051,6 +1056,11 @@
 				}).then(response => {
 					console.log(response);
 					Toast.clear();
+					if (_this.goBack) {
+						_this.goBack = false;
+						next();
+						return;
+					}
 					this.$router.push({
 						path: '/onlineApplication/FDCQSCDJ/attachment'
 					});
@@ -1133,6 +1143,22 @@
 		},
 		mouthed() {
 
+		},
+		beforeRouteLeave(to, from, next) {
+			var _this = this;
+			if (to.path === '/onlineApplication/FDCQSCDJ/bookIn') {
+				Dialog.confirm({
+					title: '提示',
+					message: '是否保存表单?'
+				}).then(() => {
+					_this.goBack = true;
+					_this.saveTaskFormData(next);
+				}).catch(() => {
+					next();
+				});
+			} else {
+				next();
+			}
 		},
 		created() {
 			var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
