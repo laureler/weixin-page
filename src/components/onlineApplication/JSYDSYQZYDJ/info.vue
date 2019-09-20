@@ -111,7 +111,8 @@
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
 							  clickable 
-								disabled class="field-background" />
+								@click.native="unitNatureClicked()"
+								 />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -209,7 +210,8 @@
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
 							  clickable 
-							@click.native="unitNatureAssignorClicked()" />
+								disabled class="field-background" />
+							<!-- @click.native="unitNatureAssignorClicked()" -->
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
