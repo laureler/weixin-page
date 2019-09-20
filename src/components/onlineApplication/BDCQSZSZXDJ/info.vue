@@ -436,11 +436,11 @@
 				countryOptions: [{
 					name: '中华人民共和国'
 				}, {
-					name: '香港特别行政区'
+					name: '>香港特别行政区'
 				}, {
-					name: '澳门特别行政区'
+					name: '>澳门特别行政区'
 				}, {
-					name: '台湾省'
+					name: '>台湾省'
 				}, {
 					name: '加拿大'
 				}, {
@@ -674,7 +674,7 @@
 					} else if (!applicant['JOB_SQRXXB.FZJHM'] || applicant['JOB_SQRXXB.FZJHM'].length == 0) {
 						Toast('请选择权利人证件号码!');
 						return;
-					} else if (!reg.test(applicant['JOB_SQRXXB.FZJHM'])) {
+					} else if (applicant['JOB_SQRXXB.FZJZL'] === "身份证" && !reg.test(applicant['JOB_SQRXXB.FZJHM'])) {
 						Toast('请填写权利人正确的证件号码!');
 						return;
 					} else if (!applicant['JOB_SQRXXB.FDWXZ'] || applicant['JOB_SQRXXB.FDWXZ'].length == 0) {
@@ -762,7 +762,7 @@
 				} else if (!applicant['JOB_SQRXXB.FZJHM'] || applicant['JOB_SQRXXB.FZJHM'].length == 0) {
 					Toast('请选择权利人证件号码!');
 					return;
-				} else if (!reg.test(applicant['JOB_SQRXXB.FZJHM'])) {
+				} else if (applicant['JOB_SQRXXB.FZJZL'] === "身份证" && !reg.test(applicant['JOB_SQRXXB.FZJHM'])) {
 					Toast('请填写权利人正确的证件号码!');
 					return;
 				} else if (!applicant['JOB_SQRXXB.FDWXZ'] || applicant['JOB_SQRXXB.FDWXZ'].length == 0) {

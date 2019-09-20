@@ -121,10 +121,8 @@
 			},
 			nextStep: function () {
 				console.log("files:", this.files);
-				console.log("files2:", this.files2);
 				
 				var filesStr = this.files.join("::");
-				var files2Str = this.files2.join("::");
 				this.fillSubFormData('JOB_FILES_LINK.IFJQD', [{
 					'JOB_FILES.CCJZ': "正本复印件",
 					'JOB_FILES.FBZ': null,

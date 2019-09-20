@@ -11,7 +11,7 @@
 				<div class="application">申办事项：不动产权利证书注销登记</div>
 				<div class="application-num">申办编号：{{ jid }}</div>
 				<div class="tips">
-					提示：可以在个人中心-我的申办中查看或修改申办信息。
+					提示：可以在个人中心-我的申办中查看申办信息。
 				</div>
 			</div>
 			<div class="buttons">
@@ -39,7 +39,7 @@
 				sessionStorage.removeItem('formdata');
 				sessionStorage.removeItem('business');
 				sessionStorage.removeItem('taskId');
-				this.$router.go(-4);
+				this.$router.push('/onlineApplication');
 			}
 		}
 	}

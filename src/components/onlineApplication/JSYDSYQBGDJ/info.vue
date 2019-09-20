@@ -207,7 +207,8 @@
 					<div class="buttons">
 						<van-button class="info-btn" size="small" type="info" @click.native="saveChangeItem()">保存
 						</van-button>
-						<van-button v-if="editChangeItemState" class="info-btn" size="small" type="danger" @click.native="delChangeItem()">删除
+						<van-button v-if="editChangeItemState" class="info-btn" size="small" type="danger"
+							@click.native="delChangeItem()">删除
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -463,11 +464,11 @@
 				countryOptions: [{
 					name: '中华人民共和国'
 				}, {
-					name: '香港特别行政区'
+					name: '>香港特别行政区'
 				}, {
-					name: '澳门特别行政区'
+					name: '>澳门特别行政区'
 				}, {
-					name: '台湾省'
+					name: '>台湾省'
 				}, {
 					name: '加拿大'
 				}, {
@@ -500,71 +501,71 @@
 				}], // 修改内容
 				censusOptions: [{
 					name: '北京'
-				},{
+				}, {
 					name: '天津'
-				},{
+				}, {
 					name: '河北'
-				},{
+				}, {
 					name: '山西'
-				},{
+				}, {
 					name: '内蒙古'
-				},{
+				}, {
 					name: '辽宁'
-				},{
+				}, {
 					name: '吉林'
-				},{
+				}, {
 					name: '黑龙江'
-				},{
+				}, {
 					name: '上海'
-				},{
+				}, {
 					name: '江苏'
-				},{
+				}, {
 					name: '浙江'
-				},{
+				}, {
 					name: '安徽'
-				},{
+				}, {
 					name: '福建'
-				},{
+				}, {
 					name: '江西'
-				},{
+				}, {
 					name: '山东'
-				},{
+				}, {
 					name: '河南'
-				},{
+				}, {
 					name: '湖北'
-				},{
+				}, {
 					name: '湖南'
-				},{
+				}, {
 					name: '广东'
-				},{
+				}, {
 					name: '广西'
-				},{
+				}, {
 					name: '海南'
-				},{
+				}, {
 					name: '重庆'
-				},{
+				}, {
 					name: '四川'
-				},{
+				}, {
 					name: '贵州'
-				},{
+				}, {
 					name: '云南'
-				},{
+				}, {
 					name: '西藏'
-				},{
+				}, {
 					name: '陕西'
-				},{
+				}, {
 					name: '甘肃'
-				},{
+				}, {
 					name: '青海'
-				},{
+				}, {
 					name: '宁夏'
-				},{
+				}, {
 					name: '新疆'
-				},{
+				}, {
 					name: '台湾'
-				},{
+				}, {
 					name: '香港'
-				},{
+				}, {
 					name: '澳门'
 				}],
 				commonOptions: [{
@@ -585,19 +586,19 @@
 				}],
 				idTypeOptions: [{
 					name: '身份证'
-				},{
+				}, {
 					name: '港澳台身份证'
-				},{
+				}, {
 					name: '护照'
-				},{
+				}, {
 					name: '户口簿'
-				},{
+				}, {
 					name: '军官证（士兵证）'
-				},{
+				}, {
 					name: '组织机构代码'
-				},{
+				}, {
 					name: '营业执照'
-				},{
+				}, {
 					name: '其他'
 				}],
 				companyTypeOptions: [{
@@ -725,7 +726,7 @@
 					} else if (!applicant['JOB_SQRXXB.FZJHM'] || applicant['JOB_SQRXXB.FZJHM'].length == 0) {
 						Toast('请选择权利人证件号码!');
 						return;
-					} else if (!reg.test(applicant['JOB_SQRXXB.FZJHM'])) {
+					} else if (applicant['JOB_SQRXXB.FZJZL'] === "身份证" && !reg.test(applicant['JOB_SQRXXB.FZJHM'])) {
 						Toast('请填写权利人正确的证件号码!');
 						return;
 					} else if (!applicant['JOB_SQRXXB.FDWXZ'] || applicant['JOB_SQRXXB.FDWXZ'].length == 0) {
@@ -782,7 +783,7 @@
 				this.changeItemIndex = index;
 				this.editChangeItemState = true;
 			},
-			delChangeItem: function() {
+			delChangeItem: function () {
 				var _this = this;
 				this.$dialog.confirm({
 					message: '确定要删除该变更事项吗?'
@@ -842,7 +843,7 @@
 				} else if (!applicant['JOB_SQRXXB.FZJHM'] || applicant['JOB_SQRXXB.FZJHM'].length == 0) {
 					Toast('请选择权利人证件号码!');
 					return;
-				} else if (!reg.test(applicant['JOB_SQRXXB.FZJHM'])) {
+				} else if (applicant['JOB_SQRXXB.FZJZL'] === "身份证" && !reg.test(applicant['JOB_SQRXXB.FZJHM'])) {
 					Toast('请填写权利人正确的证件号码!');
 					return;
 				} else if (!applicant['JOB_SQRXXB.FDWXZ'] || applicant['JOB_SQRXXB.FDWXZ'].length == 0) {
@@ -1318,8 +1319,31 @@
 		color: #333333;
 	}
 
+	input::-webkit-input-placeholder {
+		color: red;
+	}
+
+	input::-moz-placeholder {
+		/* Mozilla Firefox 19+ */
+		color: red;
+	}
+
+	input:-moz-placeholder {
+		/* Mozilla Firefox 4 to 18 */
+		color: red;
+	}
+
+	input:-ms-input-placeholder {
+		/* Internet Explorer 10-11 */
+		color: red;
+	}
+
 	.van-field__control:disabled {
-		color: #000;
+		color: #000 !important;
+	}
+
+	.van-field__control {
+		border: 5px;
 	}
 
 </style>

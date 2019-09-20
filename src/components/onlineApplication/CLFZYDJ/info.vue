@@ -9,7 +9,7 @@
 							<span class="required-span">*</span>申请事项
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FDJLX']" right-icon="arrow" placeholder="请选择申请事项"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="applicationClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -17,7 +17,7 @@
 							<span class="required-span">*</span>镇区
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FZQDM']" right-icon="arrow" placeholder="请选择镇区"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="townshipClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -171,7 +171,7 @@
 							产权来源
 						</div>
 						<van-field v-model="propertySource" right-icon="arrow" placeholder="请选择产权来源"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="propertySourceClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -193,14 +193,14 @@
 							<span class="required-span">*</span>性别
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FXB']" right-icon="arrow" placeholder="请选择性别"
-							@click-right-icon="$toast('question')" disabled clickable @click.native="sexClicked()" />
+							 disabled clickable @click.native="sexClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>证件种类
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FZJZL']" right-icon="arrow" placeholder="请选择证件种类"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="certificateClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -214,7 +214,7 @@
 							<span class="required-span">*</span>单位性质
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="unitNatureClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -222,7 +222,7 @@
 							<span class="required-span">*</span>国家/地区
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FGJDQ']" right-icon="arrow" placeholder="请选择国家地区"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="countryClicked(0)" />
 					</van-cell-group>
 					<van-cell-group>
@@ -230,7 +230,7 @@
 							<span class="required-span">*</span>户籍所属省份
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow" placeholder="请选择户籍所属省份"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="provinceClicked(0)" />
 					</van-cell-group>
 					<van-cell-group>
@@ -244,7 +244,7 @@
 							<span class="required-span">*</span>共有情况
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FGYQK']" right-icon="arrow" placeholder="请选择共有情况"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="situationClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -290,7 +290,7 @@
 							<span class="required-span">*</span>性别
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FXB']" right-icon="arrow" placeholder="请选择性别"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="sexAssignorClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -298,7 +298,7 @@
 							<span class="required-span">*</span>证件种类
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FZJZL']" right-icon="arrow" placeholder="请选择证件种类"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="certificateAssignorClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -312,7 +312,7 @@
 							<span class="required-span">*</span>单位性质
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="unitNatureAssignorClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -320,7 +320,7 @@
 							<span class="required-span">*</span>国家/地区
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FGJDQ']" right-icon="arrow" placeholder="请选择国家地区"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="countryClicked(1)" />
 					</van-cell-group>
 					<van-cell-group>
@@ -328,7 +328,7 @@
 							<span class="required-span">*</span>户籍所属省份
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FHJSZSS']" right-icon="arrow"
-							placeholder="请选择户籍所属省份" @click-right-icon="$toast('question')" disabled clickable
+							placeholder="请选择户籍所属省份"  disabled clickable
 							@click.native="provinceClicked(1)" />
 					</van-cell-group>
 					<van-cell-group>
@@ -342,7 +342,7 @@
 							<span class="required-span">*</span>共有情况
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FGYQK']" right-icon="arrow" placeholder="请选择共有情况"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="situationAssignorClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -688,11 +688,11 @@
 				countries: [{
 					name: '中华人民共和国'
 				}, {
-					name: '香港特别行政区'
+					name: '>香港特别行政区'
 				}, {
-					name: '澳门特别行政区'
+					name: '>澳门特别行政区'
 				}, {
-					name: '台湾省'
+					name: '>台湾省'
 				}, {
 					name: '加拿大'
 				}, {
@@ -1098,7 +1098,7 @@
 					} else if (!_applicant['JOB_SQRXXB.FZJHM'] || _applicant['JOB_SQRXXB.FZJHM'].length == 0) {
 						Toast('请填写受让人证件号码!');
 						return;
-					} else if (!reg.test(_applicant['JOB_SQRXXB.FZJHM'])) {
+					} else if (_applicant['JOB_SQRXXB.FZJZL'] === "身份证" && !reg.test(_applicant['JOB_SQRXXB.FZJHM'])) {
 						Toast('请填写受让人正确的证件号码!');
 						return;
 					} else if (!_applicant['JOB_SQRXXB.FDWXZ'] || _applicant['JOB_SQRXXB.FDWXZ'].length == 0) {
@@ -1155,7 +1155,7 @@
 					} else if (!_assignor['JOB_SQRXXB_OLD.FZJHM'] || _assignor['JOB_SQRXXB_OLD.FZJHM'].length == 0) {
 						Toast('请填写转让人证件号码!');
 						return;
-					} else if (!reg.test(_assignor['JOB_SQRXXB_OLD.FZJHM'])) {
+					} else if (_assignor['JOB_SQRXXB_OLD.FZJZL'] === "身份证" && !reg.test(_assignor['JOB_SQRXXB_OLD.FZJHM'])) {
 						Toast('请填写转让人正确的证件号码!');
 						return;
 					} else if (!_assignor['JOB_SQRXXB_OLD.FDWXZ'] || _assignor['JOB_SQRXXB_OLD.FDWXZ'].length == 0) {
@@ -1271,7 +1271,7 @@
 							.length == 0) {
 							Toast('请填写转让人' + _assignors[i]['JOB_SQRXXB_OLD.FSQRMC'] + '的证件号码!');
 							return;
-						} else if (!reg.test(_assignors[i]['JOB_SQRXXB_OLD.FZJHM'])) {
+						} else if (_assignors[i]['JOB_SQRXXB_OLD.FZJZL'] === "身份证" && !reg.test(_assignors[i]['JOB_SQRXXB_OLD.FZJHM'])) {
 							Toast('请填写转让人' + _assignors[i]['JOB_SQRXXB_OLD.FSQRMC'] + '正确的证件号码!');
 							return;
 						} else if (!_assignors[i]['JOB_SQRXXB_OLD.FDWXZ'] || _assignors[i]['JOB_SQRXXB_OLD.FDWXZ']
