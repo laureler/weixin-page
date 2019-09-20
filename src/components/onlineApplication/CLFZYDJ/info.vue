@@ -9,7 +9,7 @@
 							<span class="required-span">*</span>申请事项
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FDJLX']" right-icon="arrow" placeholder="请选择申请事项"
-							 disabled clickable
+							  clickable 
 							@click.native="applicationClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -17,7 +17,7 @@
 							<span class="required-span">*</span>镇区
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FZQDM']" right-icon="arrow" placeholder="请选择镇区"
-							 disabled clickable
+							  clickable 
 							@click.native="townshipClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -193,14 +193,14 @@
 							<span class="required-span">*</span>性别
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FXB']" right-icon="arrow" placeholder="请选择性别"
-							 disabled clickable @click.native="sexClicked()" />
+							 clickable @click.native="sexClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>证件种类
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FZJZL']" right-icon="arrow" placeholder="请选择证件种类"
-							 disabled clickable
+							  clickable 
 							@click.native="certificateClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -214,15 +214,15 @@
 							<span class="required-span">*</span>单位性质
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
-							 disabled clickable
-							@click.native="unitNatureClicked()" />
+							  clickable 
+								disabled class="field-background" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>国家/地区
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FGJDQ']" right-icon="arrow" placeholder="请选择国家地区"
-							 disabled clickable
+							  clickable 
 							@click.native="countryClicked(0)" />
 					</van-cell-group>
 					<van-cell-group>
@@ -230,7 +230,7 @@
 							<span class="required-span">*</span>户籍所属省份
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow" placeholder="请选择户籍所属省份"
-							 disabled clickable
+							  clickable 
 							@click.native="provinceClicked(0)" />
 					</van-cell-group>
 					<van-cell-group>
@@ -244,7 +244,7 @@
 							<span class="required-span">*</span>共有情况
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FGYQK']" right-icon="arrow" placeholder="请选择共有情况"
-							 disabled clickable
+							  clickable 
 							@click.native="situationClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -290,7 +290,7 @@
 							<span class="required-span">*</span>性别
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FXB']" right-icon="arrow" placeholder="请选择性别"
-							 disabled clickable
+							  clickable 
 							@click.native="sexAssignorClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -298,7 +298,7 @@
 							<span class="required-span">*</span>证件种类
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FZJZL']" right-icon="arrow" placeholder="请选择证件种类"
-							 disabled clickable
+							  clickable 
 							@click.native="certificateAssignorClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -312,7 +312,7 @@
 							<span class="required-span">*</span>单位性质
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
-							 disabled clickable
+							  clickable 
 							@click.native="unitNatureAssignorClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -320,7 +320,7 @@
 							<span class="required-span">*</span>国家/地区
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FGJDQ']" right-icon="arrow" placeholder="请选择国家地区"
-							 disabled clickable
+							  clickable 
 							@click.native="countryClicked(1)" />
 					</van-cell-group>
 					<van-cell-group>
@@ -328,7 +328,7 @@
 							<span class="required-span">*</span>户籍所属省份
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FHJSZSS']" right-icon="arrow"
-							placeholder="请选择户籍所属省份"  disabled clickable
+							placeholder="请选择户籍所属省份"   clickable 
 							@click.native="provinceClicked(1)" />
 					</van-cell-group>
 					<van-cell-group>
@@ -342,7 +342,7 @@
 							<span class="required-span">*</span>共有情况
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FGYQK']" right-icon="arrow" placeholder="请选择共有情况"
-							 disabled clickable
+							  clickable 
 							@click.native="situationAssignorClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -382,14 +382,14 @@
 							<span class="required-span">*</span>快递寄材料
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FSFKDJCL']" right-icon="arrow"
-							placeholder="请选择快递寄材料" disabled clickable @click.native="materialClicked()" />
+							placeholder="请选择快递寄材料" clickable @click.native="materialClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>快递寄证
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FSFKDJZ']" right-icon="arrow" placeholder="请选择快递寄证"
-							disabled clickable @click.native="credentialClicked()" />
+							clickable @click.native="credentialClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -414,7 +414,7 @@
 							所在镇区
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FZQ']" right-icon="arrow" placeholder="请选择所在镇区"
-							disabled clickable @click.native="townShipEMSClicked()" />
+							clickable @click.native="townShipEMSClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -988,7 +988,7 @@
 				} else if (this.type == 2) {
 					if (this.countryType == 0) {
 						//受让人
-						this.applicant['JOB_SQRXXB.FGJDQ'] = val.name;
+						this.applicant['JOB_SQRXXB.FGJDQ'] = val.name.replace('>', '');
 					} else if (this.countryType == 1) {
 						//转让人
 						this.assignor['JOB_SQRXXB_OLD.FGJDQ'] = val.name;

@@ -5,7 +5,7 @@
 			<div class="cell-title">
 				<span class="required-span">*</span>不动产类型
 			</div>
-			<van-field v-model="estateType" right-icon="arrow" placeholder="请输入不动产类型" disabled clickable
+			<van-field v-model="estateType" right-icon="arrow" placeholder="请输入不动产类型"  clickable 
 				@click.native="estateTypeClicked()" />
 		</van-cell-group>
 		<van-cell-group>

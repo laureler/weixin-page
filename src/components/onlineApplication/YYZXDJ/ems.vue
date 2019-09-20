@@ -5,14 +5,14 @@
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄材料
 			</div>
-			<van-field id="JOB_SJDJB.FSFKDJCL" v-model="material" right-icon="arrow" placeholder="请选择快递寄材料" disabled clickable
+			<van-field id="JOB_SJDJB.FSFKDJCL" v-model="material" right-icon="arrow" placeholder="请选择快递寄材料"  clickable 
 				@click.native="materialClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄证
 			</div>
-			<van-field id="JOB_SJDJB.FSFKDJZ" v-model="credential" right-icon="arrow" placeholder="请选择快递寄证" disabled clickable
+			<van-field id="JOB_SJDJB.FSFKDJZ" v-model="credential" right-icon="arrow" placeholder="请选择快递寄证"  clickable 
 				@click.native="credentialClicked()" />
 		</van-cell-group>
 		<van-cell-group>
@@ -37,7 +37,7 @@
 			<div class="cell-title">
 				所在镇区
 			</div>
-			<van-field id="JOB_SJDJB.FZQ" v-model="township" right-icon="arrow" placeholder="请选择所在镇区" disabled clickable @click.native="townshipClicked()" />
+			<van-field id="JOB_SJDJB.FZQ" v-model="township" right-icon="arrow" placeholder="请选择所在镇区" clickable @click.native="townshipClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
