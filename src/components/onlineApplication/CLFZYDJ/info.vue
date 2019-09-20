@@ -170,8 +170,8 @@
 						<div class="cell-title">
 							产权来源
 						</div>
-						<van-field v-model="valuesParams['JOB_FDCQXXB.FCQLY']" right-icon="arrow" placeholder="请选择产权来源"
-							  clickable 
+						<van-field v-model="propertySource" right-icon="arrow" placeholder="请选择产权来源"
+							 disabled clickable
 							@click.native="propertySourceClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -532,6 +532,7 @@
 				valuesParams: {}, // 主表
 				person: '',
 				idCard: '',
+				propertySource: '',
 				assignorPerson: '',
 				assignorIdCard: '',
 				currentDate: [],
@@ -1004,7 +1005,19 @@
 						this.assignor['JOB_SQRXXB_OLD.FHJSZSS'] = val.name;
 					}
 				} else if (this.type == 4) {
-					this.valuesParams['JOB_FDCQXXB.FCQLY'] = val.name;
+					if (val.name == '买卖') {
+						this.propertySource = val.name;
+						this.valuesParams['JOB_FDCQXXB.FCQLY'] = 42;
+					}else if (val.name == '赠与') {
+						this.propertySource = val.name;
+						this.valuesParams['JOB_FDCQXXB.FCQLY'] = 49;
+					}else if (val.name == '作价出资(入股)') {
+						this.propertySource = val.name;
+						this.valuesParams['JOB_FDCQXXB.FCQLY'] = 50;
+					}else if (val.name == '房改房') {
+						this.propertySource = val.name;
+						this.valuesParams['JOB_FDCQXXB.FCQLY'] = 64;
+					}
 				} else if (this.type == 5) {
 					this.applicant['JOB_SQRXXB.FXB'] = val.name;
 				} else if (this.type == 6) {
@@ -1522,6 +1535,16 @@
 				_this.taskId = taskId;
 				console.log('taskId:', _this.taskId);
 				_this.valuesParams = values;
+				var ps = _this.valuesParams['JOB_FDCQXXB.FCQLY']
+				if (ps == 42) {
+					_this.propertySource = '买卖';
+				}else if (ps == 49) {
+					_this.propertySource = '赠与';
+				}else if (ps == 50) {
+					_this.propertySource = '作价出资(入股)';
+				}else if (ps == 64) {
+					_this.propertySource = '房改房';
+				}
 				console.log('>>>:', _this.valuesParams);
 				sessionStorage.setItem('jid', businessNumber);
 				_this.startExactBusiness(rid, businessNumber);

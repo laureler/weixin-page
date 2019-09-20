@@ -1,4 +1,4 @@
-<template>
+	<template>
 	<div class="container">
 		<page-head title="房地产权首次登记"></page-head>
 		<div class="box-body">
@@ -9,7 +9,7 @@
 							<span class="required-span">*</span>申请事项
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FDJLX']" right-icon="arrow" placeholder="请选择申请事项"
-							  clickable 
+							 clickable
 							@click.native="applicationClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -17,7 +17,7 @@
 							<span class="required-span">*</span>镇区
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FZQDM']" right-icon="arrow" placeholder="请选择镇区"
-							  clickable 
+							 clickable
 							@click.native="townshipClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -31,7 +31,7 @@
 							产权来源
 						</div>
 						<van-field v-model="valuesParams['JOB_FDCQXXB.FCQLY']" right-icon="arrow" placeholder="请选择产权来源"
-							  clickable 
+							 clickable
 							@click.native="propertySourceClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -56,8 +56,8 @@
 						<div class="cell-title">
 							房屋性质
 						</div>
-						<van-field v-model="valuesParams['JOB_FDCQXXB.FFWXZ']" right-icon="arrow" placeholder="请选择房屋性质"
-							  clickable 
+						<van-field v-model="valuesParams['JOB_FDCQXXB.FFWXZ']" right-icon="arrow" placeholder="请选择房屋性质" 
+							 clickable
 							@click.native="housePropertyClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -65,7 +65,7 @@
 							房屋用途
 						</div>
 						<van-field v-model="valuesParams['JOB_FDCQXXB.FFWYT']" right-icon="arrow" placeholder="请选择房屋用途"
-							  clickable 
+							 clickable
 							@click.native="houseUseClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -298,7 +298,6 @@
 				type: 0,
 				application: '',
 				township: '',
-				propertySource: '',
 				person: '',
 				idCard: '',
 				houseProperty: '',
@@ -966,6 +965,47 @@
 				if (_applicants.length == 0) {
 					Toast('申请人信息未保存!');
 					return;
+				}else {
+					for (var i = 0; i < this.applicants.length; i++) {
+						if (!_applicants[i]['JOB_SQRXXB.FSQRMC'] || _applicants[i]['JOB_SQRXXB.FSQRMC'].length == 0) {
+							Toast('请填写第' + i + '个申请人的姓名!');
+							return;
+						} else if (!_applicants[i]['JOB_SQRXXB.FXB'] || _applicants[i]['JOB_SQRXXB.FXB']
+							.length == 0) {
+							Toast('请选择申请人' + _applicants[i]['JOB_SQRXXB.FSQRMC'] + '的性别!');
+							return;
+						} else if (!_applicants[i]['JOB_SQRXXB.FZJZL'] || _applicants[i]['JOB_SQRXXB.FZJZL'].length == 0) {
+							Toast('请选择申请人' + _applicants[i]['JOB_SQRXXB.FSQRMC'] + '的证件种类!');
+							return;
+						} else if (!_applicants[i]['JOB_SQRXXB.FZJHM'] || _applicants[i]['JOB_SQRXXB.FZJHM'].length == 0) {
+							Toast('请填写申请人' + _applicants[i]['JOB_SQRXXB.FSQRMC'] + '的证件号码!');
+							return;
+						} else if (_applicants[i]['JOB_SQRXXB.FZJZL'] === "身份证" && !reg.test(_applicants[i]['JOB_SQRXXB.FZJHM'])) {
+							Toast('请填写申请人' + _applicants[i]['JOB_SQRXXB.FSQRMC'] + '正确的证件号码!');
+							return;
+						} else if (!_applicants[i]['JOB_SQRXXB.FDWXZ'] || _applicants[i]['JOB_SQRXXB.FDWXZ'].length == 0) {
+							Toast('请选择申请人' + _applicants[i]['JOB_SQRXXB.FSQRMC'] + '的单位性质!');
+							return;
+						} else if (!_applicants[i]['JOB_SQRXXB.FGJDQ'] || _applicants[i]['JOB_SQRXXB.FGJDQ'].length == 0) {
+							Toast('请选择申请人' + _applicants[i]['JOB_SQRXXB.FSQRMC'] + '的国家/地区!');
+							return;
+						} else if (!_applicants[i]['JOB_SQRXXB.FHJSZSS'] || _applicants[i]['JOB_SQRXXB.FHJSZSS'].length == 0) {
+							Toast('请选择申请人' + _applicants[i]['JOB_SQRXXB.FSQRMC'] + '的户籍所属省份!');
+							return;
+						} else if (!_applicants[i]['JOB_SQRXXB.FLXDH'] || _applicants[i]['JOB_SQRXXB.FLXDH'].length == 0) {
+							Toast('请填写申请人' + _applicants[i]['JOB_SQRXXB.FSQRMC'] + '的联系电话!');
+							return;
+						} else if (!reg2.test(_applicants[i]['JOB_SQRXXB.FLXDH'])) {
+							Toast('请填写申请人' + _applicants[i]['JOB_SQRXXB.FSQRMC'] + '正确的联系电话!');
+							return;
+						} else if (!_applicants[i]['JOB_SQRXXB.FGYQK'] || _applicants[i]['JOB_SQRXXB.FGYQK'].length == 0) {
+							Toast('请选择申请人' + _applicants[i]['JOB_SQRXXB.FSQRMC'] + '的共有情况!');
+							return;
+						} else if (!_applicants[i]['JOB_SQRXXB.FQLBL'] || _applicants[i]['JOB_SQRXXB.FQLBL'].length == 0) {
+							Toast('请填写申请人' + _applicants[i]['JOB_SQRXXB.FSQRMC'] + '的权利比例!');
+							return;
+						}
+					}
 				}
 				//EMS内容判断未填项
 				if (this.valuesParams['JOB_SJDJB.FSFKDJCL'] === '是' || this.valuesParams['JOB_SJDJB.FSFKDJZ'] ===
@@ -1259,8 +1299,11 @@
 		border-radius: 2px;
 	}
 
-	.van-field__control:disabled {
-		color: #000;
+	..van-field__control:disabled {
+		color: #000 !important;
 	}
 
+	.van-field__control {
+		border: 5px;
+	}
 </style>
