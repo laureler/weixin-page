@@ -2,7 +2,7 @@
 	<div class="container">
 		<page-head title="在线申办"></page-head>
 		<div class="box-body">
-			<van-cell-group class="group" :title="item.groupTitle" v-for="item in list2" :key="item.groupTitle">
+			<van-cell-group class="group" :title="item.groupTitle" v-for="item in list" :key="item.groupTitle">
 				<van-cell v-for="(item2, index) in item.groupCells" icon="shop-o" :value="item2.title" :key="index"
 					@click.native="groupCellClicked(item2)">
 					<div class="cell-content">

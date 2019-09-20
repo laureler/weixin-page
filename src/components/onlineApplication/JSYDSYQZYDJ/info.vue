@@ -534,10 +534,16 @@
 				assignorIndex: -1,
 				taskId: '',
 				registerReasons: [{
-						name: '出租'
+						name: '依生效法律文书'
 					},
 					{
-						name: '到期'
+						name: '继承'
+					},
+					{
+						name: '夫妻约定'
+					},
+					{
+						name: '其他'
 					}
 				],
 				countries: [{
@@ -1247,7 +1253,8 @@
 						configureName: '土地使用权转移登记'
 					}).then(response => {
 						console.log("startExactBusiness:", response);
-
+						sessionStorage.setItem('startExactBusiness', 
+							JSON.stringify(response));
 						this.valuesParams['JOB_JSYDCQXXB.FBDCDYH'] = response['JOB_JSYDCQXXB.FBDCDYH'];
 						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
 						var bdclx = getBdcType(qllx);

@@ -9,7 +9,7 @@
 							<span class="required-span">*</span>申请事项
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FDJLX']" right-icon="arrow" placeholder="请选择申请事项"
-							@click-right-icon="$toast('question')" disabled clickable
+							@click-right-icon="Toast('question')" disabled clickable
 							@click.native="applicationClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -17,7 +17,7 @@
 							<span class="required-span">*</span>镇区
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FZQDM']" right-icon="arrow" placeholder="请选择镇区"
-							@click-right-icon="$toast('question')" disabled clickable
+							@click-right-icon="Toast('question')" disabled clickable
 							@click.native="townshipClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -31,7 +31,7 @@
 							产权来源
 						</div>
 						<van-field v-model="valuesParams['JOB_FDCQXXB.FCQLY']" right-icon="arrow" placeholder="请选择产权来源"
-							@click-right-icon="$toast('question')" disabled clickable
+							@click-right-icon="Toast('question')" disabled clickable
 							@click.native="propertySourceClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -57,7 +57,7 @@
 							房屋性质
 						</div>
 						<van-field v-model="valuesParams['JOB_FDCQXXB.FFWXZ']" right-icon="arrow" placeholder="请选择房屋性质"
-							@click-right-icon="$toast('question')" disabled clickable
+							@click-right-icon="Toast('question')" disabled clickable
 							@click.native="housePropertyClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -65,7 +65,7 @@
 							房屋用途
 						</div>
 						<van-field v-model="valuesParams['JOB_FDCQXXB.FFWYT']" right-icon="arrow" placeholder="请选择房屋用途"
-							@click-right-icon="$toast('question')" disabled clickable
+							@click-right-icon="Toast('question')" disabled clickable
 							@click.native="houseUseClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -101,14 +101,14 @@
 							<span class="required-span">*</span>性别
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FXB']" right-icon="arrow" placeholder="请选择性别"
-							@click-right-icon="$toast('question')" disabled clickable @click.native="sexClicked()" />
+							@click-right-icon="Toast('question')" disabled clickable @click.native="sexClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>证件种类
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FZJZL']" right-icon="arrow" placeholder="请选择证件种类"
-							@click-right-icon="$toast('question')" disabled clickable
+							@click-right-icon="Toast('question')" disabled clickable
 							@click.native="certificateClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -122,7 +122,7 @@
 							<span class="required-span">*</span>单位性质
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
-							@click-right-icon="$toast('question')" disabled clickable
+							@click-right-icon="Toast('question')" disabled clickable
 							@click.native="unitNatureClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -130,7 +130,7 @@
 							<span class="required-span">*</span>国家/地区
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FGJDQ']" right-icon="arrow" placeholder="请选择国家地区"
-							@click-right-icon="$toast('question')" disabled clickable
+							@click-right-icon="Toast('question')" disabled clickable
 							@click.native="countryClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -138,7 +138,7 @@
 							<span class="required-span">*</span>户籍所属省份
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow" placeholder="请选择户籍所属省份"
-							@click-right-icon="$toast('question')" disabled clickable
+							@click-right-icon="Toast('question')" disabled clickable
 							@click.native="provinceClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -152,7 +152,7 @@
 							<span class="required-span">*</span>共有情况
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FGYQK']" right-icon="arrow" placeholder="请选择共有情况"
-							@click-right-icon="$toast('question')" disabled clickable
+							@click-right-icon="Toast('question')" disabled clickable
 							@click.native="situationClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -298,7 +298,6 @@
 				type: 0,
 				application: '',
 				township: '',
-				propertySource: '',
 				person: '',
 				idCard: '',
 				houseProperty: '',
