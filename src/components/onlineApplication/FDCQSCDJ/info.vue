@@ -9,7 +9,7 @@
 							<span class="required-span">*</span>申请事项
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FDJLX']" right-icon="arrow" placeholder="请选择申请事项"
-							 disabled clickable
+							  clickable 
 							@click.native="applicationClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -17,7 +17,7 @@
 							<span class="required-span">*</span>镇区
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FZQDM']" right-icon="arrow" placeholder="请选择镇区"
-							 disabled clickable
+							  clickable 
 							@click.native="townshipClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -31,7 +31,7 @@
 							产权来源
 						</div>
 						<van-field v-model="valuesParams['JOB_FDCQXXB.FCQLY']" right-icon="arrow" placeholder="请选择产权来源"
-							 disabled clickable
+							  clickable 
 							@click.native="propertySourceClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -44,20 +44,20 @@
 						<div class="cell-title">
 							土地性质
 						</div>
-						<van-field class="field-background" v-model="valuesParams['JOB_FDCQXXB.FQLXZ']" disabled />
+						<van-field class="field-background" v-model="valuesParams['JOB_FDCQXXB.FQLXZ']" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							土地用途
 						</div>
-						<van-field class="field-background" v-model="valuesParams['JOB_FDCQXXB.FTDYT']" disabled />
+						<van-field class="field-background" v-model="valuesParams['JOB_FDCQXXB.FTDYT']" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							房屋性质
 						</div>
 						<van-field v-model="valuesParams['JOB_FDCQXXB.FFWXZ']" right-icon="arrow" placeholder="请选择房屋性质"
-							 disabled clickable
+							  clickable 
 							@click.native="housePropertyClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -65,7 +65,7 @@
 							房屋用途
 						</div>
 						<van-field v-model="valuesParams['JOB_FDCQXXB.FFWYT']" right-icon="arrow" placeholder="请选择房屋用途"
-							 disabled clickable
+							  clickable 
 							@click.native="houseUseClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -74,7 +74,7 @@
 						</div>
 						<div class="unFillText">
 							<van-field style="flex:80%" class="field-background"
-								v-model="valuesParams['JOB_FDCQXXB.FZDMJ']" disabled />
+								v-model="valuesParams['JOB_FDCQXXB.FZDMJ']" />
 							<span class="unit">平方米</span>
 						</div>
 					</van-cell-group>
@@ -101,14 +101,14 @@
 							<span class="required-span">*</span>性别
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FXB']" right-icon="arrow" placeholder="请选择性别"
-							 disabled clickable @click.native="sexClicked()" />
+							 clickable @click.native="sexClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>证件种类
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FZJZL']" right-icon="arrow" placeholder="请选择证件种类"
-							 disabled clickable
+							  clickable 
 							@click.native="certificateClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -122,15 +122,15 @@
 							<span class="required-span">*</span>单位性质
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
-							 disabled clickable
-							@click.native="unitNatureClicked()" />
+							  clickable 
+								disabled class="field-background" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>国家/地区
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FGJDQ']" right-icon="arrow" placeholder="请选择国家地区"
-							 disabled clickable
+							  clickable 
 							@click.native="countryClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -138,7 +138,7 @@
 							<span class="required-span">*</span>户籍所属省份
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow" placeholder="请选择户籍所属省份"
-							 disabled clickable
+							  clickable 
 							@click.native="provinceClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -152,7 +152,7 @@
 							<span class="required-span">*</span>共有情况
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FGYQK']" right-icon="arrow" placeholder="请选择共有情况"
-							 disabled clickable
+							  clickable 
 							@click.native="situationClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -193,14 +193,14 @@
 							<span class="required-span">*</span>快递寄材料
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FSFKDJCL']" right-icon="arrow"
-							placeholder="请选择快递寄材料" disabled clickable @click.native="materialClicked()" />
+							placeholder="请选择快递寄材料" clickable @click.native="materialClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>快递寄证
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FSFKDJZ']" right-icon="arrow" placeholder="请选择快递寄证"
-							disabled clickable @click.native="credentialClicked()" />
+							clickable @click.native="credentialClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -225,7 +225,7 @@
 							所在镇区
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FZQ']" right-icon="arrow" placeholder="请选择所在镇区"
-							disabled clickable @click.native="townShipEMSClicked()" />
+							clickable @click.native="townShipEMSClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
