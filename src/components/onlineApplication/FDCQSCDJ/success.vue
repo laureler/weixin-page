@@ -41,7 +41,7 @@
 				sessionStorage.removeItem('formdata');
 				sessionStorage.removeItem('business');
 				sessionStorage.removeItem('taskId');
-				this.$router.go(-4);
+				this.$router.push('/onlineApplication');
 			}
 		}
 	}

@@ -40,7 +40,7 @@
 				sessionStorage.removeItem('business');
 				sessionStorage.removeItem('taskId');
 				sessionStorage.removeItem('myyxx');
-				this.$router.go(-4);
+				this.$router.push('/onlineApplication');
 			}
 		}
 	}
