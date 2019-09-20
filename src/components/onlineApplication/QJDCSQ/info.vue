@@ -9,7 +9,7 @@
 							<span class="required-span">*</span>申请事项
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FDJLX']" right-icon="arrow" placeholder="请选择申请事项"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="applicationClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -17,7 +17,7 @@
 							<span class="required-span">*</span>镇区
 						</div>
 						<van-field v-model="valuesParams['JOB_SJDJB.FZQDM']" right-icon="arrow" placeholder="请选择镇区"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="townshipClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -25,7 +25,7 @@
 							<span class="required-span">*</span>权调原因
 						</div>
 						<van-field v-model="valuesParams['JOB_QDXXB.FQDYY']" right-icon="arrow" placeholder="权调原因"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="investigateReasonClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -66,7 +66,7 @@
 							<span class="required-span">*</span>证件种类
 						</div>
 						<van-field v-model="valuesParams['JOB_QDXXB.FZJZL']" right-icon="arrow" placeholder="请选择证件种类"
-							@click-right-icon="$toast('question')" disabled clickable
+							 disabled clickable
 							@click.native="certificateClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -312,7 +312,7 @@
 				} else if (!this.valuesParams['JOB_QDXXB.FZJHM'] || this.valuesParams['JOB_QDXXB.FZJHM'].length == 0) {
 					Toast('请填写申请人证件号码!');
 					return;
-				} else if (!reg.test(this.valuesParams['JOB_QDXXB.FZJHM'])) {
+				} else if (this.valuesParams['JOB_QDXXB.FZJZL'] === "身份证" && !reg.test(this.valuesParams['JOB_QDXXB.FZJHM'])) {
 					Toast('请填写申请人正确的证件号码!');
 					return;
 				}

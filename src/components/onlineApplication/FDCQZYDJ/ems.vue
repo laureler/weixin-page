@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<page-head title="房地产权转移登记"></page-head>
+		<page-head title="房地产权（独幢、层、套、间房屋）转移登记"></page-head>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄材料

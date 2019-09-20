@@ -129,19 +129,29 @@ server {
     listen    8082;
     server_name  localhost;
     location /workflowWebService/ {
-    	proxy_pass http://www.aiwandoudou.com;
+    	proxy_pass http://113.106.13.237:85;
+    	# http://113.106.13.237:85;
+    	# http://www.aiwandoudou.com;
     }
     location /pubWeb/system/ {
-    	proxy_pass http://www.aiwandoudou.com;
+    	proxy_pass http://113.106.13.237:85;
+    	# http://113.106.13.237:85;
+    	# http://www.aiwandoudou.com;
     }
     location /formengineWebService/ {
-    	proxy_pass http://www.aiwandoudou.com;
+    	proxy_pass http://113.106.13.237:85;
+    	# http://113.106.13.237:85;
+    	# http://www.aiwandoudou.com;
     }
     location /mainWeb/ {
-    	proxy_pass http://www.aiwandoudou.com;
+    	proxy_pass http://113.106.13.237:85;
+    	# http://113.106.13.237:85;
+    	# http://www.aiwandoudou.com;
     }
     location /cas/ {
-    	proxy_pass http://www.aiwandoudou.com;
+    	proxy_pass http://113.106.13.237:85;
+    	# http://113.106.13.237:85;
+    	# http://www.aiwandoudou.com;
     }
     
     #location /pubWeb/public/weChatPublic/ {
