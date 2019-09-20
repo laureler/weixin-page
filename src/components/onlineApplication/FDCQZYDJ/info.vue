@@ -911,7 +911,7 @@
 				} else if (this.type == 4) {
 					if (this.countryType == 0) {
 						//受让人
-						this.applicant['JOB_SQRXXB.FGJDQ'] = val.name;
+						this.applicant['JOB_SQRXXB.FGJDQ'] = val.name.replace('>', '');
 					} else if (this.countryType == 1) {
 						//转让人
 						this.assignor['JOB_SQRXXB_OLD.FGJDQ'] = val.name;

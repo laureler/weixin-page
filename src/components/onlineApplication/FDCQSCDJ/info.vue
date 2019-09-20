@@ -814,7 +814,7 @@
 				} else if (this.type == 1) {
 					this.valuesParams['JOB_SJDJB.FZQDM'] = val.name;
 				} else if (this.type == 2) {
-					this.applicant['JOB_SQRXXB.FGJDQ'] = val.name;
+					this.applicant['JOB_SQRXXB.FGJDQ'] = val.name.replace('>', '');
 				} else if (this.type == 3) {
 					this.applicant['JOB_SQRXXB.FHJSZSS'] = val.name;
 				} else if (this.type == 4) {

@@ -578,7 +578,7 @@
 				} else if (this.optionsTitle === 'companyTypeOptions') { // 单位性质
 					this.applicant['JOB_SQRXXB.FDWXZ'] = val.name;
 				} else if (this.optionsTitle === 'countryOptions') { // 国家
-					this.applicant['JOB_SQRXXB.FGJDQ'] = val.name;
+					this.applicant['JOB_SQRXXB.FGJDQ'] = val.name.replace('>', '');
 				} else if (this.optionsTitle === 'censusOptions') { // 户籍所属省份
 					this.applicant['JOB_SQRXXB.FHJSZSS'] = val.name;
 				} else if (this.optionsTitle === 'commonOptions') { // 共有情况
