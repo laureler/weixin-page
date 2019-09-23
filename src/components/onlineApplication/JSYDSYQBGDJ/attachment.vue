@@ -487,7 +487,6 @@
 				var files5Str = this.files5.join("::");
 				this.fillSubFormData('JOB_FILES_LINK.IFJQD', [{
 					'JOB_FILES.CCJZ': "原件正本",
-					'JOB_FILES.CLFL': null,
 					'JOB_FILES.FBZ': null,
 					'JOB_FILES.FPATH': filesStr,
 					'JOB_FILES.FSL': 0,
@@ -501,7 +500,6 @@
 				}]);
 				this.fillSubFormData2('JOB_FILES_LINK.IFJQD', [{
 					'JOB_FILES.CCJZ': "正本复印件",
-					'JOB_FILES.CLFL': null,
 					'JOB_FILES.FBZ': null,
 					'JOB_FILES.FPATH': files2Str,
 					'JOB_FILES.FSL': 0,
@@ -515,7 +513,6 @@
 				}]);
 				this.fillSubFormData3('JOB_FILES_LINK.IFJQD', [{
 					'JOB_FILES.CCJZ': "原件正本",
-					'JOB_FILES.CLFL': null,
 					'JOB_FILES.FBZ': null,
 					'JOB_FILES.FPATH': files3Str,
 					'JOB_FILES.FSL': 0,
@@ -529,7 +526,6 @@
 				}]);
 				this.fillSubFormData4('JOB_FILES_LINK.IFJQD', [{
 					'JOB_FILES.CCJZ': "原件正本",
-					'JOB_FILES.CLFL': null,
 					'JOB_FILES.FBZ': null,
 					'JOB_FILES.FPATH': files4Str,
 					'JOB_FILES.FSL': 0,
@@ -543,7 +539,6 @@
 				}]);
 				this.fillSubFormData5('JOB_FILES_LINK.IFJQD', [{
 					'JOB_FILES.CCJZ': "原件正本",
-					'JOB_FILES.CLFL': null,
 					'JOB_FILES.FBZ': null,
 					'JOB_FILES.FPATH': files5Str,
 					'JOB_FILES.FSL': 0,

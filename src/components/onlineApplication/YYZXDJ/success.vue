@@ -11,12 +11,12 @@
 				<div class="application">申办事项：异议注销登记</div>
 				<div class="application-num">申办编号：{{ jid }}</div>
 				<div class="tips">
-					提示：可以在个人中心-我的申办中查看或修改申办信息。
+					提示：可以在个人中心-我的申办中查看申办信息。
 				</div>
 			</div>
 			<div class="buttons">
 				<van-button class="success-btn" plain size="normal" type="default">查看证书</van-button>
-				<van-button class="success-btn" plain size="normal" type="default">完成</van-button>
+				<van-button class="success-btn" plain size="normal" type="default" @click="finishClicked">完成</van-button>
 			</div>
 		</div>
 	</div>
@@ -34,7 +34,15 @@
 				jid: sessionStorage.getItem('jid')
 			}
 		},
-		methods: {}
+		methods: {
+			finishClicked: function () {
+				sessionStorage.removeItem('formdata');
+				sessionStorage.removeItem('business');
+				sessionStorage.removeItem('taskId');
+				sessionStorage.removeItem('myyxx');
+				this.$router.push('/onlineApplication');
+			}
+		}
 	}
 
 </script>

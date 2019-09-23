@@ -9,7 +9,7 @@
 							<span class="required-span">*</span>申请事项
 						</div>
 						<van-field id="JOB_SJDJB.FDJLX" v-model="JOB_BDCQK['JOB_SJDJB.FDJLX']" right-icon="arrow"
-							placeholder="请选择申请事项" disabled clickable
+							placeholder="请选择申请事项"  clickable 
 							@click.native="actionsheetClicked('itemOptions')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -17,7 +17,7 @@
 							<span class="required-span">*</span>镇区
 						</div>
 						<van-field id="JOB_SJDJB.FZQDM" v-model="JOB_BDCQK['JOB_SJDJB.FZQDM']" right-icon="arrow"
-							placeholder="请选择镇区" disabled clickable
+							placeholder="请选择镇区"  clickable 
 							@click.native="actionsheetClicked('townshipOptions')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -29,31 +29,10 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							<span class="required-span">*</span>不动产单元号
-						</div>
-						<van-field id="JOB_BDCQK.FBDCDYH" v-model="JOB_BDCQK['JOB_BDCQK.FBDCDYH']" placeholder="不动产单元号"
-							clickable disabled class="disabled-field" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
 							<span class="required-span">*</span>坐落
 						</div>
 						<van-field id="JOB_BDCQK.FFDZL" v-model="JOB_BDCQK['JOB_BDCQK.FFDZL']" placeholder="坐落"
 							clickable disabled class="disabled-field" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							面积
-						</div>
-						<van-field id="JOB_BDCQK.FMJ" v-model="JOB_BDCQK['JOB_BDCQK.FMJ']" placeholder="面积" clickable
-							disabled class="disabled-field" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							用途
-						</div>
-						<van-field id="JOB_BDCQK.FYT" v-model="JOB_BDCQK['JOB_BDCQK.FYT']" placeholder="用途" clickable
-							disabled class="disabled-field" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -66,14 +45,14 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>异议注销原因
 						</div>
-						<van-field id="JOB_BDCQK.FDJYY" v-model="JOB_BDCQK['JOB_BDCQK.FDJYY']" placeholder="异议原因"
-							clickable />
+						<van-field id="JOB_BDCQK.FDJYY" v-model="JOB_BDCQK['JOB_BDCQK.FDJYY']" placeholder="异议注销原因"
+							clickable  />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							备注
 						</div>
-						<van-field id="JOB_BDCQK.FBZ" v-model="JOB_BDCQK['JOB_BDCQK.FBZ']" placeholder="备注" clickable />
+						<van-field id="JOB_BDCQK.FBZ" v-model="JOB_BDCQK['JOB_BDCQK.FBZ']" placeholder="备注" clickable  />
 					</van-cell-group>
 				</van-tab>
 				<van-tab title="申请人">
@@ -88,15 +67,15 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>性别
 						</div>
-						<van-field id="JOB_SQRXXB.FXB" v-model="applicant['JOB_SQRXXB.FXB']" right-icon="arrow" disabled
-							clickable placeholder="性别" @click.native="actionsheetClicked('sexOptions')" />
+						<van-field id="JOB_SQRXXB.FXB" v-model="applicant['JOB_SQRXXB.FXB']" right-icon="arrow"
+							clickable  placeholder="性别" @click.native="actionsheetClicked('sexOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>证件种类
 						</div>
 						<van-field id="JOB_SQRXXB.FZJZL" v-model="applicant['JOB_SQRXXB.FZJZL']" right-icon="arrow"
-							disabled clickable placeholder="证件种类" @click.native="actionsheetClicked('idTypeOptions')" />
+							clickable placeholder="证件种类" @click.native="actionsheetClicked('idTypeOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -110,15 +89,15 @@
 							<span class="required-span">*</span>单位性质
 						</div>
 						<van-field id="JOB_SQRXXB.FDWXZ" v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow"
-							disabled clickable placeholder="单位性质"
-							@click.native="actionsheetClicked('companyTypeOptions')" />
+							clickable placeholder="单位性质"
+							disabled class="disabled-field" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>国家/地区
 						</div>
 						<van-field id="JOB_SQRXXB.FGJDQ" v-model="applicant['JOB_SQRXXB.FGJDQ']" right-icon="arrow"
-							disabled clickable placeholder="国家/地区"
+							clickable placeholder="国家/地区"
 							@click.native="actionsheetClicked('countryOptions')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -126,7 +105,7 @@
 							<span class="required-span">*</span>户籍所属省份
 						</div>
 						<van-field id="JOB_SQRXXB.FHJSZSS" v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow"
-							disabled clickable placeholder="户籍所属省份"
+							clickable placeholder="户籍所属省份"
 							@click.native="actionsheetClicked('censusOptions')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -141,7 +120,7 @@
 							<span class="required-span">*</span>共有情况
 						</div>
 						<van-field id="JOB_SQRXXB.FGYQK" v-model="applicant['JOB_SQRXXB.FGYQK']" right-icon="arrow"
-							disabled clickable placeholder="共有情况" @click.native="actionsheetClicked('commonOptions')" />
+							clickable placeholder="共有情况" @click.native="actionsheetClicked('commonOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -179,7 +158,7 @@
 							<span class="required-span">*</span>快递寄材料
 						</div>
 						<van-field id="JOB_SJDJB.FSFKDJCL" v-model="JOB_BDCQK['JOB_SJDJB.FSFKDJCL']" right-icon="arrow"
-							placeholder="请选择快递寄材料" disabled clickable
+							placeholder="请选择快递寄材料"  clickable 
 							@click.native="actionsheetClicked('materialOptions')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -187,7 +166,7 @@
 							<span class="required-span">*</span>快递寄证
 						</div>
 						<van-field id="JOB_SJDJB.FSFKDJZ" v-model="JOB_BDCQK['JOB_SJDJB.FSFKDJZ']" right-icon="arrow"
-							placeholder="请选择快递寄证" disabled clickable
+							placeholder="请选择快递寄证"  clickable 
 							@click.native="actionsheetClicked('credentialOptions')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -216,7 +195,7 @@
 							所在镇区
 						</div>
 						<van-field id="JOB_SJDJB.FZQ" v-model="JOB_BDCQK['JOB_SJDJB.FZQ']" right-icon="arrow"
-							placeholder="请选择所在镇区" disabled clickable
+							placeholder="请选择所在镇区"  clickable 
 							@click.native="actionsheetClicked('township2Options')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -403,9 +382,89 @@
 				}], // 登记原因
 				countryOptions: [{
 					name: '中华人民共和国'
+				}, {
+					name: '>香港特别行政区'
+				}, {
+					name: '>澳门特别行政区'
+				}, {
+					name: '>台湾省'
+				}, {
+					name: '加拿大'
+				}, {
+					name: '美国'
+				}, {
+					name: '韩国'
+				}, {
+					name: '巴西'
 				}], // 国家/地区
 				censusOptions: [{
+					name: '北京'
+				},{
+					name: '天津'
+				},{
+					name: '河北'
+				},{
+					name: '山西'
+				},{
+					name: '内蒙古'
+				},{
+					name: '辽宁'
+				},{
+					name: '吉林'
+				},{
+					name: '黑龙江'
+				},{
+					name: '上海'
+				},{
+					name: '江苏'
+				},{
+					name: '浙江'
+				},{
+					name: '安徽'
+				},{
+					name: '福建'
+				},{
+					name: '江西'
+				},{
+					name: '山东'
+				},{
+					name: '河南'
+				},{
+					name: '湖北'
+				},{
+					name: '湖南'
+				},{
 					name: '广东'
+				},{
+					name: '广西'
+				},{
+					name: '海南'
+				},{
+					name: '重庆'
+				},{
+					name: '四川'
+				},{
+					name: '贵州'
+				},{
+					name: '云南'
+				},{
+					name: '西藏'
+				},{
+					name: '陕西'
+				},{
+					name: '甘肃'
+				},{
+					name: '青海'
+				},{
+					name: '宁夏'
+				},{
+					name: '新疆'
+				},{
+					name: '台湾'
+				},{
+					name: '香港'
+				},{
+					name: '澳门'
 				}],
 				commonOptions: [{
 					name: '单独所有'
@@ -425,6 +484,20 @@
 				}],
 				idTypeOptions: [{
 					name: '身份证'
+				},{
+					name: '港澳台身份证'
+				},{
+					name: '护照'
+				},{
+					name: '户口簿'
+				},{
+					name: '军官证（士兵证）'
+				},{
+					name: '组织机构代码'
+				},{
+					name: '营业执照'
+				},{
+					name: '其他'
 				}],
 				companyTypeOptions: [{
 					name: '个人'
@@ -484,7 +557,7 @@
 				} else if (this.optionsTitle === 'companyTypeOptions') { // 单位性质
 					this.applicant['JOB_SQRXXB.FDWXZ'] = val.name;
 				} else if (this.optionsTitle === 'countryOptions') { // 国家
-					this.applicant['JOB_SQRXXB.FGJDQ'] = val.name;
+					this.applicant['JOB_SQRXXB.FGJDQ'] = val.name.replace('>', '');
 				} else if (this.optionsTitle === 'censusOptions') { // 户籍所属省份
 					this.applicant['JOB_SQRXXB.FHJSZSS'] = val.name;
 				} else if (this.optionsTitle === 'commonOptions') { // 共有情况
@@ -542,7 +615,7 @@
 				} else if (!applicant['JOB_SQRXXB.FZJHM'] || applicant['JOB_SQRXXB.FZJHM'].length == 0) {
 					Toast('请选择权利人证件号码!');
 					return;
-				} else if (!reg.test(applicant['JOB_SQRXXB.FZJHM'])) {
+				} else if (applicant['JOB_SQRXXB.FZJZL'] === "身份证" && !reg.test(applicant['JOB_SQRXXB.FZJHM'])) {
 					Toast('请填写权利人正确的证件号码!');
 					return;
 				} else if (!applicant['JOB_SQRXXB.FDWXZ'] || applicant['JOB_SQRXXB.FDWXZ'].length == 0) {
@@ -593,11 +666,6 @@
 					].length == 0) {
 					Toast('请填写权利人名称!');
 					return;
-				} else if (!this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCDYH'] || this.$data['JOB_BDCQK'][
-						'JOB_BDCQK.FBDCDYH'
-					].length == 0) {
-					Toast('请填写不动产单元号!');
-					return;
 				} else if (!this.$data['JOB_BDCQK']['JOB_BDCQK.FFDZL'] || this.$data['JOB_BDCQK'][
 						'JOB_BDCQK.FFDZL'
 					].length == 0) {
@@ -625,7 +693,7 @@
 				} else if (!applicant['JOB_SQRXXB.FZJHM'] || applicant['JOB_SQRXXB.FZJHM'].length == 0) {
 					Toast('请选择申请人证件号码!');
 					return;
-				} else if (!reg.test(applicant['JOB_SQRXXB.FZJHM'])) {
+				} else if (applicant['JOB_SQRXXB.FZJZL'] === "身份证" && !reg.test(applicant['JOB_SQRXXB.FZJHM'])) {
 					Toast('请填写申请人正确的证件号码!');
 					return;
 				} else if (!applicant['JOB_SQRXXB.FDWXZ'] || applicant['JOB_SQRXXB.FDWXZ'].length == 0) {
@@ -906,8 +974,6 @@
 				});
 
 			} else {
-				var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
-				console.log('cqxx:', this.$route.query.cqxx);
 				var _this = this;
 				Toast.loading({
 					mask: true,
@@ -927,8 +993,89 @@
 						_this.taskId = taskId;
 						_this.$data['JOB_BDCQK'] = values;
 						sessionStorage.setItem('jid', businessNumber);
-						_this.startExactBusiness(rid, businessNumber);
-						console.log('taskId:', _this.taskId);
+
+						var yysj = JSON.parse(sessionStorage.getItem('myyxx'));
+						var yyqlr = yysj[0]["yyqlrxx"];
+						var yyywr = yysj[0]["yyywrxx"];
+						var yyxx = yysj[0]["yyxx"];
+						debugger;
+						var glqlxx = yysj[0]["glqlxx"][0];
+
+						var GLQLZMXXB = {}
+						GLQLZMXXB["JOB_GLQLZMXXB.FBDCDYH"] = yyxx["yyxx.FBDCDYH"];
+						GLQLZMXXB["JOB_GLQLZMXXB.FZL"] = glqlxx["yyxx.FZL"];
+						GLQLZMXXB["JOB_GLQLZMXXB.FYWR"] = glqlxx["yyxx.FQLR"];
+						GLQLZMXXB["JOB_GLQLZMXXB.FFWBM"] = glqlxx["yyxx.FFWBM"];
+						GLQLZMXXB["JOB_GLQLZMXXB.FOLDJID"] = yyxx["yyxx.JID"];
+						GLQLZMXXB["JOB_GLQLZMXXB.FBDCDJZMH"] = yyxx["yyxx.FBDCDJZMH"];
+
+
+						//填充申请人信息
+						var sqrdata = [];
+						for (var i = 0; i < yyqlr.length; i++) {
+							var sqrreocrd = {};
+							sqrreocrd["JOB_SQRXXB.XH"] = i + 1;
+							sqrreocrd["JOB_SQRXXB.FSQRMC"] = yyqlr[i]["sqrxx.FSQRMC"];
+							sqrreocrd["JOB_SQRXXB.FSQRLX"] = "其他";
+							sqrreocrd["JOB_SQRXXB.FZJZL"] = yyqlr[i]["sqrxx.FZJZL"];
+							sqrreocrd["JOB_SQRXXB.FZJHM"] = yyqlr[i]["sqrxx.FZJHM"];
+							sqrreocrd["JOB_SQRXXB.FDWXZ"] = yyqlr[i]["sqrxx.FDWXZ"];
+							sqrreocrd["JOB_SQRXXB.FXB"] = yyqlr[i]["sqrxx.FXB"];
+							sqrreocrd["JOB_SQRXXB.FGJDQ"] = yyqlr[i]["sqrxx.FGJDQ"];
+							sqrreocrd["JOB_SQRXXB.FLXDH"] = yyqlr[i]["sqrxx.FLXDH"];
+							sqrreocrd["JOB_SQRXXB.FFRMC"] = yyqlr[i]["sqrxx.FFRMC"];
+							sqrreocrd["JOB_SQRXXB.FFRZJHM"] = yyqlr[i]["sqrxx.FFRZJHM"];
+							sqrreocrd["JOB_SQRXXB.FTXDZ"] = yyqlr[i]["sqrxx.FTXDZ"];
+							sqrreocrd["JOB_SQRXXB.FGYQK"] = yyqlr[i]["sqrxx.FGYQK"];
+							sqrreocrd["JOB_SQRXXB.FQLBL"] = yyqlr[i]["sqrxx.FQLBL"];
+							sqrdata.push(sqrreocrd);
+						}
+						_this.$data['JOB_SQRXXB_LINK.IQLR'] = sqrdata;
+
+
+						//填充业务人信息
+						var ywrdata = [];
+						for (var i = 0; i < yyywr.length; i++) {
+							var ywrreocrd = {};
+							ywrreocrd["JOB_SQRXXB_OLD.XH"] = i + 1;
+							ywrreocrd["JOB_SQRXXB_OLD.FSQRMC"] = yyywr[i]["oldsqrxx.FSQRMC"];
+							ywrreocrd["JOB_SQRXXB_OLD.FSQRLX"] = "其他";
+							ywrreocrd["JOB_SQRXXB_OLD.FZJZL"] = yyywr[i]["oldsqrxx.FZJZL"];
+							ywrreocrd["JOB_SQRXXB_OLD.FZJHM"] = yyywr[i]["oldsqrxx.FZJHM"];
+							ywrreocrd["JOB_SQRXXB_OLD.FDWXZ"] = yyywr[i]["oldsqrxx.FDWXZ"];
+							ywrreocrd["JOB_SQRXXB_OLD.FXB"] = yyywr[i]["oldsqrxx.FXB"];
+							ywrreocrd["JOB_SQRXXB_OLD.FGJDQ"] = yyywr[i]["oldsqrxx.FGJDQ"];
+							ywrreocrd["JOB_SQRXXB_OLD.FLXDH"] = yyywr[i]["oldsqrxx.FLXDH"];
+							ywrreocrd["JOB_SQRXXB_OLD.FFRMC"] = yyywr[i]["oldsqrxx.FFRMC"];
+							ywrreocrd["JOB_SQRXXB_OLD.FFRZJHM"] = yyywr[i]["oldsqrxx.FFRZJHM"];
+							ywrreocrd["JOB_SQRXXB_OLD.FTXDZ"] = yyywr[i]["oldsqrxx.FTXDZ"];
+							ywrreocrd["JOB_SQRXXB_OLD.FGYQK"] = yyywr[i]["oldsqrxx.FGYQK"];
+							ywrreocrd["JOB_SQRXXB_OLD.FQLBL"] = yyywr[i]["oldsqrxx.FQLBL"];
+							ywrdata.push(ywrreocrd);
+						}
+
+
+						//填充不动产情况信息
+						var bdclx = "";
+						if (yyxx["bdclx"] == "TD") {
+							bdclx = "土地";
+						}
+						if (yyxx["bdclx"] == "FW") {
+							bdclx = "土地和房屋";
+						}
+
+						_this.$data['JOB_BDCQK']['JOB_BDCQK.FFDZL'] = glqlxx["yyxx.FZL"];
+						_this.$data['JOB_BDCQK']['JOB_BDCQK.FQLRMC'] = glqlxx["yyxx.FQLR"];
+						_this.$data['JOB_BDCQK']['JOB_BDCQK.FYBDCQSZH'] = glqlxx["yyxx.FBDCQZH"];
+
+						// 保存权利证明信息
+						_this.fillSubFormData('JOB_GLQLZMXXB_LINK.OLD_IQLDJ', [GLQLZMXXB]);
+						// 保存申请人信息
+						_this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', sqrdata);
+						// 保存权利人信息
+						_this.fillSubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR', ywrdata);
+
+
 					})
 					.catch(function (error) {
 						console.log(error);
@@ -1047,6 +1194,10 @@
 	.disabled-field {
 		background-color: #E5E5E5;
 		color: #333333;
+	}
+
+	.van-field__control:disabled {
+		color: #000;
 	}
 
 </style>
