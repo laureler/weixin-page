@@ -1,18 +1,11 @@
 <template>
 	<div class="container">
-		<page-head title="不动产权利证书遗失（换证）登记"></page-head>
+		<page-head title="建设用地使用权、宅基地使用权转移登记"></page-head>
 		<van-cell-group>
 			<div class="cell-title">
-				<span class="required-span">*</span>不动产类型
+				<span class="required-span">*</span>申请人姓名
 			</div>
-			<van-field v-model="estateType" right-icon="arrow" placeholder="请输入不动产类型"
-				disabled clickable @click.native="estateTypeClicked()" />
-		</van-cell-group>
-		<van-cell-group>
-			<div class="cell-title">
-				<span class="required-span">*</span>申请人名字
-			</div>
-			<van-field v-model="qlr" clearable placeholder="请输入申请人名字" />
+			<van-field v-model="qlr" clearable placeholder="产权证上的权利人,多个权利人只需输入一个" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
@@ -21,7 +14,7 @@
 			<van-field v-model="cqzh" clearable placeholder="请输入权利证书号码" />
 		</van-cell-group>
 		<div class="tips">
-			提示: 可通过公众号的“信息查询-个人产权查询”查询权利证书号码
+			提示：如果您不清楚权利证书号码，可关注“中山不动产登记”微信公众号，选择菜单中的“信息查询-个人产权查询”查询个人产权信息。			
 		</div>
 		<van-cell-group>
 			<van-cell class="custom-cell">
@@ -41,16 +34,13 @@
 		</van-cell-group>
 		<div style="height: 50px;"></div>
 		<van-button size="large" type="info" class="bottom-button" @click.native="nextStep()">下一步</van-button>
-		<van-actionsheet v-model="show" :actions="actions" cancel-text="取消" @select="onSelect">
-			<!-- <p v-for="(action, index) in actions">{{ action.name }}</p> -->
-		</van-actionsheet>
 	</div>
 </template>
 
 <script>
-	import Head from '../app/head.vue';
+	import Head from '../../app/head.vue';
 	import { Toast } from 'vant';
-	import { CHECKOUT_REAL_ESTATE } from '../../constants/index.js'
+	import { CHECKOUT_REAL_ESTATE } from '../../../constants/index.js'
 	export default {
 		components: {
 			'page-head': Head
@@ -58,18 +48,10 @@
 		data() {
 			return {
 				estateType: '',
-				cqlx: '',
 				show: false,
-				qlr: '胡化金',
-				cqzh: '00070093',
+				qlr: '王书凤',
+				cqzh: '湘（2017）北湖不动产权第0034063号',
 				customStatus:'',
-				actions: [{
-						name: '房屋'
-					},
-					{
-						name: '土地'
-					}
-				],
 				checkout:{
 				    "cqxx":[{
 							"RID": '',
@@ -121,81 +103,81 @@
 			}
 		},
 		methods: {
-			estateTypeClicked: function () {
-				console.log(this.show);
-				this.show = true;
-			},
-			onSelect: function (val) {
-				console.log(val)
-				if (val.name == '房屋') {
-					this.cqlx = 'FW';
-					this.estateType = '房屋';
-				} else if (val.name == '土地'){
-					this.cqlx = 'TD';
-					this.estateType = '土地';
-				}
-				this.show = false;
-			},
 			checkoutID:function(){
 				this.customStatus = '';
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
 				this.axios.get(CHECKOUT_REAL_ESTATE,{
 					params:{
 						strJson:{
 							qlr:this.qlr,
 							cqzh:this.cqzh,
-							cqlx:this.cqlx,
+							cqlx:'TD'
 						},
 					path:'/WSYY/GetPropertyRightInfo'
 					}
 				}).then(res => {
-						console.log(res)
-						this.checkout = res.data;
-						sessionStorage.setItem('rid', this.checkout.cqxx[0].RID);
-						if (this.checkout.cqxx.length == 0) {
-							Toast('证书不存在!');
-							this.customStatus = '证书不存在!';
-						}else if (this.checkout.cqxx.length == 1) {
-							var state = '';
-							if (this.checkout.cqxx[0].SFYG == 1) {
-								state += '已预告、'
-							}else if (this.checkout.cqxx[0].SFYDY == 1) {
-								state += '已抵押、'
-							}else if (this.checkout.cqxx[0].SFBGL == 1) {
-								state += '已被其他业务关联、'
-							}else if (this.checkout.cqxx[0].SFCF == 1) {
-								state += '已查封、'
-							}else if (this.checkout.cqxx[0].SFDY == 1) {
-								state += '已抵押、'
-							}else if (this.checkout.cqxx[0].SFYY == 1) {
-								state += '已异议、'
-							}else if (this.checkout.cqxx[0].SFDJ == 1) {
-								state += '已冻结、'
-							}else if (this.checkout.cqxx[0].SFLZ == 0) {
-								state += '未落宗、'
-							}else if (this.checkout.cqxx[0].SFXZXZ == 1) {
-								state += '已行政限制、'
-							} else {
-								state += "校验通过、"
-							}
-							if (state != '') {
-								this.customStatus = state.substring(0,state.length-1);
-							}
+					Toast.clear();
+					console.log("checkoutID",res)
+					this.checkout = res.data;
+
+					if (this.checkout.resultcode === '0') {
+						Toast(this.checkout.resultmsg);
+						this.customStatus = this.checkout.resultmsg;
+						return;
+					}
+
+					sessionStorage.setItem('rid', this.checkout.cqxx[0].RID);
+					if (this.checkout.cqxx.length == 0) {
+						Toast('证书不存在!');
+						this.customStatus = '证书不存在!';
+					}else if (this.checkout.cqxx.length == 1) {
+						var state = '';
+						if (this.checkout.cqxx[0].SFYG == 1) {
+							state += '已预告、'
+						}else if (this.checkout.cqxx[0].SFYDY == 1) {
+							state += '已抵押、'
+						}else if (this.checkout.cqxx[0].SFBGL == 1) {
+							state += '已被其他业务关联、'
+						}else if (this.checkout.cqxx[0].SFCF == 1) {
+							state += '已查封、'
+						}else if (this.checkout.cqxx[0].SFDY == 1) {
+							state += '已抵押、'
+						}else if (this.checkout.cqxx[0].SFYY == 1) {
+							state += '已异议、'
+						}else if (this.checkout.cqxx[0].SFDJ == 1) {
+							state += '已冻结、'
+						}else if (this.checkout.cqxx[0].SFLZ == 0) {
+							state += '未落宗、'
+						}else if (this.checkout.cqxx[0].SFXZXZ == 1) {
+							state += '已行政限制、'
+						} else {
+							state += "校验通过、"
 						}
+						if (state != '') {
+							this.customStatus = state.substring(0,state.length-1);
+						}
+					}
 				}).catch(err => {
-						console.log(err)
-					})
+					Toast.clear();
+					console.log(err)
+					Toast.fail(err);
+				})
 			},
-			onCancel: function () {},
 			nextStep: function() {
-				if (!this.checkout.cqxx[0] || !this.checkout.cqxx[0].RID || this.checkout.cqxx[0].RID == '') {
+				if (this.customStatus != '校验通过') {
 					Toast('请校验证书通过后进行下一步!');
 				}else {
+					var businessDefinitionId = this.$route.query.businessDefinitionId;
 					this.$router.push({
-							path: '/onlineApplication/info', 
-							query: {
-								cqxx: this.checkout.cqxx[0]
-							}
-						})
+						path: '/onlineApplication/JSYDSYQZYDJ/info', 
+						query: {
+							cqxx: this.checkout.cqxx[0],
+							businessDefinitionId: businessDefinitionId
+						}
+					})
 				}
 			}
 		}
@@ -259,6 +241,10 @@
 		border-radius: 0;
 		background: -webkit-gradient(linear, left top, right top, from(#2db6ff), to(#2edbfd)) !important;
     background: linear-gradient(to right, #2db6ff, #2edbfd) !important;
+	}
+
+	.van-field__control:disabled {
+		color: #000;
 	}
 
 </style>

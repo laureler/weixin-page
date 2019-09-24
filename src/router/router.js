@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-07-16 11:42:54
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-08-14 16:27:51
+ * @LastEditTime: 2019-09-06 13:36:03
  * @Description: 头部注释
  */
 import Vue from 'vue';
@@ -14,12 +14,13 @@ import store from '../store/index';
 import {
 	fetch
 } from '../utils/http';
+import applications from './applications';
 
 Vue.use(Router);
 
 const router = new Router({
 	base: 'pubWeb/public/weChatPublic',
-	// base: 'app',
+	//base: 'app',
 	mode: 'history',
 	routes: [
 		// 证书查验界面
@@ -216,48 +217,14 @@ const router = new Router({
 			component: resolve => require(['@/components/approve/personInfo'], resolve)
 		},
 		// 在线申办
-		{
-			path: '/onlineApplication',
-			name: 'onlineApplication',
-			component: resolve => require(['@/components/onlineApplication/onlineApplication'], resolve),
-			redirect: '/onlineApplication/index',
-			children: [{
-				path: "/onlineApplication/index",
-				name: "onlineIndex",
-				component: resolve => require(['@/components/onlineApplication/index'], resolve),
-			}, {
-				path: "/onlineApplication/bookIn",
-				name: "onlineBookIn",
-				component: resolve => require(['@/components/onlineApplication/bookIn'], resolve),
-				meta: {
-					isNeedLogin: true
-				}
-			}, {
-				path: "/onlineApplication/info",
-				name: "onlineInfo",
-				component: resolve => require(['@/components/onlineApplication/info'], resolve)
-			}, {
-				path: "/onlineApplication/attachment",
-				name: "attachment",
-				component: resolve => require(['@/components/onlineApplication/attachment'], resolve),
-			}, {
-				path: "/onlineApplication/ems",
-				name: "onlineEMS",
-				component: resolve => require(['@/components/onlineApplication/ems'], resolve),
-			}, {
-				path: "/onlineApplication/success",
-				name: "onlineSuccess",
-				component: resolve => require(['@/components/onlineApplication/success'], resolve),
-			}, {
-				path: "/onlineApplication/test",
-				name: "test",
-				component: resolve => require(['@/components/onlineApplication/test'], resolve),
-			}]
-		},
+		applications,
 		{
 			path: '/myApplications',
 			name: 'myApplications',
-			component: resolve => require(['@/components/onlineApplication/myApplications'], resolve)
+			component: resolve => require(['@/components/onlineApplication/myApplications'], resolve),
+			meta: {
+				isNeedLogin: true
+			}
 		},
 		// 导航功能主页
 		{
@@ -316,6 +283,9 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+	console.log("to:", to.path);
+	console.log("from:", from.path);
+
 	// 如果是要进入个人中心首页或相关页面，需要验证配置和人脸识别
 	if (!to.meta.isNeedLogin && to.meta.isPersonalHomePage) {
 		if ((/^true$/i).test(store.getters.getVerifyState)) {

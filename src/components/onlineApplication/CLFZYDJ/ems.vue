@@ -1,18 +1,18 @@
 <template>
 	<div class="container">
-		<page-head title="不动产权利证书遗失（换证）登记"></page-head>
+		<page-head title="存量房转移登记"></page-head>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄材料
 			</div>
-			<van-field v-model="material" right-icon="arrow" placeholder="请选择快递寄材料" disabled clickable
+			<van-field id="JOB_SJDJB.FSFKDJCL" v-model="material" right-icon="arrow" placeholder="请选择快递寄材料"  clickable 
 				@click.native="materialClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄证
 			</div>
-			<van-field v-model="credential" right-icon="arrow" placeholder="请选择快递寄证" disabled clickable
+			<van-field id="JOB_SJDJB.FSFKDJZ" v-model="credential" right-icon="arrow" placeholder="请选择快递寄证"  clickable 
 				@click.native="credentialClicked()" />
 		</van-cell-group>
 		<van-cell-group>
@@ -37,7 +37,7 @@
 			<div class="cell-title">
 				所在镇区
 			</div>
-			<van-field id="JOB_SJDJB.FZQ" v-model="township" right-icon="arrow" placeholder="请选择所在镇区" disabled clickable @click.native="townshipClicked()" />
+			<van-field id="JOB_SJDJB.FZQ" v-model="township" right-icon="arrow" placeholder="请选择所在镇区" clickable @click.native="townshipClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
@@ -60,15 +60,15 @@
 </template>
 
 <script>
-	import Head from '../app/head.vue';
+	import Head from '../../app/head.vue';
 	import {
 		SUBMIT_TASK_FORM_DATA
-	} from '../../constants/index.js'
+	} from '../../../constants/index.js'
 	export default {
 		components: {
 			'page-head': Head
 		},
-		data() {
+		data () {
 			return {
 				show: false,
 				type: 0,
@@ -94,18 +94,31 @@
 						name: '否'
 					}
 				],
-				townships: [{
-						name: '石岐区'
-					},
-					{
-						name: '东区'
-					},
-					{
-						name: '南区'
-					},
-					{
-						name: '西区'
-					}
+				townships: [
+					{name: '石岐区'},
+					{ name: '东区' },
+					{ name: '南区' },
+					{ name: '西区' },
+					{ name: '东升' },
+					{ name: '板芙' },
+					{ name: '三角' },
+					{ name: '三乡' },
+					{ name: '民众' },
+					{ name: '横栏' },
+					{ name: '阜沙' },
+					{ name: '港口' },
+					{ name: '沙溪' },
+					{ name: '东凤' },
+					{ name: '大涌' },
+					{ name: '南朗' },
+					{ name: '古镇' },
+					{ name: '南头' },
+					{ name: '五桂山' },
+					{ name: '黄圃' },
+					{ name: '火炬开发区' },
+					{ name: '神湾' },
+					{ name: '坦洲' },
+					{ name: '小榄' }
 				],
 				actions: [],
 			}
@@ -146,16 +159,12 @@
 			},
 			nextStep: function () {
 				this.submitTaskFormData();
-				return;
-				this.$router.push({
-					path: '/onlineApplication/success'
-				});
 			},
 			submitTaskFormData: function () {
 				var taskId = sessionStorage.getItem('taskId');
 				var formData = JSON.parse(sessionStorage.getItem('formdata'));
-				formData['JOB_SJDJB.FSFKDJZ'] = this.material;
-				formData['JOB_SJDJB.FSFKDJCL'] = this.credential;
+				formData['JOB_SJDJB.FSFKDJCL'] = this.material;
+				formData['JOB_SJDJB.FSFKDJZ'] = this.credential;
 				formData['JOB_SJDJB.FDXLXR'] = this.contacts;
 				formData['JOB_SJDJB.FDXTZDH'] = this.phone;
 				formData['JOB_SJDJB.FLXRSFZHM'] = this.idNum;
@@ -180,7 +189,7 @@
 					console.log(response);
 					if (response.status == 200) {
 						this.$router.push({
-							path: '/onlineApplication/success'
+							path: '/onlineApplication/CLFZYDJ/success'
 						});
 					}
 				}).catch(error => {
