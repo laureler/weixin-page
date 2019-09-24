@@ -9,7 +9,7 @@
 							<span class="required-span">*</span>申请事项
 						</div>
 						<van-field id="JOB_SJDJB.FDJLX" v-model="this.$data['JOB_BDCQK']['JOB_SJDJB.FDJLX']"
-							right-icon="arrow" placeholder="请选择申请事项"  clickable 
+							right-icon="arrow" placeholder="请选择申请事项"  clickable
 							@click.native="actionsheetClicked('itemOptions')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -17,7 +17,7 @@
 							<span class="required-span">*</span>镇区
 						</div>
 						<van-field id="JOB_SJDJB.FZQDM" v-model="this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM']"
-							right-icon="arrow" placeholder="请选择镇区"  clickable 
+							right-icon="arrow" placeholder="请选择镇区"  clickable
 							@click.native="actionsheetClicked('townshipOptions')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -32,7 +32,7 @@
 							<span class="required-span">*</span>不动产类型
 						</div>
 						<van-field id="JOB_BDCQK.FBDCLX" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCLX']"
-							right-icon="arrow" placeholder="不动产类型" disabled class="disabled-field" clickable 
+							right-icon="arrow" placeholder="不动产类型" disabled class="disabled-field" clickable
 							@click.native="actionsheetClicked('estateOptions')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -238,7 +238,7 @@
 							<span class="required-span">*</span>快递寄材料
 						</div>
 						<van-field id="JOB_SJDJB.FSFKDJCL" v-model="JOB_BDCQK['JOB_SJDJB.FSFKDJCL']" right-icon="arrow"
-							placeholder="请选择快递寄材料"  clickable 
+							placeholder="请选择快递寄材料"  clickable
 							@click.native="actionsheetClicked('materialOptions')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -246,7 +246,7 @@
 							<span class="required-span">*</span>快递寄证
 						</div>
 						<van-field id="JOB_SJDJB.FSFKDJZ" v-model="JOB_BDCQK['JOB_SJDJB.FSFKDJZ']" right-icon="arrow"
-							placeholder="请选择快递寄证"  clickable 
+							placeholder="请选择快递寄证"  clickable
 							@click.native="actionsheetClicked('credentialOptions')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -275,7 +275,7 @@
 							所在镇区
 						</div>
 						<van-field id="JOB_SJDJB.FZQ" v-model="JOB_BDCQK['JOB_SJDJB.FZQ']" right-icon="arrow"
-							placeholder="请选择所在镇区"  clickable 
+							placeholder="请选择所在镇区"  clickable
 							@click.native="actionsheetClicked('township2Options')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -305,28 +305,7 @@
 </template>
 
 <script>
-	//根据权利类型判断不动产类型
-	function getBdcType(qllx) {
-		var bdclx = "";
-		if (qllx == "国有建设用地使用权" || qllx == "宅基地使用权" || qllx == "集体土地所有权" || qllx == "集体建设用地使用权") {
-			bdclx = "土地";
-		} else if (qllx == "国有建设用地使用权/房屋所有权" || qllx == "集体建设用地使用权/房屋所有权" || qllx == "宅基地使用权/房屋所有权") {
-			bdclx = "土地和房屋";
-		}
-		return bdclx;
-	}
-
-	function cleanParams(datas) {
-		var v_data = {};
-		for (var a in datas) {
-			if (datas[a] != null && datas[a] instanceof Array) {
-				v_data[a] = [];
-			} else {
-				v_data[a] = null;
-			}
-		}
-		return v_data;
-	}
+	// 根据权利类型判断不动产类型
 	import Head from '../../app/head.vue';
 	import {
 		GET_BUSINESS_START_FROM,
@@ -340,11 +319,32 @@
 	import {
 		Toast
 	} from 'vant';
+	function getBdcType (qllx) {
+		var bdclx = "";
+		if (qllx == "国有建设用地使用权" || qllx == "宅基地使用权" || qllx == "集体土地所有权" || qllx == "集体建设用地使用权") {
+			bdclx = "土地";
+		} else if (qllx == "国有建设用地使用权/房屋所有权" || qllx == "集体建设用地使用权/房屋所有权" || qllx == "宅基地使用权/房屋所有权") {
+			bdclx = "土地和房屋";
+		}
+		return bdclx;
+	}
+
+	function cleanParams (datas) {
+		var v_data = {};
+		for (var a in datas) {
+			if (datas[a] != null && datas[a] instanceof Array) {
+				v_data[a] = [];
+			} else {
+				v_data[a] = null;
+			}
+		}
+		return v_data;
+	}
 	export default {
 		components: {
 			'page-head': Head
 		},
-		data() {
+		data () {
 			return {
 
 				taskId: '',
@@ -1007,7 +1007,6 @@
 					Toast.clear();
 					console.log(error);
 				});
-
 			},
 			// 删除字表内容
 			delSubFormData: function (title, params, showLoading = false) {
@@ -1050,7 +1049,7 @@
 			startExactBusiness: function (rid, businessNumber) {
 				sessionStorage.setItem('jid', businessNumber);
 				var _this = this;
-				//判断产权是否土地，是土地的提取土地的产权
+				// 判断产权是否土地，是土地的提取土地的产权
 				var configureName = '土地和房屋证书更正登记';
 				if (rid.indexOf('TD') >= 0) {
 					configureName = "土地证书更正登记";
@@ -1064,10 +1063,10 @@
 					}).then(response => {
 						console.log(response);
 						Toast.clear();
-						//获取不动产类型
+						// 获取不动产类型
 						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
 						var bdclx = getBdcType(qllx);
-						//补充权利人信息
+						// 补充权利人信息
 						for (var key in response) {
 							if (key == "JOB_SQRXXB_LINK.IQLR") {
 								var rows = response[key];
@@ -1095,14 +1094,12 @@
 						var masterList = response;
 						for (const key in masterList) {
 							if (masterList.hasOwnProperty(key)) {
-								//if (Object.prototype.toString.call(masterList[key]) !== '[object Object]') {
+								// if (Object.prototype.toString.call(masterList[key]) !== '[object Object]') {
 								if (!(masterList[key] instanceof Object)) {
 									_this.$data['JOB_BDCQK'][key] = masterList[key]
 								}
 							}
 						}
-
-
 
 						_this.$data['JOB_SQRXXB_LINK.IQLR'] = response['JOB_SQRXXB_LINK.IQLR'];
 						_this.applicant = response['JOB_SQRXXB_LINK.IQLR'][0];
@@ -1112,7 +1109,6 @@
 						_this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response[
 							'JOB_GLQLXXB_LINK.OLD_IQLDJ']);
 						_this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', response['JOB_SQRXXB_LINK.IQLR']);
-
 					})
 					.catch(error => {
 						Toast.clear();
@@ -1120,8 +1116,8 @@
 					});
 			}
 		},
-		mouthed() {},
-		beforeRouteLeave(to, from, next) {
+		mouthed () {},
+		beforeRouteLeave (to, from, next) {
 			var _this = this;
 			if (to.path === '/onlineApplication/BDCQSZSGZDJ/bookIn') {
 				Dialog.confirm({
@@ -1137,8 +1133,7 @@
 				next();
 			}
 		},
-		created() {
-
+		created () {
 			if (this.$route.query && this.$route.query.processInstanceId) {
 				Toast.loading({
 					mask: true,
@@ -1176,7 +1171,6 @@
 					console.log('err:', err);
 					Toast.clear();
 				});
-
 			} else {
 				var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
 				console.log('cqxx:', this.$route.query.cqxx);
@@ -1207,8 +1201,6 @@
 						Toast.clear();
 					});
 			}
-
-
 		}
 	}
 
@@ -1234,8 +1226,6 @@
 		padding: .2rem;
 		border: 1px solid #d1d1d1;
 	}
-
-
 
 	.buttons {
 		padding: .8rem;

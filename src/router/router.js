@@ -10,13 +10,12 @@
  */
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from '../store/index';
-import {
-	fetch
-} from '../utils/http';
 
 import { gdbdcRouterMap } from "../config/router.gdbdc.config";
 import { BasicRouterMap } from "../config/router.basic.config";
+import { zhongshanRouterMap } from "../config/router.zhongshan.config";
+import store from "../store";
+import { fetch } from "../utils/http";
 
 Vue.use(Router);
 
@@ -26,7 +25,8 @@ const router = new Router({
 	mode: 'history',
 	routes: [
 		...BasicRouterMap,
-		...gdbdcRouterMap
+		...gdbdcRouterMap,
+		zhongshanRouterMap
 	]
 });
 
@@ -88,7 +88,6 @@ router.beforeEach((to, from, next) => {
 				}
 			});
 		});
-
 	} else {
 		next();
 	}

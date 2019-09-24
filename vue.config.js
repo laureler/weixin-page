@@ -23,14 +23,12 @@ module.exports = {
 	lintOnSave: true,
 
 	chainWebpack: config => {
-
 		if (process.env.IS_ANALYZ === 'analyz') {
 			config.plugin('webpack-bundle-analyzer')
 				.use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin);
 		}
 
 		if (env_build) {
-
 			config.module
 				.rule("image-webpack-loader")
 				.test(/\.(gif|png|jpe?g|svg)$/i)
@@ -49,11 +47,9 @@ module.exports = {
 			.set('assets', resolve('src/assets'))
 			.set('public', resolve('public'))
 			.set('vue$', 'vue/dist/vue.esm.js')
-
 	},
 
 	configureWebpack: config => {
-
 		if (env_build) {
 			// 为生产环境修改配置...
 			plugins: [
@@ -121,7 +117,6 @@ module.exports = {
 				}),
 			];
 		}
-
 	},
 	productionSourceMap: false,
 	// css相关配置
@@ -148,7 +143,7 @@ module.exports = {
 		compress: true,
 		open: true, // 配置自动启动浏览器
 		hotOnly: true,
-		// proxy: {
+		proxy: {
 			// 开发模式下 代理网络请求
 			// '/cas': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
 			// '/mainWeb': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
@@ -157,8 +152,8 @@ module.exports = {
 			// '/pubWeb': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
 			// '/public': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
 			// '/workflowWebService': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
-			// '/formengineWebService': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' }
-		// },
+			'/pubWeb/public/doIntranetRequest/GetAllNo': { target: 'http://bdc.qylr.gov.cn/pubWeb/public/doIntranetRequest/GetAllNo', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' }
+		},
 		before (app) {
 			app.use('/__open-in-editor', openInEditor('webstorm'))
 			// app.use('/__open-in-editor', openInEditor('code'))
