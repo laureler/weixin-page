@@ -62,6 +62,21 @@ let GetFaceConfigInfo = () => {
 		"mark": "若多次(5次以上)认证不通过，请移步至肇庆市高要区不动产登记中心一楼大厅五号绿色窗口处进行咨询。"
 	}
 }
+// 查询业务办理进度
+let GetYWJDInfo = () => {
+	return {
+		"resultcode": "1",
+		"resultmsg": "",
+		"result": [
+			{
+				"jid": "201708090151",
+				"jtitle": "房屋所有权转移登记（赠与）",
+				"zl": "云浮市市区城中路1号第七层",
+				"ywjd": "办理中"
+			}
+		]
+	};
+}
 // mock: '/pubWeb/public/doIntranetRequest/GetWeChatPublicName' 【POST】获取微信标题
 Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/GetWeChatPublicName/, 'post', wechatPublicName)
 // mock: '/pubWeb/public/doIntranetRequest/GetYYBSWD'  【POST】 获取办事网点列表
@@ -78,3 +93,5 @@ Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/CheckYYRInfo/, 'post', checkYYRI
 Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/SubmitYYInfo/, 'post', submitYYRInfo)
 
 Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/GetFaceConfigInfo/, 'post', GetFaceConfigInfo)
+// mock: '/pubWeb/public/doIntranetRequest/GetYWJD' 【POST】查询业务办理进度
+Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/GetYWJD/, 'post', GetYWJDInfo)

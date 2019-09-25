@@ -20,7 +20,7 @@ export const BasicRouterMap = [
 	{
 		path: '/',
 		name: '/',
-		component: resolve => require(['@/components/app/Home'], resolve)
+		component: resolve => require(['@/views/devlop/RouterView.vue'], resolve)
 	},
 	{
 		path: '',
@@ -57,6 +57,7 @@ export const BasicRouterMap = [
 	{
 		path: '/schq',
 		name: 'ScheduleQuery',
+		meta: { title: "进度查询", desc: "进度查询页面" },
 		component: resolve => require(['@/components/app/ScheduleQuery'], resolve),
 	},
 	// 在线查档
