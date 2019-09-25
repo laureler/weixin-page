@@ -82,32 +82,6 @@
 		height: 2rem;
 	}
 
-	.schequery {
-		padding: 10px 15px;
-	}
-
-	.schequery:focus {
-		background: white;
-	}
-
-	.schequery:hover {
-		background: white;
-	}
-
-	.reg {
-		width: 30%
-	}
-
-	.Ocheckbox {
-		padding: 0.3rem;
-		border-top: 1px solid rgba(0, 0, 0, 0.1);
-	}
-
-	.cContent {
-		font-size: 0.375rem;
-		padding: 0.3rem;
-	}
-
 	.container {
 		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 		margin-top: 0.15rem;

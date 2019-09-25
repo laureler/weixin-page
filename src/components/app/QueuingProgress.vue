@@ -20,7 +20,7 @@
 					<van-cell v-if="success === 2" :title="error" class="cell-error" text-align="right"/>
 				</van-cell-group>
 				<div style="height: 40px"></div>
-				<van-button size="large" class="blueButton" @click="getProgressInfo()">刷新排队状态</van-button>
+				<van-button size="large" class="blueButton" @click="getProgressInfo()">查询</van-button>
 				<div style="height: 20px"></div>
 			</div>
 		</div>
@@ -42,17 +42,17 @@
         },
         data () {
             return {
-            	// success 默认为0 若为1则为成功
+				// success 默认为0 若为1则为成功
                 success: 0,
                 error: '',
-	            // 正在受理号
+				// 正在受理号
                 result: null,
 				// 当前排队等候人数
                 number: '',
                 wait: '',
                 myself: '',
                 wechat: 0,
-	            // 微信验证不通过 则为1
+				// 微信验证不通过 则为1
                 nowechat: 0,
             }
         },
@@ -90,8 +90,7 @@
                                 that.wechat = 0
                                 that.nowechat = 1
                             }
-                        }
-                        else {
+                        } else {
                             that.success = 2
                             that.error = data.resultmsg
                         }

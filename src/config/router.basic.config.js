@@ -41,7 +41,8 @@ export const BasicRouterMap = [
 	{
 		path: '/serviceConfirm',
 		name: 'serviceConfirm',
-		component: resolve => require(['@/components/app/serviceConfirm'], resolve)
+		meta: { desc: "业务确认页面" },
+		component: resolve => require(['@/components/app/serviceConfirm.vue'], resolve)
 	},
 	// 个人预约界面
 	{
@@ -94,7 +95,8 @@ export const BasicRouterMap = [
 	{
 		path: '/qupr',
 		name: 'QueuingProgress',
-		component: resolve => require(['@/components/app/QueuingProgress'], resolve)
+		meta: { desc: "排队进度查询" },
+		component: resolve => require(['@/components/app/QueuingProgress.vue'], resolve)
 	},
 	{
 		path: '/wecq',

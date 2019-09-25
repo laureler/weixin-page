@@ -3,6 +3,11 @@
 	<div class="service-confirm">
 		<page-head title="业务确认"></page-head>
 		<div class="search-div">
+			<div class="Cdiv">
+				<input placeholder="请输入业务登记号" v-model="searchParam" type="text" class="Cinput"/>
+			</div>
+		</div>
+		<!--<div class="search-div">
 			<van-search
 				v-model="searchParam"
 				placeholder="请输入业务登记号"
@@ -12,10 +17,9 @@
 			>
 				<div slot="action" @click="search" class="btn-color">搜索</div>
 			</van-search>
-		</div>
+		</div>-->
 		<van-cell-group>
-			<van-field id="phoneNumber" placeholder="请输入手机号码" v-model.trim="phoneNumber" type="number"
-					   clearable/>
+			<van-field id="phoneNumber" placeholder="请输入手机号码" v-model.trim="phoneNumber" type="number" clearable/>
 			<van-field
 				v-model="smsCode"
 				center
@@ -28,6 +32,9 @@
 				</van-button>
 			</van-field>
 		</van-cell-group>
+		<div style="margin: 20px 0px">
+			<van-button size="large" class="blueButton" @click="search">查询</van-button>
+		</div>
 	</div>
 </template>
 
@@ -148,8 +155,49 @@
 </script>
 
 <style scoped>
+	.service-confirm{
+		display:flex;
+		flex-direction:column
+	}
 	.btn-color {
 		color: #1989FA;
 	}
+	.search-div {
+		background: #f0f5f8;
+		height: 2rem;
+	}
 
+	.container {
+		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+		margin-top: 0.15rem;
+		font-size: 0.375rem;
+		padding-top: 0.15rem;
+		padding-left: 0.45rem;
+		padding-bottom: 0.3rem;
+	}
+
+	.redColor {
+		color: red
+	}
+
+	.Cdiv {
+		padding: 0.3rem 0rem 0.3rem 0.3rem;
+		display: flex;
+		font-size: 0.375rem;
+		margin: 0.25rem 0.25rem 0.25rem 0.25rem;
+		background-color: #ffffff;
+		height: 1.5rem;
+	}
+
+	.Cinput {
+		width: 100%;
+		border: none;
+		font-size: 14px;
+		outline: none;
+		height: 1rem;
+		margin-right: 0.31rem;
+	}
+	.blueButton {
+		margin-top: 20px;
+	}
 </style>
