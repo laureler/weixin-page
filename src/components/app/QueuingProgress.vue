@@ -8,12 +8,14 @@
 					<p class="titlep">排队信息</p>
 				</div>
 				<van-cell-group>
-					<van-cell v-if="success===1" title="我的取号：">
-						<div><span class="cell-content">{{result}}</span><span>号</span></div>
+					<template v-if="success === 1">
+					<van-cell title="我的取号:" class="myself">
+						<span >{{myself}}</span>
 					</van-cell>
-					<van-cell v-if="success===1" title="正在受理号：">
-						<div><span class="cell-content">{{result}}</span><span>号</span></div>
+					<van-cell title="正在受理号：">
+						<div><span class="cell-content">{{result}}</span><span></span></div>
 					</van-cell>
+					</template>
 					<van-cell v-if="nowechat === 1" title="排队等候人数：">
 						<div><span class="cell-content">{{number-1}}</span><span>人</span></div>
 					</van-cell>
@@ -50,7 +52,8 @@
 				// 当前排队等候人数
                 number: '',
                 wait: '',
-                myself: '',
+                // 我的取号
+                myself: '暂未找到',
                 wechat: 0,
 				// 微信验证不通过 则为1
                 nowechat: 0,
@@ -68,18 +71,29 @@
                     success (data) {
                         if (Number(data.resultcode) === 1) {
                             that.success = 1
-                            that.result = data.noInfo[0].deal_no
-                            that.number = data.noInfo.length
+                            let noInfo = data.noInfo;
+                            let tempArr = [];
+                            for (let i = 0; i < noInfo.length; i++) {
+                                const noInfoElement = noInfo[i];
+								if (noInfoElement.state === "正在处理") {
+									tempArr.push(noInfoElement.deal_no);
+								}
+                            }
+                            that.result = noInfo[0].deal_no;
+                            if (noInfo.length !== 0) {
+                                that.result = tempArr.toString();
+							}
+                            that.number = noInfo.length
                             if (isWx()) {
                                 let flag = 0
-                                for (let i = 0; i < data.noInfo.length; i++) {
-                                    if (openid == data.noInfo[i].openid) {
-                                        flag = 1
-                                        that.wait = i
-                                        that.myself = data.noInfo[i].deal_no
-                                        that.nowechat = 0
-                                        that.wechat = 1
-                                        break
+                                for (let i = 0; i < noInfo.length; i++) {
+                                    if (openid == noInfo[i].openid) {
+                                        flag = 1;
+                                        that.wait = i;
+                                        that.myself = noInfo[i].deal_no;
+                                        that.nowechat = 0;
+                                        that.wechat = 1;
+                                        break;
                                     }
                                 }
                                 if (!flag) {
@@ -144,5 +158,7 @@
 	.cell-error {
 		color: #f77f5a;
 	}
-
+.myself .van-cell__title{
+		font-weight: bolder;
+}
 </style>
