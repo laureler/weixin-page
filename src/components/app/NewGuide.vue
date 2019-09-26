@@ -1,6 +1,6 @@
 <template lang="html">
 	<div style="display:flex;flex-direction:column;background-color:#F0F5F8">
-		<page-head title="办事指南"></page-head>
+		<page-head :title="urlParam"></page-head>
         <div class="search-div">
             <div class="s-div">
                 <input v-model="searchData" type="text" class="s-input"/>
@@ -29,6 +29,7 @@
         },
         data () {
             return {
+                urlParam:"办事指南",
                 // 全部数据
                 datas: [],
                 //查询条件
@@ -59,6 +60,7 @@
             }
         },
         mounted () {
+            this.urlParam = uiScript.getParam('response') || '';
             const that = this;
             if (that.$store.state.bname == that.$route.query.response && that.$store.state.datas.length > 0 && !that.$route.params.id) {
                 that.datas = that.$store.state.datas

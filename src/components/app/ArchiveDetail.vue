@@ -41,7 +41,7 @@
             let that = this;
             if (this.title === '住房证明查询') {
             	// wechatRemoteCheck
-	            this.$fetch(that.inter)
+				this.$fetch(that.inter)
 		            .then(response=>{
 		            	if (response.resultcode == 1  || response.resultcode == '1'){
 				            that.obj = response.cqxx;
@@ -54,7 +54,7 @@
 	            })
 			} else {
 				let params = '?strJson=' + encodeURIComponent(this.filter.strJson);
-				this.$fetch('/pubWeb/system/public/GetArchiveDataInfo'  + params)
+				this.$fetch('/pubWeb/system/public/getArchiveDataInfo'  + params)
 						.then(response => {
 							if (Number(response.resultcode) === 1) {
 								that.obj = response.cqxx;

@@ -34,7 +34,7 @@
                 //查询条件
                 filter: {},
                 //档案查询接口
-                archiveInter: '/GetArchiveDataInfo'
+                archiveInter: '/getArchiveDataInfo'
             }
         },
 
