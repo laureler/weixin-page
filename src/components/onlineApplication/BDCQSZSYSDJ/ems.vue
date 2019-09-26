@@ -5,52 +5,51 @@
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄材料
 			</div>
-			<van-field v-model="material" right-icon="arrow" placeholder="请选择快递寄材料"
-				@click-right-icon="$toast('question')" disabled clickable @click.native="materialClicked()" />
+			<van-field id="JOB_SJDJB.FSFKDJCL" v-model="material" right-icon="arrow" placeholder="请选择快递寄材料"  clickable 
+				@click.native="materialClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄证
 			</div>
-			<van-field v-model="material" right-icon="arrow" placeholder="请选择快递寄证"
-				@click-right-icon="$toast('question')" disabled clickable @click.native="materialClicked()" />
+			<van-field id="JOB_SJDJB.FSFKDJZ" v-model="credential" right-icon="arrow" placeholder="请选择快递寄证"  clickable 
+				@click.native="credentialClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>联系人
 			</div>
-			<van-field v-model="contacts" clearable placeholder="联系人" />
+			<van-field id="JOB_SJDJB.FDXLXR" v-model="contacts" clearable placeholder="联系人" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>联系电话
 			</div>
-			<van-field v-model="phone" clearable placeholder="联系电话" />
+			<van-field id="JOB_SJDJB.FDXTZDH" v-model="phone" clearable placeholder="联系电话" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				身份证号码
 			</div>
-			<van-field v-model="idNum" clearable placeholder="身份证号码" />
+			<van-field id="JOB_SJDJB.FLXRSFZHM" v-model="idNum" clearable placeholder="身份证号码" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				所在镇区
 			</div>
-			<van-field v-model="township" right-icon="arrow" placeholder="请选择所在镇区"
-				@click-right-icon="$toast('question')" disabled clickable @click.native="townshipClicked()" />
+			<van-field id="JOB_SJDJB.FZQ" v-model="township" right-icon="arrow" placeholder="请选择所在镇区" clickable @click.native="townshipClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				单位
 			</div>
-			<van-field v-model="company" clearable placeholder="单位" />
+			<van-field id="JOB_SJDJB.FDW" v-model="company" clearable placeholder="单位" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>联系地址
 			</div>
-			<van-field v-model="address" clearable placeholder="联系地址" />
+			<van-field id="JOB_SJDJB.FDZ" v-model="address" clearable placeholder="联系地址" />
 		</van-cell-group>
 		<div style="height: 50px;"></div>
 		<van-button size="large" type="info" class="bottom-button" @click.native="nextStep()">下一步</van-button>
@@ -61,23 +60,34 @@
 </template>
 
 <script>
-	import Head from '../app/head.vue';
+	import Head from '../../app/head.vue';
+	import {
+		SUBMIT_TASK_FORM_DATA
+	} from '../../../constants/index.js'
 	export default {
 		components: {
 			'page-head': Head
 		},
-		data() {
+		data () {
 			return {
 				show: false,
 				type: 0,
-				material: "",
-				township: "",
-				contacts: "",
-				phone: "",
-				idNum: "",
-				company: "",
-				address: "",
+				material: "是",
+				credential: "是",
+				township: "石岐区",
+				contacts: "黄油成",
+				phone: "13631130332",
+				idNum: "440981199301053238",
+				company: "南方数码",
+				address: "天河区科韵路24-26号",
 				materials: [{
+						name: '是'
+					},
+					{
+						name: '否'
+					}
+				],
+				credentials: [{
 						name: '是'
 					},
 					{
@@ -109,7 +119,7 @@
 						this.material = val.name;
 						break;
 					case 1:
-
+						this.credential = val.name;
 						break;
 					case 2:
 						this.township = val.name;
@@ -124,13 +134,54 @@
 				this.type = 0;
 				this.show = true;
 			},
+			credentialClicked: function () {
+				this.actions = this.credentials;
+				this.type = 1;
+				this.show = true;
+			},
 			townshipClicked: function () {
 				this.actions = this.townships;
 				this.type = 2;
 				this.show = true;
 			},
 			nextStep: function () {
-        this.$router.push({ path: '/onlineApplication/success' });
+				this.submitTaskFormData();
+			},
+			submitTaskFormData: function () {
+				var taskId = sessionStorage.getItem('taskId');
+				var formData = JSON.parse(sessionStorage.getItem('formdata'));
+				formData['JOB_SJDJB.FSFKDJCL'] = this.material;
+				formData['JOB_SJDJB.FSFKDJZ'] = this.credential;
+				formData['JOB_SJDJB.FDXLXR'] = this.contacts;
+				formData['JOB_SJDJB.FDXTZDH'] = this.phone;
+				formData['JOB_SJDJB.FLXRSFZHM'] = this.idNum;
+				formData['JOB_SJDJB.FZQ'] = this.township;
+				formData['JOB_SJDJB.FDW'] = this.company;
+				formData['JOB_SJDJB.FDZ'] = this.address;
+				this.axios({
+					url: SUBMIT_TASK_FORM_DATA + '?taskId=' + taskId,
+					method: 'post',
+					data: formData,
+					transformRequest: [function (data) {
+						let ret = ''
+						for (let it in data) {
+							ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+						}
+						return ret
+					}],
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					}
+				}).then(response => {
+					console.log(response);
+					if (response.status == 200) {
+						this.$router.push({
+							path: '/onlineApplication/BDCQSZSYSDJ/success'
+						});
+					}
+				}).catch(error => {
+					console.log(error);
+				});
 			}
 		}
 	}

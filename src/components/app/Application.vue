@@ -36,55 +36,47 @@
 	</div>
 </template>
 
-
 <script>
-	import Head from './head.vue'
-	import  {Toast} from 'vant'
-	import {request} from '../../utils/http'
-
-	import { isWx } from '../../utils/ua';
-	import Cookies from 'js-cookie';
-
+	import Head from './head.vue';
+	import { Toast, Dialog } from 'vant';
+	import { request } from '../../utils/http';
+    import { isWx } from '../../utils/ua';
+    import Cookies from 'js-cookie';
 	export default {
 		components: {
 			'page-head': Head,
 		},
 		data() {
 			return {
-				selectItemId:null, //当前点击选中项
-				showData:[],  //当前下拉框需要展示的数据
-				isDisabled:'disabled',
-				show: false, //是否展示数据选择项
-				select1Data: [],  //当前选中项 ·
+				selectItemId: null, // 当前点击选中项
+				showData: [], // 当前下拉框需要展示的数据
+				isDisabled: 'disabled',
+				show: false, // 是否展示数据选择项
+				select1Data: [], // 当前选中项
 				select2Data: [],
 				select3Data: [],
 				select4Data: [],
 				/*       imgShow: false, */
 				cerType: '',
-				cerTypeValue: '', //当前选中的身份证类型
-				select1Value: '', //当前选中id='select1'的数据
-				select2Value: '', //预约事项选中项
-				select3Value: '', //预约日期选中项
-				select4Value: '', //预约时段选中项
-				yyfs:'2',
+				cerTypeValue: '', // 当前选中的身份证类型
+				select1Value: '', // 当前选中id='select1'的数据
+				select2Value: '', // 预约事项选中项
+				select3Value: '', // 预约日期选中项
+				select4Value: '', // 预约时段选中项
+				yyfs: '2',
 				selShow1: true,
 				selShow2: true,
 				selShow3: true,
-				name: '',       //预约人名称
-				cerNumber: '',  //当前输入的证件号码
-				phoNumber: '',  //当前输入的手机号码
-				zmh: '',  // 产权证号
-				dywzs: '',  // 抵押物清单的不动产宗数
-				cerTypeData: ['身份证','港澳台身份证','护照','户口簿','军官证（士兵证）'],
-				showDYWZS: false //默认不展示 抵押物清单的不动产宗数
-			}
+				name: '', // 预约人名称
+				cerNumber: '', // 当前输入的证件号码
+				phoNumber: '', // 当前输入的手机号码
+				cerTypeData: ['身份证', '港澳台身份证', '护照', '户口簿', '军官证（士兵证）']
+			};
 		},
-		//计算属性
-		computed:{
-
-		},
-		watch:{
-			select1Value:function (newValue,oldValue) {
+		// 计算属性
+		computed: {},
+		watch: {
+			select1Value: function (newValue, oldValue) {
 				// console.log('监听到select1Value变化',oldValue,newValue)
 				this.select1()
 			},
@@ -115,17 +107,25 @@
 			confirmPicker:function(value,index){
 				if(this.selectItemId == 'select4'){
 					// 10:00-11:00 （剩5个） 中间空格分开
-					this[this.selectItemId+"Value"] = value.text.split(" ")[0];
-				}else {
-					this[this.selectItemId+"Value"] = value;
+					if (value.text.split(' ')[1] == '（已约满）') {
+						Dialog.alert({
+							message: '该时段可预约号数为0，不能预约，请重新选择可预约时段',
+						}).then(() => {
+							// on close
+							this[this.selectItemId + 'Value'] = '';
+						});
+					} else {
+					this[this.selectItemId + 'Value'] = value.text.split(' ')[0];
+					}
+				} else {
+					this[this.selectItemId + 'Value'] = value;
 				}
 				this.show = !this.show;
 			},
-			setData:function(){
-				if(this.selectItemId == null){
-					return
-				}
-				else {
+			setData: function () {
+				if (this.selectItemId == null) {
+
+				} else {
 
 				}
 			},
@@ -139,8 +139,8 @@
 				}else {
 					var data = this[this.selectItemId+"Data"] || []
 					var tmpArray = [];
-					data = typeof  data=='object'? data[0]:data;
-					if(data == undefined){
+					data = typeof data == 'object' ? data[0] : data;
+					if (data == undefined) {
 						return tmpArray;
 					}
 					tmpArray = data[Object.keys(data)[0]]
@@ -198,16 +198,16 @@
 				this.show = !this.show;
 			},
 			// 禁止默认事件
-			/*stopPropagation(e) {
+			/* stopPropagation(e) {
 			  const ev = e || window.event;
 			  if (ev.stopPropagation) {
 				ev.stopPropagation();
 			  } else if (window.event) {
 				window.event.cancelBubble = true;
 			  }
-			},*/
+			}, */
 			// 信息提示
-			/*remind(a) {
+			/* remind(a) {
 			  if (this.select1Value == '') {
 				Toast('请先选择办理网点')
 			  } else if (this.select2Value == '' && a > 2) {
@@ -215,7 +215,7 @@
 			  } else if (this.select3Value == '' && a > 3) {
 				Toast('请先选择预约日期')
 			  }
-			},*/
+			}, */
 			// 改变颜色
 			changeColor(id) {
 				const oid = document.getElementById(id);
@@ -266,7 +266,14 @@
 						that.select3Data = [];
 						that.select3Value = '';
 						that.select4Value = '';
-						that.select3Data.push(response)
+						that.select3Data.push(response);
+						if (response.yyrqinfo.length == 0) {
+							Dialog.alert({
+								message: '预约号数已用完，不能预约',
+							}).then(() => {
+								// on close
+							});
+						}
 						that.showData = that.select3Data;
 						that.selShow2 = false;
 					},
@@ -308,19 +315,16 @@
 				var that = this;
 				const openid = isWx() ? Cookies.get('openid') : '';
 				const paramData = {
-					openid: openid,           //微信ID
-					bdczl: '',
-					szwd: that.select1Value,  //办理网点
-					yysx: that.select2Value,  //预约事项
-					yyrq: that.select3Value,  //预约日期
-					yysd: that.select4Value,  //预约时段
-					yyr: that.name,           //预约人名称
-					yyfs: that.yyfs,          //预约方式
-					zjlx: that.cerTypeValue,  //预约人证件种类
-					zjhm: that.cerNumber,     //预约人证件号码
-					sjhm: that.phoNumber,     //预约人手机号码
-					zmh: that.zmh,            //产权证号
-					dywzs: that.dywzs,        //抵押物清单的不动产宗数
+					szwd: this.select1Value, // 办理网点
+					yysx: this.select2Value, // 预约事项
+					yyrq: this.select3Value, // 预约日期
+					yysd: this.select4Value, // 预约时段
+					yyr: this.name, // 预约人名称
+					yyfs: this.yyfs, // 预约方式
+					zjlx: this.cerTypeValue, // 预约人证件种类
+					zjhm: this.cerNumber, // 预约人证件号码
+					sjhm: this.phoNumber, // 预约人手机号码
+					zmh: '', // zmh未明字段
 				};
 				// 点击确定直接跳到预约成功/失败页面
 				request({
@@ -365,68 +369,69 @@
 								this.resq()
 							}
 						}
-						else if (cerType == '港澳台身份证') {
-							if (taiwanreg.test(this.cerNumber) || GAReg.test(this.cerNumber) || aomenreg.test(this.cerNumber)) {
-								this.resq();
-							} else {
-								Toast('港澳台身份证号码格式不正确！');
-								return;
-							}
+					} else if (cerType == '港澳台身份证') {
+						const aomenreg = /^[157][0-9]{6}\([0-9]\)$/;	// 补充澳门身份证正则
+						const taiwanreg = /^\d{8}|^[a-zA-Z0-9]{10}|^\d{18}$/;	// 台湾身份证正则
+						const GAReg = /^([A-Z]\d{6,10}(\(\w{1}\))?)$/;	// 港澳身份证正则
+						if (taiwanreg.test(this.cerNumber) || GAReg.test(this.cerNumber) || aomenreg.test(this.cerNumber)) {
+							this.resq();
+						} else {
+							Toast('港澳台身份证号码格式不正确！');
 						}
-						else if (cerType == '户口簿') {
-							if (!(/^[a-zA-Z0-9]{3,21}$/.test(this.cerNumber))) {
-								Toast('户口簿号码格式不正确！')
-							} else {
-								this.resq()
-							}
+					} else if (cerType == '户口簿') {
+						if (!(/^[a-zA-Z0-9]{3,21}$/.test(this.cerNumber))) {
+							Toast('户口簿号码格式不正确！');
+						} else {
+							this.resq();
 						}
 					}
-					else {
-						Toast('请完善个人信息！')
-					}
+					} else if (this.select3Data[0].yyrqinfo.length == 0) {
+					Toast('预约号数已用完，不能预约');
+				} else {
+					Toast('请完善个人信息！');
 				}
-				if (this.showDYWZS == false) {
-					if (this.name !== '' && this.cerNumber !== '' && this.phoNumber !== '' && this.zmh !== ''
-						&& this.select1Value != '' && this.select2Value != '' && this.select3Value != '' && this.select4Value != '') {
-						let cerType = this.cerTypeValue;
-						if (!(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(this.phoNumber))) {
-							Toast('手机号码格式不正确！')
-						}
-						else if (cerType == '身份证') {
-							if (!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.cerNumber))) {
-								Toast('身份证格式不正确！')
-							} else {
-								this.resq()
-							}
-						}
-						else if (cerType == '护照') {
-							if (!(/^[a-zA-Z0-9]{3,21}$/.test(this.cerNumber)) || !(/^(P\d{7})|(G\d{8})$/.test(this.cerNumber))) {
-								Toast('护照号码格式不正确！')
-							} else {
-								this.resq()
-							}
-						}
-						else if (cerType == '港澳台身份证') {
-							if (taiwanreg.test(this.cerNumber) || GAReg.test(this.cerNumber) || aomenreg.test(this.cerNumber)) {
-								this.resq();
-							} else {
-								Toast('港澳台身份证号码格式不正确！');
-								return;
-							}
-						}
-						else if (cerType == '户口簿') {
-							if (!(/^[a-zA-Z0-9]{3,21}$/.test(this.cerNumber))) {
-								Toast('户口簿号码格式不正确！')
-							} else {
-								this.resq()
-							}
-						}
-					}
-					else {
-						Toast('请完善个人信息！')
-					}
-				}
-			},
+			}
+            if (this.showDYWZS == false) {
+        if (this.name !== '' && this.cerNumber !== '' && this.phoNumber !== '' && this.zmh !== ''
+            && this.select1Value != '' && this.select2Value != '' && this.select3Value != '' && this.select4Value != '') {
+            let cerType = this.cerTypeValue;
+            if (!(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(this.phoNumber))) {
+                Toast('手机号码格式不正确！')
+            }
+            else if (cerType == '身份证') {
+                if (!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.cerNumber))) {
+                    Toast('身份证格式不正确！')
+                } else {
+                    this.resq()
+                }
+            }
+            else if (cerType == '护照') {
+                if (!(/^[a-zA-Z0-9]{3,21}$/.test(this.cerNumber)) || !(/^(P\d{7})|(G\d{8})$/.test(this.cerNumber))) {
+                    Toast('护照号码格式不正确！')
+                } else {
+                    this.resq()
+                }
+            }
+            else if (cerType == '港澳台身份证') {
+                if (taiwanreg.test(this.cerNumber) || GAReg.test(this.cerNumber) || aomenreg.test(this.cerNumber)) {
+                    this.resq();
+                } else {
+                    Toast('港澳台身份证号码格式不正确！');
+                    return;
+                }
+            }
+            else if (cerType == '户口簿') {
+                if (!(/^[a-zA-Z0-9]{3,21}$/.test(this.cerNumber))) {
+                    Toast('户口簿号码格式不正确！')
+                } else {
+                    this.resq()
+                }
+            }
+        }
+        else {
+            Toast('请完善个人信息！')
+        }
+    }
 		},
 		// 挂载元素时自动触发
 		mounted() {

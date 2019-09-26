@@ -15,15 +15,11 @@
 		<div class="search-div">
 			<div class="Cdiv">
 				<input placeholder="请输入业务登记号" v-model="djbh" type="text" class="Cinput"/>
-				<van-icon name="search" size="20px" color="#6cccff" v-on:click="query" class="schequery" ></van-icon>
 			</div>
 		</div>
-		<div class="search-div" style="margin-top: 0px">
-			<div class="Cdiv">
-				<input placeholder="请输入姓名" v-model="sqrxm" type="text" class="Cinput2"/>
-			</div>
+		<div style="margin: 20px 0px">
+			<van-button size="large" class="blueButton" @click="query">搜索</van-button>
 		</div>
-
 		<div v-if="isStartSearch">
 			<div style="font-size:0.42rem;color:#252525;margin-top:0.3rem;margin-left: 0.5rem">查询结果</div>
 			<hr style="width:9.5rem;border:none;border-bottom:1px solid #e5e5e5;margin-top: 0.35rem;margin-bottom: 0.35rem"/>
@@ -42,6 +38,7 @@
 				</template>
 			</div>
 		</div>
+
 	</div>
 </template>
 
@@ -75,8 +72,8 @@
 		        Toast('缴费功能等待接口开发中...');
 	        },
             query () {
+                console.log("query")
                 const that = this;
-
                 if (that.djbh === '') {
 					Toast('请输入业务登记号！');
 					return;
@@ -101,7 +98,7 @@
                         }
                     },
                     fail (error) {
-                    	console.log(error);
+						console.log(error);
                     },
                 });
             },
@@ -151,11 +148,10 @@
 	}
 
 	.Cinput {
-		width: 85%;
+		width: 100%;
 		border: none;
-		font-size: 0.375rem;
+		font-size: 14px;
 		outline: none;
-		border-right: 1px solid #e5e5e5;
 		height: 1rem;
 		margin-right: 0.31rem;
 	}
@@ -166,5 +162,8 @@
 		outline: none;
 		height: 1rem;
 		margin-right: 0.31rem;
+	}
+	.blueButton {
+		margin-top: 20px;
 	}
 </style>

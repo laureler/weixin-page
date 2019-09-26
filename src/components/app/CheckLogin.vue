@@ -18,7 +18,7 @@
 			</van-field>
 		</van-cell-group>
 		<div style="margin-top: 20px">
-			<van-button size="large" class="blueButton" @click="checkInput()">登陆</van-button>
+			<van-button size="large" class="blueButton" @click="checkInput()">登录</van-button>
 		</div>
 	</div>
 </template>
@@ -63,6 +63,7 @@
 					if (this.isNeedCheckCode) {
 						captcha = 'a0z9' + this.checkCode;
 					}
+					// + 'a0z9' + 'gdbdc'
 					let code = 'A0' + this.username + 'a0z9' + sha1(this.password).toUpperCase();
 					this.$fetch('/cas/login?client_name=iboa2&code=' + code + captcha).then(response => {
 						console.log('CAS登陆成功！');

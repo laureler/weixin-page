@@ -48,19 +48,19 @@
             },
             complete () {
                 if (this.$store.callbackUrl == undefined) {
-                    //关闭当前浏览器页面
+                    // 关闭当前浏览器页面
                     wx.closeWindow()
                 } else {
-                    //若没有验证成功
+                    // 若没有验证成功
                     if (isSuccess == false) {
-                        //关闭当前浏览器页面
+                        // 关闭当前浏览器页面
                         wx.closeWindow()
                     }
                 }
             }
         },
         mounted () {
-            //todo 接口需要调试，需要返回整数，0表示失败，1表示成功
+            // todo 接口需要调试，需要返回整数，0表示失败，1表示成功
             this.isSuccess = this.$route.query.isSuccess == undefined ? 0 : this.$route.query.isSuccess
             // 只有在 personInfo的时候才会有-10的效果
             if (this.isSuccess == -10) {
