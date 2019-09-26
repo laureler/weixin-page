@@ -1,62 +1,73 @@
 <template>
     <div id="RouterView">
 		<h2>RouterView</h2>
+			<van-cell
+				v-for="item in list"
+				:key="item.path"
+				:title="item.name"
+			>
+				<template slot="default">
+					<a :href="item.path">{{item.path}}</a>
+				</template>
+			</van-cell>
 	</div>
 </template>
 
 <script>
+
     export default {
         // 组件名称：对象
         name: "RouterView",
         // 组件内部数据
-        data() {
-            return {};
+        data () {
+            return {
+                list: this.$router.options.routes
+			};
         },
         // 组件传递属性
         props: {},
         // 计算属性
         computed: {},
         // 组件方法
-        methods: {},
+        methods: {
+		},
         // 组件监听器
         watch: {},
 
         // 自定义可用组件，如果你要用组件，且组件没有全局引入，就需要import后，再声明出来。
-        components: {},
+        components: {
+
+		},
         // 自定义指令
         directives: {},
         // 自定义过滤器
         filters: {},
 
         //* **************生命周期钩子**************** *//
-        beforeCreate() {
+        beforeCreate () {
         },
-        created() {
-        },
-
-        beforeMount() {
-        },
-        mounted() {
+        created () {
         },
 
-        beforeRouteUpdate() {
+        beforeMount () {
         },
-        updated() {
-        },
-
-        activated() {
-        },
-        deactivated() {
+        mounted () {
         },
 
-        becomponentsforeDestroy() {
+        beforeRouteUpdate () {
         },
-        destroyed() {
+        updated () {
         },
 
-        // https://cn.vuejs.org/v2/api/#errorCaptured
-        errorCaptured(err, vm, info) {
-        }
+        activated () {
+        },
+        deactivated () {
+        },
+
+        becomponentsforeDestroy () {
+        },
+        destroyed () {
+        },
     };
 </script>
 
