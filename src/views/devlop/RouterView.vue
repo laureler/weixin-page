@@ -7,21 +7,22 @@
 				:title="item.name"
 			>
 				<template slot="default">
-					<a :href="item.path">{{item.path}}</a>
+					<a :href="rootPath + item.path">{{item.path}}</a>
 				</template>
 			</van-cell>
 	</div>
 </template>
 
 <script>
-
+    import config from "../../config/setting.default.js"
     export default {
         // 组件名称：对象
         name: "RouterView",
         // 组件内部数据
         data () {
             return {
-                list: this.$router.options.routes
+                list: this.$router.options.routes,
+				rootPath: config.ROOT_PATH
 			};
         },
         // 组件传递属性
