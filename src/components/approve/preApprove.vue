@@ -21,7 +21,7 @@
 
 		<div class="hint">
 			<div class="hint_info">
-				<span v-if="mark"><p v-html="mark"></p></span>
+				<div v-if="mark" :style="[{'color':'red'} , {'text-align':'left'}]">&nbsp;&nbsp;&nbsp;{{mark}}</div>
 				<span v-else="mark===''">{{ resultmsg }}</span>
 			</div>
 		</div>
@@ -95,6 +95,11 @@
 		},
 		components: {
 			approveHead, tenBottom
+		},
+		computed: {
+			verifyDeclare () {
+				return "[{'color':'red'} , {'text-align':'left'}]";
+			}
 		},
 		methods: {
 			goBack () {
@@ -200,6 +205,7 @@
 							let titlecontentString = res.TITLECONTENT;
 							let titlecontentString1 = res.TITLECONTENT1;
 							_this.faceTitle = res.WECHATTITLE; // 微信标题
+							window.title = _this.faceTitle;
 							_this.titleContent.pop();
 							_this.titleContent.pop();
 							_this.titleContent.pop();
@@ -238,7 +244,7 @@
 			}); */
 			// 人脸说明
 			_this.$post('/gdbdcWebService/WeChatConfig/public/getFaceIdentificationInfomation').then(res => {
-				_this.mark = '<span style="color: red">&nbsp;&nbsp;' + res.FACEIDENTIFIEDDESCRIBE + '</span>';
+				_this.mark = res.FACEIDENTIFIEDDESCRIBE
 			}).catch();
 		}
 	};
