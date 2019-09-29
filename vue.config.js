@@ -15,7 +15,6 @@ const env_build = process.env.NODE_ENV === 'production';
 
 module.exports = {
 	publicPath: '/pubWeb/public/weChatPublic/',
-	// publicPath: '/app/',
 	// 打包后输出路径
 	outputDir: 'dist/pubWeb/public/weChatPublic/',
 	assetsDir: 'weChatPublic',
@@ -23,12 +22,14 @@ module.exports = {
 	lintOnSave: true,
 
 	chainWebpack: config => {
+
 		if (process.env.IS_ANALYZ === 'analyz') {
 			config.plugin('webpack-bundle-analyzer')
 				.use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin);
 		}
 
 		if (env_build) {
+
 			config.module
 				.rule("image-webpack-loader")
 				.test(/\.(gif|png|jpe?g|svg)$/i)
@@ -47,9 +48,11 @@ module.exports = {
 			.set('assets', resolve('src/assets'))
 			.set('public', resolve('public'))
 			.set('vue$', 'vue/dist/vue.esm.js')
+
 	},
 
 	configureWebpack: config => {
+
 		if (env_build) {
 			// 为生产环境修改配置...
 			plugins: [
@@ -117,6 +120,7 @@ module.exports = {
 				}),
 			];
 		}
+
 	},
 	productionSourceMap: false,
 	// css相关配置
