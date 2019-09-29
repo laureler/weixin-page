@@ -17,10 +17,12 @@ import { zhongshanRouterMap } from "../config/router.zhongshan.config";
 import store from "../store";
 import { fetch } from "../utils/http";
 
+import config from "../config/setting.default.js"
+
 Vue.use(Router);
 
 const router = new Router({
-	base: 'pubWeb/public/weChatPublic',
+	base: config.ROOT_PATH,
 	// base: 'app',
 	mode: 'history',
 	routes: [
