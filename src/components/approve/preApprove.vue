@@ -1,6 +1,6 @@
 <template>
 	<div class="home">
-		<approve-head title="人脸核身"></approve-head>
+		<approve-head :title="faceTitle"></approve-head>
 		<div class="space_between"></div>
 		<img src="../../../public/images/approve/face_checkout.png" alt="" class="home_title">
 
@@ -72,6 +72,7 @@
 	export default {
 		data () {
 			return {
+				faceTitle: '人脸核身',
 				titleContent: [
 					'根据广东省不动产登记办理相关规定，市民需在办理不动产登记预申请业务时提供真实有效的手机号码、个人身份资料，在实名认证后，便于办理不动产业务以及获取个人业务办理情况等信息。',
 					'对于您提供的个人信息，广东省不动产登记外网预申请系统将在后台核实，请确保您注册认证时提交的资料真实有效。如因提供虚假资料，您将承担相关的法律责任。',
@@ -173,7 +174,7 @@
 										console.log("准备跳转1")
 										_this.$router.push({
 											path: '/approvenew',
-											query: { isPersonalHomeCheck: isPHC}
+											query: { isPersonalHomeCheck: isPHC }
 										});
 									} else {
 										console.log("准备跳转1")
@@ -188,7 +189,6 @@
 		},
 		mounted () {
 			const _this = this;
-
 			// http://czsbdcrz.ngcz.tv/gdbdcWebService/WeChatConfig/public/getProtocolTitleInfomation
 			_this.$fetch('/gdbdcWebService/WeChatConfig/public/getProtocolTitleInfomation')
 					.then(res => {
@@ -199,6 +199,7 @@
 							res.TITLECONTENT1 = (res.TITLECONTENT1 == null || res.TITLECONTENT1 == '') ? defaultTitleContent1 : res.TITLECONTENT1;
 							let titlecontentString = res.TITLECONTENT;
 							let titlecontentString1 = res.TITLECONTENT1;
+							_this.faceTitle = res.WECHATTITLE; // 微信标题
 							_this.titleContent.pop();
 							_this.titleContent.pop();
 							_this.titleContent.pop();
@@ -219,10 +220,11 @@
 			let callbackUrl = uiScript.getParam('callbackUrl') || '';
 			this.$store.commit('CALLBACK_URL', callbackUrl);
 			let param = {};
-			request({
+			/* request({
 				url: '/GetFaceConfigInfo',
 				data: { strJson: JSON.stringify(param) },
 				success (response) {
+					debugger;
 					if (Number(response.resultcode) === 1) {
 						let check_mark = '<span style="color: red">&nbsp;&nbsp;' +
 							response.mark.match(RegExp(/肇庆市高要区不动产登记中心一楼大厅五号绿色窗口/)).toString() + '&nbsp;&nbsp;</span>';
@@ -233,7 +235,11 @@
 				},
 				fail (err) {
 				},
-			});
+			}); */
+			// 人脸说明
+			_this.$post('/gdbdcWebService/WeChatConfig/public/getFaceIdentificationInfomation').then(res => {
+				_this.mark = '<span style="color: red">&nbsp;&nbsp;' + res.FACEIDENTIFIEDDESCRIBE + '</span>';
+			}).catch();
 		}
 	};
 </script>
