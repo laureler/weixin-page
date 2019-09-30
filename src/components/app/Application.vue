@@ -390,7 +390,6 @@
 				} else {
 					Toast('请完善个人信息！');
 				}
-			}
             if (this.showDYWZS == false) {
         if (this.name !== '' && this.cerNumber !== '' && this.phoNumber !== '' && this.zmh !== ''
             && this.select1Value != '' && this.select2Value != '' && this.select3Value != '' && this.select4Value != '') {
