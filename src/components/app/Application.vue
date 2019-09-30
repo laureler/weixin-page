@@ -443,7 +443,7 @@
 				fail(error) {},
 			})
 		},
-	}
+	}}
 </script>
 
 <style lang="css" scoped>

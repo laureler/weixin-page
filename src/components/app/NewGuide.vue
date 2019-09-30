@@ -60,7 +60,9 @@
             }
         },
         mounted () {
-            this.urlParam = uiScript.getParam('response') || '';
+			let id = this.$route.query.response;
+			this.urlParam=id;
+           // this.urlParam = uiScript.getParam('response') || '';
             const that = this;
             if (that.$store.state.bname == that.$route.query.response && that.$store.state.datas.length > 0 && !that.$route.params.id) {
                 that.datas = that.$store.state.datas
