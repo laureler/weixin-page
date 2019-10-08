@@ -3,7 +3,7 @@
 		<page-head :title="bname"></page-head>
 		<div class="contain">
 			<van-cell-group>
-				<cell-line @click.native="open(index)" v-for="(item,index) in calcItems" :title="item.title"
+				<cell-line @click.native="open(item.gid)" v-for="(item,index) in calcItems" :title="item.title"
 						   :label="item.date"/>
 			</van-cell-group>
 			<van-pagination
@@ -50,10 +50,10 @@
             changeData: function (PageNumber) {
 
             },
-            open (index) {
+            open (gid) {
                 this.$router.push({
                     path: '/guid',
-                    query: { response: this.items[index].gid },
+                    query: { response: gid },
                 })
             },
             loadData (pageNum, pageSize) {
