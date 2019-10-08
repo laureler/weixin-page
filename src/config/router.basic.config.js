@@ -109,6 +109,11 @@ export const BasicRouterMap = [
 		component: resolve => require(['@/components/app/NewGuide'], resolve)
 	},
 	{
+		name: 'newgui',
+		path: '/newgui',
+		component: resolve => require(['@/components/app/NewGuide'], resolve)
+	},
+	{
 		path: '/guid',
 		name: 'guid',
 		component: resolve => require(['@/components/app/GuideDetail'], resolve)
