@@ -9,8 +9,14 @@
         </div>
 		<div class="contain">
 			<van-cell-group>
-				<cell-line @click.native="open(index)" v-for="(item,index) in datas" :title="item.title"/>
+				<cell-line @click.native="open(index)" v-for="(item,index) in calcItems" :title="item.title"/>
 			</van-cell-group>
+			<van-pagination
+				v-model="currentPage"
+				:total-items="totalDataNumber"
+				:items-per-page="pageSize"
+				@change="changeData"
+			/>
 		</div>
 	</div>
 </template>
@@ -30,14 +36,41 @@
         data () {
             return {
                 urlParam:"办事指南",
+				currentPage: 1,
                 // 全部数据
                 datas: [],
                 //查询条件
                 searchData:'',
-                bname: ''
+                bname: '',
+				items:[],
+				pageSize: 10,
+				totalDataNumber: 0,
             }
         },
+		computed: {
+			calcItems: function () {
+				var _this = this
+				return _this.datas.slice(_this.pageSize * (_this.currentPage - 1), _this.pageSize * _this.currentPage)
+			}
+		},
         methods: {
+			record () {
+				const that = this
+				this.$store.commit(mutationTypes.GET_RECORD, {
+					datas: that.datas,
+					bname: that.bname,
+				})
+				that.$store.commit('changeState', {
+					bname: that.bname,
+					datas: that.datas,
+				})
+				that.$store.commit('changeCurrent', {
+					currentPage: that.currentPage,
+				})
+			},
+			changeData: function (PageNumber) {
+
+			},
             query () {
                 const that = this;
                 request({
@@ -45,6 +78,8 @@
                     data: {strJson:JSON.stringify({filter:decodeURI(that.searchData),bname:decodeURI(that.$route.query.response)})},
                     success (data) {
                         that.datas = data.noInfo;
+                        that.totalDataNumber=data.total;
+                        that.currentPage=1;
                     },
                     fail (error) {
                         if(error.status == '404'){
@@ -65,14 +100,43 @@
            // this.urlParam = uiScript.getParam('response') || '';
             const that = this;
             if (that.$store.state.bname == that.$route.query.response && that.$store.state.datas.length > 0 && !that.$route.params.id) {
+				const num = that.$store.state.currentPage
                 that.datas = that.$store.state.datas
                 that.bname = that.$store.state.bname
+				that.totalDataNumber = that.datas.length
+				if (num) {
+					that.currentPage = num
+				}
+				for (let i = 0; i < that.datas.length; i++) {
+					if (i >= (that.currentPage - 1) * that.pageSize && i < that.currentPage * that.pageSize) {
+						that.items.push(that.datas[i])
+					}
+				}
             } else {
                 request({
                     url: '/GetTitleList',
-                    data: { strJson: JSON.stringify({ bname: decodeURI(that.$route.query.response) }) },
-                    success (data) {
-                        that.datas = data.noInfo;
+                    data: { strJson: JSON.stringify({ bname: decodeURI(that.$route.query.response), page: '0', filter: '', count: '10000'  }) },
+                    success (response) {
+                        //that.datas = response.noInfo;
+						console.log(response)
+						for (var i = 0; i < response.noInfo.length; i++) {
+							that.datas.push({
+								title: response.noInfo[i].title,
+								date: response.noInfo[i].createtime.slice(0, 10),
+								gid: response.noInfo[i].gid,
+								app_url:response.noInfo[i].app_url,
+							})
+							if (i < that.pageSize) {
+								that.items.push({
+									title: response.noInfo[i].title,
+									date: response.noInfo[i].createtime.slice(0, 10),
+									gid: response.noInfo[i].gid,
+								})
+							}
+						}
+						that.totalDataNumber =response.total;
+						that.bname = response.noInfo[0].bname
+						//that.record()
                     },
                     fail (error) {
                         if(error.status == '404'){
