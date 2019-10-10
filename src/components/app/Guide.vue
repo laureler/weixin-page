@@ -200,4 +200,15 @@
 		outline: none;
 		margin-right: 0.31rem;
 	}
+	.s-query {
+		padding: 5px 10px;
+		color: rgb(181,181,181)!important;
+	}
+	.s-query:focus {
+		background: white;
+	}
+
+	.s-query:hover {
+		background: white;
+	}
 </style>
