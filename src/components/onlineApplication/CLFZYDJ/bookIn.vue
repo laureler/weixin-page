@@ -135,9 +135,13 @@
 		},
 		methods: {
 			onChange:function(name, title){
-				this.customStatus = '';
-				this.checkout.cqxx[0] = '';
 				this.checkType = name;
+				this.customStatus = '';
+				if (this.checkout != null) {
+					this.checkout.cqxx[0] = '';
+				}				
+				console.log('name',name);
+				console.log('title',title);
 			},
 			checkoutID: function () {
 				this.customStatus = '';
