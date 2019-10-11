@@ -70,8 +70,8 @@
 			return {
 				show: false,
 				wqhth: '',
-				qlr: '李四英',
-				cqzh: '湘（2017）北湖不动产权第0022977号',
+				qlr: '',  // 李四英
+				cqzh: '',  // 湘（2017）北湖不动产权第0022977号
 				customStatus: '',
 				checkout: {
 					"cqxx": [{
@@ -135,9 +135,11 @@
 		},
 		methods: {
 			onChange:function(name, title){
-				this.customStatus = '';
-				this.checkout.cqxx[0] = '';
 				this.checkType = name;
+				this.customStatus = '';
+				if (this.checkout != null) {
+					this.checkout.cqxx[0] = '';
+				}
 			},
 			checkoutID: function () {
 				this.customStatus = '';

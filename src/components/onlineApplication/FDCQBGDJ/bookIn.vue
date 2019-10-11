@@ -54,8 +54,8 @@
 			return {
 				estateType: '',
 				show: false,
-				qlr: '杨智勇',
-				cqzh: '湘（2017）苏仙不动产权第0022928号',
+				qlr: '',  // 杨智勇
+				cqzh: '',  // 湘（2017）苏仙不动产权第0022928号
 				customStatus: '',
 				actions: [{
 						name: '房屋'

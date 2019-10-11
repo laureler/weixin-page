@@ -9,30 +9,28 @@
 							<span class="required-span">*</span>申请事项
 						</div>
 						<van-field id="JOB_SJDJB.FDJLX" v-model="JOB_BDCQK['JOB_SJDJB.FDJLX']" right-icon="arrow"
-							placeholder="请选择申请事项"  clickable 
-							@click.native="actionsheetClicked('itemOptions')" />
+							placeholder="请选择申请事项" clickable @click.native="actionsheetClicked('itemOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>镇区
 						</div>
 						<van-field id="JOB_SJDJB.FZQDM" v-model="JOB_BDCQK['JOB_SJDJB.FZQDM']" right-icon="arrow"
-							placeholder="请选择镇区"  clickable 
-							@click.native="actionsheetClicked('townshipOptions')" />
+							placeholder="请选择镇区" clickable @click.native="actionsheetClicked('townshipOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>不动产单元号
 						</div>
 						<van-field id="JOB_BDCQK.FBDCDYH" v-model="JOB_BDCQK['JOB_BDCQK.FBDCDYH']" placeholder="不动产单元号"
-							clickable  disabled class="disabled-field" />
+							clickable disabled class="disabled-field" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>不动产类型
 						</div>
 						<van-field id="JOB_BDCQK.FBDCLX" v-model="this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCLX']"
-							right-icon="arrow" placeholder="不动产类型" disabled class="disabled-field" clickable 
+							right-icon="arrow" placeholder="不动产类型" disabled class="disabled-field" clickable
 							@click.native="actionsheetClicked('estateOptions')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -40,20 +38,20 @@
 							<span class="required-span">*</span>坐落
 						</div>
 						<van-field id="JOB_BDCQK.FFDZL" v-model="JOB_BDCQK['JOB_BDCQK.FFDZL']" placeholder="坐落"
-							clickable  disabled class="disabled-field" />
+							clickable disabled class="disabled-field" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							面积
 						</div>
-						<van-field id="JOB_BDCQK.FMJ" v-model="JOB_BDCQK['JOB_BDCQK.FMJ']" placeholder="面积" clickable 
+						<van-field id="JOB_BDCQK.FMJ" v-model="JOB_BDCQK['JOB_BDCQK.FMJ']" placeholder="面积" clickable
 							disabled class="disabled-field" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							用途
 						</div>
-						<van-field id="JOB_BDCQK.FYT" v-model="JOB_BDCQK['JOB_BDCQK.FYT']" placeholder="用途" clickable 
+						<van-field id="JOB_BDCQK.FYT" v-model="JOB_BDCQK['JOB_BDCQK.FYT']" placeholder="用途" clickable
 							disabled class="disabled-field" />
 					</van-cell-group>
 					<van-cell-group>
@@ -61,20 +59,20 @@
 							<span class="required-span">*</span>原不动产权证号
 						</div>
 						<van-field id="JOB_BDCQK.FYBDCQSZH" v-model="JOB_BDCQK['JOB_BDCQK.FYBDCQSZH']"
-							placeholder="原不动产权证号" clickable  disabled class="disabled-field" />
+							placeholder="原不动产权证号" clickable disabled class="disabled-field" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>登记原因
 						</div>
 						<van-field id="JOB_BDCQK.FDJYY" v-model="JOB_BDCQK['JOB_BDCQK.FDJYY']" placeholder="登记原因"
-							clickable  />
+							clickable />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							备注
 						</div>
-						<van-field id="JOB_BDCQK.FBZ" v-model="JOB_BDCQK['JOB_BDCQK.FBZ']" placeholder="备注" clickable  />
+						<van-field id="JOB_BDCQK.FBZ" v-model="JOB_BDCQK['JOB_BDCQK.FBZ']" placeholder="备注" clickable />
 					</van-cell-group>
 				</van-tab>
 				<van-tab title="申请人">
@@ -89,8 +87,8 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>性别
 						</div>
-						<van-field id="JOB_SQRXXB.FXB" v-model="applicant['JOB_SQRXXB.FXB']" right-icon="arrow" disabled
-							clickable  placeholder="性别" @click.native="actionsheetClicked('sexOptions')" />
+						<van-field id="JOB_SQRXXB.FXB" v-model="applicant['JOB_SQRXXB.FXB']" right-icon="arrow"
+							clickable placeholder="性别" @click.native="actionsheetClicked('sexOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -111,24 +109,21 @@
 							<span class="required-span">*</span>单位性质
 						</div>
 						<van-field id="JOB_SQRXXB.FDWXZ" v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow"
-							clickable placeholder="单位性质"
-							disabled class="disabled-field" />
+							clickable placeholder="单位性质" disabled class="disabled-field" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>国家/地区
 						</div>
 						<van-field id="JOB_SQRXXB.FGJDQ" v-model="applicant['JOB_SQRXXB.FGJDQ']" right-icon="arrow"
-							clickable placeholder="国家/地区"
-							@click.native="actionsheetClicked('countryOptions')" />
+							clickable placeholder="国家/地区" @click.native="actionsheetClicked('countryOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>户籍所属省份
 						</div>
 						<van-field id="JOB_SQRXXB.FHJSZSS" v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow"
-							clickable placeholder="户籍所属省份"
-							@click.native="actionsheetClicked('censusOptions')" />
+							clickable placeholder="户籍所属省份" @click.native="actionsheetClicked('censusOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -180,16 +175,14 @@
 							<span class="required-span">*</span>快递寄材料
 						</div>
 						<van-field id="JOB_SJDJB.FSFKDJCL" v-model="JOB_BDCQK['JOB_SJDJB.FSFKDJCL']" right-icon="arrow"
-							placeholder="请选择快递寄材料"  clickable 
-							@click.native="actionsheetClicked('materialOptions')" />
+							placeholder="请选择快递寄材料" clickable @click.native="actionsheetClicked('materialOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>快递寄证
 						</div>
 						<van-field id="JOB_SJDJB.FSFKDJZ" v-model="JOB_BDCQK['JOB_SJDJB.FSFKDJZ']" right-icon="arrow"
-							placeholder="请选择快递寄证"  clickable 
-							@click.native="actionsheetClicked('credentialOptions')" />
+							placeholder="请选择快递寄证" clickable @click.native="actionsheetClicked('credentialOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -217,8 +210,7 @@
 							所在镇区
 						</div>
 						<van-field id="JOB_SJDJB.FZQ" v-model="JOB_BDCQK['JOB_SJDJB.FZQ']" right-icon="arrow"
-							placeholder="请选择所在镇区"  clickable 
-							@click.native="actionsheetClicked('township2Options')" />
+							placeholder="请选择所在镇区" clickable @click.native="actionsheetClicked('township2Options')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -421,71 +413,71 @@
 				}], // 国家/地区
 				censusOptions: [{
 					name: '北京'
-				},{
+				}, {
 					name: '天津'
-				},{
+				}, {
 					name: '河北'
-				},{
+				}, {
 					name: '山西'
-				},{
+				}, {
 					name: '内蒙古'
-				},{
+				}, {
 					name: '辽宁'
-				},{
+				}, {
 					name: '吉林'
-				},{
+				}, {
 					name: '黑龙江'
-				},{
+				}, {
 					name: '上海'
-				},{
+				}, {
 					name: '江苏'
-				},{
+				}, {
 					name: '浙江'
-				},{
+				}, {
 					name: '安徽'
-				},{
+				}, {
 					name: '福建'
-				},{
+				}, {
 					name: '江西'
-				},{
+				}, {
 					name: '山东'
-				},{
+				}, {
 					name: '河南'
-				},{
+				}, {
 					name: '湖北'
-				},{
+				}, {
 					name: '湖南'
-				},{
+				}, {
 					name: '广东'
-				},{
+				}, {
 					name: '广西'
-				},{
+				}, {
 					name: '海南'
-				},{
+				}, {
 					name: '重庆'
-				},{
+				}, {
 					name: '四川'
-				},{
+				}, {
 					name: '贵州'
-				},{
+				}, {
 					name: '云南'
-				},{
+				}, {
 					name: '西藏'
-				},{
+				}, {
 					name: '陕西'
-				},{
+				}, {
 					name: '甘肃'
-				},{
+				}, {
 					name: '青海'
-				},{
+				}, {
 					name: '宁夏'
-				},{
+				}, {
 					name: '新疆'
-				},{
+				}, {
 					name: '台湾'
-				},{
+				}, {
 					name: '香港'
-				},{
+				}, {
 					name: '澳门'
 				}],
 				commonOptions: [{
@@ -506,19 +498,19 @@
 				}],
 				idTypeOptions: [{
 					name: '身份证'
-				},{
+				}, {
 					name: '港澳台身份证'
-				},{
+				}, {
 					name: '护照'
-				},{
+				}, {
 					name: '户口簿'
-				},{
+				}, {
 					name: '军官证（士兵证）'
-				},{
+				}, {
 					name: '组织机构代码'
-				},{
+				}, {
 					name: '营业执照'
-				},{
+				}, {
 					name: '其他'
 				}],
 				companyTypeOptions: [{
@@ -930,8 +922,8 @@
 							}
 						}
 
-						_this.$data['JOB_BDCQK']['JOB_BDCQK.FMJ'] = response['JOB_BDCQK.FJZMJ'];
-            _this.$data['JOB_BDCQK']['JOB_BDCQK.FYT'] = response['JOB_BDCQK.FFWYT'];
+						_this.$data['JOB_BDCQK']['JOB_BDCQK.FMJ'] = response['JOB_BDCQK.FJZMJ'];
+						_this.$data['JOB_BDCQK']['JOB_BDCQK.FYT'] = response['JOB_BDCQK.FFWYT'];
 
 						console.log("_this.$data['JOB_BDCQK']:", _this.$data['JOB_BDCQK']);
 
@@ -997,7 +989,11 @@
 						_this.taskId = taskId;
 						_this.$data['JOB_BDCQK'] = values;
 						sessionStorage.setItem('jid', businessNumber);
-						_this.startExactBusiness(rid, businessNumber);
+						// _this.startExactBusiness(rid, businessNumber);
+						// 提取权利信息
+						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+						// 提取受让人
+						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
 						console.log('taskId:', _this.taskId);
 					}).catch(err => {
 						console.log('err:', err);

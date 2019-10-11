@@ -96,7 +96,7 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>性别
 						</div>
-						<van-field id="JOB_SQRXXB.FXB" v-model="applicant['JOB_SQRXXB.FXB']" right-icon="arrow" disabled
+						<van-field id="JOB_SQRXXB.FXB" v-model="applicant['JOB_SQRXXB.FXB']" right-icon="arrow"
 							clickable  placeholder="性别" @click.native="actionsheetClicked('sexOptions')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -1161,7 +1161,10 @@
 						console.log('taskId:', _this.taskId);
 						_this.$data['JOB_BDCQK'] = values;
 						sessionStorage.setItem('jid', businessNumber);
-						_this.startExactBusiness(rid, businessNumber);
+						// _this.startExactBusiness(rid, businessNumber);
+						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+						_this.querySubFormData('JOB_XGXXB_LINK.IXG');
 						Toast.clear();
 					}).catch(err => {
 						console.log('err:', err);

@@ -54,8 +54,8 @@
 			return {
 				estateType: '',
 				show: false,
-				qlr: '李四英',
-				cqzh: '湘（2017）北湖不动产权第0022977号',
+				qlr: '',  // 李四英
+				cqzh: '',  // 湘（2017）北湖不动产权第0022977号
 				customStatus: '',
 				checkout: {
 					"cqxx": [{

@@ -962,8 +962,12 @@
 						_this.taskId = taskId;
 						_this.$data['JOB_BDCQK'] = values;
 						sessionStorage.setItem('jid', businessNumber);
-						_this.startExactBusiness(rid, businessNumber);
+						// _this.startExactBusiness(result.data.rid, businessNumber);
 						console.log('taskId:', _this.taskId);
+						// 提取权利信息
+						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+						// 提取义务人
+						_this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();

@@ -54,8 +54,8 @@
 		data () {
 			return {
 				show: false,
-				qlr: '王书凤',
-				cqzh: '湘（2017）北湖不动产权第0034063号',
+				qlr: '',  // 王书凤
+				cqzh: '',  // 湘（2017）北湖不动产权第0034063号
 				customStatus: '',
 				checkout: {
 					"cqxx": [{

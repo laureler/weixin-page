@@ -202,7 +202,7 @@ export const BasicRouterMap = [
 		component: resolve => require(['@/components/approve/personInfo'], resolve)
 	},
 	// 在线申办
-	applications,
+	// applications,
 	{
 		path: '/myApplications',
 		name: 'myApplications',
