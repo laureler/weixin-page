@@ -5,14 +5,14 @@
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄材料
 			</div>
-			<van-field id="JOB_SJDJB.FSFKDJCL" v-model="material" right-icon="arrow" placeholder="请选择快递寄材料"  clickable 
+			<van-field id="JOB_SJDJB.FSFKDJCL" v-model="material" right-icon="arrow" placeholder="请选择快递寄材料"  clickable
 				@click.native="materialClicked()" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄证
 			</div>
-			<van-field id="JOB_SJDJB.FSFKDJZ" v-model="credential" right-icon="arrow" placeholder="请选择快递寄证"  clickable 
+			<van-field id="JOB_SJDJB.FSFKDJZ" v-model="credential" right-icon="arrow" placeholder="请选择快递寄证"  clickable
 				@click.native="credentialClicked()" />
 		</van-cell-group>
 		<van-cell-group>
@@ -95,7 +95,7 @@
 					}
 				],
 				townships: [
-					{name: '石岐区'},
+					{ name: '石岐区' },
 					{ name: '东区' },
 					{ name: '南区' },
 					{ name: '西区' },
