@@ -751,10 +751,7 @@
 				this.saveTaskFormData();
 			},
 			saveTaskFormData: function () {
-				/* 				this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'] = this.qtyy;
-								this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'] = this.bz; */
 				console.log(this.$data['JOB_BDCQK']);
-
 				sessionStorage.setItem('formdata', JSON.stringify(this.$data['JOB_BDCQK']));
 				var _this = this;
 				Toast.loading({

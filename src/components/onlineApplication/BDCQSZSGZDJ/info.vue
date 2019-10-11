@@ -1161,6 +1161,8 @@
 						console.log('taskId:', _this.taskId);
 						_this.$data['JOB_BDCQK'] = values;
 						sessionStorage.setItem('jid', businessNumber);
+						_this.qtyy = _this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'];
+						_this.bz = _this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'];
 						// _this.startExactBusiness(rid, businessNumber);
 						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
 						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
