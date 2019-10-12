@@ -787,18 +787,6 @@
 				}],
 				unitNatures: [{
 						name: '个人'
-					},
-					{
-						name: '企业'
-					},
-					{
-						name: '事业单位'
-					},
-					{
-						name: '国家机关'
-					},
-					{
-						name: '其他'
 					}
 				],
 				situations: [{
@@ -1527,7 +1515,6 @@
 		created() {
 			var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
 			console.log('cqxx:', this.$route.query.cqxx);
-			console.log('businessDefinitionId:', this.$route.query.businessDefinitionId);
 			var _this = this;
 			Toast.loading({
 				mask: true,

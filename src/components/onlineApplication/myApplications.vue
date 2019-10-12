@@ -35,7 +35,7 @@
 						<van-button v-if="item['job_base-datastate'] == 0" class="custom-button" square size="large"
 							type="default" @click="deleteCreateJobs(item, index)">删除</van-button>
 					</div>
-					<div class="status" :class="[item['job_base-datastate'] == 0?'status-fail':'status-success']">
+					<div class="status" :class="[item['job_base-regtype'] === '不通过'?'status-fail':'status-success']">
 						{{ item['job_base-regtype'] }}
 					</div>
 				</div>

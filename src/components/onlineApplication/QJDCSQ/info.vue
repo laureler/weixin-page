@@ -388,8 +388,6 @@
 
 		},
 		created() {
-			console.log('businessDefinitionId:',
-				this.$route.query.businessDefinitionId);
 			var _this = this;
 			Toast.loading({
 				mask: true,

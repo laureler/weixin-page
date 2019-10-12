@@ -543,14 +543,6 @@
 				}],
 				companyTypeOptions: [{
 					name: '个人'
-				}, {
-					name: '企业'
-				}, {
-					name: '事业单位'
-				}, {
-					name: '国家单位'
-				}, {
-					name: '其他'
 				}],
 				chooseOneOptions: [{
 					name: '是'

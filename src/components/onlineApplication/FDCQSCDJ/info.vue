@@ -1163,8 +1163,6 @@
 		created() {
 			var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
 			console.log('cqxx:', this.$route.query.cqxx);
-			console.log('businessDefinitionId:',
-				this.$route.query.businessDefinitionId);
 			var _this = this;
 			Toast.loading({
 				mask: true,
