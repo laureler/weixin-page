@@ -16,9 +16,11 @@ module.exports = {
         "semi": 'off',
         'no-tabs': 'off',
         "quotes": 'off', // 引号类型
+		"no-unused-vars":"off",
+		"camelcase":"off",
         "indent": 'off',
         'eqeqeq': 'off',
-        'no-undef':'warn',
+        'no-undef': 'warn',
         'comma-dangle': 'off',
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'

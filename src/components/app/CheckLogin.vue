@@ -18,6 +18,7 @@
 			</van-field>
 		</van-cell-group>
 		<div style="margin-top: 20px">
+			<a style="display: block; margin: 10px 20px; text-align: right; color: #1979ce;" @click="signInAccount">注册账号</a>
 			<van-button size="large" class="blueButton" @click="checkInput()">登录</van-button>
 		</div>
 	</div>
@@ -45,6 +46,9 @@
 			}
 		},
 		methods: {
+			signInAccount() {
+				this.$router.push({ path: '/signInAccount' });
+			},
 			changeCheckCode() {
 				let url = 'http://' + window.location.hostname + ':' + window.location.port;
 				this.checkCodeImgValue = url + '/cas/captchacode?date=' + (new Date()).getTime();

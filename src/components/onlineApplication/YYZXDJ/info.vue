@@ -531,8 +531,6 @@
 				applicant: {},
 				applicantIndex: -1,
 				optionsTitle: '',
-				qtyy: '',
-				bz: '',
 				goBack: false,
 				emsNecessary: false
 			}
@@ -742,10 +740,7 @@
 				this.saveTaskFormData();
 			},
 			saveTaskFormData: function () {
-				/* 				this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'] = this.qtyy;
-								this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'] = this.bz; */
 				console.log(this.$data['JOB_BDCQK']);
-
 				sessionStorage.setItem('formdata', JSON.stringify(this.$data['JOB_BDCQK']));
 				var _this = this;
 				Toast.loading({
@@ -962,8 +957,12 @@
 						_this.taskId = taskId;
 						_this.$data['JOB_BDCQK'] = values;
 						sessionStorage.setItem('jid', businessNumber);
-						_this.startExactBusiness(rid, businessNumber);
+						// _this.startExactBusiness(result.data.rid, businessNumber);
 						console.log('taskId:', _this.taskId);
+						// 提取权利信息
+						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+						// 提取义务人
+						_this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();

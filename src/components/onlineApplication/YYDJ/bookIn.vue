@@ -65,8 +65,8 @@
 				estateType: '',
 				cqlx: '',
 				show: false,
-				qlr: '湖南建工相山房地产开发有限公司',
-				cqzh: '湘（2017）苏仙不动产权第0022934号',
+				qlr: '',  // 湖南建工相山房地产开发有限公司
+				cqzh: '',  // 湘（2017）苏仙不动产权第0022934号
 				customStatus: '',
 				actions: [{
 						name: '房屋'

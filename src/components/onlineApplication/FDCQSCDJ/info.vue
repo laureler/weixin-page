@@ -1070,6 +1070,32 @@
 					console.log(error);
 				});
 			},
+			// 查询子表单
+			querySubFormData: function (title, showLoading = false) {
+				var business = JSON.parse(sessionStorage.getItem('business'));
+				var result = JSON.parse(business.result);
+				console.log(result);
+				var link = title.split('.')[0];
+				var domains = title.split('_LINK')[0]
+				var parentrid = result.data.values[link + '.RID'];
+				var templateid = result.data.controls[title].linkTplId;
+				var _this = this;
+				this
+					.$fetch('/formengineWebService/querySubFormData' + '?parentdomname=' + title + '&parentrid=' +
+						parentrid + '&doms=' + domains + '&templateid=' + templateid + '&random=19')
+					.then(response => {
+						console.log('response:', response);
+						debugger;
+						if (title === 'JOB_GLQLXXB_LINK.OLD_IQLDJ') {  // 权利信息
+							
+						}else if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
+							_this.applicants = response.rows;
+						}
+					})
+					.catch(error => {
+						console.log('error:', error);
+					});
+			},
 			fillSubFormData: function (title, params, showLoading = false, saveTape = false) {
 				var business = JSON.parse(sessionStorage.getItem('business'));
 				var result = JSON.parse(business.result);
@@ -1161,34 +1187,78 @@
 			}
 		},
 		created() {
-			var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
-			console.log('cqxx:', this.$route.query.cqxx);
-			console.log('businessDefinitionId:',
-				this.$route.query.businessDefinitionId);
-			var _this = this;
-			Toast.loading({
-				mask: true,
-				message: '加载中...'
-			});
-			this.$fetch(GET_BUSINESS_START_FROM, {
-				businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
-			}).then(function (response) {
-				var businessNumber = response.businessNumber;
-				var result = JSON.parse(response.result);
-				var values = result.data.values;
-				var taskId = response.taskId;
-				sessionStorage.setItem('taskId', taskId);
-				sessionStorage.setItem('business', JSON.stringify(response));
-				_this.taskId = taskId;
-				console.log('taskId:', _this.taskId);
-				_this.valuesParams = values;
-				console.log('>>>:', _this.valuesParams);
-				sessionStorage.setItem('jid', businessNumber);
-				_this.startExactBusiness(rid, businessNumber);
-			}).catch(function (error) {
-				console.log(error);
-				Toast.clear();
-			});
+			if (this.$route.query && this.$route.query.processInstanceId) {
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				// 查询首环节？
+				var _this = this;
+				this.$fetch('/workflowWebService/getFirstLinkInfoByProcessInstanceId', {
+					processInstanceId: this.$route.query.processInstanceId
+				}).then(res => {
+					console.log('res:', res);
+
+					var _taskId = res.taskId;
+
+					_this.$fetch('/workflowWebService/renderFormByTaskId', {
+						taskId: _taskId
+					}).then(response => {
+						var businessNumber = response.businessNumber;
+						var result = JSON.parse(response.result);
+						var values = result.data.values;
+						var taskId = response.taskId;
+						sessionStorage.setItem('taskId', taskId);
+						sessionStorage.setItem('business', JSON.stringify(response));
+						_this.taskId = taskId;
+						console.log('taskId:', _this.taskId);
+						_this.valuesParams = values;
+						console.log('>>>:', _this.valuesParams);
+						sessionStorage.setItem('jid', businessNumber);
+						console.log('taskId:', _this.taskId);
+						
+						// _this.startExactBusiness(rid, businessNumber);
+						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+						Toast.clear();
+					}).catch(err => {
+						console.log('err:', err);
+						Toast.clear();
+					});
+				}).catch(err => {
+					console.log('err:', err);
+					Toast.clear();
+				});
+			}else {
+				var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
+				console.log('cqxx:', this.$route.query.cqxx);
+				console.log('businessDefinitionId:',
+					this.$route.query.businessDefinitionId);
+				var _this = this;
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				this.$fetch(GET_BUSINESS_START_FROM, {
+					businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
+				}).then(function (response) {
+					var businessNumber = response.businessNumber;
+					var result = JSON.parse(response.result);
+					var values = result.data.values;
+					var taskId = response.taskId;
+					sessionStorage.setItem('taskId', taskId);
+					sessionStorage.setItem('business', JSON.stringify(response));
+					_this.taskId = taskId;
+					console.log('taskId:', _this.taskId);
+					_this.valuesParams = values;
+					console.log('>>>:', _this.valuesParams);
+					sessionStorage.setItem('jid', businessNumber);
+					_this.startExactBusiness(rid, businessNumber);
+				}).catch(function (error) {
+					console.log(error);
+					Toast.clear();
+				});
+			}
 		}
 	}
 
@@ -1325,7 +1395,7 @@
 		border-radius: 2px;
 	}
 
-	..van-field__control:disabled {
+	.van-field__control:disabled {
 		color: #000 !important;
 	}
 

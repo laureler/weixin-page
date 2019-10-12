@@ -169,7 +169,7 @@
 							<div class="handle">操作</div>
 						</div>
 						<div class="content">
-							<van-cell-group class="applicants-group" v-for="(item, index) in applicants">
+							<van-cell-group class="applicants-group" v-for="(item, index) in applicants" :key="index">
 								<div class="name">{{ item['JOB_SQRXXB.FSQRMC'] || '' }}</div>
 								<div class="num">{{ item['JOB_SQRXXB.FZJHM'] || '' }}</div>
 								<div class="handle">
@@ -213,7 +213,11 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>单位性质
 						</div>
-						<van-field v-model="assignor['JOB_SQRXXB_OLD.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质" class="field-background" disabled/>
+						<van-field v-model="assignor['JOB_SQRXXB_OLD.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
+								clickable 
+								disabled class="field-background"
+							 />
+							 <!-- @click.native="unitNatureAssignorClicked()" -->
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -265,7 +269,7 @@
 							<div class="handle">操作</div>
 						</div>
 						<div class="content">
-							<van-cell-group class="applicants-group" v-for="(item, index) in assignors">
+							<van-cell-group class="applicants-group" v-for="(item, index) in assignors" :key="index">
 								<div class="name">{{ item['JOB_SQRXXB_OLD.FSQRMC'] || '' }}</div>
 								<div class="num">{{ item['JOB_SQRXXB_OLD.FZJHM'] || '' }}</div>
 								<div class="handle">
@@ -1282,16 +1286,12 @@
 					.then(response => {
 						console.log('response:', response);
 						debugger;
-						if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
-							_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.rows;
-							if (!response.rows) return;
-							_this.applicantIndex = 0;
-							_this.applicant = response.rows[0];
-						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
-							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
-							if (!response.rows) return;
-							_this.changeItemIndex = 0;
-							_this.changeItem = response.rows[0];
+						if (title === 'JOB_SQRXXB_OLD_LINK.OLD_IQLR') { // 转让人
+							_this.assignors = response.rows;
+						} else if (title === 'JOB_GLQLXXB_LINK.OLD_IQLDJ') {  // 权利信息
+							
+						} else if (title === 'JOB_SQRXXB_LINK.IQLR') {  // 受让人
+							_this.applicants = response.rows;
 						}
 					})
 					.catch(error => {
@@ -1388,6 +1388,49 @@
 			}
 		},
 		created() {
+			if (this.$route.query && this.$route.query.processInstanceId) {
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				// 查询首环节？
+				var _this = this;
+				this.$fetch('/workflowWebService/getFirstLinkInfoByProcessInstanceId', {
+					processInstanceId: this.$route.query.processInstanceId
+				}).then(res => {
+					console.log('res:', res);
+					var _taskId = res.taskId;
+					_this.$fetch('/workflowWebService/renderFormByTaskId', {
+						taskId: _taskId
+					}).then(response => {
+						var businessNumber = response.businessNumber;
+						var result = JSON.parse(response.result);
+						var values = result.data.values;
+						var taskId = response.taskId;
+						sessionStorage.setItem('taskId', taskId);
+						sessionStorage.setItem('business', JSON.stringify(response));
+						_this.taskId = taskId;
+						console.log('taskId:', _this.taskId);
+						_this.valuesParams = values;
+						console.log('>>>:', _this.valuesParams);
+						sessionStorage.setItem('jid', businessNumber);
+						console.log('taskId:', _this.taskId);
+						// 提取权利信息
+						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+						// 提取转让人
+						_this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
+						// 提取受让人
+						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+					}).catch(err => {
+						console.log('err:', err);
+						Toast.clear();
+					});
+				}).catch(err => {
+					console.log('err:', err);
+					Toast.clear();
+				});
+
+			} else {
 			var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
 			console.log('cqxx:', this.$route.query.cqxx);
 			console.log('businessDefinitionId:',
@@ -1416,6 +1459,7 @@
 				console.log(error);
 				Toast.clear();
 			});
+		}
 		}
 	}
 

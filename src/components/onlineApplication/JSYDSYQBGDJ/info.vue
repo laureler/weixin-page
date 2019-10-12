@@ -644,6 +644,7 @@
 		},
 		methods: {
 			actionsheetClicked: function (title) {
+				debugger;
 				this.actionsheetShow = true;
 				this.actions = this.$data[title];
 				this.optionsTitle = title;
@@ -959,8 +960,8 @@
 						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
 							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
 							if (!response.rows) return;
-							_this.changeItemIndex = 0;
-							_this.changeItem = response.rows[0];
+							// _this.changeItemIndex = 0;
+							// _this.changeItem = response.rows[0];
 						}
 					})
 					.catch(error => {
@@ -1161,9 +1162,13 @@
 						console.log('taskId:', _this.taskId);
 						_this.$data['JOB_BDCQK'] = values;
 						console.log('>>>:', _this.$data['JOB_BDCQK']);
+						_this.qtyy = _this.$data['JOB_BDCQK']['JOB_JSYDCQXXB.FQTYY'];
+						_this.bz = _this.$data['JOB_BDCQK']['JOB_JSYDCQXXB.FBZ'];
 						sessionStorage.setItem('jid', businessNumber);
-						_this.startExactBusiness(rid, businessNumber);
-
+						//_this.startExactBusiness(rid, businessNumber);
+						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+						_this.querySubFormData('JOB_XGXXB_LINK.IXG');
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();

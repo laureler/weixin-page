@@ -1,12 +1,12 @@
 // vue.config.ts 配置说明
 
 const path = require('path');
-
+var openInEditor = require('launch-editor-middleware')
 const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-function resolve(dir) {
+function resolve (dir) {
 	return path.join(__dirname, dir);
 }
 
@@ -23,14 +23,12 @@ module.exports = {
 	lintOnSave: true,
 
 	chainWebpack: config => {
-
 		if (process.env.IS_ANALYZ === 'analyz') {
 			config.plugin('webpack-bundle-analyzer')
 				.use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin);
 		}
 
 		if (env_build) {
-
 			config.module
 				.rule("image-webpack-loader")
 				.test(/\.(gif|png|jpe?g|svg)$/i)
@@ -49,11 +47,9 @@ module.exports = {
 			.set('assets', resolve('src/assets'))
 			.set('public', resolve('public'))
 			.set('vue$', 'vue/dist/vue.esm.js')
-
 	},
 
 	configureWebpack: config => {
-
 		if (env_build) {
 			// 为生产环境修改配置...
 			plugins: [
@@ -98,7 +94,7 @@ module.exports = {
 					cacheGroups: {
 						vendor: {
 							test: /[\\/]node_modules[\\/]/,
-							name(module) {
+							name (module) {
 								// get the name. E.g. node_modules/packageName/not/this/part.js
 								// or node_modules/packageName
 								const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
@@ -112,8 +108,7 @@ module.exports = {
 			Object.assign(config, {
 				optimization
 			});
-		}
-		else {
+		} else {
 			// 为开发环境修改配置...
 			plugins: [
 				new MiniCssExtractPlugin({
@@ -122,7 +117,6 @@ module.exports = {
 				}),
 			];
 		}
-
 	},
 	productionSourceMap: false,
 	// css相关配置
@@ -149,39 +143,22 @@ module.exports = {
 		compress: true,
 		open: true, // 配置自动启动浏览器
 		hotOnly: true,
-/* 		proxy: {
-			'/wx-api': {
-				target: 'http://bdcsq.zsfdc.gov.cn',
-				ws: true,
-				followRedirects: false,
-				pathRewrite: {
-					'^/wx-api': ''
-				}
-			},
-			'/mainWeb': {
-				target: 'http://bdcsq.zsfdc.gov.cn',
-				ws: true,
-				followRedirects: false,
-				hostRewrite: 'localhost:3000'
-			},
-			'/cas': {
-				target: 'http://bdcsq.zsfdc.gov.cn',
-				ws: true,
-				followRedirects: false,
-				hostRewrite: 'localhost:3000'
-			},
-			'/workflowWebService': {
-				target: 'http://bdcsq.zsfdc.gov.cn',
-				ws: true,
-				followRedirects: false,
-				hostRewrite: 'localhost:3000'
-			},
-			'/formengineWebService': {
-				target: 'http://bdcsq.zsfdc.gov.cn',
-				ws: true,
-				followRedirects: false,
-				hostRewrite: 'localhost:3000'
-			}
-		} */
+		/* proxy: {
+			// 开发模式下 代理网络请求
+			// '/cas': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			// '/mainWeb': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			// '/gdbdcWebService': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			// '/pubWeb/public/getWeChatConfig': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' }
+			// '/pubWeb': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			// '/public': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			// '/workflowWebService': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			'/pubWeb/public/doIntranetRequest/GetAllNo': { target: 'http://bdc.qylr.gov.cn/pubWeb/public/doIntranetRequest/GetAllNo', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			'/pubWeb/public/doIntranetRequest/GetYWJD': { target: 'http://bdc.qylr.gov.cn/pubWeb/public/doIntranetRequest/GetYWJD', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' }
+		}, */
+		before (app) {
+			app.use('/__open-in-editor', openInEditor('webstorm'))
+			// app.use('/__open-in-editor', openInEditor('code'))
+			// app.use('/__open-in-editor', openInEditor('idea'))
+		}
 	},
 };
