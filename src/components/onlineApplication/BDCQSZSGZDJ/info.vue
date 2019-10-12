@@ -1153,6 +1153,7 @@
 						console.log('taskId:', _this.taskId);
 						_this.$data['JOB_BDCQK'] = values;
 						sessionStorage.setItem('jid', businessNumber);
+						
 						_this.qtyy = _this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'];
 						_this.bz = _this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'];
 						// _this.startExactBusiness(rid, businessNumber);

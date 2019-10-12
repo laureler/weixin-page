@@ -1357,16 +1357,12 @@
 					.then(response => {
 						console.log('response:', response);
 						debugger;
-						if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
-							_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.rows;
-							if (!response.rows) return;
-							_this.applicantIndex = 0;
-							_this.applicant = response.rows[0];
-						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
-							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
-							if (!response.rows) return;
-							_this.changeItemIndex = 0;
-							_this.changeItem = response.rows[0];
+						if (title === 'JOB_SQRXXB_OLD_LINK.OLD_IQLR') { // 转让人
+							_this.assignors = response.rows;
+						} else if (title === 'JOB_GLQLXXB_LINK.OLD_IQLDJ') {  // 权利信息
+							
+						}else if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
+							_this.applicants = response.rows;
 						}
 					})
 					.catch(error => {
@@ -1513,53 +1509,99 @@
 			}
 		},
 		created() {
-			var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
-			console.log('cqxx:', this.$route.query.cqxx);
-			var _this = this;
-			Toast.loading({
-				mask: true,
-				message: '加载中...'
-			});
-			this.$fetch(GET_BUSINESS_START_FROM, {
-				businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
-			}).then(function (response) {
-				var businessNumber = response.businessNumber;
-				var result = JSON.parse(response.result);
-				var values = result.data.values;
-				var taskId = response.taskId;
-				sessionStorage.setItem('taskId', taskId);
-				sessionStorage.setItem('business', JSON.stringify(response));
-				_this.taskId = taskId;
-				console.log('taskId:', _this.taskId);
-				_this.valuesParams = values;
-				var ps = _this.valuesParams['JOB_FDCQXXB.FCQLY']
-				if (ps == 42) {
-					_this.propertySource = '买卖';
-				} else if (ps == 49) {
-					_this.propertySource = '赠与';
-				} else if (ps == 50) {
-					_this.propertySource = '作价出资(入股)';
-				} else if (ps == 64) {
-					_this.propertySource = '房改房';
-				}
-				console.log('>>>:', _this.valuesParams);
-				sessionStorage.setItem('jid', businessNumber);
-				_this.startExactBusiness(rid, businessNumber);
-			}).catch(function (error) {
-				console.log(error);
-				Toast.clear();
-			});
-			var nowDate = new Date();
-			var year = nowDate.getFullYear();
-			var month = nowDate.getMonth() + 1;
-			var date = nowDate.getDate();
-			this.currentDate[0] = year;
-			this.currentDate[1] = month;
-			this.currentDate[2] = date;
+			if (this.$route.query && this.$route.query.processInstanceId) {
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				// 查询首环节？
+				var _this = this;
+				this.$fetch('/workflowWebService/getFirstLinkInfoByProcessInstanceId', {
+					processInstanceId: this.$route.query.processInstanceId
+				}).then(res => {
+					console.log('res:', res);
 
-			this.calendar.value = this.currentDate;
-			this.calendar2.value = this.currentDate;
-			this.calendar3.value = this.currentDate;
+					var _taskId = res.taskId;
+
+					_this.$fetch('/workflowWebService/renderFormByTaskId', {
+						taskId: _taskId
+					}).then(response => {
+						var businessNumber = response.businessNumber;
+						var result = JSON.parse(response.result);
+						var values = result.data.values;
+						var taskId = response.taskId;
+						sessionStorage.setItem('taskId', taskId);
+						sessionStorage.setItem('business', JSON.stringify(response));
+						_this.taskId = taskId;
+						console.log('taskId:', _this.taskId);
+						_this.valuesParams = values;
+						console.log('>>>:', _this.valuesParams);
+						sessionStorage.setItem('jid', businessNumber);
+						console.log('taskId:', _this.taskId);
+						// 提取权利信息
+						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+						// 提取转让人
+						_this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
+						// 提取受让人
+						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+					}).catch(err => {
+						console.log('err:', err);
+						Toast.clear();
+					});
+				}).catch(err => {
+					console.log('err:', err);
+					Toast.clear();
+				});
+			}else {
+				var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
+				console.log('cqxx:', this.$route.query.cqxx);
+				console.log('businessDefinitionId:', this.$route.query.businessDefinitionId);
+				var _this = this;
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				this.$fetch(GET_BUSINESS_START_FROM, {
+					businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
+				}).then(function (response) {
+					var businessNumber = response.businessNumber;
+					var result = JSON.parse(response.result);
+					var values = result.data.values;
+					var taskId = response.taskId;
+					sessionStorage.setItem('taskId', taskId);
+					sessionStorage.setItem('business', JSON.stringify(response));
+					_this.taskId = taskId;
+					console.log('taskId:', _this.taskId);
+					_this.valuesParams = values;
+					var ps = _this.valuesParams['JOB_FDCQXXB.FCQLY']
+					if (ps == 42) {
+						_this.propertySource = '买卖';
+					} else if (ps == 49) {
+						_this.propertySource = '赠与';
+					} else if (ps == 50) {
+						_this.propertySource = '作价出资(入股)';
+					} else if (ps == 64) {
+						_this.propertySource = '房改房';
+					}
+					console.log('>>>:', _this.valuesParams);
+					sessionStorage.setItem('jid', businessNumber);
+					_this.startExactBusiness(rid, businessNumber);
+				}).catch(function (error) {
+					console.log(error);
+					Toast.clear();
+				});
+				var nowDate = new Date();
+				var year = nowDate.getFullYear();
+				var month = nowDate.getMonth() + 1;
+				var date = nowDate.getDate();
+				this.currentDate[0] = year;
+				this.currentDate[1] = month;
+				this.currentDate[2] = date;
+
+				this.calendar.value = this.currentDate;
+				this.calendar2.value = this.currentDate;
+				this.calendar3.value = this.currentDate;
+			}
 		}
 	}
 

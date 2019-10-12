@@ -139,7 +139,9 @@
 				this.customStatus = '';
 				if (this.checkout != null) {
 					this.checkout.cqxx[0] = '';
-				}
+				}				
+				console.log('name',name);
+				console.log('title',title);
 			},
 			checkoutID: function () {
 				this.customStatus = '';

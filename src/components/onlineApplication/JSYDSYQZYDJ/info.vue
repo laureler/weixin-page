@@ -1176,11 +1176,11 @@
 						console.log('response:', response);
 						debugger;
 						if (title === 'JOB_SQRXXB_OLD_LINK.OLD_IQLR') { // 转让人
-							_this.assignors= response.rows || [];
+							_this.assignors = response.rows;
 						} else if (title === 'JOB_GLQLXXB_LINK.OLD_IQLDJ') {  // 权利信息
 							
 						} else if (title === 'JOB_SQRXXB_LINK.IQLR') {  // 受让人
-							_this.applicants = response.rows || [];
+							_this.applicants = response.rows;
 						}
 					})
 					.catch(error => {
