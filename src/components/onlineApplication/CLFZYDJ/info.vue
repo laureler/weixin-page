@@ -168,8 +168,8 @@
 						<div class="cell-title">
 							产权来源
 						</div>
-						<van-field v-model="propertySource" right-icon="arrow" placeholder="请选择产权来源" disabled clickable
-							@click.native="propertySourceClicked()" />
+						<van-field v-model="propertySource" right-icon="arrow" placeholder="请选择产权来源"
+						 clickable @click.native="propertySourceClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -249,7 +249,7 @@
 						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant(0)">保存
 						</van-button>
 						<van-button class="info-btn" size="small" type="default" v-if="editApplicantState"
-							@click.native="delApplicant(0)">删除申请人
+							@click.native="delApplicant()">删除申请人
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -302,7 +302,7 @@
 							<span class="required-span">*</span>单位性质
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
-							class="field-background" disabled />
+							clickable @click.native="unitNatureAssignorClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -339,9 +339,6 @@
 					</van-cell-group>
 					<div class="buttons">
 						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant(1)">保存
-						</van-button>
-						<van-button class="info-btn" size="small" type="default" v-if="editAssignorState"
-							@click.native="delApplicant(1)">删除申请人
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -663,15 +660,7 @@
 						name: '小榄'
 					}
 				],
-				propertySources: [{
-					name: '买卖'
-				}, {
-					name: '赠与'
-				}, {
-					name: '作价出资(入股)'
-				}, {
-					name: '房改房'
-				}],
+				propertySources: [],
 				countries: [{
 					name: '中华人民共和国'
 				}, {
@@ -785,20 +774,9 @@
 				}, {
 					name: '其他'
 				}],
-				unitNatures: [{
+				unitNatures: [
+					{
 						name: '个人'
-					},
-					{
-						name: '企业'
-					},
-					{
-						name: '事业单位'
-					},
-					{
-						name: '国家机关'
-					},
-					{
-						name: '其他'
 					}
 				],
 				situations: [{
@@ -833,7 +811,6 @@
 				applicants: [],
 				assignors: [],
 				editApplicantState: false,
-				editAssignorState: false,
 				applicantIndex: -1,
 				assignorIndex: -1,
 				countryType: '',
@@ -989,19 +966,18 @@
 						this.assignor['JOB_SQRXXB_OLD.FHJSZSS'] = val.name;
 					}
 				} else if (this.type == 4) {
+					this.propertySource = val.name;
 					if (val.name == '买卖') {
-						this.propertySource = val.name;
 						this.valuesParams['JOB_FDCQXXB.FCQLY'] = 42;
 					} else if (val.name == '赠与') {
-						this.propertySource = val.name;
 						this.valuesParams['JOB_FDCQXXB.FCQLY'] = 49;
 					} else if (val.name == '作价出资(入股)') {
-						this.propertySource = val.name;
 						this.valuesParams['JOB_FDCQXXB.FCQLY'] = 50;
 					} else if (val.name == '房改房') {
-						this.propertySource = val.name;
 						this.valuesParams['JOB_FDCQXXB.FCQLY'] = 64;
 					}
+
+					console.log('propertySource',this.propertySource);
 				} else if (this.type == 5) {
 					this.applicant['JOB_SQRXXB.FXB'] = val.name;
 				} else if (this.type == 6) {
@@ -1043,22 +1019,18 @@
 			onCancel: function () {
 				this.show = false;
 			},
-			delApplicant: function (type) {
-				this.$dialog.confirm({
+			delApplicant: function () {
+				Dialog.confirm({
 					message: '确定要删除该申请人吗?'
 				}).then(() => {
 					console.log('删除');
-					if (type == 0) {
-						//受让人
-						this.applicants.splice(this.applicantIndex, 1);
-						this.applicantIndex = -1;
-						this.editApplicantState = false;
-					} else if (type == 1) {
-						//转让人
-						this.assignors.splice(this.assignorIndex, 1);
-						this.assignorIndex = -1;
-						this.editAssignorState = false;
-					}
+					//只有受让人可以删除
+					this.applicants.splice(this.applicantIndex, 1);
+					this.applicantIndex = -1;
+					this.editApplicantState = false;
+					this.applicant = {};
+					this.person = '';
+					this.idCard = '';
 					// on close
 				}).catch(() => {
 					// on cancel
@@ -1190,6 +1162,7 @@
 			editApplicant: function (item, index, type) {
 				if (type == 0) {
 					//受让人
+					this.editApplicantState = true;
 					this.applicantIndex = index;
 					this.applicant = item;
 					this.person = item['JOB_SQRXXB.FSQRMC'];
@@ -1580,6 +1553,14 @@
 					var result = JSON.parse(response.result);
 					var values = result.data.values;
 					var taskId = response.taskId;
+
+					var map = result.data.controls['JOB_FDCQXXB.FCQLY']['dicTreeMap'];
+					for(var i = 0;i < map.length; i ++){
+						var obj = new Object();
+						obj.name = map[i].text;
+						_this.propertySources.push(obj);
+					}
+
 					sessionStorage.setItem('taskId', taskId);
 					sessionStorage.setItem('business', JSON.stringify(response));
 					_this.taskId = taskId;

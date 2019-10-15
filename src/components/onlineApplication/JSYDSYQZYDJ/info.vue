@@ -145,7 +145,7 @@
 						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant(0)">保存
 						</van-button>
 						<van-button class="info-btn" size="small" type="default" v-if="editApplicantState"
-							@click.native="delApplicant(0)">删除申请人
+							@click.native="delApplicant()">删除申请人
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -198,8 +198,7 @@
 							<span class="required-span">*</span>单位性质
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
-							clickable disabled class="field-background" />
-						<!-- @click.native="unitNatureAssignorClicked()" -->
+							clickable @click.native="unitNatureAssignorClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -236,9 +235,6 @@
 					</van-cell-group>
 					<div class="buttons">
 						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant(1)">保存
-						</van-button>
-						<van-button class="info-btn" size="small" type="default" v-if="editAssignorState"
-							@click.native="delApplicant(1)">删除申请人
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -517,7 +513,6 @@
 				applicants: [],
 				assignors: [],
 				editApplicantState: false,
-				editAssignorState: false,
 				applicantIndex: -1,
 				assignorIndex: -1,
 				taskId: '',
@@ -647,20 +642,9 @@
 				}, {
 					name: '其他'
 				}],
-				unitNatures: [{
+				unitNatures: [
+					{
 						name: '个人'
-					},
-					{
-						name: '企业'
-					},
-					{
-						name: '事业单位'
-					},
-					{
-						name: '国家机关'
-					},
-					{
-						name: '其他'
 					}
 				],
 				situations: [{
@@ -855,22 +839,18 @@
 					this.valuesParams['JOB_SJDJB.FZQ'] = val.name;
 				}
 			},
-			delApplicant: function (type) {
-				this.$dialog.confirm({
+			delApplicant: function () {
+				Dialog.confirm({
 					message: '确定要删除该申请人吗?'
 				}).then(() => {
 					console.log('删除');
-					if (type == 0) {
-						//受让人
-						this.applicants.splice(this.applicantIndex, 1);
-						this.applicantIndex = -1;
-						this.editApplicantState = false;
-					} else if (type == 1) {
-						//转让人
-						this.assignors.splice(this.assignorIndex, 1);
-						this.assignorIndex = -1;
-						this.editAssignorState = false;
-					}
+					//只有受让人可以删除
+					this.applicants.splice(this.applicantIndex, 1);
+					this.applicantIndex = -1;
+					this.editApplicantState = false;
+					this.applicant = {};
+					this.person = '';
+					this.idCard = '';
 					// on close
 				}).catch(() => {
 					// on cancel
@@ -1000,9 +980,9 @@
 				}
 			},
 			editApplicant: function (item, index, type) {
-				// this.editApplicantState = true;
 				if (type == 0) {
 					//受让人
+					this.editApplicantState = true;
 					this.applicantIndex = index;
 					this.applicant = item;
 					this.person = item['JOB_SQRXXB.FSQRMC'];

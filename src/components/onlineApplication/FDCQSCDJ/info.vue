@@ -94,28 +94,27 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>申请人
 						</div>
-						<van-field v-model="person" clearable placeholder="申请人" />
+						<van-field v-model="person" disabled class="field-background" 
+							placeholder="申请人" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>性别
 						</div>
-						<van-field v-model="applicant['JOB_SQRXXB.FXB']" right-icon="arrow" placeholder="请选择性别"
-							 clickable @click.native="sexClicked()" />
+						<van-field v-model="applicant['JOB_SQRXXB.FXB']" right-icon="arrow" placeholder="请选择性别" disabled class="field-background" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>证件种类
 						</div>
-						<van-field v-model="applicant['JOB_SQRXXB.FZJZL']" right-icon="arrow" placeholder="请选择证件种类"
-							  clickable 
-							@click.native="certificateClicked()" />
+						<van-field v-model="applicant['JOB_SQRXXB.FZJZL']" right-icon="arrow" placeholder="请选择证件种类" disabled class="field-background" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>证件号码
 						</div>
-						<van-field v-model="idCard" clearable placeholder="证件号码" />
+						<van-field v-model="idCard" disabled class="field-background" 
+							placeholder="证件号码" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -127,17 +126,13 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>国家/地区
 						</div>
-						<van-field v-model="applicant['JOB_SQRXXB.FGJDQ']" right-icon="arrow" placeholder="请选择国家地区"
-							  clickable 
-							@click.native="countryClicked()" />
+						<van-field v-model="applicant['JOB_SQRXXB.FGJDQ']" right-icon="arrow" placeholder="请选择国家地区" disabled class="field-background" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>户籍所属省份
 						</div>
-						<van-field v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow" placeholder="请选择户籍所属省份"
-							  clickable 
-							@click.native="provinceClicked()" />
+						<van-field v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow" placeholder="请选择户籍所属省份" disabled class="field-background" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -149,15 +144,14 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>共有情况
 						</div>
-						<van-field v-model="applicant['JOB_SQRXXB.FGYQK']" right-icon="arrow" placeholder="请选择共有情况"
-							  clickable 
-							@click.native="situationClicked()" />
+						<van-field v-model="applicant['JOB_SQRXXB.FGYQK']" right-icon="arrow" placeholder="请选择共有情况" disabled class="field-background" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>权利比例
 						</div>
-						<van-field v-model="applicant['JOB_SQRXXB.FQLBL']" clearable placeholder="权利比例" />
+						<van-field v-model="applicant['JOB_SQRXXB.FQLBL']" disabled 
+							class="field-background" placeholder="权利比例" />
 					</van-cell-group>
 					<div class="buttons">
 						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant()"
@@ -410,19 +404,7 @@
 						name: '小榄'
 					}
 				],
-				propertySources: [{
-						name: '买卖'
-					},
-					{
-						name: '赠与'
-					},
-					{
-						name: '作价出资(入股)'
-					},
-					{
-						name: '房改房'
-					}
-				],
+				propertySources: [],
 				housePropertys: [{
 						name: '商品房'
 					},
@@ -566,92 +548,6 @@
 						name: '车库/车位'
 					}
 				],
-				countries: [{
-					name: '中华人民共和国'
-				}, {
-					name: '>香港特别行政区'
-				}, {
-					name: '>澳门特别行政区'
-				}, {
-					name: '>台湾省'
-				}, {
-					name: '加拿大'
-				}, {
-					name: '美国'
-				}, {
-					name: '韩国'
-				}, {
-					name: '巴西'
-				}], // 国家/地区
-				provinces: [{
-					name: '北京'
-				}, {
-					name: '天津'
-				}, {
-					name: '河北'
-				}, {
-					name: '山西'
-				}, {
-					name: '内蒙古'
-				}, {
-					name: '辽宁'
-				}, {
-					name: '吉林'
-				}, {
-					name: '黑龙江'
-				}, {
-					name: '上海'
-				}, {
-					name: '江苏'
-				}, {
-					name: '浙江'
-				}, {
-					name: '安徽'
-				}, {
-					name: '福建'
-				}, {
-					name: '江西'
-				}, {
-					name: '山东'
-				}, {
-					name: '河南'
-				}, {
-					name: '湖北'
-				}, {
-					name: '湖南'
-				}, {
-					name: '广东'
-				}, {
-					name: '广西'
-				}, {
-					name: '海南'
-				}, {
-					name: '重庆'
-				}, {
-					name: '四川'
-				}, {
-					name: '贵州'
-				}, {
-					name: '云南'
-				}, {
-					name: '西藏'
-				}, {
-					name: '陕西'
-				}, {
-					name: '甘肃'
-				}, {
-					name: '青海'
-				}, {
-					name: '宁夏'
-				}, {
-					name: '新疆'
-				}, {
-					name: '台湾'
-				}, {
-					name: '香港'
-				}, {
-					name: '澳门'
-				}], // 省市
 				materials: [{
 						name: '是'
 					},
@@ -664,62 +560,6 @@
 					},
 					{
 						name: '否'
-					}
-				],
-				sexs: [{
-						name: '男性'
-					},
-					{
-						name: '女性'
-					},
-					{
-						name: '不详'
-					}
-				],
-				certificates: [{
-					name: '身份证'
-				},{
-					name: '港澳台身份证'
-				},{
-					name: '护照'
-				},{
-					name: '户口簿'
-				},{
-					name: '军官证（士兵证）'
-				},{
-					name: '组织机构代码'
-				},{
-					name: '营业执照'
-				},{
-					name: '其他'
-				}],
-				unitNatures: [{
-						name: '个人'
-					},
-					{
-						name: '企业'
-					},
-					{
-						name: '事业单位'
-					},
-					{
-						name: '国家机关'
-					},
-					{
-						name: '其他'
-					}
-				],
-				situations: [{
-						name: '单独所有'
-					},
-					{
-						name: '共同共有'
-					},
-					{
-						name: '按份共有'
-					},
-					{
-						name: '其他共有'
 					}
 				],
 				actions: [],
@@ -744,16 +584,6 @@
 				this.show = true;
 				this.type = 1;
 				this.actions = this.townships;
-			},
-			countryClicked: function () {
-				this.show = true;
-				this.type = 2;
-				this.actions = this.countries;
-			},
-			provinceClicked: function () {
-				this.show = true;
-				this.type = 3;
-				this.actions = this.provinces;
 			},
 			propertySourceClicked: function () {
 				this.show = true;
@@ -785,26 +615,6 @@
 				this.type = 9;
 				this.actions = this.townships;
 			},
-			sexClicked: function () {
-				this.show = true;
-				this.type = 10;
-				this.actions = this.sexs;
-			},
-			certificateClicked: function () {
-				this.show = true;
-				this.type = 11;
-				this.actions = this.certificates;
-			},
-			unitNatureClicked: function () {
-				this.show = true;
-				this.type = 12;
-				this.actions = this.unitNatures;
-			},
-			situationClicked: function () {
-				this.show = true;
-				this.type = 13;
-				this.actions = this.situations;
-			},
 			onSelect: function (val) {
 				console.log(val)
 				this.show = false;
@@ -812,10 +622,6 @@
 					this.valuesParams['JOB_SJDJB.FDJLX'] = val.name;
 				} else if (this.type == 1) {
 					this.valuesParams['JOB_SJDJB.FZQDM'] = val.name;
-				} else if (this.type == 2) {
-					this.applicant['JOB_SQRXXB.FGJDQ'] = val.name.replace('>', '');
-				} else if (this.type == 3) {
-					this.applicant['JOB_SQRXXB.FHJSZSS'] = val.name;
 				} else if (this.type == 4) {
 					this.valuesParams['JOB_FDCQXXB.FCQLY'] = val.name;
 				} else if (this.type == 5) {
@@ -842,14 +648,6 @@
 					}
 				} else if (this.type == 9) {
 					this.valuesParams['JOB_SJDJB.FZQ'] = val.name;
-				} else if (this.type == 10) {
-					this.applicant['JOB_SQRXXB.FXB'] = val.name;
-				} else if (this.type == 11) {
-					this.applicant['JOB_SQRXXB.FZJZL'] = val.name;
-				} else if (this.type == 12) {
-					this.applicant['JOB_SQRXXB.FDWXZ'] = val.name;
-				} else if (this.type == 13) {
-					this.applicant['JOB_SQRXXB.FGYQK'] = val.name;
 				}
 			},
 			onCancel: function () {
@@ -1246,6 +1044,14 @@
 					var result = JSON.parse(response.result);
 					var values = result.data.values;
 					var taskId = response.taskId;
+					
+					var map = result.data.controls['JOB_FDCQXXB.FCQLY']['dicTreeMap'];
+					for(var i = 0;i < map.length; i ++){
+						var obj = new Object();
+						obj.name = map[i].text;
+						_this.propertySources.push(obj);
+					}
+
 					sessionStorage.setItem('taskId', taskId);
 					sessionStorage.setItem('business', JSON.stringify(response));
 					_this.taskId = taskId;
