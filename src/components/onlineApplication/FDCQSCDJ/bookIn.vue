@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<page-head title="房地产权首次登记"></page-head>
+		<page-head title="房地产权（独幢、层、套、间房屋）首次登记"></page-head>
 			<van-cell-group>
 				<div class="cell-title">
 					<span class="required-span">*</span>申请人名字
@@ -188,7 +188,8 @@
 						path: '/onlineApplication/FDCQSCDJ/info',
 						query: {
 							cqxx: this.checkout.cqxx[0],
-							businessDefinitionId: businessDefinitionId
+							businessDefinitionId: businessDefinitionId,
+							sBdcdyh: this.checkout.cqxx[0].FBDCDYH
 						}
 					})
 				}

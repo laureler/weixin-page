@@ -215,7 +215,6 @@
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
 								clickable 
-								disabled class="field-background"
 							 />
 							 <!-- @click.native="unitNatureAssignorClicked()" -->
 					</van-cell-group>
@@ -336,7 +335,7 @@
 			</van-tabs>
 			<div style="height: 50px;"></div>
 			<div class="bottom-box">
-				<van-button size="large" plain type="default">查看申请书</van-button>
+				<!-- <van-button size="large" plain type="default">查看申请书</van-button> -->
 				<van-button size="large" type="info" @click.native="nextStep()">下一步</van-button>
 			</div>
 			<van-actionsheet v-model="show" :actions="actions" cancel-text="取消" @select="onSelect">
@@ -380,7 +379,9 @@
 		SAVE_TASK_FORM_DATA,
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
-		TEST
+		TEST,
+		exchangeZqdm,
+    exchangeZqdmToZqmc
 	} from '../../../constants/index.js'
 	export default {
 		components: {
@@ -1332,6 +1333,10 @@
 						var bdclx = getBdcType(qllx);
 						//不动产类型
 						this.valuesParams['JOB_FDCQXXB.FBDCLX'] = bdclx;
+						var sBdcdyh = response['JOB_FDCQXXB.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						this.valuesParams['JOB_SJDJB.FZQDM'] = zqmc;
 						//坐落
 						this.valuesParams['JOB_FDCQXXB.FFDZL'] = response['JOB_FDCQXXB.FFDZL'];
 						//面积

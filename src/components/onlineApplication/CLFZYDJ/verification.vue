@@ -30,7 +30,7 @@
 									{{ item.time }}s后重新发送</van-button>
 								<van-button v-else size="small" plain type="primary"
 									style="display: block; color: #ff9b26; border-color: #ff9b26;"
-									@click="getMessageTemplate(item, index, 1)">发送核验短信</van-button>
+									@click="getMessageTemplate(item, index, 0)">发送核验短信</van-button>
 							</div>
 							<div v-if="item.FXXQRZT == 2 && !isMine(item)" style="color: #999999;">已发短信</div>
 							<div v-else-if="item.FXXQRZT == 1" style="color: #4FC47F;">已核验</div>
@@ -100,7 +100,7 @@
 			</div>
 			<div style="height: 50px;"></div>
 			<div class="bottom-box">
-				<van-button size="large" plain type="default">查看申请书</van-button>
+				<!-- <van-button size="large" plain type="default">查看申请书</van-button> -->
 				<van-button size="large" type="info" @click.native="nextStep()">下一步</van-button>
 			</div>
 		</div>
@@ -232,7 +232,8 @@
 			getMessageTemplate(item, index, type) {
 				console.log('item:', item);
 				var _this = this;
-				this.$fetch('/formengineWebService/getMessageTemplate?code=YWDXQR')
+				this
+				.$fetch('/formengineWebService/getMessageTemplate?code=YWDXQR')
 					.then(response => {
 						debugger;
 						var data = response;
@@ -252,16 +253,7 @@
 			},
 			// 发送短信
 			sendMessage(msgContent, item, index, type) {
-				this.wSellers[0].sendingSMS = true;
-				/* var _this = this;
-				var arr = _this.wSellers;
-				var _t = arr[0];
-				_t.sendingSMS = true;
-				arr[0] = _t;
-				_this.wSellers = arr; */
-				return;
-
-
+				var _this = this;
 				let config = {
 					headers: {
 						'Content-Type': 'application/json;charset=UTF-8'
@@ -271,7 +263,6 @@
 					.$post('/pubWeb/system/sendSmsMessage', [msgContent], config)
 					.then(data => {
 						console.log('data:', data);
-						debugger;
 						var params = {
 							JOB_SQRXXB: [],
 							JOB_SQRXXB_OLD: [],
@@ -284,29 +275,23 @@
 							params['JOB_SQRXXB'] = [rid];
 						}
 						_this.updateApplicantState(params);
-
-
-
-						/* 						item.sendingSMS = true;
-												item.time = 59;
-												item.timer = undefined;
-												item.timer = setInterval(() => {
-													if (item.time === 0) {
-														item.sendMessage = false;
-														clearInterval(item.timer);
-													}
-													item.time --;
-													debugger;
-													if (type === 0) {
-														//_this.wBuyers[index] = item;
-														_this.wBuyers.$set(index, item);
-														// Vue.$set(_this.wBuyers, index, item);
-													} else {
-														//_this.wSellers[index] = item;
-														_this.wSellers.$set(index, item);
-														// Vue.$set(_this.wSellers, index, item);
-													}
-												}, 1000); */
+						item.sendingSMS = true;
+						item.time = 60;
+						item.timer = undefined;
+						
+						item.timer = setInterval(() => {
+							if (item.time === 1) {
+								item.sendingSMS = false;
+								clearInterval(item.timer);
+							}
+							item.time--;
+							debugger;
+							if (type === 0) {
+								_this.$set(this.wBuyers, index, item);
+							} else {
+								_this.$set(this.wSellers, index, item);
+							}
+						}, 1000);
 					})
 					.catch(error => {
 						console.log('error:', error);
@@ -354,12 +339,11 @@
 								_this.wSellers[index] = newOne;
 							}
 						}
-						//_this.wSellers[0].sendingSMS = true;
 						if (_this.timer) {
 							clearInterval(_this.timer);
 						}
 						_this.timer = setInterval(() => {
-							// _this.fetchApplicantInfo();
+							_this.fetchApplicantInfo();
 						}, 5000);
 					})
 					.catch(error => {

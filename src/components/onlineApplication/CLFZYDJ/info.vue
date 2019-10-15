@@ -302,7 +302,7 @@
 							<span class="required-span">*</span>单位性质
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
-							class="field-background" disabled />
+							 />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -418,7 +418,7 @@
 			</van-tabs>
 			<div style="height: 50px;"></div>
 			<div class="bottom-box">
-				<van-button size="large" plain type="default">查看申请书</van-button>
+				<!-- <van-button size="large" plain type="default">查看申请书</van-button> -->
 				<van-button size="large" type="info" @click.native="nextStep()">下一步</van-button>
 			</div>
 			<van-actionsheet v-model="show" :actions="actions" cancel-text="取消" @select="onSelect">
@@ -461,7 +461,9 @@
 		SAVE_TASK_FORM_DATA,
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
-		TEST
+		TEST,
+		exchangeZqdm,
+    exchangeZqdmToZqmc
 	} from '../../../constants/index.js';
 	import AgmDatePicker from '../../calendar.vue'
 	export default {
@@ -1424,23 +1426,29 @@
 						this.valuesParams['JOB_FDCQXXB.FBDCDYH'] = response['JOB_FDCQXXB.FBDCDYH'];
 						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
 						var bdclx = getBdcType(qllx);
+
+						var sBdcdyh = response['JOB_FDCQXXB.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						this.valuesParams['JOB_SJDJB.FZQDM'] = zqmc;
+
 						//补充权利人信息
 						for (var key in response) {
-							if (key == "JOB_SQRXXB_LINK.IQLR") {
+							if (key == "JOB_SQRXXB_OLD_LINK.OLD_IQLR") {
 								var rows = response[key];
 								for (var inx = 0; inx < rows.length; ++inx) {
-									rows[inx]["JOB_SQRXXB.XH"] = inx + 1;
+									rows[inx]["JOB_SQRXXB_OLD.XH"] = inx + 1;
 									if (bdclx == "土地和房屋") {
-										rows[inx]["JOB_SQRXXB.FSQRLX"] = "房地产权利人";
+										rows[inx]["JOB_SQRXXB_OLD.FSQRLX"] = "房地产权利人";
 									} else if (qllx == "国有建设用地使用权" || qllx == "集体建设用地使用权") {
-										rows[inx]["JOB_SQRXXB.FSQRLX"] = "建设用地使用权人";
+										rows[inx]["JOB_SQRXXB_OLD.FSQRLX"] = "建设用地使用权人";
 									} else if (qllx == "宅基地使用权") {
-										rows[inx]["JOB_SQRXXB.FSQRLX"] = "宅基地使用权人";
+										rows[inx]["JOB_SQRXXB_OLD.FSQRLX"] = "宅基地使用权人";
 									}
-									rows[inx]["JOB_SQRXXB.FDWXZ"] = "个人";
+									rows[inx]["JOB_SQRXXB_OLD.FDWXZ"] = "个人";
 									if (rows.length == 1) {
-										rows[inx]["JOB_SQRXXB.FGYQK"] = "单独所有";
-										rows[inx]["JOB_SQRXXB.FQLBL"] = "全部";
+										rows[inx]["JOB_SQRXXB_OLD.FGYQK"] = "单独所有";
+										rows[inx]["JOB_SQRXXB_OLD.FQLBL"] = "全部";
 									}
 								}
 							}

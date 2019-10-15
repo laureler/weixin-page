@@ -31,7 +31,7 @@
 						</div>
 					</div>
 					<div class="flex-box buttons">
-						<van-button class="custom-button" square size="large" type="default">申请书</van-button>
+						<van-button class="custom-button" square size="large" type="default" @click.stop="checkApplication()">申请书</van-button>
 						<van-button v-if="item['job_base-datastate'] == 0" class="custom-button" square size="large"
 							type="default" @click="deleteCreateJobs(item, index)">删除</van-button>
 					</div>
@@ -54,7 +54,7 @@
 						</div>
 					</div>
 					<div class="flex-box buttons">
-						<van-button class="custom-button" square size="large" type="default">查看证书</van-button>
+						<van-button class="custom-button" square size="large" type="default">查看申请书</van-button>
 					</div>
 					<div class="status status-success">
 						已出证
@@ -111,6 +111,9 @@
 			}
 		},
 		methods: {
+			checkApplication: function() {
+				console.log('查看申请书');
+			},
 			deleteCreateJobs: function (item, index) {
 				var _this = this;
 				this.$dialog.confirm({
@@ -141,6 +144,9 @@
 				this.getProgressJobDataByMongodb();
 			},
 			clickedItem: function (item) {
+				if (item['job_base-regtype'] === '预审') {
+					return;
+				}
 				var path = '';
 				switch (item['job_base-btitle']) {
 					case '不动产权利证书遗失（换证）登记':

@@ -3,9 +3,9 @@
 		<page-head title="异议注销登记"></page-head>
 		<van-cell-group>
 			<div class="cell-title">
-				<span class="required-span">*</span>申请人名字
+				<span class="required-span">*</span>申请人姓名
 			</div>
-			<van-field v-model="qlr" clearable placeholder="请输入申请人名字" />
+			<van-field v-model="qlr" clearable placeholder="产权证上的权利人，多个权利人只需输入一个" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">

@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<page-head title="建设用地使用权变更登记"></page-head>
+		<page-head title="建设用地使用权、宅基地使用权变更登记"></page-head>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>申请人姓名

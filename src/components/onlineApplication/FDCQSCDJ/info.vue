@@ -1,6 +1,6 @@
 	<template>
 	<div class="container">
-		<page-head title="房地产权首次登记"></page-head>
+		<page-head title="房地产权（独幢、层、套、间房屋）首次登记"></page-head>
 		<div class="box-body">
 			<van-tabs>
 				<van-tab title="基本信息">
@@ -121,7 +121,7 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>单位性质
 						</div>
-						<van-field v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质" disabled class="field-background" />
+						<van-field v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -241,7 +241,7 @@
 			</van-tabs>
 			<div style="height: 50px;"></div>
 			<div class="bottom-box">
-				<van-button size="large" plain type="default">查看申请书</van-button>
+				<!-- <van-button size="large" plain type="default">查看申请书</van-button> -->
 				<van-button size="large" type="info" @click.native="nextStep()">下一步</van-button>
 			</div>
 			<van-actionsheet v-model="show" :actions="actions" cancel-text="取消" @select="onSelect">
@@ -284,7 +284,9 @@
 		SAVE_TASK_FORM_DATA,
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
-		TEST
+		TEST,
+		exchangeZqdm,
+    exchangeZqdmToZqmc
 	} from '../../../constants/index.js';
 	export default {
 		components: {
@@ -1139,6 +1141,37 @@
 						configureName: '个人房屋首次提取土地'
 					}).then(response => {
 						console.log('startExactBusiness', response);
+
+						//获取不动产类型
+						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
+						var bdclx = getBdcType(qllx);
+
+						var sBdcdyh = this.$route.query.sBdcdyh;
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						this.valuesParams['JOB_SJDJB.FZQDM'] = zqmc;
+
+						//补充权利人信息
+						for (var key in response) {
+							if (key == "JOB_SQRXXB_LINK.IQLR") {
+								var rows = response[key];
+								for (var inx = 0; inx < rows.length; ++inx) {
+									rows[inx]["JOB_SQRXXB.XH"] = inx + 1;
+									if (bdclx == "土地和房屋") {
+										rows[inx]["JOB_SQRXXB.FSQRLX"] = "房地产权利人";
+									} else if (qllx == "国有建设用地使用权" || qllx == "集体建设用地使用权") {
+										rows[inx]["JOB_SQRXXB.FSQRLX"] = "建设用地使用权人";
+									} else if (qllx == "宅基地使用权") {
+										rows[inx]["JOB_SQRXXB.FSQRLX"] = "宅基地使用权人";
+									}
+									rows[inx]["JOB_SQRXXB.FDWXZ"] = "个人";
+									if (rows.length == 1) {
+										rows[inx]["JOB_SQRXXB.FGYQK"] = "单独所有";
+										rows[inx]["JOB_SQRXXB.FQLBL"] = "全部";
+									}
+								}
+							}
+						}
 
 						//坐落
 						this.valuesParams['JOB_FDCQXXB.FFDZL'] = response['JOB_GLQLXXB_LINK.OLD_IQLDJ'][0][

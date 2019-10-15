@@ -51,7 +51,8 @@
 <script>
 	import Head from '../../app/head.vue';
 	import {
-		Toast
+		Toast,
+		Dialog
 	} from 'vant';
 	import {
 		CHECKOUT_REAL_ESTATE

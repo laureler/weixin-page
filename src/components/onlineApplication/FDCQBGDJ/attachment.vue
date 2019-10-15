@@ -477,12 +477,12 @@
 						debugger;
 						if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
 							_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.rows;
-							if (!response.rows) return;
+							if (!response.rows || !showloading) return;
 							_this.applicantIndex = 0;
 							_this.applicant = response.rows[0];
 						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
 							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
-							if (!response.rows) return;
+							if (!response.rows || !showloading) return;
 							_this.changeItemIndex = 0;
 							_this.changeItem = response.rows[0];
 						}
@@ -494,7 +494,10 @@
 			nextStep: function () {
 				console.log("files:", this.files);
 				console.log("files2:", this.files2);
-
+				Toast.loading({
+					mask: true,
+					message: '提交中...'
+				});
 				var filesStr = this.files.join("::");
 				var files2Str = this.files2.join("::");
 				var files3Str = this.files3.join("::");

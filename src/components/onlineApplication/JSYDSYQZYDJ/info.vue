@@ -198,7 +198,7 @@
 							<span class="required-span">*</span>单位性质
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
-							clickable disabled class="field-background" />
+							clickable />
 						<!-- @click.native="unitNatureAssignorClicked()" -->
 					</van-cell-group>
 					<van-cell-group>
@@ -315,7 +315,7 @@
 			</van-tabs>
 			<div style="height: 50px;"></div>
 			<div class="bottom-box">
-				<van-button size="large" plain type="default" @click="checkBox()">查看申请书</van-button>
+				<!-- <van-button size="large" plain type="default" @click="checkBox()">查看申请书</van-button> -->
 				<van-button size="large" type="info" @click.native="nextStep()">下一步</van-button>
 			</div>
 			<van-actionsheet v-model="show" :actions="actions" cancel-text="取消" @select="onSelect">
@@ -359,7 +359,9 @@
 		SAVE_TASK_FORM_DATA,
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
-		TEST
+		TEST,
+		exchangeZqdm,
+    exchangeZqdmToZqmc
 	} from '../../../constants/index.js'
 	export default {
 		components: {
@@ -1232,6 +1234,12 @@
 						this.valuesParams['JOB_JSYDCQXXB.FBDCDYH'] = response['JOB_JSYDCQXXB.FBDCDYH'];
 						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
 						var bdclx = getBdcType(qllx);
+
+						var sBdcdyh = response['JOB_JSYDCQXXB.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						this.valuesParams['JOB_SJDJB.FZQDM'] = zqmc;
+
 						this.valuesParams['JOB_JSYDCQXXB.FBDCLX'] = bdclx;
 						this.valuesParams['JOB_JSYDCQXXB.FZL'] = response['JOB_JSYDCQXXB.FZL'];
 						this.valuesParams['JOB_JSYDCQXXB.FSYQMJ'] = response['JOB_JSYDCQXXB.FSYQMJ'];

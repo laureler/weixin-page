@@ -79,7 +79,7 @@
 			</van-tabs>
 			<div style="height: 50px;"></div>
 			<div class="bottom-box">
-				<van-button size="large" plain type="default" @click="checkBox()">查看申请书</van-button>
+				<!-- <van-button size="large" plain type="default" @click="checkBox()">查看申请书</van-button> -->
 				<van-button size="large" type="info" @click.native="nextStep()">下一步</van-button>
 			</div>
 			<van-actionsheet v-model="show" :actions="actions" cancel-text="取消" @select="onSelect">
@@ -112,7 +112,9 @@
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
 		TEST,
-		SUBMIT_TASK_FORM_DATA
+		SUBMIT_TASK_FORM_DATA,
+		exchangeZqdm,
+    exchangeZqdmToZqmc
 	} from '../../../constants/index.js'
 	export default {
 		components: {

@@ -137,7 +137,7 @@
 							<span class="required-span">*</span>单位性质
 						</div>
 						<van-field id="JOB_SQRXXB.FDWXZ" v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow"
-							clickable placeholder="单位性质" disabled class="disabled-field" />
+							clickable placeholder="单位性质" @click.native="actionsheetClicked('companyTypeOptions')"/>
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -257,7 +257,7 @@
 			</van-tabs>
 			<div style="height: 50px;"></div>
 			<div class="bottom-box">
-				<van-button size="large" plain type="default">查看申请书</van-button>
+				<!-- <van-button size="large" plain type="default">查看申请书</van-button> -->
 				<van-button size="large" type="info" @click.native="nextStep()">下一步</van-button>
 			</div>
 			<van-actionsheet v-model="actionsheetShow" :actions="actions" cancel-text="取消" @select="onSelect">
@@ -296,10 +296,13 @@
 		SAVE_TASK_FORM_DATA,
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
-		TEST
+		TEST,
+		exchangeZqdm,
+    exchangeZqdmToZqmc
 	} from '../../../constants/index.js';
 	import {
-		Toast
+		Toast,
+		Dialog
 	} from 'vant';
 	export default {
 		components: {
@@ -868,12 +871,12 @@
 						debugger;
 						if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
 							_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.rows;
-							if (!response.rows) return;
+							if (!response.rows || !showLoading) return;
 							_this.applicantIndex = 0;
 							_this.applicant = response.rows[0];
 						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
 							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
-							if (!response.rows) return;
+							if (!response.rows || !showloading) return;
 							_this.changeItemIndex = 0;
 							_this.changeItem = response.rows[0];
 						}
@@ -933,6 +936,12 @@
 						//获取不动产类型
 						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
 						var bdclx = getBdcType(qllx);
+
+						var sBdcdyh = response['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
+
 						//补充权利人信息
 						for (var key in response) {
 							if (key == "JOB_SQRXXB_LINK.IQLR") {

@@ -50,7 +50,7 @@
 		},
 		methods: {
 			signInAccount() {
-				this.$router.push({ path: '/signInAccount' });
+				this.$router.push({ path: '/signInAccount', query: this.$route.query });
 			},
 			changeCheckCode() {
 				let url = 'http://' + window.location.hostname + ':' + window.location.port;
