@@ -121,23 +121,21 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>单位性质
 						</div>
-						<van-field v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质" />
+						<van-field v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质" clickable @click.native="unitNatureClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>国家/地区
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FGJDQ']" right-icon="arrow" placeholder="请选择国家地区"
-							  clickable 
-							@click.native="countryClicked()" />
+							  clickable @click.native="countryClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>户籍所属省份
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow" placeholder="请选择户籍所属省份"
-							  clickable 
-							@click.native="provinceClicked()" />
+							  clickable @click.native="provinceClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -412,19 +410,7 @@
 						name: '小榄'
 					}
 				],
-				propertySources: [{
-						name: '买卖'
-					},
-					{
-						name: '赠与'
-					},
-					{
-						name: '作价出资(入股)'
-					},
-					{
-						name: '房改房'
-					}
-				],
+				propertySources: [],
 				housePropertys: [{
 						name: '商品房'
 					},
@@ -695,20 +681,9 @@
 				},{
 					name: '其他'
 				}],
-				unitNatures: [{
+				unitNatures: [
+					{
 						name: '个人'
-					},
-					{
-						name: '企业'
-					},
-					{
-						name: '事业单位'
-					},
-					{
-						name: '国家机关'
-					},
-					{
-						name: '其他'
 					}
 				],
 				situations: [{
@@ -1279,6 +1254,14 @@
 					var result = JSON.parse(response.result);
 					var values = result.data.values;
 					var taskId = response.taskId;
+					
+					var map = result.data.controls['JOB_FDCQXXB.FCQLY']['dicTreeMap'];
+					for(var i = 0;i < map.length; i ++){
+						var obj = new Object();
+						obj.name = map[i].text;
+						_this.propertySources.push(obj);
+					}
+
 					sessionStorage.setItem('taskId', taskId);
 					sessionStorage.setItem('business', JSON.stringify(response));
 					_this.taskId = taskId;

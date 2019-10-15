@@ -52,7 +52,6 @@
 			return {
 				imgs: [],
 				JOB_FILES: {},
-				loading1: false,
 				fjqd: [],
 			}
 		},
@@ -103,7 +102,6 @@
 				console.log(result.data.values[link + '.RID']);
 				console.log(result.data.controls[title].linkTplId);
 				var _this = this;
-				_this.loading1 = true;
 				this.axios({
 					url: FILL_SUB_FORM_DATA + '?jid=' + sessionStorage.getItem('jid') + '&type=0' +
 						'&parentdomname=' + title + '&parentrid=' + parentrid + '&domains=' + domains +
@@ -111,25 +109,18 @@
 					method: 'post',
 					data: params,
 				}).then(response => {
-					_this.loading1 = false;
 					console.log('FILL_SUB_FORM_DATA:', response);
 					if (response.status === 200) {
 						_this.JOB_FILES = response.data.result[0];
 						_this.endFillSub();
 					}
 				}).catch(error => {
-					_this.loading1 = false;
 					console.log(error);
 				});
 			},
 			endFillSub: function () {
-				if (this.loading1 === false) {
-					console.log('结束保存子表单');
-					this.submitTaskFormData();
-					// this.$router.push({
-					// 	path: '/onlineApplication/JSYDSYQZYDJ/ems'
-					// });
-				}
+				console.log('结束保存子表单');
+				this.submitTaskFormData();
 			},
 			nextStep: function () {
 				this.fillSubFormData('JOB_FILES_LINK.IFJQD', this.fjqd);
@@ -170,12 +161,12 @@
 					}
 				}).then(response => {
 					console.log(response);
-					Toast.clear();
 					if (response.status == 200) {
 						this.$router.push({
 							path: '/onlineApplication/JSYDSYQZYDJ/success'
 						});
 					}
+					Toast.clear();
 				}).catch(error => {
 					console.log(error);
 					Toast.clear();
@@ -197,45 +188,33 @@
 		},
 		mounted() {
 			console.log('进入附件页面');
-			this.loading1 = false;
 		},
 		created() {
 			//类型1附件材料
-			var clmc1 = ["不动产登记申请审批表", "申请人身份证明", "房屋所有权证", "不动产权证书", "国有土地使用证", "其他必要材料", "生效的法律文书", "完税或减免税凭证", "房屋平面图", "宗地图"];
-			var cllx1 = ["原件正本", "正本复印件", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本"];
+			var clmc1 = ["国有土地使用证", "不动产权证书", "房屋所有权证", "不动产登记申请审批表", "申请人身份证明","授权委托书","其他必要材料","土地主管部门提供的同意批发文件（注：划拨用地继续按划拨方式使用的需提交）","完税或减免税凭证","政府用地批复文件原件（注：依法转让国有建设用地使用权的需提交）"];
+			var cllx1 = ["原件正本", "原件正本", "原件正本", "正本复印件", "正本复印件", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本"];
 			var bxtg1 = ["否", "否", "否", "否", "否", "否", "否", "否", "否", "否"];
 			//类型2附件材料
-			var clmc2 = ["国有土地使用证", "不动产权证书", "房屋所有权证", "宗地图", "房屋平面图","不动产登记申请审批表","申请人身份证明","继承公证书或生效的司法文书","其他必要材料"];
-			var cllx2 = ["原件正本", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本", "正本复印件", "原件正本", "原件正本"];
-			var bxtg2 = ["否", "否", "否", "否", "否", "否", "否", "否", "否"];
+			var clmc2 = ["不动产登记申请审批表", "申请人身份证明", "地籍调查表、宗地草图及界址点坐标表", "地上附着物权属证明", "其他规定需要提交的材料","土地权属来源证明","委托土地登记带人申请登记需提供的资料","相关税费文件"];
+			var cllx2 = ["原件正本", "正本复印件", "原件正本", "正本复印件", "正本复印件", "经确认的复印件", "其他","原件正本"];
+			var bxtg2 = ["否", "否", "否", "否", "否", "否", "否", "否"];
 			//类型3附件材料
-			var clmc3 = ["完税或减免税凭证", "不动产登记申请审批表", "申请人身份证明", "国有土地使用证", "不动产权证书", "房屋所有权证", "离婚证、离婚协议或生效的法律文书", "其他必要材料", "房屋平面图", "宗地图"];
-			var cllx3 = ["原件正本", "原件正本", "正本复印件", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本"];
-			var bxtg3 = ["否", "否", "否", "否", "否", "否", "否", "否", "否", "否"];
+			var clmc3 = ["不动产登记申请审批表", "申请人身份证明", "地上附着物权属证明", "其他必要材料", "土地权属来源证明"];
+			var cllx3 = ["原件正本", "正本复印件", "原件正本", "副本复印件", "经确认的复印件"];
+			var bxtg3 = ["否", "否", "否", "否", "否"];
 			//类型4附件材料
-			var clmc4 = ["不动产登记申请审批表", "申请人身份证明", "其他必要材料", "完税或减免税凭证", "房屋平面图", "宗地图", "国有土地使用证", "不动产权证书", "房屋所有权证"];
-			var cllx4 = ["原件正本", "正本复印件", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本"];
-			var bxtg4 = ["否", "否", "否", "否", "否", "否", "否", "否", "否"];
+			var clmc4 = ["国有土地使用证", "不动产权证书", "房屋所有权证", "不动产登记申请审批表", "申请人身份证明","授权委托书","其他必要材料","土地主管部门提供的同意批发文件（注：划拨用地继续按划拨方式使用的需提交）","完税或减免税凭证","政府用地批复文件原件（注：依法转让国有建设用地使用权的需提交）"];
+			var cllx4 = ["原件正本", "原件正本", "原件正本", "正本复印件", "正本复印件", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本"];
+			var bxtg4 = ["否", "否", "否", "否", "否", "否", "否", "否", "否", "否"];
 			//类型5附件材料
-			var clmc5 = ["不动产登记申请书", "申请人身份证明", "不动产权证书", "不动产权籍调查成果", "宅基地使用权及房屋所有权转移证明材料"];
-			var cllx5 = ["原件正本", "正本复印件", "原件正本", "原件正本", "原件正本"];
-			var bxtg5 = ["否", "否", "否", "否", "否"];
+			var clmc5 = ["国有土地使用证", "不动产权证书", "房屋所有权证", "不动产登记申请审批表", "申请人身份证明","授权委托书","其他必要材料","土地主管部门提供的同意批发文件（注：划拨用地继续按划拨方式使用的需提交）","完税或减免税凭证","政府用地批复文件原件（注：依法转让国有建设用地使用权的需提交）"];
+			var cllx5 = ["原件正本", "原件正本", "原件正本", "正本复印件", "正本复印件", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本"];
+			var bxtg5 = ["否", "否", "否", "否", "否", "否", "否", "否", "否", "否"];
 			//类型6附件材料
-			var clmc6 = ["继承权公证书", "权利人死亡证明及亲属关系证明", "生效的法律文书", "不动产权利证书", "不动产登记申请表","申请人（代理人）身份证明","房屋平面图、宗地图"];
-			var cllx6 = ["原件正本", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本" , "原件正本" ];
-			var bxtg6 = ["否", "否", "否", "否", "否", "否", "否"];
-			//类型7附件材料
-			var clmc7 = ["结婚证或离婚证", "生效的法律文书", "不动产权利证书", "协议书", "不动产登记申请表","申请人（代理人）身份证明","房屋平面图、宗地图"];
-			var cllx7 = ["原件正本", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本"];
-			var bxtg7 = ["否", "否", "否", "否", "否", "否", "否"];
-			//类型8附件材料
-			var clmc8 = ["不动产登记申请书", "申请人身份证明", "不动产权证书", "不动产权籍调查成果", "宅基地使用权及房屋所有权转移证明材料"];
-			var cllx8 = ["原件正本", "原件正本", "原件正本", "原件正本", "原件正本"];
-			var bxtg8 = ["否", "否", "否", "否", "否"];
-			//类型9附件材料
-			var clmc9 = ["不动产登记申请审批表", "申请人身份证明", "不动产权属证书或集体土地使用权证和房屋所有权证", "集体建设用地使用权及房屋所有权发生转移的证明材料", "经村民会议同意或者由村民会议授权经村民代表会议同意的证明材料（注：农村集体经济组织申请房屋所有权首次登记的应当提交）","相关协议及有关部门的批准文件等相关证明材料（注：因企业兼并、破产等原因致使集体建设用地使用权及房屋所有权发生转移的应提交）","宗地图、不动产分层分户平面图"];
-			var cllx9 = ["原件正本", "正本复印件", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本"];
-			var bxtg9 = ["否", "否", "否", "否", "否"];
+			var clmc6 = ["国有土地使用证", "不动产权证书", "房屋所有权证", "不动产登记申请审批表", "申请人身份证明","授权委托书","其他必要材料","土地主管部门提供的同意批发文件（注：划拨用地继续按划拨方式使用的需提交）","完税或减免税凭证","政府用地批复文件原件（注：依法转让国有建设用地使用权的需提交）"];
+			var cllx6 = ["原件正本", "原件正本", "原件正本", "正本复印件", "正本复印件", "原件正本", "原件正本", "原件正本", "原件正本", "原件正本"];
+			var bxtg6 = ["否", "否", "否", "否", "否", "否", "否", "否", "否", "否"];
+	
 			//获取权利类型
 			var startExactBusiness = JSON.parse(sessionStorage.getItem('startExactBusiness'));
 			var qlxx = startExactBusiness["JOB_GLQLXXB_LINK.OLD_IQLDJ"];
@@ -249,34 +228,23 @@
 			}
 			var qllx = qlxx[0]["JOB_GLQLXXB.FQLLX"];
 			console.log('qllx',qllx);
-			if (qllx == "国有建设用地使用权" || qllx == '房屋所有权') {
+			if (qllx == "国有建设用地使用权") {
 				if (djyy == "依生效法律文书"){
 					this.fjqd = this.getFile(clmc1, cllx1, bxtg1);
 				}
 				else if (djyy == "继承"){
-					this.fjqd = this.getFile(clmc2, cllx2, bxtg2);
-				}
-				else if (djyy == "夫妻约定"){
-					this.fjqd = this.getFile(clmc3, cllx3, bxtg3);
-				}
-				else if (djyy == "其他"){
 					this.fjqd = this.getFile(clmc4, cllx4, bxtg4);
 				}
-			} else if (qllx == "宅基地使用权" || qllx == '房屋所有权') {
-				if (djyy == "依生效法律文书"){
+				else if (djyy == "夫妻约定"){
 					this.fjqd = this.getFile(clmc5, cllx5, bxtg5);
 				}
-				else if (djyy == "继承"){
+				else if (djyy == "其他"){
 					this.fjqd = this.getFile(clmc6, cllx6, bxtg6);
 				}
-				else if (djyy == "夫妻约定"){
-					this.fjqd = this.getFile(clmc7, cllx7, bxtg7);
-				}
-				else if (djyy == "其他"){
-					this.fjqd = this.getFile(clmc8, cllx8, bxtg8);
-				}
-			} else if (qllx == "集体建设用地使用权" || qllx == '房屋所有权') {
-				this.fjqd = this.getFile(clmc9, cllx9, bxtg9);
+			} else if (qllx == "集体建设用地使用权") {
+				this.fjqd = this.getFile(clmc2, cllx2, bxtg2);
+			} else if (qllx == "宅基地使用权") {
+				this.fjqd = this.getFile(clmc3, cllx3, bxtg3);
 			} else {
 				Toast("没有该类型材料清单，请联系管理员！");
 			}

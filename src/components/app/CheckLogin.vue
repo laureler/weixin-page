@@ -18,10 +18,14 @@
 			</van-field>
 		</van-cell-group>
 		<div style="margin-top: 20px">
+<<<<<<< HEAD
 			<div style="text-align: right;">
 				<a style="display: inline-block; margin: 10px 20px; color: #1979ce;" @click="signInAccount">注册账号</a>
 			</div>
 			
+=======
+			<span class='signInText' @click="signInAccount">注册账号</span>
+>>>>>>> 14fccf8a54243b31d208c610965830f4e123ef32
 			<van-button size="large" class="blueButton" @click="checkInput()">登录</van-button>
 		</div>
 	</div>
@@ -111,6 +115,12 @@
 
 	.img-class img {
 		height: 50px;
+	}
+
+	.signInText {
+		float: right;
+		margin: 10px 20px;
+		color: #1979ce;
 	}
 
 </style>
