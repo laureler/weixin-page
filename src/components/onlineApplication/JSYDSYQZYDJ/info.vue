@@ -198,8 +198,7 @@
 							<span class="required-span">*</span>单位性质
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
-							clickable />
-						<!-- @click.native="unitNatureAssignorClicked()" -->
+							clickable @click.native="unitNatureAssignorClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -235,7 +234,8 @@
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FQLBL']" clearable placeholder="权利比例" />
 					</van-cell-group>
 					<div class="buttons">
-						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant(1)">保存
+						<van-button class="info-btn" size="small" type="info" 
+							@click.native="saveApplicant(1)" v-show="saveShow" >保存
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -356,6 +356,7 @@
 		SAVE_TASK_FORM_DATA,
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
+		DEL_SUB_FORM_DATA,
 		TEST,
 		exchangeZqdm,
     exchangeZqdmToZqmc
@@ -683,6 +684,7 @@
 				provincesType: '',
 				goBack: false,
 				emsNecessary: false, //EMS是否显示星号
+				saveShow: false,
 			}
 		},
 		methods: {
@@ -846,12 +848,7 @@
 				}).then(() => {
 					console.log('删除');
 					//只有受让人可以删除
-					this.applicants.splice(this.applicantIndex, 1);
-					this.applicantIndex = -1;
-					this.editApplicantState = false;
-					this.applicant = {};
-					this.person = '';
-					this.idCard = '';
+					this.delSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicants[this.applicantIndex]], true);
 					// on close
 				}).catch(() => {
 					// on cancel
@@ -974,11 +971,47 @@
 
 					this.assignorIndex = -1;
 					this.fillSubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR',
-						[this.assignor], true);
+						[this.assignor], true, true);
 					this.assignor = {};
 					this.assignorPerson = '';
 					this.assignorIdCard = '';
 				}
+			},
+			// 删除子表内容
+			delSubFormData: function (title, params, showLoading = false) {
+				var business = JSON.parse(sessionStorage.getItem('business'));
+				var result = JSON.parse(business.result);
+				console.log(result);
+				var link = title.split('.')[0];
+				var domains = title.split('_LINK')[0]
+				var parentrid = result.data.values[link + '.RID'];
+				var templateid = result.data.controls[title].linkTplId;
+				console.log(result.data.values[link + '.RID']);
+				console.log(result.data.controls[title].linkTplId);
+				var _this = this;
+				if (showLoading) {
+					Toast.loading({
+						mask: true,
+						message: '加载中...'
+					});
+				}
+				this.axios({
+					url: DEL_SUB_FORM_DATA + '?parentdomname=' + title + '&parentrid=' + parentrid + '&domains=' + domains + '&templateid=' + templateid,
+					method: 'post',
+					data: params,
+				}).then(response => {
+					Toast.clear();
+					console.log(response);
+					this.applicants.splice(this.applicantIndex, 1);
+					this.applicantIndex = -1;
+					this.editApplicantState = false;
+					this.applicant = {};
+					this.person = '';
+					this.idCard = '';
+				}).catch(error => {
+					Toast.clear();
+					console.log(error);
+				});
 			},
 			editApplicant: function (item, index, type) {
 				if (type == 0) {
@@ -995,6 +1028,7 @@
 					this.assignor = item;
 					this.assignorPerson = item['JOB_SQRXXB_OLD.FSQRMC'];
 					this.assignorIdCard = item['JOB_SQRXXB_OLD.FZJHM'];
+					this.saveShow = true;
 					console.log('序号', item['JOB_SQRXXB_OLD.XH']);
 				}
 				console.log("applicantIndex=" + this.applicantIndex);
@@ -1094,6 +1128,10 @@
 						}
 					}
 				}
+				if (this.saveShow) {
+					Toast('请填写转让人信息未保存!');
+					return;
+				}
 				//EMS内容判断未填项
 				if (this.valuesParams['JOB_SJDJB.FSFKDJCL'] === '是' || this.valuesParams['JOB_SJDJB.FSFKDJZ'] ===
 					'是') {
@@ -1182,7 +1220,7 @@
 					});
 			},
 			//更新子表单
-			fillSubFormData: function (title, params, showLoading = false) {
+			fillSubFormData: function (title, params, showLoading = false, saveTape = false) {
 				var business = JSON.parse(sessionStorage.getItem('business'));
 				var result = JSON.parse(business.result);
 				console.log(result);
@@ -1206,6 +1244,10 @@
 					data: params,
 				}).then(response => {
 					console.log('FILL_SUB_FORM_DATA:', response);
+					this.editApplicantState = false;
+					if (saveTape) {
+						this.saveShow = false;
+					}
 				}).catch(error => {
 					console.log(error);
 				});

@@ -158,11 +158,8 @@
 						<van-field v-model="applicant['JOB_SQRXXB.FQLBL']" clearable placeholder="权利比例" />
 					</van-cell-group>
 					<div class="buttons">
-						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant()"
-							v-show="saveShow">保存
-						</van-button>
-						<van-button class="info-btn" size="small" type="default" v-if="editApplicantState"
-							@click.native="delApplicant()">删除申请人
+						<van-button class="info-btn" size="small" type="info" 
+							@click.native="saveApplicant()" v-show="saveShow">保存
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -702,7 +699,6 @@
 				actions: [],
 				actionsheetShow: false,
 				applicants: [],
-				editApplicantState: false,
 				applicantIndex: -1,
 				valuesParams: {}, // 主表
 				emsNecessary: false, //EMS是否显示星号
@@ -831,21 +827,6 @@
 			},
 			onCancel: function () {
 				this.show = false;
-			},
-			delApplicant: function () {
-				this.$dialog.confirm({
-					message: '确定要删除该申请人吗?'
-				}).then(() => {
-					console.log('删除');
-					//受让人
-					this.applicants.splice(this.applicantIndex, 1);
-					this.applicantIndex = -1;
-					this.editApplicantState = false;
-					// on close
-				}).catch(() => {
-					// on cancel
-					console.log('取消');
-				});
 			},
 			saveApplicant: function () {
 				//受让人
