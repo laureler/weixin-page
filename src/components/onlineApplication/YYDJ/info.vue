@@ -915,15 +915,22 @@
 			}
 		},
 		created() {
-			if (this.$route.query && this.$route.query.processInstanceId) {
+			if ((this.$route.query && this.$route.query.processInstanceId) || sessionStorage.getItem('business')) {
 				Toast.loading({
 					mask: true,
 					message: '加载中...'
 				});
+				var processInstanceId = '';
+				if (this.$route.query && this.$route.query.processInstanceId) {
+					processInstanceId = this.$route.query.processInstanceId
+				} else {
+					var business = JSON.parse(sessionStorage.getItem('business'));
+					processInstanceId =  business.processInstanceId;
+				}
 				// 查询首环节？
 				var _this = this;
 				this.$fetch('/workflowWebService/getFirstLinkInfoByProcessInstanceId', {
-					processInstanceId: this.$route.query.processInstanceId
+					processInstanceId: processInstanceId
 				}).then(res => {
 					console.log('res:', res);
 

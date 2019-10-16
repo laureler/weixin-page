@@ -170,6 +170,7 @@
 				}).catch(error => {
 					console.log(error);
 					Toast.clear();
+					Toast('请求失败');
 				});
 			},
 			getFile: function(clmc, cllx, bxtg) {

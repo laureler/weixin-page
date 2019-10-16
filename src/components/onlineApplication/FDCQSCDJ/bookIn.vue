@@ -51,6 +51,7 @@
 		components: {
 			'page-head': Head
 		},
+		// 孙见成	粤（2019）中山市不动产权第0264702号
 		data () {
 			return {
 				show: false,

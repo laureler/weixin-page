@@ -458,7 +458,7 @@
 				reasonOptions: [{
 					name: '更名变更'
 				}, {
-					name: '状态更正'
+					name: '状态变更'
 				}, {
 					name: '其他变更'
 				}], // 登记原因
