@@ -93,11 +93,13 @@
 					}
 				};
 				var formData = new FormData();
-				formData.append('token', sessionStorage.getItem('token')); // 扫码的值
+				formData.append('token', sessionStorage.getItem('token')); // 扫码的值 || 或者是业务号
 				formData.append('openId', Cookies.get('openid')); // openid
 				formData.append('fullName', _this.data_name); // 验证填入的姓名
 				formData.append('idNumber', _this.data_id); // 验证填入的身份证号
 				formData.append('verifyResult', verify_result);
+				// 存人脸核身结果
+				// 刷新业务确认状态 （业务号要求纯数字）
 				_this.$post('/pubWeb/public/faceRecognition/setAuthenticationResult', formData, config).then(data => {
 					// 如果存在callbackUrl，则按callbackUrl重定向处理
 					if (_this.$store.state.callbackUrl) {
