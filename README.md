@@ -18,6 +18,7 @@
 > http://bdcsq.zsfdc.gov.cn
 > http://113.106.13.237:85
 > 账号：admin 密码：southadmina
+> 账号：gjy1119 密码：gjy_1119
 
 ### 操作流程
 事项申报 > 遗失补发登记 > 在线申请

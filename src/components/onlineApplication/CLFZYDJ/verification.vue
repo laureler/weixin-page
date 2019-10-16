@@ -142,7 +142,8 @@
 				this.$router.push({
 					path: '/preApprovenew',
 					query: {
-						callbackUrl: '/pubWeb/public/weChatPublic/onlineApplication/CLFZYDJ/verification'
+						callbackUrl: '/pubWeb/public/weChatPublic/onlineApplication/CLFZYDJ/verification',
+						token: sessionStorage.getItem('jid')
 					}
 				})
 			},
@@ -357,7 +358,7 @@
 						'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
 					}
 				};
-				var wxUserInfo = sessionStorage.getItem('wxUserInfo');
+				var wxUserInfo = localStorage.getItem('wxUserInfo');
 				var userid = JSON.parse(wxUserInfo).userid;
 				var formData = new FormData();
 				formData.append('sql1', '获取登录用户信息');

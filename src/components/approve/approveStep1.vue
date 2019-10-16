@@ -101,24 +101,33 @@
 				_this.$post('/pubWeb/public/faceRecognition/setAuthenticationResult', formData, config).then(data => {
 					// 如果存在callbackUrl，则按callbackUrl重定向处理
 					if (_this.$store.state.callbackUrl) {
-                        // TODO 如果是核验功能，实现核验逻辑
-                        if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/onlineApplication/CLFZYDJ/verification')
-                        {
-                            _this.$router.push({
-                                path: '/onlineApplication/CLFZYDJ/verification'
-                            });
-                        }
-                        // fiexme 合并核验功能callBack处理
+						// TODO 如果是核验功能，实现核验逻辑
+						if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/onlineApplication/CLFZYDJ/verification') {
+							_this.$router.push({
+								path: '/onlineApplication/CLFZYDJ/verification'
+							});
+						}
+						// fiexme 合并核验功能callBack处理
 						//如果callbackUrl是WeChatRemoteCheck接口则请求PDF数据给用户
 						if (_this.$store.state.callbackUrl == '/pubWeb/system/public/WeChatRemoteCheck') {
 							console.log("跳转至住房证明查询！");
 							_this.getGrantDeep();
-						} else if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/GetPersonDataInfo') {
+						} else if (_this.$store.state.callbackUrl ==
+							'/pubWeb/public/weChatPublic/GetPersonDataInfo') {
 							console.log("跳转至不动产登记资料查询！");
 							// _this.getArchiveDataInfoPage();
 							_this.$router.push({
 								path: '/arcl',
-								query: {inter: '/GetPersonDataInfo',title: '不动产登记资料查询',filter: {strJson: JSON.stringify({qlr: this.data_name, zjhm: this.data_id})}}
+								query: {
+									inter: '/GetPersonDataInfo',
+									title: '不动产登记资料查询',
+									filter: {
+										strJson: JSON.stringify({
+											qlr: this.data_name,
+											zjhm: this.data_id
+										})
+									}
+								}
 							});
 						} else if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/personInfo') {
 							_this.$router.push({
@@ -154,20 +163,29 @@
 				});
 			},
 			// 跳转至 不动产登记资料查询
-			getArchiveDataInfoPage(){
-                this.$router.push({
-                    path: '/arcl',
-                    query: {inter: '/GetPersonDataInfo',title: '不动产登记资料查询',filter: {strJson: JSON.stringify({qlr: this.data_name, zjhm: this.data_id})}}
-                })
+			getArchiveDataInfoPage() {
+				this.$router.push({
+					path: '/arcl',
+					query: {
+						inter: '/GetPersonDataInfo',
+						title: '不动产登记资料查询',
+						filter: {
+							strJson: JSON.stringify({
+								qlr: this.data_name,
+								zjhm: this.data_id
+							})
+						}
+					}
+				})
 			},
 			// 住房证明查询
 			getGrantDeep() {
 				const _this = this;
-                // 加入微信openId，用于记录查档
+				// 加入微信openId，用于记录查档
 				const strJson = JSON.stringify({
 					qlr: _this.data_name,
 					zjhm: _this.data_id,
-                    openId: Cookies.get('openid')
+					openId: Cookies.get('openid')
 				}) + '';
 				let stringUrl = _this.$store.state.callbackUrl;
 				let config = {
@@ -180,7 +198,11 @@
 				const url = stringUrl + '?strJson=' + encodeURIComponent(strJson);
 				this.$router.push({
 					path: '/arcd',
-					query: {filter: '', title: '住房证明查询', inter: url}
+					query: {
+						filter: '',
+						title: '住房证明查询',
+						inter: url
+					}
 				});
 				/*_this.$post(stringUrl, formData, config).then(rs => {
 					if (rs) {
