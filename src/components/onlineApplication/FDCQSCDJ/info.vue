@@ -28,7 +28,7 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							产权来源
+							<span class="required-span">*</span>产权来源
 						</div>
 						<van-field v-model="valuesParams['JOB_FDCQXXB.FCQLY']" right-icon="arrow" placeholder="请选择产权来源"
 							 clickable
@@ -42,19 +42,19 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							土地性质
+							<span class="required-span">*</span>土地性质
 						</div>
 						<van-field class="field-background" v-model="valuesParams['JOB_FDCQXXB.FQLXZ']" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							土地用途
+							<span class="required-span">*</span>土地用途
 						</div>
 						<van-field class="field-background" v-model="valuesParams['JOB_FDCQXXB.FTDYT']" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							房屋性质
+							<span class="required-span">*</span>房屋性质
 						</div>
 						<van-field v-model="valuesParams['JOB_FDCQXXB.FFWXZ']" right-icon="arrow" placeholder="请选择房屋性质" 
 							 clickable
@@ -62,7 +62,7 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							房屋用途
+							<span class="required-span">*</span>房屋用途
 						</div>
 						<van-field v-model="valuesParams['JOB_FDCQXXB.FFWYT']" right-icon="arrow" placeholder="请选择房屋用途"
 							 clickable
@@ -70,7 +70,7 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							土地使用面积
+							<span class="required-span">*</span>土地使用面积
 						</div>
 						<div class="unFillText">
 							<van-field style="flex:80%" class="field-background"
@@ -80,13 +80,35 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							建筑面积
+							<span class="required-span">*</span>建筑面积
 						</div>
 						<div class="unFillText">
 							<van-field style="flex:80%" v-model="valuesParams['JOB_FDCQXXB.FJZMJ']" clearable
 								placeholder="建筑面积" />
 							<span class="unit">平方米</span>
 						</div>
+					</van-cell-group>
+					<van-cell-group>
+						<div class="cell-title">
+							<span class="required-span">*</span>房屋类型
+						</div>
+						<van-field v-model="valuesParams['JOB_FDCQXXB.FFWLX']" right-icon="arrow" placeholder="请选择房屋类型"
+							 clickable
+							@click.native="houseTypeClicked()" />
+					</van-cell-group>
+					<van-cell-group>
+						<div class="cell-title">
+							<span class="required-span">*</span>总层数
+						</div>
+						<van-field v-model="valuesParams['JOB_FDCQXXB.FZCS']"  clearable
+						placeholder="总层数" />
+					</van-cell-group>
+					<van-cell-group>
+						<div class="cell-title">
+							<span class="required-span">*</span>终止层
+						</div>
+						<van-field v-model="valuesParams['JOB_FDCQXXB.FZZC']"  clearable
+						placeholder="终止层" />
 					</van-cell-group>
 				</van-tab>
 				<van-tab title="申请人">
@@ -696,6 +718,7 @@
 						name: '其他共有'
 					}
 				],
+				houseTypes: [{ name: '住宅' },{ name: '商业用房' },{ name: '办公用房' },{ name: '工业用房' },{ name: '仓储用房' },{ name: '车库' },{ name: '其他' }],
 				actions: [],
 				actionsheetShow: false,
 				applicants: [],
@@ -778,6 +801,11 @@
 				this.type = 13;
 				this.actions = this.situations;
 			},
+			houseTypeClicked: function() {
+				this.show = true;
+				this.type = 14;
+				this.actions = this.houseTypes;
+			},
 			onSelect: function (val) {
 				console.log(val)
 				this.show = false;
@@ -823,6 +851,8 @@
 					this.applicant['JOB_SQRXXB.FDWXZ'] = val.name;
 				} else if (this.type == 13) {
 					this.applicant['JOB_SQRXXB.FGYQK'] = val.name;
+				} else if (this.type == 14) {
+					this.valuesParams['JOB_FDCQXXB.FFWLX'] = val.name;
 				}
 			},
 			onCancel: function () {
@@ -913,11 +943,40 @@
 					.length == 0) {
 					Toast('请填写图纸编号!');
 					return;
-				} else if (!this.valuesParams['JOB_FDCQXXB.FFDZL'] || this.valuesParams[
-						'JOB_FDCQXXB.FFDZL'].length == 0) {
+				} else if (!this.valuesParams['JOB_FDCQXXB.FCQLY'] || this.valuesParams['JOB_FDCQXXB.FCQLY'].length == 0) {
+					Toast('请填写选择产权来源!');
+					return;
+				} else if (!this.valuesParams['JOB_FDCQXXB.FFDZL'] || this.valuesParams['JOB_FDCQXXB.FFDZL'].length == 0) {
 					Toast('请填写坐落!');
 					return;
-				}
+				} else if (!this.valuesParams['JOB_FDCQXXB.FQLXZ'] || this.valuesParams['JOB_FDCQXXB.FQLXZ'].length == 0) {
+					Toast('请填写土地性质!');
+					return;
+				} else if (!this.valuesParams['JOB_FDCQXXB.FTDYT'] || this.valuesParams['JOB_FDCQXXB.FTDYT'].length == 0) {
+					Toast('请填写土地用途!');
+					return;
+				} else if (!this.valuesParams['JOB_FDCQXXB.FFWXZ'] || this.valuesParams['JOB_FDCQXXB.FFWXZ'].length == 0) {
+					Toast('请选择房屋性质!');
+					return;
+				} else if (!this.valuesParams['JOB_FDCQXXB.FFWYT'] || this.valuesParams['JOB_FDCQXXB.FFWYT'].length == 0) {
+					Toast('请选择房屋用途!');
+					return;
+				} else if (!this.valuesParams['JOB_FDCQXXB.FZDMJ'] || this.valuesParams['JOB_FDCQXXB.FZDMJ'].length == 0) {
+					Toast('请填写土地使用面积!');
+					return;
+				} else if (!this.valuesParams['JOB_FDCQXXB.FJZMJ'] || this.valuesParams['JOB_FDCQXXB.FJZMJ'].length == 0) {
+					Toast('请填写建筑面积!');
+					return;
+				} else if (!this.valuesParams['JOB_FDCQXXB.FFWLX'] || this.valuesParams['JOB_FDCQXXB.FFWLX'].length == 0) {
+					Toast('请选择房屋类型!');
+					return;
+				} else if (!this.valuesParams['JOB_FDCQXXB.FZCS'] || this.valuesParams['JOB_FDCQXXB.FZCS'].length == 0) {
+					Toast('请填写总层数!');
+					return;
+				} else if (!this.valuesParams['JOB_FDCQXXB.FZZC'] || this.valuesParams['JOB_FDCQXXB.FZZC'].length == 0) {
+					Toast('请填写终止层!');
+					return;
+				} 
 				//申请人内容判断未填项
 				var _applicants = this.applicants;
 				if (_applicants.length == 0) {

@@ -588,6 +588,7 @@
 				}).catch(error => {
 					console.log(error);
 					Toast.clear();
+					Toast('请求失败');
 				});
 			}
 		},

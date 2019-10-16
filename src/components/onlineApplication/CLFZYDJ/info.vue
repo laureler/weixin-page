@@ -168,8 +168,8 @@
 						<div class="cell-title">
 							产权来源
 						</div>
-						<van-field v-model="propertySource" right-icon="arrow" placeholder="请选择产权来源"
-						 clickable @click.native="propertySourceClicked()" />
+						<van-field v-model="propertySource" right-icon="arrow" placeholder="请选择产权来源" clickable
+							@click.native="propertySourceClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -338,8 +338,8 @@
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FQLBL']" clearable placeholder="权利比例" />
 					</van-cell-group>
 					<div class="buttons">
-						<van-button class="info-btn" size="small" type="info" 
-							@click.native="saveApplicant(1)" v-show="saveShow" >保存
+						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant(1)"
+							v-show="saveShow">保存
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -462,7 +462,7 @@
 		DEL_SUB_FORM_DATA,
 		TEST,
 		exchangeZqdm,
-    exchangeZqdmToZqmc
+		exchangeZqdmToZqmc
 	} from '../../../constants/index.js';
 	import AgmDatePicker from '../../calendar.vue'
 	export default {
@@ -778,11 +778,9 @@
 				}, {
 					name: '其他'
 				}],
-				unitNatures: [
-					{
-						name: '个人'
-					}
-				],
+				unitNatures: [{
+					name: '个人'
+				}],
 				situations: [{
 						name: '单独所有'
 					},
@@ -982,7 +980,7 @@
 						this.valuesParams['JOB_FDCQXXB.FCQLY'] = 64;
 					}
 
-					console.log('propertySource',this.propertySource);
+					console.log('propertySource', this.propertySource);
 				} else if (this.type == 5) {
 					this.applicant['JOB_SQRXXB.FXB'] = val.name;
 				} else if (this.type == 6) {
@@ -1178,7 +1176,8 @@
 					});
 				}
 				this.axios({
-					url: DEL_SUB_FORM_DATA + '?parentdomname=' + title + '&parentrid=' + parentrid + '&domains=' + domains + '&templateid=' + templateid,
+					url: DEL_SUB_FORM_DATA + '?parentdomname=' + title + '&parentrid=' + parentrid +
+						'&domains=' + domains + '&templateid=' + templateid,
 					method: 'post',
 					data: params,
 				}).then(response => {
@@ -1385,9 +1384,9 @@
 						debugger;
 						if (title === 'JOB_SQRXXB_OLD_LINK.OLD_IQLR') { // 转让人
 							_this.assignors = response.rows;
-						} else if (title === 'JOB_GLQLXXB_LINK.OLD_IQLDJ') {  // 权利信息
-							
-						}else if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
+						} else if (title === 'JOB_GLQLXXB_LINK.OLD_IQLDJ') { // 权利信息
+
+						} else if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
 							_this.applicants = response.rows;
 						}
 					})
@@ -1425,7 +1424,7 @@
 						if (saveTape) {
 							this.saveShow = false;
 						}
-						sessionStorage.setItem(title, JSON.stringify(response.data.result));	
+						sessionStorage.setItem(title, JSON.stringify(response.data.result));
 					}
 				}).catch(error => {
 					Toast.clear();
@@ -1516,7 +1515,8 @@
 						}
 						Toast.clear();
 						this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response['JOB_GLQLXXB_LINK.OLD_IQLDJ']);
-						this.fillSubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR', response['JOB_SQRXXB_OLD_LINK.OLD_IQLR']);
+						this.fillSubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR', response[
+							'JOB_SQRXXB_OLD_LINK.OLD_IQLR']);
 
 					})
 					.catch(error => {
@@ -1566,13 +1566,33 @@
 						var result = JSON.parse(response.result);
 						var values = result.data.values;
 						var taskId = response.taskId;
+
+						var map = result.data.controls['JOB_FDCQXXB.FCQLY']['dicTreeMap'];
+						for (var i = 0; i < map.length; i++) {
+							var obj = new Object();
+							obj.name = map[i].text;
+							_this.propertySources.push(obj);
+						}
+
 						sessionStorage.setItem('taskId', taskId);
 						sessionStorage.setItem('business', JSON.stringify(response));
 						_this.taskId = taskId;
 						console.log('taskId:', _this.taskId);
 						_this.valuesParams = values;
-						console.log('>>>:', _this.valuesParams);
+						var ps = _this.valuesParams['JOB_FDCQXXB.FCQLY']
+						if (ps == 42) {
+							_this.propertySource = '买卖';
+						} else if (ps == 49) {
+							_this.propertySource = '赠与';
+						} else if (ps == 50) {
+							_this.propertySource = '作价出资(入股)';
+						} else if (ps == 64) {
+							_this.propertySource = '房改房';
+						}
+
 						sessionStorage.setItem('jid', businessNumber);
+
+						
 						console.log('taskId:', _this.taskId);
 						// 提取权利信息
 						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
@@ -1588,7 +1608,7 @@
 					console.log('err:', err);
 					Toast.clear();
 				});
-			}else {
+			} else {
 				var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
 				console.log('cqxx:', this.$route.query.cqxx);
 				console.log('businessDefinitionId:', this.$route.query.businessDefinitionId);
@@ -1606,7 +1626,7 @@
 					var taskId = response.taskId;
 
 					var map = result.data.controls['JOB_FDCQXXB.FCQLY']['dicTreeMap'];
-					for(var i = 0;i < map.length; i ++){
+					for (var i = 0; i < map.length; i++) {
 						var obj = new Object();
 						obj.name = map[i].text;
 						_this.propertySources.push(obj);
