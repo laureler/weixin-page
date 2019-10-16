@@ -116,7 +116,7 @@
 						</div>
 						<van-field id="JOB_SQRXXB.FDWXZ" v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow"
 							clickable placeholder="单位性质"
-							disabled class="disabled-field" />
+							@click.native="actionsheetClicked('companyTypeOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -178,15 +178,15 @@
 						</div>
 					</div>
 				</van-tab>
-				<van-tab title="更正事项">
-					<div style="padding: 15px;">提示：若更正类型涉及到权利人更正（如权利人名称、证件号码、证件类型等信息）， 请修改“权利人”相应信息，并将更正内容填写至“更正事项”，
-						若涉及到房屋信息更正，则只需将更正内容填入“更正事项”表。</div>
+				<van-tab title="变更事项">
+					<!-- <div style="padding: 15px;">提示：若更正类型涉及到权利人更正（如权利人名称、证件号码、证件类型等信息）， 请修改“权利人”相应信息，并将更正内容填写至“更正事项”，
+						若涉及到房屋信息更正，则只需将更正内容填入“更正事项”表。</div> -->
 					<van-cell-group>
 						<div class="cell-title">
-							<span class="required-span">*</span>修改内容
+							<span class="required-span">*</span>变更事项
 						</div>
 						<van-field id="JOB_XGXXB.FXGSX" v-model="changeItem['JOB_XGXXB.FXGSX']" right-icon="arrow"
-							clearable placeholder="修改内容"
+							clearable placeholder="变更事项"
 							@click.native="actionsheetClicked('contentOptions')" />
 					</van-cell-group>
 					<van-cell-group>
@@ -292,7 +292,7 @@
 			</van-tabs>
 			<div style="height: 50px;"></div>
 			<div class="bottom-box">
-				<van-button size="large" plain type="default">查看申请书</van-button>
+				<!-- <van-button size="large" plain type="default">查看申请书</van-button> -->
 				<van-button size="large" type="info" @click.native="nextStep()">下一步</van-button>
 			</div>
 			<van-actionsheet v-model="actionsheetShow" :actions="actions" cancel-text="取消" @select="onSelect">
@@ -332,7 +332,9 @@
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
 		DEL_SUB_FORM_DATA,
-		TEST
+		TEST,
+		exchangeZqdm,
+    exchangeZqdmToZqmc
 	} from '../../../constants/index.js';
 	import {
 		Toast
@@ -602,14 +604,6 @@
 				}],
 				companyTypeOptions: [{
 					name: '个人'
-				}, {
-					name: '企业'
-				}, {
-					name: '事业单位'
-				}, {
-					name: '国家单位'
-				}, {
-					name: '其他'
 				}],
 				materialOptions: [{
 						name: '是'
@@ -644,6 +638,7 @@
 		},
 		methods: {
 			actionsheetClicked: function (title) {
+				debugger;
 				this.actionsheetShow = true;
 				this.actions = this.$data[title];
 				this.optionsTitle = title;
@@ -953,14 +948,14 @@
 						debugger;
 						if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
 							_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.rows;
-							if (!response.rows) return;
+							if (!response.rows || !showloading) return;
 							_this.applicantIndex = 0;
 							_this.applicant = response.rows[0];
 						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
 							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
-							if (!response.rows) return;
-							_this.changeItemIndex = 0;
-							_this.changeItem = response.rows[0];
+							if (!response.rows || !showloading) return;
+							// _this.changeItemIndex = 0;
+							// _this.changeItem = response.rows[0];
 						}
 					})
 					.catch(error => {
@@ -1061,6 +1056,13 @@
 						//获取不动产类型
 						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
 						var bdclx = getBdcType(qllx);
+
+						debugger;
+						var sBdcdyh = response['JOB_JSYDCQXXB.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
+
 						//补充权利人信息
 						for (var key in response) {
 							if (key == "JOB_SQRXXB_LINK.IQLR") {
@@ -1161,9 +1163,13 @@
 						console.log('taskId:', _this.taskId);
 						_this.$data['JOB_BDCQK'] = values;
 						console.log('>>>:', _this.$data['JOB_BDCQK']);
+						_this.qtyy = _this.$data['JOB_BDCQK']['JOB_JSYDCQXXB.FQTYY'];
+						_this.bz = _this.$data['JOB_BDCQK']['JOB_JSYDCQXXB.FBZ'];
 						sessionStorage.setItem('jid', businessNumber);
-						_this.startExactBusiness(rid, businessNumber);
-
+						//_this.startExactBusiness(rid, businessNumber);
+						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+						_this.querySubFormData('JOB_XGXXB_LINK.IXG');
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();

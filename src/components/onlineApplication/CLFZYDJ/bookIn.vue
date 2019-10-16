@@ -70,8 +70,8 @@
 			return {
 				show: false,
 				wqhth: '',
-				qlr: '李四英',
-				cqzh: '湘（2017）北湖不动产权第0022977号',
+				qlr: '',  // 李四英
+				cqzh: '',  // 湘（2017）北湖不动产权第0022977号
 				customStatus: '',
 				checkout: {
 					"cqxx": [{
@@ -135,9 +135,13 @@
 		},
 		methods: {
 			onChange:function(name, title){
-				this.customStatus = '';
-				this.checkout.cqxx[0] = '';
 				this.checkType = name;
+				this.customStatus = '';
+				if (this.checkout != null) {
+					this.checkout.cqxx[0] = '';
+				}				
+				console.log('name',name);
+				console.log('title',title);
 			},
 			checkoutID: function () {
 				this.customStatus = '';
@@ -218,7 +222,7 @@
 				if (this.customStatus != '校验通过') {
 					Toast('请校验证书通过后进行下一步!');
 				} else {
-					var businessDefinitionId = this.$route.query.businessDefinitionId;
+					var businessDefinitionId = sessionStorage.getItem('businessDefinitionId');
 					this.$router.push({
 						path: '/onlineApplication/CLFZYDJ/info',
 						query: {
@@ -232,7 +236,6 @@
 		},
 		mounted () {
 			console.log('bookIn');
-			console.log('businessDefinitionId:', this.$route.query.businessDefinitionId);
 		},
 	}
 

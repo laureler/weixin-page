@@ -35,12 +35,12 @@
         },
         data () {
             return {
-                //当前页码
+                // 当前页码
                 currentPage: 1,
                 items: [],
                 // 全部数据
                 datas: [],
-                //标题名称
+                // 标题名称
                 bname: '',
                 pageSize: 10,
                 totalDataNumber: 0,
@@ -148,7 +148,7 @@
                             }
                         }
                         that.bname = response.noInfo[0].bname
-                        that.totalDataNumber = that.datas.length
+                        that.totalDataNumber = response.total;
                         that.record()
                     },
                     fail (error) {

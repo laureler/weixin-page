@@ -18,7 +18,7 @@
 			</div>
 		</div>
 		<div style="margin: 20px 0px">
-			<van-button size="large" class="blueButton" @click="query">搜索</van-button>
+			<van-button size="large" class="blueButton" @click="query">查询</van-button>
 		</div>
 		<div v-if="isStartSearch">
 			<div style="font-size:0.42rem;color:#252525;margin-top:0.3rem;margin-left: 0.5rem">查询结果</div>

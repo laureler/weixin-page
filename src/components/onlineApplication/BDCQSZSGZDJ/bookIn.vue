@@ -51,7 +51,8 @@
 <script>
 	import Head from '../../app/head.vue';
 	import {
-		Toast
+		Toast,
+		Dialog
 	} from 'vant';
 	import {
 		CHECKOUT_REAL_ESTATE
@@ -65,8 +66,8 @@
 				estateType: '',
 				cqlx: '',
 				show: false,
-				qlr: '杨智勇',
-				cqzh: '湘（2017）苏仙不动产权第0022928号',
+				qlr: '',  // 杨智勇
+				cqzh: '',  // 湘（2017）苏仙不动产权第0022928号
 				customStatus: '',
 				actions: [{
 						name: '房屋'
@@ -222,7 +223,7 @@
 				if (this.customStatus != '校验通过') {
 					Toast('请校验证书通过后进行下一步!');
 				} else {
-					var businessDefinitionId = this.$route.query.businessDefinitionId;
+					var businessDefinitionId = sessionStorage.getItem('businessDefinitionId');
 					this.$router.push({
 						path: '/onlineApplication/BDCQSZSGZDJ/info',
 						query: {
@@ -235,7 +236,6 @@
 		},
 		mounted () {
 			console.log('bookIn');
-			console.log('businessDefinitionId:', this.$route.query.businessDefinitionId);
 		},
 	}
 

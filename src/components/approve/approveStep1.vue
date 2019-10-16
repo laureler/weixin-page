@@ -1,7 +1,7 @@
 <template>
 	<!-- 身份验证 -->
 	<div class="step1_1">
-		<page-head title="人脸核身"></page-head>
+		<page-head  :title="faceTitle"></page-head>
 		<div class="space_between"></div>
 		<img src="../../../public/images/approve/face_checkout.png" class="face_checkout"/>
 		<van-cell-group>
@@ -56,6 +56,7 @@
 		},
 		data () {
 			return {
+				faceTitle: '人脸核身',
 				faceVerifyType: 1,
 				editable: true,
 				// 显示用户信息
@@ -298,6 +299,13 @@
 		},
 		mounted () {
 			var _this = this;
+			// 微信标题
+			_this.$fetch('/gdbdcWebService/WeChatConfig/public/getProtocolTitleInfomation')
+				.then(res => {
+                    _this.faceTitle = res.WECHATTITLE;
+				})
+				.catch(erro => {
+			})
 			_this.$fetch('/gdbdcWebService/WeChatConfig/public/getFaceIdentificationInfomation')
 					.then(res => {
 						_this.faceVerifyType = (res.CHECKALIVETYPE == null || res.CHECKALIVETYPE == undefined) ? 1 : res.CHECKALIVETYPE;

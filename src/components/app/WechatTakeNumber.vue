@@ -240,10 +240,12 @@
 	.timeoutText {
 		width: 84%;
 		font-size: 0.375rem;
-		color: red;
+		color: black;
 		padding: 0.3rem 0;
 		font-weight: bold;
 		line-height: 0.525rem;
+		margin:0 auto;
+		text-align:center;
 	}
 
 	.osubmit {

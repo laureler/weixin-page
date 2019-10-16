@@ -54,8 +54,8 @@
 			return {
 				estateType: '',
 				show: false,
-				qlr: '李四英',
-				cqzh: '湘（2017）北湖不动产权第0022977号',
+				qlr: '',  // 李四英
+				cqzh: '',  // 湘（2017）北湖不动产权第0022977号
 				customStatus: '',
 				checkout: {
 					"cqxx": [{
@@ -172,7 +172,7 @@
 				if (this.customStatus != '校验通过') {
 					Toast('请校验证书通过后进行下一步!');
 				} else {
-					var businessDefinitionId = this.$route.query.businessDefinitionId;
+					var businessDefinitionId = sessionStorage.getItem('businessDefinitionId');
 					this.$router.push({
 						path: '/onlineApplication/FDCQZYDJ/info',
 						query: {

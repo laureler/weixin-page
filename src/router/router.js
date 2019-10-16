@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-07-16 11:42:54
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-09-06 13:36:03
+ * @LastEditTime: 2019-10-09 09:13:45
  * @Description: 头部注释
  */
 import Vue from 'vue';
@@ -63,6 +63,7 @@ router.beforeEach((to, from, next) => {
 					}
 				});
 			} else {
+				sessionStorage.setItem('wxUserInfo', JSON.stringify(response));
 				// cas登陆成功
 				if (to.meta.isPersonalHomePage) {
 					if ((/^true$/i).test(store.getters.getVerifyState)) {

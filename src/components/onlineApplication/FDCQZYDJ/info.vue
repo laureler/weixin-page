@@ -159,7 +159,7 @@
 						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant(0)">保存
 						</van-button>
 						<van-button class="info-btn" size="small" type="default" v-if="editApplicantState"
-							@click.native="delApplicant(0)">删除申请人
+							@click.native="delApplicant()">删除申请人
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -169,7 +169,7 @@
 							<div class="handle">操作</div>
 						</div>
 						<div class="content">
-							<van-cell-group class="applicants-group" v-for="(item, index) in applicants">
+							<van-cell-group class="applicants-group" v-for="(item, index) in applicants" :key="index">
 								<div class="name">{{ item['JOB_SQRXXB.FSQRMC'] || '' }}</div>
 								<div class="num">{{ item['JOB_SQRXXB.FZJHM'] || '' }}</div>
 								<div class="handle">
@@ -213,15 +213,8 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>单位性质
 						</div>
-<<<<<<< HEAD
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
-								clickable 
-								disabled class="field-background"
-							 />
-							 <!-- @click.native="unitNatureAssignorClicked()" -->
-=======
-						<van-field v-model="assignor['JOB_SQRXXB_OLD.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质" class="field-background" disabled/>
->>>>>>> aa0392addaa5510c7a91e6a6260445bb07dbc561
+							clickable @click.native="unitNatureAssignorClicked()"/>
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -260,10 +253,8 @@
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FQLBL']" clearable placeholder="权利比例" />
 					</van-cell-group>
 					<div class="buttons">
-						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant(1)">保存
-						</van-button>
-						<van-button class="info-btn" size="small" type="default" v-if="editAssignorState"
-							@click.native="delApplicant(1)">删除申请人
+						<van-button class="info-btn" size="small" type="info" 
+							@click.native="saveApplicant(1)" v-show="saveShow" >保存
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -273,7 +264,7 @@
 							<div class="handle">操作</div>
 						</div>
 						<div class="content">
-							<van-cell-group class="applicants-group" v-for="(item, index) in assignors">
+							<van-cell-group class="applicants-group" v-for="(item, index) in assignors" :key="index">
 								<div class="name">{{ item['JOB_SQRXXB_OLD.FSQRMC'] || '' }}</div>
 								<div class="num">{{ item['JOB_SQRXXB_OLD.FZJHM'] || '' }}</div>
 								<div class="handle">
@@ -340,7 +331,7 @@
 			</van-tabs>
 			<div style="height: 50px;"></div>
 			<div class="bottom-box">
-				<van-button size="large" plain type="default">查看申请书</van-button>
+				<!-- <van-button size="large" plain type="default">查看申请书</van-button> -->
 				<van-button size="large" type="info" @click.native="nextStep()">下一步</van-button>
 			</div>
 			<van-actionsheet v-model="show" :actions="actions" cancel-text="取消" @select="onSelect">
@@ -384,7 +375,10 @@
 		SAVE_TASK_FORM_DATA,
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
-		TEST
+		DEL_SUB_FORM_DATA,
+		TEST,
+		exchangeZqdm,
+    exchangeZqdmToZqmc
 	} from '../../../constants/index.js'
 	export default {
 		components: {
@@ -542,95 +536,10 @@
 				applicants: [],
 				assignors: [],
 				editApplicantState: false,
-				editAssignorState: false,
 				applicantIndex: -1,
 				assignorIndex: -1,
 				taskId: '',
-				propertySources: [{
-						name: '商品房买卖'
-					},
-					{
-						name: '买卖'
-					},
-					{
-						name: '征收(拆迁)安置房'
-					},
-					{
-						name: '经济适用房'
-					},
-					{
-						name: '公有住房出售'
-					},
-					{
-						name: '已购公有住房上市'
-					},
-					{
-						name: '划拨房屋'
-					},
-					{
-						name: '互换'
-					},
-					{
-						name: '赠与'
-					},
-					{
-						name: '作价出资(入股)'
-					},
-					{
-						name: '继承'
-					},
-					{
-						name: '受遗赠'
-					},
-					{
-						name: '共有人增加或者减少'
-					},
-					{
-						name: '生效法律文书'
-					},
-					{
-						name: '共有份额变化'
-					},
-					{
-						name: '夫妻约定'
-					},
-					{
-						name: '房屋分割'
-					},
-					{
-						name: '房屋合并'
-					},
-					{
-						name: '无初始登记'
-					},
-					{
-						name: '已登记房屋办理(补办)土地交易'
-					},
-					{
-						name: '其他'
-					},
-					{
-						name: '离婚析产'
-					},
-					{
-						name: '拍卖取得'
-					},
-					{
-						name: '房改房'
-					},
-					{
-						name: '自建房'
-					},
-					{
-						name: '房改/继承'
-					},
-					{
-						name: '买卖/继承'
-					},
-					{
-						name: '集资建房'
-					},
-				],
+				propertySources: [],
 				registerReasons: [{
 						name: '依生效法律文书'
 					},
@@ -759,20 +668,7 @@
 				}],
 				unitNatures: [{
 						name: '个人'
-					},
-					{
-						name: '企业'
-					},
-					{
-						name: '事业单位'
-					},
-					{
-						name: '国家机关'
-					},
-					{
-						name: '其他'
-					}
-				],
+					}],
 				situations: [{
 						name: '单独所有'
 					},
@@ -808,6 +704,7 @@
 				provincesType: '',
 				goBack: false,
 				emsNecessary: false, //EMS是否显示星号
+				saveShow: false,
 			}
 		},
 		methods: {
@@ -967,22 +864,13 @@
 					this.valuesParams['JOB_SJDJB.FZQ'] = val.name;
 				}
 			},
-			delApplicant: function (type) {
-				this.$dialog.confirm({
+			delApplicant: function () {
+				Dialog.confirm({
 					message: '确定要删除该申请人吗?'
 				}).then(() => {
 					console.log('删除');
-					if (type == 0) {
-						//受让人
-						this.applicants.splice(this.applicantIndex, 1);
-						this.applicantIndex = -1;
-						this.editApplicantState = false;
-					} else if (type == 1) {
-						//转让人
-						this.assignors.splice(this.assignorIndex, 1);
-						this.assignorIndex = -1;
-						this.editAssignorState = false;
-					}
+					//只有受让人可以删除
+					this.delSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicants[this.applicantIndex]], true);
 					// on close
 				}).catch(() => {
 					// on cancel
@@ -1103,16 +991,53 @@
 						this.assignors.push(this.assignor);
 					}
 					this.assignorIndex = -1;
-					this.fillSubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR', [this.assignor], true);
+					this.fillSubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR', 
+						[this.assignor], true, true);
 					this.assignor = {};
 					this.assignorPerson = '';
 					this.assignorIdCard = '';
 				}
 			},
+			// 删除子表内容
+			delSubFormData: function (title, params, showLoading = false) {
+				var business = JSON.parse(sessionStorage.getItem('business'));
+				var result = JSON.parse(business.result);
+				console.log(result);
+				var link = title.split('.')[0];
+				var domains = title.split('_LINK')[0]
+				var parentrid = result.data.values[link + '.RID'];
+				var templateid = result.data.controls[title].linkTplId;
+				console.log(result.data.values[link + '.RID']);
+				console.log(result.data.controls[title].linkTplId);
+				var _this = this;
+				if (showLoading) {
+					Toast.loading({
+						mask: true,
+						message: '加载中...'
+					});
+				}
+				this.axios({
+					url: DEL_SUB_FORM_DATA + '?parentdomname=' + title + '&parentrid=' + parentrid + '&domains=' + domains + '&templateid=' + templateid,
+					method: 'post',
+					data: params,
+				}).then(response => {
+					Toast.clear();
+					console.log(response);
+					this.applicants.splice(this.applicantIndex, 1);
+					this.applicantIndex = -1;
+					this.editApplicantState = false;
+					this.applicant = {};
+					this.person = '';
+					this.idCard = '';
+				}).catch(error => {
+					Toast.clear();
+					console.log(error);
+				});
+			},
 			editApplicant: function (item, index, type) {
-				// this.editApplicantState = true;
 				if (type == 0) {
 					//受让人
+					this.editApplicantState = true;
 					this.applicantIndex = index;
 					this.applicant = item;
 					this.person = item['JOB_SQRXXB.FSQRMC'];
@@ -1123,6 +1048,7 @@
 					this.assignor = item;
 					this.assignorPerson = item['JOB_SQRXXB_OLD.FSQRMC'];
 					this.assignorIdCard = item['JOB_SQRXXB_OLD.FZJHM'];
+					this.saveShow = true;
 				}
 				console.log("applicantIndex=" + this.applicantIndex);
 			},
@@ -1215,6 +1141,10 @@
 						}
 					}
 				}
+				if (this.saveShow) {
+					Toast('请填写转让人信息未保存!');
+					return;
+				}
 				//EMS内容判断未填项
 				if (this.valuesParams['JOB_SJDJB.FSFKDJCL'] === '是' || this.valuesParams['JOB_SJDJB.FSFKDJZ'] ===
 					'是') {
@@ -1290,23 +1220,19 @@
 					.then(response => {
 						console.log('response:', response);
 						debugger;
-						if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
-							_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.rows;
-							if (!response.rows) return;
-							_this.applicantIndex = 0;
-							_this.applicant = response.rows[0];
-						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
-							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
-							if (!response.rows) return;
-							_this.changeItemIndex = 0;
-							_this.changeItem = response.rows[0];
+						if (title === 'JOB_SQRXXB_OLD_LINK.OLD_IQLR') { // 转让人
+							_this.assignors = response.rows;
+						} else if (title === 'JOB_GLQLXXB_LINK.OLD_IQLDJ') {  // 权利信息
+							
+						} else if (title === 'JOB_SQRXXB_LINK.IQLR') {  // 受让人
+							_this.applicants = response.rows;
 						}
 					})
 					.catch(error => {
 						console.log('error:', error);
 					});
 			},
-			fillSubFormData: function (title, params, showLoading = false) {
+			fillSubFormData: function (title, params, showLoading = false, saveTape = false) {
 				var business = JSON.parse(sessionStorage.getItem('business'));
 				var result = JSON.parse(business.result);
 				console.log(result);
@@ -1330,6 +1256,10 @@
 					data: params,
 				}).then(response => {
 					console.log('FILL_SUB_FORM_DATA:', response);
+					this.editApplicantState = false;
+					if (saveTape) {
+						this.saveShow = false;
+					}
 				}).catch(error => {
 					console.log(error);
 				});
@@ -1353,6 +1283,10 @@
 						var bdclx = getBdcType(qllx);
 						//不动产类型
 						this.valuesParams['JOB_FDCQXXB.FBDCLX'] = bdclx;
+						var sBdcdyh = response['JOB_FDCQXXB.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						this.valuesParams['JOB_SJDJB.FZQDM'] = zqmc;
 						//坐落
 						this.valuesParams['JOB_FDCQXXB.FFDZL'] = response['JOB_FDCQXXB.FFDZL'];
 						//面积
@@ -1396,34 +1330,86 @@
 			}
 		},
 		created() {
-			var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
-			console.log('cqxx:', this.$route.query.cqxx);
-			console.log('businessDefinitionId:',
-				this.$route.query.businessDefinitionId);
-			var _this = this;
-			Toast.loading({
-				mask: true,
-				message: '加载中...'
-			});
-			this.$fetch(GET_BUSINESS_START_FROM, {
-				businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
-			}).then(function (response) {
-				var businessNumber = response.businessNumber;
-				var result = JSON.parse(response.result);
-				var values = result.data.values;
-				var taskId = response.taskId;
-				sessionStorage.setItem('taskId', taskId);
-				sessionStorage.setItem('business', JSON.stringify(response));
-				_this.taskId = taskId;
-				console.log('taskId:', _this.taskId);
-				_this.valuesParams = values;
-				console.log('>>>:', _this.valuesParams);
-				sessionStorage.setItem('jid', businessNumber);
-				_this.startExactBusiness(rid, businessNumber);
-			}).catch(function (error) {
-				console.log(error);
-				Toast.clear();
-			});
+			if (this.$route.query && this.$route.query.processInstanceId) {
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				// 查询首环节？
+				var _this = this;
+				this.$fetch('/workflowWebService/getFirstLinkInfoByProcessInstanceId', {
+					processInstanceId: this.$route.query.processInstanceId
+				}).then(res => {
+					console.log('res:', res);
+					var _taskId = res.taskId;
+					_this.$fetch('/workflowWebService/renderFormByTaskId', {
+						taskId: _taskId
+					}).then(response => {
+						var businessNumber = response.businessNumber;
+						var result = JSON.parse(response.result);
+						var values = result.data.values;
+						var taskId = response.taskId;
+						sessionStorage.setItem('taskId', taskId);
+						sessionStorage.setItem('business', JSON.stringify(response));
+						_this.taskId = taskId;
+						console.log('taskId:', _this.taskId);
+						_this.valuesParams = values;
+						console.log('>>>:', _this.valuesParams);
+						sessionStorage.setItem('jid', businessNumber);
+						console.log('taskId:', _this.taskId);
+						// 提取权利信息
+						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+						// 提取转让人
+						_this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
+						// 提取受让人
+						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+					}).catch(err => {
+						console.log('err:', err);
+						Toast.clear();
+					});
+				}).catch(err => {
+					console.log('err:', err);
+					Toast.clear();
+				});
+
+			} else {
+				var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
+				console.log('cqxx:', this.$route.query.cqxx);
+				console.log('businessDefinitionId:',
+					this.$route.query.businessDefinitionId);
+				var _this = this;
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				this.$fetch(GET_BUSINESS_START_FROM, {
+					businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
+				}).then(function (response) {
+					var businessNumber = response.businessNumber;
+					var result = JSON.parse(response.result);
+					var values = result.data.values;
+					var taskId = response.taskId;
+
+					var map = result.data.controls['JOB_FDCQXXB.FCQLY']['dicTreeMap'];
+					for(var i = 0;i < map.length; i ++){
+						var obj = new Object();
+						obj.name = map[i].text;
+						_this.propertySources.push(obj);
+					}
+					
+					sessionStorage.setItem('taskId', taskId);
+					sessionStorage.setItem('business', JSON.stringify(response));
+					_this.taskId = taskId;
+					console.log('taskId:', _this.taskId);
+					_this.valuesParams = values;
+					console.log('>>>:', _this.valuesParams);
+					sessionStorage.setItem('jid', businessNumber);
+					_this.startExactBusiness(rid, businessNumber);
+				}).catch(function (error) {
+					console.log(error);
+					Toast.clear();
+				});
+			}
 		}
 	}
 

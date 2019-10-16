@@ -3,9 +3,9 @@
 		<page-head title="异议注销登记"></page-head>
 		<van-cell-group>
 			<div class="cell-title">
-				<span class="required-span">*</span>申请人名字
+				<span class="required-span">*</span>申请人姓名
 			</div>
-			<van-field v-model="qlr" clearable placeholder="请输入申请人名字" />
+			<van-field v-model="qlr" clearable placeholder="产权证上的权利人，多个权利人只需输入一个" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
@@ -58,8 +58,8 @@
 				estateType: '',
 				cqlx: '',
 				show: false,
-				qlr: '陈卫行',
-				cqzh: '粤（2018）中山市不动产权证明第0029473号',  // 粤（）中山市不动产权证明第号
+				qlr: '',  // 陈卫行
+				cqzh: '粤（）中山市不动产权证明第号',  // 粤（）中山市不动产权证明第号  // 粤（2018）中山市不动产权证明第0029473号
 				customStatus: '',
 				actions: [{
 						name: '房屋'
@@ -216,7 +216,7 @@
 				if (this.customStatus != '校验通过') {
 					Toast('请校验证书通过后进行下一步!');
 				} else {
-					var businessDefinitionId = this.$route.query.businessDefinitionId;
+					var businessDefinitionId = sessionStorage.getItem('businessDefinitionId');
 					this.$router.push({
 						path: '/onlineApplication/YYZXDJ/info',
 						query: {
@@ -228,7 +228,6 @@
 		},
 		mounted() {
 			console.log('bookIn');
-			console.log('businessDefinitionId:', this.$route.query.businessDefinitionId);
 		},
 	}
 

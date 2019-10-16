@@ -9,9 +9,9 @@
 						<div class="cell-content-title">
 							{{item2.title}}
 						</div>
-						<div class="cell-content-status">
+						<!-- <div class="cell-content-status">
 							{{item2.path}}
-						</div>
+						</div> -->
 					</div>
 					<van-icon slot="right-icon" name="arrow" class="custom-icon" />
 				</van-cell>

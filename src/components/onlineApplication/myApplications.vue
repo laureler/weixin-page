@@ -1,5 +1,6 @@
 <template>
 	<div class="container">
+		<page-head title="我的业务"></page-head>
 		<div class="application-list">
 			<van-cell style="padding: 0;">
 				<van-field v-model="keyword" clearable placeholder="请输入关键字">
@@ -24,17 +25,18 @@
 							<div class="key">坐落：</div>
 							<div class="value">{{ item.f7 }}</div>
 						</div>
-						<div class="flex-box content-reason">
+						<div class="flex-box content-reason" v-show="item['job_base-regtype'] === '不通过'">
 							<div class="key">原因：</div>
 							<div class="value"></div>
 						</div>
 					</div>
 					<div class="flex-box buttons">
-						<van-button class="custom-button" square size="large" type="default">申请证书</van-button>
-						<van-button class="custom-button" square size="large" type="default">作废</van-button>
+						<van-button class="custom-button" square size="large" type="default" @click.stop="checkApplication()">申请书</van-button>
+						<van-button v-if="item['job_base-datastate'] == 0" class="custom-button" square size="large"
+							type="default" @click="deleteCreateJobs(item, index)">删除</van-button>
 					</div>
-					<div class="status status-fail">
-						不通过
+					<div class="status" :class="[item['job_base-regtype'] === '不通过'?'status-fail':'status-success']">
+						{{ item['job_base-regtype'] }}
 					</div>
 				</div>
 				<div class="application-item" style="display: none;">
@@ -52,7 +54,7 @@
 						</div>
 					</div>
 					<div class="flex-box buttons">
-						<van-button class="custom-button" square size="large" type="default">查看证书</van-button>
+						<van-button class="custom-button" square size="large" type="default">查看申请书</van-button>
 					</div>
 					<div class="status status-success">
 						已出证
@@ -86,6 +88,7 @@
 </template>
 
 <script>
+	import Head from '../app/head';
 	import {
 		GET_PROGRESS_JOBDATA_BY_MONGODB
 	} from '../../constants/index.js';
@@ -93,6 +96,9 @@
 		Toast
 	} from 'vant';
 	export default {
+		components: {
+			'page-head': Head
+		},
 		data() {
 			return {
 				applications: [],
@@ -105,6 +111,30 @@
 			}
 		},
 		methods: {
+			checkApplication: function() {
+				console.log('查看申请书');
+			},
+			deleteCreateJobs: function (item, index) {
+				var _this = this;
+				this.$dialog.confirm({
+					title: '提示',
+					message: '确定要删除该条业务吗?'
+				}).then(() => {
+					// on confirm
+					_this.$fetch('/workflowWebService/deleteCreateJobs?processInstanceIds=' + item[
+								'job_base-wfrid'] + '&businessNumbers=' + item['job_base-jid'] +
+							'&deleteType=2')
+						.then(response => {
+							_this.applications.splice(index, 1);
+						})
+						.catch(error => {
+
+						});
+				}).catch(() => {
+					// on cancel
+				});
+
+			},
 			onLoad: function () {
 				this.pageIndex += 1;
 				this.getProgressJobDataByMongodb(true);
@@ -114,6 +144,9 @@
 				this.getProgressJobDataByMongodb();
 			},
 			clickedItem: function (item) {
+				if (item['job_base-regtype'] === '预审') {
+					return;
+				}
 				var path = '';
 				switch (item['job_base-btitle']) {
 					case '不动产权利证书遗失（换证）登记':
@@ -208,6 +241,7 @@
 						break;
 					default:
 						path = '';
+						Toast('无法打开该条业务，\n请使用电脑端打开!');
 						break;
 				}
 				console.log('item:', item);

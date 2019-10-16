@@ -87,6 +87,10 @@ export const zhongshanRouterMap = {
 			name: "CLFZYDJEMS",
 			component: resolve => require(['@/components/onlineApplication/CLFZYDJ/ems'], resolve),
 		}, {
+			path: "/onlineApplication/CLFZYDJ/verification",
+			name: "CLFZYDJVerification",
+			component: resolve => require(['@/components/onlineApplication/CLFZYDJ/verification'], resolve),
+		}, {
 			path: "/onlineApplication/CLFZYDJ/success",
 			name: "CLFZYDJSuccess",
 			component: resolve => require(['@/components/onlineApplication/CLFZYDJ/success'], resolve),

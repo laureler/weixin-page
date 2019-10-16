@@ -15,7 +15,7 @@
 				</div>
 			</div>
 			<div class="buttons">
-				<van-button class="success-btn" plain size="normal" type="default">查看证书</van-button>
+				<van-button class="success-btn" plain size="normal" type="default">查看申请书</van-button>
 				<van-button class="success-btn" plain size="normal" type="default" @click="finishClicked">完成
 				</van-button>
 			</div>

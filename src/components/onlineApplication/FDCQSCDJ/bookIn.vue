@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<page-head title="房地产权首次登记"></page-head>
+		<page-head title="房地产权（独幢、层、套、间房屋）首次登记"></page-head>
 			<van-cell-group>
 				<div class="cell-title">
 					<span class="required-span">*</span>申请人名字
@@ -54,8 +54,8 @@
 		data () {
 			return {
 				show: false,
-				qlr: '王书凤',
-				cqzh: '湘（2017）北湖不动产权第0034063号',
+				qlr: '',  // 王书凤
+				cqzh: '',  // 湘（2017）北湖不动产权第0034063号
 				customStatus: '',
 				checkout: {
 					"cqxx": [{
@@ -183,12 +183,13 @@
 				if (this.customStatus != '校验通过') {
 					Toast('请校验证书通过后进行下一步!');
 				} else {
-					var businessDefinitionId = this.$route.query.businessDefinitionId;
+					var businessDefinitionId = sessionStorage.getItem('businessDefinitionId');
 					this.$router.push({
 						path: '/onlineApplication/FDCQSCDJ/info',
 						query: {
 							cqxx: this.checkout.cqxx[0],
-							businessDefinitionId: businessDefinitionId
+							businessDefinitionId: businessDefinitionId,
+							sBdcdyh: this.checkout.cqxx[0].FBDCDYH
 						}
 					})
 				}
@@ -196,7 +197,6 @@
 		},
 		mounted () {
 			console.log('bookIn');
-			console.log('businessDefinitionId:', this.$route.query.businessDefinitionId);
 		},
 	}
 

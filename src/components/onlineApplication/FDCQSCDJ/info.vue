@@ -1,6 +1,6 @@
 	<template>
 	<div class="container">
-		<page-head title="房地产权首次登记"></page-head>
+		<page-head title="房地产权（独幢、层、套、间房屋）首次登记"></page-head>
 		<div class="box-body">
 			<van-tabs>
 				<van-tab title="基本信息">
@@ -121,23 +121,21 @@
 						<div class="cell-title">
 							<span class="required-span">*</span>单位性质
 						</div>
-						<van-field v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质" disabled class="field-background" />
+						<van-field v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质" clickable @click.native="unitNatureClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>国家/地区
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FGJDQ']" right-icon="arrow" placeholder="请选择国家地区"
-							  clickable 
-							@click.native="countryClicked()" />
+							  clickable @click.native="countryClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>户籍所属省份
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow" placeholder="请选择户籍所属省份"
-							  clickable 
-							@click.native="provinceClicked()" />
+							  clickable @click.native="provinceClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -160,11 +158,8 @@
 						<van-field v-model="applicant['JOB_SQRXXB.FQLBL']" clearable placeholder="权利比例" />
 					</van-cell-group>
 					<div class="buttons">
-						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant()"
-							v-show="saveShow">保存
-						</van-button>
-						<van-button class="info-btn" size="small" type="default" v-if="editApplicantState"
-							@click.native="delApplicant()">删除申请人
+						<van-button class="info-btn" size="small" type="info" 
+							@click.native="saveApplicant()" v-show="saveShow">保存
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -241,7 +236,7 @@
 			</van-tabs>
 			<div style="height: 50px;"></div>
 			<div class="bottom-box">
-				<van-button size="large" plain type="default">查看申请书</van-button>
+				<!-- <van-button size="large" plain type="default">查看申请书</van-button> -->
 				<van-button size="large" type="info" @click.native="nextStep()">下一步</van-button>
 			</div>
 			<van-actionsheet v-model="show" :actions="actions" cancel-text="取消" @select="onSelect">
@@ -284,7 +279,9 @@
 		SAVE_TASK_FORM_DATA,
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
-		TEST
+		TEST,
+		exchangeZqdm,
+    exchangeZqdmToZqmc
 	} from '../../../constants/index.js';
 	export default {
 		components: {
@@ -410,19 +407,7 @@
 						name: '小榄'
 					}
 				],
-				propertySources: [{
-						name: '买卖'
-					},
-					{
-						name: '赠与'
-					},
-					{
-						name: '作价出资(入股)'
-					},
-					{
-						name: '房改房'
-					}
-				],
+				propertySources: [],
 				housePropertys: [{
 						name: '商品房'
 					},
@@ -693,20 +678,9 @@
 				},{
 					name: '其他'
 				}],
-				unitNatures: [{
+				unitNatures: [
+					{
 						name: '个人'
-					},
-					{
-						name: '企业'
-					},
-					{
-						name: '事业单位'
-					},
-					{
-						name: '国家机关'
-					},
-					{
-						name: '其他'
 					}
 				],
 				situations: [{
@@ -725,7 +699,6 @@
 				actions: [],
 				actionsheetShow: false,
 				applicants: [],
-				editApplicantState: false,
 				applicantIndex: -1,
 				valuesParams: {}, // 主表
 				emsNecessary: false, //EMS是否显示星号
@@ -854,21 +827,6 @@
 			},
 			onCancel: function () {
 				this.show = false;
-			},
-			delApplicant: function () {
-				this.$dialog.confirm({
-					message: '确定要删除该申请人吗?'
-				}).then(() => {
-					console.log('删除');
-					//受让人
-					this.applicants.splice(this.applicantIndex, 1);
-					this.applicantIndex = -1;
-					this.editApplicantState = false;
-					// on close
-				}).catch(() => {
-					// on cancel
-					console.log('取消');
-				});
 			},
 			saveApplicant: function () {
 				//受让人
@@ -1070,6 +1028,32 @@
 					console.log(error);
 				});
 			},
+			// 查询子表单
+			querySubFormData: function (title, showLoading = false) {
+				var business = JSON.parse(sessionStorage.getItem('business'));
+				var result = JSON.parse(business.result);
+				console.log(result);
+				var link = title.split('.')[0];
+				var domains = title.split('_LINK')[0]
+				var parentrid = result.data.values[link + '.RID'];
+				var templateid = result.data.controls[title].linkTplId;
+				var _this = this;
+				this
+					.$fetch('/formengineWebService/querySubFormData' + '?parentdomname=' + title + '&parentrid=' +
+						parentrid + '&doms=' + domains + '&templateid=' + templateid + '&random=19')
+					.then(response => {
+						console.log('response:', response);
+						debugger;
+						if (title === 'JOB_GLQLXXB_LINK.OLD_IQLDJ') {  // 权利信息
+							
+						}else if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
+							_this.applicants = response.rows;
+						}
+					})
+					.catch(error => {
+						console.log('error:', error);
+					});
+			},
 			fillSubFormData: function (title, params, showLoading = false, saveTape = false) {
 				var business = JSON.parse(sessionStorage.getItem('business'));
 				var result = JSON.parse(business.result);
@@ -1113,6 +1097,37 @@
 						configureName: '个人房屋首次提取土地'
 					}).then(response => {
 						console.log('startExactBusiness', response);
+
+						//获取不动产类型
+						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
+						var bdclx = getBdcType(qllx);
+
+						var sBdcdyh = this.$route.query.sBdcdyh;
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						this.valuesParams['JOB_SJDJB.FZQDM'] = zqmc;
+
+						//补充权利人信息
+						for (var key in response) {
+							if (key == "JOB_SQRXXB_LINK.IQLR") {
+								var rows = response[key];
+								for (var inx = 0; inx < rows.length; ++inx) {
+									rows[inx]["JOB_SQRXXB.XH"] = inx + 1;
+									if (bdclx == "土地和房屋") {
+										rows[inx]["JOB_SQRXXB.FSQRLX"] = "房地产权利人";
+									} else if (qllx == "国有建设用地使用权" || qllx == "集体建设用地使用权") {
+										rows[inx]["JOB_SQRXXB.FSQRLX"] = "建设用地使用权人";
+									} else if (qllx == "宅基地使用权") {
+										rows[inx]["JOB_SQRXXB.FSQRLX"] = "宅基地使用权人";
+									}
+									rows[inx]["JOB_SQRXXB.FDWXZ"] = "个人";
+									if (rows.length == 1) {
+										rows[inx]["JOB_SQRXXB.FGYQK"] = "单独所有";
+										rows[inx]["JOB_SQRXXB.FQLBL"] = "全部";
+									}
+								}
+							}
+						}
 
 						//坐落
 						this.valuesParams['JOB_FDCQXXB.FFDZL'] = response['JOB_GLQLXXB_LINK.OLD_IQLDJ'][0][
@@ -1161,34 +1176,86 @@
 			}
 		},
 		created() {
-			var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
-			console.log('cqxx:', this.$route.query.cqxx);
-			console.log('businessDefinitionId:',
-				this.$route.query.businessDefinitionId);
-			var _this = this;
-			Toast.loading({
-				mask: true,
-				message: '加载中...'
-			});
-			this.$fetch(GET_BUSINESS_START_FROM, {
-				businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
-			}).then(function (response) {
-				var businessNumber = response.businessNumber;
-				var result = JSON.parse(response.result);
-				var values = result.data.values;
-				var taskId = response.taskId;
-				sessionStorage.setItem('taskId', taskId);
-				sessionStorage.setItem('business', JSON.stringify(response));
-				_this.taskId = taskId;
-				console.log('taskId:', _this.taskId);
-				_this.valuesParams = values;
-				console.log('>>>:', _this.valuesParams);
-				sessionStorage.setItem('jid', businessNumber);
-				_this.startExactBusiness(rid, businessNumber);
-			}).catch(function (error) {
-				console.log(error);
-				Toast.clear();
-			});
+			if (this.$route.query && this.$route.query.processInstanceId) {
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				// 查询首环节？
+				var _this = this;
+				this.$fetch('/workflowWebService/getFirstLinkInfoByProcessInstanceId', {
+					processInstanceId: this.$route.query.processInstanceId
+				}).then(res => {
+					console.log('res:', res);
+
+					var _taskId = res.taskId;
+
+					_this.$fetch('/workflowWebService/renderFormByTaskId', {
+						taskId: _taskId
+					}).then(response => {
+						var businessNumber = response.businessNumber;
+						var result = JSON.parse(response.result);
+						var values = result.data.values;
+						var taskId = response.taskId;
+						sessionStorage.setItem('taskId', taskId);
+						sessionStorage.setItem('business', JSON.stringify(response));
+						_this.taskId = taskId;
+						console.log('taskId:', _this.taskId);
+						_this.valuesParams = values;
+						console.log('>>>:', _this.valuesParams);
+						sessionStorage.setItem('jid', businessNumber);
+						console.log('taskId:', _this.taskId);
+						
+						// _this.startExactBusiness(rid, businessNumber);
+						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+						Toast.clear();
+					}).catch(err => {
+						console.log('err:', err);
+						Toast.clear();
+					});
+				}).catch(err => {
+					console.log('err:', err);
+					Toast.clear();
+				});
+			}else {
+				var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
+				console.log('cqxx:', this.$route.query.cqxx);
+				console.log('businessDefinitionId:',
+					this.$route.query.businessDefinitionId);
+				var _this = this;
+				Toast.loading({
+					mask: true,
+					message: '加载中...'
+				});
+				this.$fetch(GET_BUSINESS_START_FROM, {
+					businessDefinitionId: sessionStorage.getItem('businessDefinitionId') // 业务ID
+				}).then(function (response) {
+					var businessNumber = response.businessNumber;
+					var result = JSON.parse(response.result);
+					var values = result.data.values;
+					var taskId = response.taskId;
+					
+					var map = result.data.controls['JOB_FDCQXXB.FCQLY']['dicTreeMap'];
+					for(var i = 0;i < map.length; i ++){
+						var obj = new Object();
+						obj.name = map[i].text;
+						_this.propertySources.push(obj);
+					}
+
+					sessionStorage.setItem('taskId', taskId);
+					sessionStorage.setItem('business', JSON.stringify(response));
+					_this.taskId = taskId;
+					console.log('taskId:', _this.taskId);
+					_this.valuesParams = values;
+					console.log('>>>:', _this.valuesParams);
+					sessionStorage.setItem('jid', businessNumber);
+					_this.startExactBusiness(rid, businessNumber);
+				}).catch(function (error) {
+					console.log(error);
+					Toast.clear();
+				});
+			}
 		}
 	}
 
