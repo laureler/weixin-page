@@ -120,27 +120,13 @@
 				const isPHC = _this.$route.query.isPersonalHomeCheck;
 				if (!this.isCheck) { return; }
 				// 如果有回调地址，准备跳转回去
-				if (this.$store.state.callbackUrl) {
-					if (isPHC) {
-						_this.$router.push({ path: '/approvenew',
-							query: {
-							isPersonalHomeCheck: isPHC
-							}
-						});
-					} else {
-						_this.$router.push({ path: '/approvenew' });
-					}
-					sessionStorage.setItem('token', this.uuid(20, 16));
-					// 人脸识别首页初始化配置（针对ios系统）
-					_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
-						wx.config(res);
-						console.log(res);
-					});
-					return;
-				}
+
+				console.log("准备获取参数中的token信息");
 				const token = uiScript.getParam('token') || '';
+                console.log("获取到的参数中的token信息",token);
 				// 如果发现有token
 				if (token) {
+				    console.log("准备设置token",token);
 					// 若有token 则不扫码 同时 取token为变量赋值
 					sessionStorage.setItem('token', token);
 					if (isPHC) {
@@ -190,6 +176,24 @@
 						});
 					});
 				}
+                if (this.$store.state.callbackUrl) {
+                    if (isPHC) {
+                        _this.$router.push({ path: '/approvenew',
+                            query: {
+                                isPersonalHomeCheck: isPHC
+                            }
+                        });
+                    } else {
+                        _this.$router.push({ path: '/approvenew' });
+                    }
+                    sessionStorage.setItem('token', this.uuid(20, 16));
+                    // 人脸识别首页初始化配置（针对ios系统）
+                    _this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
+                        wx.config(res);
+                        console.log(res);
+                    });
+                    return;
+                }
 			}
 		},
 		mounted () {
