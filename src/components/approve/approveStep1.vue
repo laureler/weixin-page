@@ -104,7 +104,7 @@
 						// TODO 如果是核验功能，实现核验逻辑
 						if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/onlineApplication/CLFZYDJ/verification') {
 							_this.$router.push({
-								path: '/pubWeb/public/weChatPublic/onlineApplication/CLFZYDJ/verification'
+								path: '/onlineApplication/CLFZYDJ/verification'
 							});
 						} else if (_this.$store.state.callbackUrl == '/pubWeb/system/public/WeChatRemoteCheck') {
 							// 如果callbackUrl是WeChatRemoteCheck接口则请求PDF数据给用户
