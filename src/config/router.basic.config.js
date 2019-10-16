@@ -55,6 +55,12 @@ export const BasicRouterMap = [
 		name: 'ApplicationResult',
 		component: resolve => require(['@/components/app/ApplicationResult'], resolve)
 	},
+	// 新的进度查询
+	{
+		path: '/newschq',
+		name: 'NewScheduleQuery',
+		component: resolve => require(['@/components/app/NewScheduleQuery'], resolve)
+	},
 	{
 		path: '/schq',
 		name: 'ScheduleQuery',
