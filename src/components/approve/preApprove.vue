@@ -130,7 +130,13 @@
 					} else {
 						_this.$router.push({ path: '/approvenew' });
 					}
-					sessionStorage.setItem('token', this.uuid(20, 16));
+					// 如果是特殊的callbackUrl 则专门为这个地址设置token
+					if(this.$store.state.callbackUrl === '/pubWeb/public/weChatPublic/onlineApplication/CLFZYDJ/verification'){
+                        const token = uiScript.getParam('token') || '';
+                        sessionStorage.setItem('token', token);
+					}else {
+                        sessionStorage.setItem('token', this.uuid(20, 16));
+					}
 					// 人脸识别首页初始化配置（针对ios系统）
 					_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
 						wx.config(res);
