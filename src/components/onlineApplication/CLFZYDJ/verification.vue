@@ -121,6 +121,9 @@
 		Toast,
 		Dialog
 	} from 'vant';
+	import {
+		SUBMIT_TASK_FORM_DATA
+	} from '../../../constants/index.js';
 	export default {
 		components: {
 			'page-head': Head
@@ -155,6 +158,7 @@
 				var _this = this;
 				var pass = true;
 				var users = [];
+				debugger;
 				for (let i = 0; i < _this.wBuyers.length; i++) {
 					const element = _this.wBuyers[i];
 					if (element.FXXQRZT != 1) {
@@ -217,7 +221,7 @@
 				});
 			},
 			isMine(item) {
-				debugger;
+				// debugger;
 				var FZJHM = item['FZJHM'];
 				var zjhm = this.userInfo['TYPENUMB'].split(",")[1];
 				if (item['FSQRMC'] == this.userInfo['REALNAME'] && FZJHM === zjhm) {
@@ -235,7 +239,7 @@
 				console.log('item:', item);
 				var _this = this;
 				this
-				.$fetch('/formengineWebService/getMessageTemplate?code=YWDXQR')
+					.$fetch('/formengineWebService/getMessageTemplate?code=YWDXQR')
 					.then(response => {
 						debugger;
 						var data = response;
@@ -280,7 +284,7 @@
 						item.sendingSMS = true;
 						item.time = 60;
 						item.timer = undefined;
-						
+
 						item.timer = setInterval(() => {
 							if (item.time === 1) {
 								item.sendingSMS = false;
