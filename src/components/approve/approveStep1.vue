@@ -92,25 +92,21 @@
 						'Content-Type': 'multipart/form-data'
 					}
 				};
-				console.log("开始准备参数");
 				var formData = new FormData();
-                console.log("准备参数token",sessionStorage.getItem('token'));
 				formData.append('token', sessionStorage.getItem('token')); // 扫码的值 || 或者是业务号
 				formData.append('openId', Cookies.get('openid')); // openid
 				formData.append('fullName', _this.data_name); // 验证填入的姓名
 				formData.append('idNumber', _this.data_id); // 验证填入的身份证号
-				console.log("准备参数idNumber：",_this.data_id);
 				formData.append('verifyResult', verify_result);
-                console.log("准备参数token",JSON.stringify(formData));
 				// 存人脸核身结果
 				// 刷新业务确认状态 （业务号要求纯数字）
 				_this.$post('/pubWeb/public/faceRecognition/setAuthenticationResult', formData, config).then(data => {
-					// 如果存在callbackUrl，则按callbackUrl重定向处理
+                    // 如果存在callbackUrl，则按callbackUrl重定向处理
+                    console.log("当前callbackurl回调地址");
+					console.log(_this.$store.state.callbackUrl);
 					if (_this.$store.state.callbackUrl) {
 						// TODO 如果是核验功能，实现核验逻辑
 						if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/onlineApplication/CLFZYDJ/verification') {
-						    console.log("准备执行回调函数：verify")
-							console.log(data);
 							_this.$router.push({
 								path: '/onlineApplication/CLFZYDJ/verification'
 							});
