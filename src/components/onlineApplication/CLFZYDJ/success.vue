@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<page-head title="存量房转移登记"></page-head>
+		<page-head title="存量房（二手房）转移登记"></page-head>
 		<div class="body-box">
 			<div class="success-box"
 				style="padding-top: 30px; border: 1px solid #ccc; border-radius: 5px; margin: .2rem;">

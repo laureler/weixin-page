@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<page-head title="存量房转移登记"></page-head>
+		<page-head title="存量房（二手房）转移登记"></page-head>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>快递寄材料

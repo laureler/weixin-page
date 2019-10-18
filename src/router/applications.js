@@ -58,7 +58,7 @@ export default {
 			name: "BDCQSZSZXDJSuccess",
 			component: resolve => require(['@/components/onlineApplication/BDCQSZSZXDJ/success'], resolve),
 		},
-		// 存量房转移登记
+		// 存量房（二手房）转移登记
 		{
 			path: "/onlineApplication/CLFZYDJ/bookIn",
 			name: "CLFZYDJBookIn",
