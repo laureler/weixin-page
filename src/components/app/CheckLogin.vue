@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<page-head title="登陆验证"></page-head>
+		<page-head title="登录验证"></page-head>
 		<van-cell-group>
 			<van-field label="用户名" v-model.trim="username" placeholder="请输入用户名" type="text" clearable required/></van-field>
 			<van-field label="密码" v-model.trim="password" placeholder="请输入密码" type="password" center clearable required/></van-field>
@@ -18,7 +18,10 @@
 			</van-field>
 		</van-cell-group>
 		<div style="margin-top: 20px">
-			<a style="display: block; margin: 10px 20px; text-align: right; color: #1979ce;" @click="signInAccount">注册账号</a>
+			<div style="text-align: right;">
+				<a style="display: inline-block; margin: 10px 20px; color: #1979ce;" @click="signInAccount">注册账号</a>
+			</div>
+			
 			<van-button size="large" class="blueButton" @click="checkInput()">登录</van-button>
 		</div>
 	</div>
@@ -47,7 +50,7 @@
 		},
 		methods: {
 			signInAccount() {
-				this.$router.push({ path: '/signInAccount' });
+				this.$router.push({ path: '/signInAccount', query: this.$route.query });
 			},
 			changeCheckCode() {
 				let url = 'http://' + window.location.hostname + ':' + window.location.port;
@@ -108,6 +111,12 @@
 
 	.img-class img {
 		height: 50px;
+	}
+
+	.signInText {
+		float: right;
+		margin: 10px 20px;
+		color: #1979ce;
 	}
 
 </style>

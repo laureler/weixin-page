@@ -108,7 +108,7 @@
 							<span class="required-span">*</span>单位性质
 						</div>
 						<van-field id="JOB_SQRXXB.FDWXZ" v-model="applicant['JOB_SQRXXB.FDWXZ']" right-icon="arrow"
-							clickable placeholder="单位性质" disabled class="disabled-field" />
+							clickable placeholder="单位性质" @click.native="actionsheetClicked('companyTypeOptions')" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -130,20 +130,6 @@
 						</div>
 						<van-field id="JOB_SQRXXB.FLXDH" v-model="applicant['JOB_SQRXXB.FLXDH']" clearable
 							placeholder="联系电话" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>共有情况
-						</div>
-						<van-field id="JOB_SQRXXB.FGYQK" v-model="applicant['JOB_SQRXXB.FGYQK']" right-icon="arrow"
-							clickable placeholder="共有情况" @click.native="actionsheetClicked('commonOptions')" />
-					</van-cell-group>
-					<van-cell-group>
-						<div class="cell-title">
-							<span class="required-span">*</span>权利比例
-						</div>
-						<van-field id="JOB_SQRXXB.FQLBL" v-model="applicant['JOB_SQRXXB.FQLBL']" clearable
-							placeholder="权利比例" />
 					</van-cell-group>
 					<div class="buttons">
 						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant()">保存
@@ -228,7 +214,7 @@
 			</van-tabs>
 			<div style="height: 50px;"></div>
 			<div class="bottom-box">
-				<van-button size="large" plain type="default">查看申请书</van-button>
+				<!-- <van-button size="large" plain type="default">查看申请书</van-button> -->
 				<van-button size="large" type="info" @click.native="nextStep()">下一步</van-button>
 			</div>
 			<van-actionsheet v-model="actionsheetShow" :actions="actions" cancel-text="取消" @select="onSelect">
@@ -267,7 +253,9 @@
 		SAVE_TASK_FORM_DATA,
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
-		TEST
+		TEST,
+		exchangeZqdm,
+    exchangeZqdmToZqmc
 	} from '../../../constants/index.js';
 	import {
 		Toast,
@@ -515,14 +503,6 @@
 				}],
 				companyTypeOptions: [{
 					name: '个人'
-				}, {
-					name: '企业'
-				}, {
-					name: '事业单位'
-				}, {
-					name: '国家单位'
-				}, {
-					name: '其他'
 				}],
 				materialOptions: [{
 						name: '是'
@@ -647,12 +627,6 @@
 				} else if (!reg2.test(applicant['JOB_SQRXXB.FLXDH'])) {
 					Toast('请填写权利人正确的联系电话!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FGYQK'] || applicant['JOB_SQRXXB.FGYQK'].length == 0) {
-					Toast('请选择权利人共有情况!');
-					return;
-				} else if (!applicant['JOB_SQRXXB.FQLBL'] || applicant['JOB_SQRXXB.FQLBL'].length == 0) {
-					Toast('请填写权利人权利比例!');
-					return;
 				}
 				this.applicant['JOB_SQRXXB.XH'] = 1; // 序号
 				this.applicant['JOB_SQRXXB.FSQRLX'] = '其他'; // 申请人类型
@@ -719,12 +693,6 @@
 					return;
 				} else if (!reg2.test(applicant['JOB_SQRXXB.FLXDH'])) {
 					Toast('请填写申请人正确的联系电话!');
-					return;
-				} else if (!applicant['JOB_SQRXXB.FGYQK'] || applicant['JOB_SQRXXB.FGYQK'].length == 0) {
-					Toast('请选择申请人共有情况!');
-					return;
-				} else if (!applicant['JOB_SQRXXB.FQLBL'] || applicant['JOB_SQRXXB.FQLBL'].length == 0) {
-					Toast('请填写申请人权利比例!');
 					return;
 				}
 
@@ -806,12 +774,12 @@
 						debugger;
 						if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
 							_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.rows;
-							if (!response.rows) return;
+							if (!response.rows || !showloading) return;
 							_this.applicantIndex = 0;
 							_this.applicant = response.rows[0];
 						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
 							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
-							if (!response.rows) return;
+							if (!response.rows || !showloading) return;
 							_this.changeItemIndex = 0;
 							_this.changeItem = response.rows[0];
 						}
@@ -885,6 +853,11 @@
 						var bdclx = getBdcType(qllx);
 						_this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCLX'] = bdclx;
 
+						var sBdcdyh = response['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
+
 						//补充权利人信息
 						for (var key in response) {
 							if (key == "JOB_SQRXXB_OLD_LINK.OLD_IQLR") {
@@ -942,15 +915,22 @@
 			}
 		},
 		created() {
-			if (this.$route.query && this.$route.query.processInstanceId) {
+			if ((this.$route.query && this.$route.query.processInstanceId) || sessionStorage.getItem('business')) {
 				Toast.loading({
 					mask: true,
 					message: '加载中...'
 				});
+				var processInstanceId = '';
+				if (this.$route.query && this.$route.query.processInstanceId) {
+					processInstanceId = this.$route.query.processInstanceId
+				} else {
+					var business = JSON.parse(sessionStorage.getItem('business'));
+					processInstanceId =  business.processInstanceId;
+				}
 				// 查询首环节？
 				var _this = this;
 				this.$fetch('/workflowWebService/getFirstLinkInfoByProcessInstanceId', {
-					processInstanceId: this.$route.query.processInstanceId
+					processInstanceId: processInstanceId
 				}).then(res => {
 					console.log('res:', res);
 

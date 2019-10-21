@@ -10,9 +10,9 @@
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
-				<span class="required-span">*</span>申请人名字
+				<span class="required-span">*</span>申请人姓名
 			</div>
-			<van-field v-model="qlr" clearable placeholder="请输入申请人名字" />
+			<van-field v-model="qlr" clearable placeholder="产权证上的权利人，多个权利人只需输入一个" />
 		</van-cell-group>
 		<van-cell-group>
 			<div class="cell-title">
@@ -151,6 +151,7 @@
 				this.show = false;
 			},
 			checkoutID: function () {
+				debugger;
 				if (!this.cqlx.length) {
 					Toast('请选择不动产类型!');
 					return;
@@ -171,48 +172,19 @@
 						path: '/WSYY/GetPropertyRightInfo'
 					}
 				}).then(res => {
-					Toast.clear();
-					console.log(res)
+					
 					_this.checkout = res.data;
 					
 					if (_this.checkout.resultcode === '0') {
 						Toast.fail(_this.checkout.resultmsg);
-						_this.customStatus = _this.checkout.resultmsg;
 						return;
 					}
+					_this.customStatus = '校验通过';
 					sessionStorage.setItem('rid', _this.checkout.cqxx[0].RID);
-					if (_this.checkout.cqxx.length == 0) {
-						Toast('证书不存在!');
-						_this.customStatus = '证书不存在!';
-					} else if (_this.checkout.cqxx.length == 1) {
-						var state = '';
-						if (_this.checkout.cqxx[0].SFYG == 1) {
-							state += '已预告、'
-						} else if (_this.checkout.cqxx[0].SFYDY == 1) {
-							state += '已抵押、'
-						} else if (_this.checkout.cqxx[0].SFBGL == 1) {
-							state += '已被其他业务关联、'
-						} else if (_this.checkout.cqxx[0].SFCF == 1) {
-							state += '已查封、'
-						} else if (_this.checkout.cqxx[0].SFDY == 1) {
-							state += '已抵押、'
-						} else if (_this.checkout.cqxx[0].SFYY == 1) {
-							state += '已异议、'
-						} else if (_this.checkout.cqxx[0].SFDJ == 1) {
-							state += '已冻结、'
-						} else if (_this.checkout.cqxx[0].SFLZ == 0) {
-							state += '未落宗、'
-						} else if (_this.checkout.cqxx[0].SFXZXZ == 1) {
-							state += '已行政限制、'
-						} else {
-							state += "校验通过、"
-						}
-						if (state != '') {
-							_this.customStatus = state.substring(0, state.length - 1);
-						}
-					}
+					console.log(_this.checkout);
+
 				}).catch(err => {
-					Toast.clear();
+					
 					console.log(err)
 					Toast.fail(err);
 				})
@@ -222,7 +194,7 @@
 				if (this.customStatus != '校验通过') {
 					Toast('请校验证书通过后进行下一步!');
 				} else {
-					var businessDefinitionId = this.$route.query.businessDefinitionId;
+					var businessDefinitionId = sessionStorage.getItem('businessDefinitionId');
 					this.$router.push({
 						path: '/onlineApplication/YYDJ/info',
 						query: {
@@ -235,7 +207,6 @@
 		},
 		mounted() {
 			console.log('bookIn');
-			console.log('businessDefinitionId:', this.$route.query.businessDefinitionId);
 		},
 	}
 

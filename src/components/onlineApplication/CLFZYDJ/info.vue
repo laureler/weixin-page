@@ -168,7 +168,7 @@
 						<div class="cell-title">
 							产权来源
 						</div>
-						<van-field v-model="propertySource" right-icon="arrow" placeholder="请选择产权来源" disabled clickable
+						<van-field v-model="propertySource" right-icon="arrow" placeholder="请选择产权来源" clickable
 							@click.native="propertySourceClicked()" />
 					</van-cell-group>
 					<van-cell-group>
@@ -249,7 +249,7 @@
 						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant(0)">保存
 						</van-button>
 						<van-button class="info-btn" size="small" type="default" v-if="editApplicantState"
-							@click.native="delApplicant(0)">删除申请人
+							@click.native="delApplicant()">删除申请人
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -302,7 +302,7 @@
 							<span class="required-span">*</span>单位性质
 						</div>
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FDWXZ']" right-icon="arrow" placeholder="请选择单位性质"
-							class="field-background" disabled />
+							clickable @click.native="unitNatureAssignorClicked()" />
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
@@ -338,10 +338,8 @@
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FQLBL']" clearable placeholder="权利比例" />
 					</van-cell-group>
 					<div class="buttons">
-						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant(1)">保存
-						</van-button>
-						<van-button class="info-btn" size="small" type="default" v-if="editAssignorState"
-							@click.native="delApplicant(1)">删除申请人
+						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant(1)"
+							v-show="saveShow">保存
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -418,7 +416,7 @@
 			</van-tabs>
 			<div style="height: 50px;"></div>
 			<div class="bottom-box">
-				<van-button size="large" plain type="default">查看申请书</van-button>
+				<!-- <van-button size="large" plain type="default">查看申请书</van-button> -->
 				<van-button size="large" type="info" @click.native="nextStep()">下一步</van-button>
 			</div>
 			<van-actionsheet v-model="show" :actions="actions" cancel-text="取消" @select="onSelect">
@@ -461,7 +459,10 @@
 		SAVE_TASK_FORM_DATA,
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
-		TEST
+		DEL_SUB_FORM_DATA,
+		TEST,
+		exchangeZqdm,
+		exchangeZqdmToZqmc
 	} from '../../../constants/index.js';
 	import AgmDatePicker from '../../calendar.vue'
 	export default {
@@ -663,15 +664,7 @@
 						name: '小榄'
 					}
 				],
-				propertySources: [{
-					name: '买卖'
-				}, {
-					name: '赠与'
-				}, {
-					name: '作价出资(入股)'
-				}, {
-					name: '房改房'
-				}],
+				propertySources: [],
 				countries: [{
 					name: '中华人民共和国'
 				}, {
@@ -786,21 +779,8 @@
 					name: '其他'
 				}],
 				unitNatures: [{
-						name: '个人'
-					},
-					{
-						name: '企业'
-					},
-					{
-						name: '事业单位'
-					},
-					{
-						name: '国家机关'
-					},
-					{
-						name: '其他'
-					}
-				],
+					name: '个人'
+				}],
 				situations: [{
 						name: '单独所有'
 					},
@@ -833,13 +813,13 @@
 				applicants: [],
 				assignors: [],
 				editApplicantState: false,
-				editAssignorState: false,
 				applicantIndex: -1,
 				assignorIndex: -1,
 				countryType: '',
 				provincesType: '',
 				goBack: false,
 				emsNecessary: false, //EMS是否显示星号
+				saveShow: false,
 			}
 		},
 		methods: {
@@ -989,19 +969,18 @@
 						this.assignor['JOB_SQRXXB_OLD.FHJSZSS'] = val.name;
 					}
 				} else if (this.type == 4) {
+					this.propertySource = val.name;
 					if (val.name == '买卖') {
-						this.propertySource = val.name;
 						this.valuesParams['JOB_FDCQXXB.FCQLY'] = 42;
 					} else if (val.name == '赠与') {
-						this.propertySource = val.name;
 						this.valuesParams['JOB_FDCQXXB.FCQLY'] = 49;
 					} else if (val.name == '作价出资(入股)') {
-						this.propertySource = val.name;
 						this.valuesParams['JOB_FDCQXXB.FCQLY'] = 50;
 					} else if (val.name == '房改房') {
-						this.propertySource = val.name;
 						this.valuesParams['JOB_FDCQXXB.FCQLY'] = 64;
 					}
+
+					console.log('propertySource', this.propertySource);
 				} else if (this.type == 5) {
 					this.applicant['JOB_SQRXXB.FXB'] = val.name;
 				} else if (this.type == 6) {
@@ -1043,22 +1022,13 @@
 			onCancel: function () {
 				this.show = false;
 			},
-			delApplicant: function (type) {
-				this.$dialog.confirm({
+			delApplicant: function () {
+				Dialog.confirm({
 					message: '确定要删除该申请人吗?'
 				}).then(() => {
 					console.log('删除');
-					if (type == 0) {
-						//受让人
-						this.applicants.splice(this.applicantIndex, 1);
-						this.applicantIndex = -1;
-						this.editApplicantState = false;
-					} else if (type == 1) {
-						//转让人
-						this.assignors.splice(this.assignorIndex, 1);
-						this.assignorIndex = -1;
-						this.editAssignorState = false;
-					}
+					//只有受让人可以删除
+					this.delSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicants[this.applicantIndex]], true);
 					// on close
 				}).catch(() => {
 					// on cancel
@@ -1181,15 +1151,53 @@
 					}
 					this.assignorIndex = -1;
 					this.fillSubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR',
-						[this.assignor], true);
+						[this.assignor], true, true);
 					this.assignor = {};
 					this.assignorPerson = '';
 					this.assignorIdCard = '';
 				}
 			},
+			// 删除子表内容
+			delSubFormData: function (title, params, showLoading = false) {
+				var business = JSON.parse(sessionStorage.getItem('business'));
+				var result = JSON.parse(business.result);
+				console.log(result);
+				var link = title.split('.')[0];
+				var domains = title.split('_LINK')[0]
+				var parentrid = result.data.values[link + '.RID'];
+				var templateid = result.data.controls[title].linkTplId;
+				console.log(result.data.values[link + '.RID']);
+				console.log(result.data.controls[title].linkTplId);
+				var _this = this;
+				if (showLoading) {
+					Toast.loading({
+						mask: true,
+						message: '加载中...'
+					});
+				}
+				this.axios({
+					url: DEL_SUB_FORM_DATA + '?parentdomname=' + title + '&parentrid=' + parentrid +
+						'&domains=' + domains + '&templateid=' + templateid,
+					method: 'post',
+					data: params,
+				}).then(response => {
+					Toast.clear();
+					console.log(response);
+					this.applicants.splice(this.applicantIndex, 1);
+					this.applicantIndex = -1;
+					this.editApplicantState = false;
+					this.applicant = {};
+					this.person = '';
+					this.idCard = '';
+				}).catch(error => {
+					Toast.clear();
+					console.log(error);
+				});
+			},
 			editApplicant: function (item, index, type) {
 				if (type == 0) {
 					//受让人
+					this.editApplicantState = true;
 					this.applicantIndex = index;
 					this.applicant = item;
 					this.person = item['JOB_SQRXXB.FSQRMC'];
@@ -1200,6 +1208,7 @@
 					this.assignor = item;
 					this.assignorPerson = item['JOB_SQRXXB_OLD.FSQRMC'];
 					this.assignorIdCard = item['JOB_SQRXXB_OLD.FZJHM'];
+					this.saveShow = true;
 				}
 				console.log("applicantIndex=" + this.applicantIndex);
 			},
@@ -1294,6 +1303,10 @@
 						}
 					}
 				}
+				if (this.saveShow) {
+					Toast('请填写转让人信息未保存!');
+					return;
+				}
 				//EMS内容判断未填项
 				if (this.valuesParams['JOB_SJDJB.FSFKDJCL'] === '是' || this.valuesParams['JOB_SJDJB.FSFKDJZ'] ===
 					'是') {
@@ -1371,9 +1384,9 @@
 						debugger;
 						if (title === 'JOB_SQRXXB_OLD_LINK.OLD_IQLR') { // 转让人
 							_this.assignors = response.rows;
-						} else if (title === 'JOB_GLQLXXB_LINK.OLD_IQLDJ') {  // 权利信息
-							
-						}else if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
+						} else if (title === 'JOB_GLQLXXB_LINK.OLD_IQLDJ') { // 权利信息
+
+						} else if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
 							_this.applicants = response.rows;
 						}
 					})
@@ -1381,7 +1394,7 @@
 						console.log('error:', error);
 					});
 			},
-			fillSubFormData: function (title, params, showLoading = false) {
+			fillSubFormData: function (title, params, showLoading = false, saveTape = false) {
 				var business = JSON.parse(sessionStorage.getItem('business'));
 				var result = JSON.parse(business.result);
 				console.log(result);
@@ -1407,7 +1420,11 @@
 					Toast.clear();
 					console.log('FILL_SUB_FORM_DATA:', response);
 					if (response.data.code === 0) {
-						sessionStorage.setItem(title, JSON.stringify(response.data.result));	
+						this.editApplicantState = false;
+						if (saveTape) {
+							this.saveShow = false;
+						}
+						sessionStorage.setItem(title, JSON.stringify(response.data.result));
 					}
 				}).catch(error => {
 					Toast.clear();
@@ -1436,23 +1453,29 @@
 						this.valuesParams['JOB_FDCQXXB.FBDCDYH'] = response['JOB_FDCQXXB.FBDCDYH'];
 						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
 						var bdclx = getBdcType(qllx);
+
+						var sBdcdyh = response['JOB_FDCQXXB.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						this.valuesParams['JOB_SJDJB.FZQDM'] = zqmc;
+
 						//补充权利人信息
 						for (var key in response) {
-							if (key == "JOB_SQRXXB_LINK.IQLR") {
+							if (key == "JOB_SQRXXB_OLD_LINK.OLD_IQLR") {
 								var rows = response[key];
 								for (var inx = 0; inx < rows.length; ++inx) {
-									rows[inx]["JOB_SQRXXB.XH"] = inx + 1;
+									rows[inx]["JOB_SQRXXB_OLD.XH"] = inx + 1;
 									if (bdclx == "土地和房屋") {
-										rows[inx]["JOB_SQRXXB.FSQRLX"] = "房地产权利人";
+										rows[inx]["JOB_SQRXXB_OLD.FSQRLX"] = "房地产权利人";
 									} else if (qllx == "国有建设用地使用权" || qllx == "集体建设用地使用权") {
-										rows[inx]["JOB_SQRXXB.FSQRLX"] = "建设用地使用权人";
+										rows[inx]["JOB_SQRXXB_OLD.FSQRLX"] = "建设用地使用权人";
 									} else if (qllx == "宅基地使用权") {
-										rows[inx]["JOB_SQRXXB.FSQRLX"] = "宅基地使用权人";
+										rows[inx]["JOB_SQRXXB_OLD.FSQRLX"] = "宅基地使用权人";
 									}
-									rows[inx]["JOB_SQRXXB.FDWXZ"] = "个人";
+									rows[inx]["JOB_SQRXXB_OLD.FDWXZ"] = "个人";
 									if (rows.length == 1) {
-										rows[inx]["JOB_SQRXXB.FGYQK"] = "单独所有";
-										rows[inx]["JOB_SQRXXB.FQLBL"] = "全部";
+										rows[inx]["JOB_SQRXXB_OLD.FGYQK"] = "单独所有";
+										rows[inx]["JOB_SQRXXB_OLD.FQLBL"] = "全部";
 									}
 								}
 							}
@@ -1492,7 +1515,8 @@
 						}
 						Toast.clear();
 						this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response['JOB_GLQLXXB_LINK.OLD_IQLDJ']);
-						this.fillSubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR', response['JOB_SQRXXB_OLD_LINK.OLD_IQLR']);
+						this.fillSubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR', response[
+							'JOB_SQRXXB_OLD_LINK.OLD_IQLR']);
 
 					})
 					.catch(error => {
@@ -1542,13 +1566,33 @@
 						var result = JSON.parse(response.result);
 						var values = result.data.values;
 						var taskId = response.taskId;
+
+						var map = result.data.controls['JOB_FDCQXXB.FCQLY']['dicTreeMap'];
+						for (var i = 0; i < map.length; i++) {
+							var obj = new Object();
+							obj.name = map[i].text;
+							_this.propertySources.push(obj);
+						}
+
 						sessionStorage.setItem('taskId', taskId);
 						sessionStorage.setItem('business', JSON.stringify(response));
 						_this.taskId = taskId;
 						console.log('taskId:', _this.taskId);
 						_this.valuesParams = values;
-						console.log('>>>:', _this.valuesParams);
+						var ps = _this.valuesParams['JOB_FDCQXXB.FCQLY']
+						if (ps == 42) {
+							_this.propertySource = '买卖';
+						} else if (ps == 49) {
+							_this.propertySource = '赠与';
+						} else if (ps == 50) {
+							_this.propertySource = '作价出资(入股)';
+						} else if (ps == 64) {
+							_this.propertySource = '房改房';
+						}
+
 						sessionStorage.setItem('jid', businessNumber);
+
+						
 						console.log('taskId:', _this.taskId);
 						// 提取权利信息
 						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
@@ -1564,7 +1608,7 @@
 					console.log('err:', err);
 					Toast.clear();
 				});
-			}else {
+			} else {
 				var rid = sessionStorage.getItem('rid') || this.$route.query.cqxx.RID;
 				console.log('cqxx:', this.$route.query.cqxx);
 				console.log('businessDefinitionId:', this.$route.query.businessDefinitionId);
@@ -1580,6 +1624,14 @@
 					var result = JSON.parse(response.result);
 					var values = result.data.values;
 					var taskId = response.taskId;
+
+					var map = result.data.controls['JOB_FDCQXXB.FCQLY']['dicTreeMap'];
+					for (var i = 0; i < map.length; i++) {
+						var obj = new Object();
+						obj.name = map[i].text;
+						_this.propertySources.push(obj);
+					}
+
 					sessionStorage.setItem('taskId', taskId);
 					sessionStorage.setItem('business', JSON.stringify(response));
 					_this.taskId = taskId;

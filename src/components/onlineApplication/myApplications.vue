@@ -8,7 +8,7 @@
 					</van-button>
 				</van-field>
 			</van-cell>
-			<van-list v-model="loading" :error.sync="error" error-text="请求失败，点击重新加载" :finished="finished"
+			<van-list v-model="isLoading" :error.sync="error" error-text="请求失败，点击重新加载" :finished="finished"
 				finished-text="没有更多了" @load="onLoad">
 				<div class="application-item" v-for="(item, index) in applications" v-bind:key="index"
 					@click="clickedItem(item)">
@@ -23,7 +23,7 @@
 						</div>
 						<div class="flex-box content-address">
 							<div class="key">坐落：</div>
-							<div class="value">{{ item.f7 }}</div>
+							<div class="value">{{ item.f4 }}</div>
 						</div>
 						<div class="flex-box content-reason" v-show="item['job_base-regtype'] === '不通过'">
 							<div class="key">原因：</div>
@@ -31,11 +31,12 @@
 						</div>
 					</div>
 					<div class="flex-box buttons">
-						<van-button class="custom-button" square size="large" type="default">申请书</van-button>
+						<van-button class="custom-button" square size="large" type="default"
+							@click.stop="checkApplication()">申请书</van-button>
 						<van-button v-if="item['job_base-datastate'] == 0" class="custom-button" square size="large"
-							type="default" @click="deleteCreateJobs(item, index)">删除</van-button>
+							type="default" @click.stop="deleteCreateJobs(item, index)">删除</van-button>
 					</div>
-					<div class="status" :class="[item['job_base-datastate'] == 0?'status-fail':'status-success']">
+					<div class="status" :class="[item['job_base-regtype'] === '不通过'?'status-fail':'status-success']">
 						{{ item['job_base-regtype'] }}
 					</div>
 				</div>
@@ -54,7 +55,7 @@
 						</div>
 					</div>
 					<div class="flex-box buttons">
-						<van-button class="custom-button" square size="large" type="default">查看证书</van-button>
+						<van-button class="custom-button" square size="large" type="default">查看申请书</van-button>
 					</div>
 					<div class="status status-success">
 						已出证
@@ -95,6 +96,9 @@
 	import {
 		Toast
 	} from 'vant';
+	import {
+		business
+	} from '../../constants/data-util';
 	export default {
 		components: {
 			'page-head': Head
@@ -102,8 +106,8 @@
 		data() {
 			return {
 				applications: [],
-				pageIndex: 1,
-				loading: false,
+				pageIndex: 0,
+				isLoading: false,
 				error: false,
 				finished: false,
 				total: 0,
@@ -111,6 +115,9 @@
 			}
 		},
 		methods: {
+			checkApplication: function () {
+				console.log('查看申请书');
+			},
 			deleteCreateJobs: function (item, index) {
 				var _this = this;
 				this.$dialog.confirm({
@@ -138,10 +145,30 @@
 			},
 			searchKeyword: function () {
 				this.pageIndex = 1;
-				this.getProgressJobDataByMongodb();
+				this.getProgressJobDataByMongodb(true);
 			},
 			clickedItem: function (item) {
-				var path = '';
+				if (item['job_base-regtype'] === '预审') {
+					return;
+				}
+				console.log('item:', item);
+				console.log('business:', business);
+				var b = business[item['job_base-bcode']];
+				console.log('b:', b);
+
+				if (b != undefined) {
+					console.log('业务类型名称:', b['job_base-btitle']);
+					this.$router.push({
+						path: b.path,
+						query: {
+							processInstanceId: item['job_base-wfrid']
+						}
+					});
+				} else {
+					Toast('无法打开该条业务，\n请使用电脑端打开!');
+				}
+
+				/* var path = '';
 				switch (item['job_base-btitle']) {
 					case '不动产权利证书遗失（换证）登记':
 						path = '/onlineApplication/BDCQSZSYSDJ/info';
@@ -238,7 +265,7 @@
 						Toast('无法打开该条业务，\n请使用电脑端打开!');
 						break;
 				}
-				console.log('item:', item);
+				console.log('item:', item); */
 			},
 			getProgressJobDataByMongodb: function (showLoading = false) {
 				var searchTxt = '';
@@ -274,26 +301,28 @@
 				}).then(response => {
 					Toast.clear();
 					console.log(response);
-					_this.loading = false;
+					_this.isLoading = false;
 					_this.total = response.data.total;
-					// 数据全部加载完成
-					if (_this.applications.length >= _this.total) {
-						_this.finished = true;
-					}
 					if (_this.pageIndex === 1) {
 						_this.applications = response.data.rows;
 					} else {
 						_this.applications.push(...response.data.rows);
 					}
+					// 数据全部加载完成
+					if (_this.applications.length >= _this.total) {
+						_this.finished = true;
+					}
 
 				}).catch(error => {
 					Toast.clear();
+					_this.isLoading = false;
+					_this.error = true;
 					console.log(error);
 				});
 			}
 		},
 		mounted() {
-			this.getProgressJobDataByMongodb();
+			// this.getProgressJobDataByMongodb();
 		},
 	}
 
@@ -348,6 +377,7 @@
 		border-top: 1px solid #ccc;
 		border-bottom: 1px solid #ccc;
 		transform: rotate(30deg) translate(85px, -44px);
+		z-index: 5000;
 	}
 
 	.custom-button {

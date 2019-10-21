@@ -11,6 +11,7 @@
 				<div class="plate-content" style="padding: 10px;">
 					<div class="plate-content-item" style="display: flex; justify-content: space-between;"
 						v-for="(item, index) in wBuyers" :key="index">
+						<div style="display: none;">{{ item }}</div>
 						<div class="item-left" style="flex: 1; word-break: break-all; overflow-wrap: break-word;">
 							<div style="word-wrap:break-word; overflow-wrap: break-word; margin-bottom: 5px;">买方:
 								{{ item['FSQRMC'] }}
@@ -23,12 +24,14 @@
 								style="display: block; color: #ff9b26; border-color: #ff9b26;"
 								@click="myVerification()">本人核验</van-button>
 							<!-- -if="!item.FXXQRZT || item.FXXQRZT == 0 || item.FXXQRZT == '' || item.FXXQRZT == 'null'" -->
-							<van-button v-else size="small" plain type="primary"
-								style="display: block; color: #ff9b26; border-color: #ff9b26;"
-								@click="getMessageTemplate(item)">发送核验短信</van-button>
-							<!-- <van-button v-else size="small" type="primary"
-								style="display: block; color: #666666; background-color: #dcdcdc; border-color: #dcdcdc;">
-								60s后重新发送</van-button> -->
+							<div v-else>
+								<van-button v-if="item.sendingSMS" size="small" type="primary"
+									style="display: block; color: #666666; background-color: #dcdcdc; border-color: #dcdcdc;">
+									{{ item.time }}s后重新发送</van-button>
+								<van-button v-else size="small" plain type="primary"
+									style="display: block; color: #ff9b26; border-color: #ff9b26;"
+									@click="getMessageTemplate(item, index, 0)">发送核验短信</van-button>
+							</div>
 							<div v-if="item.FXXQRZT == 2 && !isMine(item)" style="color: #999999;">已发短信</div>
 							<div v-else-if="item.FXXQRZT == 1" style="color: #4FC47F;">已核验</div>
 						</div>
@@ -41,6 +44,7 @@
 				<div class="plate-content" style="padding: 10px;">
 					<div class="plate-content-item" style="display: flex; justify-content: space-between;"
 						v-for="(item, index) in wSellers" :key="index">
+						<div style="display: none;">{{ item }}</div>
 						<div class="item-left" style="flex: 1; word-break: break-all; overflow-wrap: break-word;">
 							<div style="word-wrap:break-word; overflow-wrap: break-word; margin-bottom: 5px;">买方:
 								{{ item['FSQRMC'] }}
@@ -52,13 +56,16 @@
 							<van-button v-if="isMine(item)" size="small" plain type="primary"
 								style="display: block; color: #ff9b26; border-color: #ff9b26;"
 								@click="myVerification()">本人核验</van-button>
+							<div v-else>
+								<van-button v-if="item.sendingSMS" size="small" type="primary"
+									style="display: block; color: #666666; background-color: #dcdcdc; border-color: #dcdcdc;">
+									{{ item.time }}s后重新发送</van-button>
+								<van-button v-else size="small" plain type="primary"
+									style="display: block; color: #ff9b26; border-color: #ff9b26;"
+									@click="getMessageTemplate(item, index, 1)">发送核验短信</van-button>
+							</div>
 							<!-- -if="!item.FXXQRZT || item.FXXQRZT == 0 || item.FXXQRZT == '' || item.FXXQRZT == 'null'" -->
-							<van-button v-else size="small" plain type="primary"
-								style="display: block; color: #ff9b26; border-color: #ff9b26;"
-								@click="getMessageTemplate(item)">发送核验短信</van-button>
-							<!-- <van-button size="small" type="primary"
-								style="display: block; color: #666666; background-color: #dcdcdc; border-color: #dcdcdc;">
-								60s后重新发送</van-button> -->
+
 							<div v-if="item.FXXQRZT == 2 && !isMine(item)" style="color: #999999;">已发短信</div>
 							<div v-else-if="item.FXXQRZT == 1" style="color: #4FC47F;">已核验</div>
 						</div>
@@ -93,7 +100,7 @@
 			</div>
 			<div style="height: 50px;"></div>
 			<div class="bottom-box">
-				<van-button size="large" plain type="default">查看申请书</van-button>
+				<!-- <van-button size="large" plain type="default">查看申请书</van-button> -->
 				<van-button size="large" type="info" @click.native="nextStep()">下一步</van-button>
 			</div>
 		</div>
@@ -168,10 +175,10 @@
 					string = string + '，尚未对信息进行核验确认。'
 					Toast(string);
 				}
-				
-/* 				this.$router.push({
-					path: '/onlineApplication/CLFZYDJ/success'
-				}); */
+
+				/* 				this.$router.push({
+									path: '/onlineApplication/CLFZYDJ/success'
+								}); */
 			},
 			submitTaskFormData: function () {
 				Toast.loading({
@@ -205,6 +212,7 @@
 				}).catch(error => {
 					console.log(error);
 					Toast.clear();
+					Toast('请求失败');
 				});
 			},
 			isMine(item) {
@@ -222,10 +230,11 @@
 				return;
 			},
 			// 获取短信模板
-			getMessageTemplate(item) {
+			getMessageTemplate(item, index, type) {
 				console.log('item:', item);
 				var _this = this;
-				this.$fetch('/formengineWebService/getMessageTemplate?code=YWDXQR')
+				this
+				.$fetch('/formengineWebService/getMessageTemplate?code=YWDXQR')
 					.then(response => {
 						debugger;
 						var data = response;
@@ -237,39 +246,67 @@
 						msgContent.receiverTel = item['FLXDH'];
 						msgContent.rid = item['RID'];
 						msgContent.type = 1;
-						_this.sendMessage(msgContent, item);
+						_this.sendMessage(msgContent, item, index, type);
 					})
 					.catch((error) => {
 						console.log(error);
 					});
 			},
 			// 发送短信
-			sendMessage(msgContent, item) {
+			sendMessage(msgContent, item, index, type) {
 				var _this = this;
 				let config = {
 					headers: {
 						'Content-Type': 'application/json;charset=UTF-8'
 					}
 				};
-				this.$post('/pubWeb/system/sendSmsMessage', [msgContent], config)
+				this
+					.$post('/pubWeb/system/sendSmsMessage', [msgContent], config)
 					.then(data => {
 						console.log('data:', data);
-						_this.updateApplicantState();
+						var params = {
+							JOB_SQRXXB: [],
+							JOB_SQRXXB_OLD: [],
+							JOB_SQRXXB_ZH: [],
+						}
+						var rid = item['RID'];
+						if (item.SYS_PARENTNAME === 'JOB_SQRXXB_OLD_LINK.OLD_IQLR') { // 权利人
+							params['JOB_SQRXXB_OLD'] = [rid];
+						} else {
+							params['JOB_SQRXXB'] = [rid];
+						}
+						_this.updateApplicantState(params);
 						item.sendingSMS = true;
+						item.time = 60;
+						item.timer = undefined;
+						
+						item.timer = setInterval(() => {
+							if (item.time === 1) {
+								item.sendingSMS = false;
+								clearInterval(item.timer);
+							}
+							item.time--;
+							debugger;
+							if (type === 0) {
+								_this.$set(this.wBuyers, index, item);
+							} else {
+								_this.$set(this.wSellers, index, item);
+							}
+						}, 1000);
 					})
 					.catch(error => {
 						console.log('error:', error);
 					});
 			},
 			// 更新状态
-			updateApplicantState() {
+			updateApplicantState(params) {
 				var _this = this;
 				let config = {
 					headers: {
 						'Content-Type': 'application/json;charset=UTF-8'
 					}
 				};
-				this.$post('/formengineWebService/updateApplicantState', this.rids, config)
+				this.$post('/formengineWebService/updateApplicantState', params, config)
 					.then(data => {
 						console.log('data:', data);
 						_this.fetchApplicantInfo();
@@ -283,21 +320,32 @@
 				this.$fetch('/formengineWebService/getApplicantInfo?jid=' + sessionStorage.getItem('jid'))
 					.then(data => {
 						console.log('data:', data);
-						_this.wBuyers = data.JOB_SQRXXB;
-						_this.wSellers = data.JOB_SQRXXB_OLD;
-						var rids = {}
-						debugger;
-						for (var key in data) {
-							var arr = [];
-							for (var index = 0; index < data[key].length; index++) {
-								var item = data[key][index];
-								if (item['RID']) {
-									arr.push(item['RID']);
-								}
+						if (_this.wBuyers.length === 0) {
+							_this.wBuyers = data.JOB_SQRXXB;
+						} else {
+							for (let index = 0; index < _this.wBuyers.length; index++) {
+								const element = _this.wBuyers[index];
+								const element1 = data.JOB_SQRXXB[index];
+								const newOne = Object.assign(element, element1);
+								_this.wBuyers[index] = newOne;
 							}
-							rids[key] = arr;
 						}
-						_this.rids = rids;
+						if (_this.wSellers.length === 0) {
+							_this.wSellers = data.JOB_SQRXXB_OLD;
+						} else {
+							for (let index = 0; index < _this.wSellers.length; index++) {
+								const element = _this.wSellers[index];
+								const element1 = data.JOB_SQRXXB_OLD[index];
+								const newOne = Object.assign(element, element1);
+								_this.wSellers[index] = newOne;
+							}
+						}
+						if (_this.timer) {
+							clearInterval(_this.timer);
+						}
+						_this.timer = setInterval(() => {
+							_this.fetchApplicantInfo();
+						}, 5000);
 					})
 					.catch(error => {
 						console.log('error:', error);
@@ -309,13 +357,16 @@
 						'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
 					}
 				};
+				var wxUserInfo = sessionStorage.getItem('wxUserInfo');
+				var userid = JSON.parse(wxUserInfo).userid;
 				var formData = new FormData();
 				formData.append('sql1', '获取登录用户信息');
 				formData.append('param1', JSON.stringify({
-					"USERID": "00000001-0000-0000-0010-000000000001"
+					"USERID": userid
 				}));
 				var _this = this;
-				this.$post('/formengineWebService/execsql', formData, config)
+				this
+					.$post('/formengineWebService/execsql', formData, config)
 					.then(data => {
 						console.log('data:', data);
 						_this.userInfo = data.sql1[0];
@@ -329,7 +380,6 @@
 		mounted() {
 			var formData = JSON.parse(sessionStorage.getItem('formdata'));
 			console.log('formData:', formData);
-
 			this.fetchUserInfo();
 		},
 		created() {

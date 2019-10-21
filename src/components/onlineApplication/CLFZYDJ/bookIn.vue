@@ -3,7 +3,19 @@
 		<page-head title="存量房转移登记"></page-head>
 
 		<div class="box-body">
-			<van-tabs @click="onChange">
+			<van-cell-group>
+				<div class="cell-title">
+					<span class="required-span">*</span>申请人名字
+				</div>
+				<van-field v-model="qlr" clearable placeholder="产权证上的权利人,多个权利人只需输入一个" />
+			</van-cell-group>
+			<van-cell-group>
+				<div class="cell-title">
+					<span class="required-span">*</span>权利证书号码
+				</div>
+				<van-field v-model="cqzh" clearable placeholder="请输入权利证书号码" />
+			</van-cell-group>
+			<!-- <van-tabs @click="onChange">
 				<van-tab title="根据合同号查询">
 					<van-cell-group>
 						<div class="cell-title">
@@ -26,9 +38,9 @@
 						<van-field v-model="cqzh" clearable placeholder="请输入权利证书号码" />
 					</van-cell-group>
 				</van-tab>
-			</van-tabs>
+			</van-tabs> -->
 		</div>
-		
+
 		<div class="tips">
 			提示: 可通过公众号的“信息查询-个人产权查询”查询权利证书号码
 		</div>
@@ -66,12 +78,12 @@
 		components: {
 			'page-head': Head
 		},
-		data () {
+		data() {
 			return {
 				show: false,
 				wqhth: '',
-				qlr: '',  // 李四英
-				cqzh: '',  // 湘（2017）北湖不动产权第0022977号
+				qlr: '', // 李四英
+				cqzh: '', // 湘（2017）北湖不动产权第0022977号
 				customStatus: '',
 				checkout: {
 					"cqxx": [{
@@ -130,18 +142,18 @@
 					"type": '',
 					"ygxx": ''
 				},
-				checkType: 0,
+				checkType: 1,
 			}
 		},
 		methods: {
-			onChange:function(name, title){
+			onChange: function (name, title) {
 				this.checkType = name;
 				this.customStatus = '';
 				if (this.checkout != null) {
 					this.checkout.cqxx[0] = '';
-				}				
-				console.log('name',name);
-				console.log('title',title);
+				}
+				console.log('name', name);
+				console.log('title', title);
 			},
 			checkoutID: function () {
 				this.customStatus = '';
@@ -158,11 +170,11 @@
 					strJsonType = {
 						wqhth: this.wqhth
 					}
-				}else if (this.checkType == 1) {
+				} else if (this.checkType == 1) {
 					strJsonType = {
 						qlr: this.qlr,
 						cqzh: this.cqzh,
-						cqlx:'FW'
+						cqlx: 'FW'
 					}
 				}
 				this.axios.get(CHECKOUT_REAL_ESTATE, {
@@ -222,7 +234,7 @@
 				if (this.customStatus != '校验通过') {
 					Toast('请校验证书通过后进行下一步!');
 				} else {
-					var businessDefinitionId = this.$route.query.businessDefinitionId;
+					var businessDefinitionId = sessionStorage.getItem('businessDefinitionId');
 					this.$router.push({
 						path: '/onlineApplication/CLFZYDJ/info',
 						query: {
@@ -234,9 +246,8 @@
 				}
 			}
 		},
-		mounted () {
+		mounted() {
 			console.log('bookIn');
-			console.log('businessDefinitionId:', this.$route.query.businessDefinitionId);
 		},
 	}
 

@@ -186,10 +186,11 @@
 										_this.$store.commit('IBASE_ACCOUNT_ID', response.result);
 										_this.$store.commit('SET_VERIFY_STATE', true);
 
-										// 验证结束，进入个人中心
+										// 验证结束，进入个人中心 --  TODO 修改为跳转到登录页面
 										setTimeout(() => {
 											_this.$router.push({
-												path: '/personalCenter'
+												path: '/checkLogin',
+												query: _this.$route.query
 											});
 										}, 1000);
 									} else {

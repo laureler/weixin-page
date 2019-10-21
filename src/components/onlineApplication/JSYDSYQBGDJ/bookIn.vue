@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<page-head title="建设用地使用权变更登记"></page-head>
+		<page-head title="建设用地使用权、宅基地使用权变更登记"></page-head>
 		<van-cell-group>
 			<div class="cell-title">
 				<span class="required-span">*</span>申请人姓名
@@ -181,7 +181,7 @@
 				if (this.customStatus != '校验通过') {
 					Toast('请校验证书通过后进行下一步!');
 				} else {
-					var businessDefinitionId = this.$route.query.businessDefinitionId;
+					var businessDefinitionId = sessionStorage.getItem('businessDefinitionId');
 					this.$router.push({
 						path: '/onlineApplication/JSYDSYQBGDJ/info',
 						query: {

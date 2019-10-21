@@ -5,30 +5,12 @@
 		<div class="space_between"></div>
 		<img src="../../../public/images/approve/face_checkout.png" class="face_checkout"/>
 		<van-cell-group>
-			<van-field
-				v-model="username"
-				@focus="hide(false)"
-				@blur="hide(true)"
-				id="username"
-				label="姓名："
-				input-align="right"
-				:readonly="!editable"
-				center
-			></van-field>
+			<van-field v-model="username" @focus="hide(false)" @blur="hide(true)" id="username" label="姓名："
+				input-align="right" :readonly="!editable" center></van-field>
 
-			<van-field
-				@focus="hide(false)"
-				@blur="hide(true)"
-				id="ID_number"
-				v-model="cardCode"
-				:readonly="!editable"
-				label="身份证号："
-				input-align="right"
-				center
-				oninput="if(value.length>18)value=value.slice(0,18)"
-
-				onafterpaste="this.value=this.value.replace(/\D/g,'')"
-			></van-field>
+			<van-field @focus="hide(false)" @blur="hide(true)" id="ID_number" v-model="cardCode" :readonly="!editable"
+				label="身份证号：" input-align="right" center oninput="if(value.length>18)value=value.slice(0,18)"
+				onafterpaste="this.value=this.value.replace(/\D/g,'')"></van-field>
 		</van-cell-group>
 		<p v-model="errorMessage" class="errorC">{{errorMessage}}</p>
 
@@ -41,7 +23,12 @@
 </template>
 
 <script>
-	import { Dialog, CellGroup, Field, Uploader } from 'vant';
+	import {
+		Dialog,
+		CellGroup,
+		Field,
+		Uploader
+	} from 'vant';
 
 	import Vue from 'vue';
 	import Head from '../app/head';
@@ -99,8 +86,12 @@
 				this.username = _name;
 				this.cardCode = _id;
 			},
-			successToDo (_this, verify_result) {
-				let config = { headers: { 'Content-Type': 'multipart/form-data' } };
+			successToDo(_this, verify_result) {
+				let config = {
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+				};
 				var formData = new FormData();
 				formData.append('token', sessionStorage.getItem('token')); // 扫码的值
 				formData.append('openId', Cookies.get('openid')); // openid
@@ -110,13 +101,23 @@
 				_this.$post('/pubWeb/public/faceRecognition/setAuthenticationResult', formData, config).then(data => {
 					// 如果存在callbackUrl，则按callbackUrl重定向处理
 					if (_this.$store.state.callbackUrl) {
-						// 如果callbackUrl是WeChatRemoteCheck接口则请求PDF数据给用户
-						if (_this.$store.state.callbackUrl == '/pubWeb/system/public/WeChatRemoteCheck') {
+						// TODO 如果是核验功能，实现核验逻辑
+						if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/onlineApplication/CLFZYDJ/verification') {
+							_this.$router.push({
+								path: '/onlineApplication/CLFZYDJ/verification'
+							});
+						} else if (_this.$store.state.callbackUrl == '/pubWeb/system/public/WeChatRemoteCheck') {
+							// 如果callbackUrl是WeChatRemoteCheck接口则请求PDF数据给用户
 							_this.getGrantDeep();
-						} else if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/personInfo') {
+						} else if (_this.$store.state.callbackUrl ==
+							'/pubWeb/public/weChatPublic/personInfo') {
 							_this.$router.push({
 								path: '/approveStep2',
-								query: { isSuccess: -10, cardCode: _this.data_id, username: _this.data_name }
+								query: {
+									isSuccess: -10,
+									cardCode: _this.data_id,
+									username: _this.data_name
+								}
 							});
 						} else {
 							console.log(_this.$store.state.callbackUrl);
@@ -125,25 +126,36 @@
 						// 默认验证成功页面
 						_this.$router.push({
 							path: '/approveStep2',
-							query: { isSuccess: 1, cardCode: _this.data_id, username: _this.data_name }
+							query: {
+								isSuccess: 1,
+								cardCode: _this.data_id,
+								username: _this.data_name
+							}
 						});
 					}
 				}).catch(error => {
 					console.log(error);
 					_this.$router.push({
-						path: '/approveStep2', query: { isSuccess: 0 }
+						path: '/approveStep2',
+						query: {
+							isSuccess: 0
+						}
 					});
 				});
 			},
 			// 住房证明查询
-			getGrantDeep () {
+			getGrantDeep() {
 				const _this = this;
 				let strJson = JSON.stringify({
 					qlr: _this.data_name,
 					zjhm: _this.data_id
 				}) + '';
 				let stringUrl = _this.$store.state.callbackUrl;
-				let config = { headers: { 'Content-Type': 'charset=UTF-8;multipart/form-data' } };
+				let config = {
+					headers: {
+						'Content-Type': 'charset=UTF-8;multipart/form-data'
+					}
+				};
 				var formData = new FormData();
 				formData.append('strJson', strJson); // 扫码的值
 				_this.$post(stringUrl, formData, config).then(rs => {
@@ -170,29 +182,40 @@
 			dialogAlert (message) {
 				Dialog.alert({
 					message: message
-				}).then({
-				});
+				}).then({});
 			},
 			WeChatFaceCheck () {
 				var _this = this;
-				var info = { 'request_verify_pre_info': '{"name":"' + _this.data_name + '","id_card_number":"' + _this.data_id + '"}', 'check_alive_type': '1' };
+				var info = {
+					'request_verify_pre_info': '{"name":"' + _this.data_name + '","id_card_number":"' + _this.data_id +
+						'"}',
+					'check_alive_type': '1'
+				};
 				let invokeCallback = function (res) {
 					// 人脸识别成功
 					_this.$store.commit('CARD_CODE', _this.data_id);
 					_this.$store.commit('CARD_NAME', _this.data_name);
 					// 判断是不是从个人中心首页进来的
 					if (_this.$route.query.isPersonalHomeCheck) {
-						_this.$fetch('/pubWeb/public/faceRecognition/getLinkedAccounts?cardName=' + _this.data_name + '&cardNumber=' + _this.data_id)
+						_this.$fetch('/pubWeb/public/faceRecognition/getLinkedAccounts?cardName=' + _this.data_name +
+								'&cardNumber=' + _this.data_id)
 							.then(dataList => {
 								if (dataList.length === 0) {
 									// 如果没有ibase账号，则到注册页面
-									_this.$router.push({ path: '/signInAccount' });
+									_this.$router.push({
+										path: '/signInAccount'
+									});
 								} else {
-									_this.$router.push({ name: 'associativeAccount', params: { dataList: dataList } });
+									_this.$router.push({
+										name: 'associativeAccount',
+										params: {
+											dataList: dataList
+										}
+									});
 								}
 							}).catch(error => {
-							console.log(error);
-						});
+								console.log(error);
+							});
 					} else {
 						console.log(res);
 						if (res.hasOwnProperty('err_code')) {
@@ -202,7 +225,10 @@
 
 							} else {
 								_this.$router.push({
-									path: '/approveStep2', query: { isSuccess: 0 }
+									path: '/approveStep2',
+									query: {
+										isSuccess: 0
+									}
 								});
 							}
 						} else {
@@ -214,7 +240,10 @@
 
 								} else {
 									_this.$router.push({
-										path: '/approveStep2', query: { isSuccess: 0 }
+										path: '/approveStep2',
+										query: {
+											isSuccess: 0
+										}
 									});
 								}
 							});
@@ -226,7 +255,8 @@
 					let invokeresult = {
 						err_code: 0,
 						err_msg: "requestWxFacePictureVerifyUnionVideo:ok",
-						verify_result: "XXIzTtMqCxwOaawoE91-VBZV1h2zOEwpKSm2MRJYZPVBqp5iZk3hW2aIhH6CWIwtpQpO8L1FCui4i_A45FXug1KdbtCS_ToSxlIFwgLGMs_IP1-CeVhQatQHVVZbz0Pr" }
+						verify_result: "XXIzTtMqCxwOaawoE91-VBZV1h2zOEwpKSm2MRJYZPVBqp5iZk3hW2aIhH6CWIwtpQpO8L1FCui4i_A45FXug1KdbtCS_ToSxlIFwgLGMs_IP1-CeVhQatQHVVZbz0Pr"
+					}
 					invokeCallback(invokeresult)
 				} else {
 					wx.invoke('checkIsSupportFaceDetect', {}, function (res) { // 检测微信人脸识别的功能
@@ -275,18 +305,20 @@
 			/*// 微信标题
 			_this.$fetch('/gdbdcWebService/WeChatConfig/public/getProtocolTitleInfomation')
 				.then(res => {
-                    _this.faceTitle = res.WECHATTITLE;
+					_this.faceTitle = res.WECHATTITLE;
 				})
+				.catch(erro => {})
 				.catch(erro => {
 			})*/
 			_this.$fetch('/gdbdcWebService/WeChatConfig/public/getFaceIdentificationInfomation')
-					.then(res => {
-						_this.faceVerifyType = (res.CHECKALIVETYPE == null || res.CHECKALIVETYPE == undefined) ? 1 : res.CHECKALIVETYPE;
-					})
-					.catch(error => {
-						_this.faceVerifyType = 1;
-						console.log(error);
-					})
+				.then(res => {
+					_this.faceVerifyType = (res.CHECKALIVETYPE == null || res.CHECKALIVETYPE == undefined) ? 1 : res
+						.CHECKALIVETYPE;
+				})
+				.catch(error => {
+					_this.faceVerifyType = 1;
+					console.log(error);
+				})
 			this.token = sessionStorage.getItem('token');
 			// 获取微信openId
 			let openId = Cookies.get('openid');
@@ -324,6 +356,7 @@
 			});
 		}
 	};
+
 </script>
 
 <style lang="less" type="text/less" scoped>
