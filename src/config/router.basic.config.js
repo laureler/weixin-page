@@ -134,6 +134,11 @@ export const BasicRouterMap = [
 		component: resolve => require(['@/components/app/SpeApplMsg'], resolve)
 	},
 	{
+		path: '/officeHall',
+		name: 'officeHall',
+		component: resolve => require(['@/components/app/OficeHall'], resolve)
+	},
+	{
 		path: '/onlineReservation',
 		name: 'OnlineReservation',
 		component: resolve => require(['@/components/app/OnlineReservation'], resolve)
