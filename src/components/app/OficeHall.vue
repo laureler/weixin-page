@@ -3,7 +3,7 @@
 		<page-head title="办事大厅"></page-head>
 		<div style="position: relative; height: 150px">
 			<img src="../../assets/images/topImg.png" class="img"/>
-			<span class="title_name">惠州市不动产登记中心</span>
+			<span class="title_name">{{headTitle}}</span>
 		</div>
 		<div class="branch">
 			<div v-for="(item,i) in GridCellData"  class="branch_yuyue" @click="open(item.path)" v-bind:style="gridCellStyle(item.title)">
@@ -44,7 +44,8 @@
 					{"id": '19', 'title': '办事流程', 'path': 'http://land.huizhou.gov.cn:8098/Home/HZCMQJDCQuery/'},
 					{"id": '20', 'title': '证书查验', 'path': 'http://land.huizhou.gov.cn:8098/Home/HZCMQJDCQuery/'}
 				],*/
-				GridCellData:[]
+				GridCellData:[],
+				headTitle:''
 			}
 		},
 		mounted() {
@@ -63,7 +64,13 @@
 					 }
 				 }).catch(error=>{
 					 console.log(error);
-				 })
+				 });
+				_this.$fetch('/gdbdcWebService/WeChatConfig/public/getProtocolTitleInfomation').then(res=>{
+					_this.headTitle = res.WECHATTITLE;
+				}).catch(error=>{
+					console.log('/WSYYUSER接口错误');
+					console.log(error);
+				})
 			},
 			open (path) {
 				if(path.indexOf('http')!=-1){
@@ -159,11 +166,12 @@
 		position: relative;
 		float: left;
 		border-radius:6px;
+		background-size: initial;
 	}
 	.branch .branch_yuyue span{
 		position: absolute;
 		width: fit-content;
-		bottom: 0.266667rem;
+		bottom: 0.166667rem;
 		left: 50%;
 		transform: translateX(-50%);
 	}
