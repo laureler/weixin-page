@@ -272,13 +272,13 @@
 		},
 		mounted () {
 			var _this = this;
-			// 微信标题
+			/*// 微信标题
 			_this.$fetch('/gdbdcWebService/WeChatConfig/public/getProtocolTitleInfomation')
 				.then(res => {
                     _this.faceTitle = res.WECHATTITLE;
 				})
 				.catch(erro => {
-			})
+			})*/
 			_this.$fetch('/gdbdcWebService/WeChatConfig/public/getFaceIdentificationInfomation')
 					.then(res => {
 						_this.faceVerifyType = (res.CHECKALIVETYPE == null || res.CHECKALIVETYPE == undefined) ? 1 : res.CHECKALIVETYPE;

@@ -204,8 +204,8 @@
 							res.TITLECONTENT1 = (res.TITLECONTENT1 == null || res.TITLECONTENT1 == '') ? defaultTitleContent1 : res.TITLECONTENT1;
 							let titlecontentString = res.TITLECONTENT;
 							let titlecontentString1 = res.TITLECONTENT1;
-							_this.faceTitle = res.WECHATTITLE; // 微信标题
-							window.title = _this.faceTitle;
+							/*_this.faceTitle = res.WECHATTITLE; // 微信标题
+							window.title = _this.faceTitle;*/
 							_this.titleContent.pop();
 							_this.titleContent.pop();
 							_this.titleContent.pop();
