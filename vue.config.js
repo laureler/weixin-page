@@ -143,7 +143,7 @@ module.exports = {
 		compress: true,
 		open: true, // 配置自动启动浏览器
 		hotOnly: true,
-		 proxy: {
+		 /*proxy: {
 		       '/pubWeb/public/doIntranetRequest/GetTitleList' : {
 				   target: 'http://localhost:8080', ws: true, followRedirects: false, hostRewrite: 'localhost:3000'
 			   },
@@ -165,9 +165,9 @@ module.exports = {
 			// '/pubWeb': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
 			// '/public': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
 			// '/workflowWebService': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
-		/*	'/pubWeb/public/doIntranetRequest/GetAllNo': { target: 'http://bdc.qylr.gov.cn/pubWeb/public/doIntranetRequest/GetAllNo', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },*/
+		/!*	'/pubWeb/public/doIntranetRequest/GetAllNo': { target: 'http://bdc.qylr.gov.cn/pubWeb/public/doIntranetRequest/GetAllNo', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },*!/
 			'/pubWeb/public/getWeChatIndexList': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' }
-		},
+		},*/
 		before (app) {
 			app.use('/__open-in-editor', openInEditor('webstorm'))
 			// app.use('/__open-in-editor', openInEditor('code'))
