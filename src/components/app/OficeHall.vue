@@ -6,7 +6,7 @@
 			<span class="title_name">{{headTitle}}</span>
 		</div>
 		<div class="branch">
-			<div v-for="(item,i) in GridCellData"  class="branch_yuyue" @click="open(item.path)" v-bind:style="gridCellStyle(item.title)">
+			<div v-for="(item,i) in GridCellData"  class="branch_yuyue" @click="open(item.path)" v-bind:style="gridCellStyle(item.id)">
 				<span>{{item.title}}</span>
 			</div>
 		</div>
@@ -58,7 +58,7 @@
 				 _this.$fetch(url).then(res=>{
 					 for(var i=0;res.length;i++){
 					 	if(res[i].STATUS==1){
-							var tempData={id:res[i].id,title:res[i].TITLE,path:res[i].PATH};
+							var tempData={id:res[i].ID,title:res[i].TITLE,path:res[i].PATH};
 							_this.GridCellData.push(tempData);
 						}
 					 }
@@ -83,46 +83,47 @@
 		computed:{
 			  gridCellStyle(){
 			  	 return function (val) {
+			  	 	debugger;
 					 var  style='';
-					 if(val=='个人预约'){
+					 if(val=='1'){
 						 style="background-image: url("+require('../../assets/images/minpresonalOrder.png')+"),radial-gradient(#908bf0,#6a76e7);background-repeat:no-repeat;background-position:50% 25%;";
-					 }else if (val=='人脸核身'){
+					 }else if (val=='2'){
 						 style="background-image: url("+require('../../assets/images/minfaceVerify.png')+"),linear-gradient(#85e4ed,#59d3cc);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='登记业务进度查询'){
+					 }else if(val=='3'){
 						 style="background-image: url("+require('../../assets/images/minplanSearch.png')+"),linear-gradient(#f38c8d,#ff6474);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='权籍调查进度查询'){
+					 }else if(val=='4'){
 						 style="background-image: url("+require('../../assets/images/qjplanSearch.png')+"),linear-gradient(#f47cb8,#f056cd);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='权籍调查成果查询'){
+					 }else if(val=='5'){
 						 style="background-image: url("+require('../../assets/images/minqjResult.png')+"),linear-gradient(#ba89f0,#9663ed);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='开发商预约'){
+					 }else if(val=='6'){
 						 style="background-image: url("+require('../../assets/images/minkaifashang.png')+"),linear-gradient(#8bbef2,#60a5da);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else   if(val=='办事指南'){
+					 }else   if(val=='8'){
 						 style="background-image: url("+require('../../assets/images/minguide.png')+"),linear-gradient(#86edca,#51d29a);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='法律法规'){
+					 }else if(val=='7'){
 						 style="background-image: url("+require('../../assets/images/minregulition.png')+"),linear-gradient(#7ee8d3,#5edbbc);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='通知公告'){
+					 }else if(val=='9'){
 						 style="background-image: url("+require('../../assets/images/minNotice.png')+"),linear-gradient(#8eeb9d,#5ed572);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='在线查档'){
+					 }else if(val=='10'){
 						 style="background-image: url("+require('../../assets/images/minOnlinFile.png')+"),linear-gradient(#a6e882,#7dc853);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='在线缴费'){
+					 }else if(val=='11'){
 						 style="background-image: url("+require('../../assets/images/minOnlinePay.png')+"),linear-gradient(#efeb7d,#e7c81d);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='在线缴税'){
+					 }else if(val=='12'){
 						 style="background-image: url("+require('../../assets/images/minOlineRote.png')+"),linear-gradient(#f1b570,#f69340);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='互动交流'){
+					 }else if(val=='13'){
 						 style="background-image: url("+require('../../assets/images/minRegulation.png')+"),linear-gradient(#f29d73,#fe874d);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='排队取号'){
+					 }else if(val=='14'){
 						 style="background-image: url("+require('../../assets/images/minLined.png')+"),linear-gradient(#f09896,#f76f6c);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='排队进度'){
+					 }else if(val=='15'){
 						 style="background-image: url("+require('../../assets/images/minpaiduijindu.png')+"),linear-gradient(#88c9eb,#4dbae3);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='我的预约'){
+					 }else if(val=='16'){
 						 style="background-image: url("+require('../../assets/images/minwodeyuyue.png')+"),linear-gradient(#79dcc3,#2cc6ba);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='业务确认'){
+					 }else if(val=='17'){
 						 style="background-image: url("+require('../../assets/images/minyewuqueren.png')+"),linear-gradient(#95de87,#70cb66);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='产权查询'){
+					 }else if(val=='18'){
 						 style="background-image: url("+require('../../assets/images/minRealestSearch.png')+"),linear-gradient(#80cfd6,#50c4cf);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='办事流程'){
+					 }else if(val=='19'){
 						 style="background-image: url("+require('../../assets/images/minworkliucheng .png')+"),linear-gradient(#95b5dc,#6c99ce);background-repeat:no-repeat;background-position:50% 25%;"
-					 }else if(val=='证书查验'){
+					 }else if(val=='20'){
 						 style="background-image: url("+require('../../assets/images/minzhengshu.png')+"),linear-gradient(#9ca8d7,#7a8dd6);background-repeat:no-repeat;background-position:50% 25%;"
 					 }
 					 return style;
@@ -171,8 +172,11 @@
 	.branch .branch_yuyue span{
 		position: absolute;
 		width: fit-content;
-		bottom: 0.166667rem;
+		bottom: 1%; /*0.166667rem;*/
 		left: 50%;
 		transform: translateX(-50%);
+	}
+	.branch .branch_yuyue:last-child{
+		margin-bottom: 0.55rem;
 	}
 </style>
