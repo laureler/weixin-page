@@ -9,7 +9,7 @@
         </div>
 		<div class="contain">
 			<van-cell-group>
-				<cell-line @click.native="open(index)" v-for="(item,index) in calcItems" :title="item.title"/>
+				<cell-line @click.native="open(item)" v-for="(item,index) in calcItems" :title="item.title"/>
 			</van-cell-group>
 			<van-pagination
 				v-model="currentPage"
@@ -89,8 +89,8 @@
                     },
                 })
             },
-            open (index) {
-                var url = this.datas[index].app_url;
+            open (item) {
+                var url = item.app_url;
                 window.location.href = url;
             }
         },
