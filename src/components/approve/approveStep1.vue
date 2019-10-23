@@ -119,6 +119,14 @@
 									username: _this.data_name
 								}
 							});
+						} else if(_this.$store.state.callbackUrl == '/businessList'){
+							_this.$router.push({
+								path: '/businessList',
+								query: {
+									cardCode: _this.data_id,
+									userName: _this.data_name
+								}
+							});
 						} else {
 							console.log(_this.$store.state.callbackUrl);
 						}

@@ -269,4 +269,16 @@ export const BasicRouterMap = [
 		name: 'houseCertifyDownload',
 		component: resolve => require(['@/components/personalCenter/houseCertifyDownload'], resolve),
 	},
+	//业务查询列表页面
+	{
+		path: '/businessList',
+		name: 'businessList',
+		component: resolve => require(['@/components/businessManager/businessList'], resolve),
+	},
+	//业务查看
+	{
+		path: '/businessView',
+		name: 'businessView',
+		component: resolve => require(['@/components/businessManager/businessView'], resolve),
+	},
 ]
