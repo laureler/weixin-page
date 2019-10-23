@@ -298,7 +298,7 @@
 		ADD_SUB_FORM_DATA,
 		TEST,
 		exchangeZqdm,
-    exchangeZqdmToZqmc
+    	exchangeZqdmToZqmc
 	} from '../../../constants/index.js';
 	import {
 		Toast,
@@ -821,7 +821,7 @@
 				}
 				this.saveTaskFormData();
 			},
-			saveTaskFormData: function () {
+			saveTaskFormData: function (next) {
 				debugger;
 				sessionStorage.setItem('formdata', JSON.stringify(this.$data['JOB_BDCQK']));
 				Toast.loading({
@@ -881,12 +881,7 @@
 							if (!response.rows || !showLoading) return;
 							_this.applicantIndex = 0;
 							_this.applicant = response.rows[0];
-						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
-							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
-							if (!response.rows || !showloading) return;
-							_this.changeItemIndex = 0;
-							_this.changeItem = response.rows[0];
-						}
+						} 
 					})
 					.catch(error => {
 						console.log('error:', error);
@@ -1049,10 +1044,16 @@
 						_this.taskId = taskId;
 						console.log('taskId:', _this.taskId);
 						_this.$data['JOB_BDCQK'] = values;
+
+						// 获取镇区代码
+						var sBdcdyh = values['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
+						
 						sessionStorage.setItem('jid', businessNumber);
 						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
 						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
-						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
 						// _this.startExactBusiness(rid, businessNumber);
 						Toast.clear();
 					}).catch(err => {

@@ -1161,7 +1161,7 @@
 						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
 						var bdclx = getBdcType(qllx);
 
-						var sBdcdyh = this.$route.query.sBdcdyh;
+						var sBdcdyh = response['JOB_GLQLXXB_LINK.OLD_IQLDJ'][0]["JOB_GLQLXXB.FBDCDYH"];
 						var zqdm = exchangeZqdm(sBdcdyh);
 						var zqmc = exchangeZqdmToZqmc(zqdm);
 						this.valuesParams['JOB_SJDJB.FZQDM'] = zqmc;
@@ -1261,6 +1261,13 @@
 						_this.taskId = taskId;
 						console.log('taskId:', _this.taskId);
 						_this.valuesParams = values;
+
+						// 获取镇区代码
+						var sBdcdyh = values['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.valuesParams['JOB_SJDJB.FZQDM'] = zqmc;
+
 						console.log('>>>:', _this.valuesParams);
 						sessionStorage.setItem('jid', businessNumber);
 						console.log('taskId:', _this.taskId);

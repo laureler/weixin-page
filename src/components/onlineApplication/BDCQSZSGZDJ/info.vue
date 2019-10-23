@@ -897,7 +897,7 @@
 				}
 				this.saveTaskFormData();
 			},
-			saveTaskFormData: function () {
+			saveTaskFormData: function (next) {
 				this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'] = this.qtyy;
 				this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'] = this.bz;
 				console.log(this.$data['JOB_BDCQK']);
@@ -1173,6 +1173,13 @@
 						_this.taskId = taskId;
 						console.log('taskId:', _this.taskId);
 						_this.$data['JOB_BDCQK'] = values;
+						
+						// 获取镇区代码
+						var sBdcdyh = values['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
+
 						sessionStorage.setItem('jid', businessNumber);
 						
 						_this.qtyy = _this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'];

@@ -1175,39 +1175,6 @@
 			var _this = this;
 			console.log('this.$route.query:', this.$route.query);
 
-			/* 			var _taskId = sessionStorage.getItem('taskId');
-						if (_taskId) {
-							var _this = this;
-							_this.$fetch('/workflowWebService/renderFormByTaskId', {
-								taskId: _taskId
-							}).then(response => {
-								var businessNumber = response.businessNumber;
-								sessionStorage.setItem('jid', businessNumber);
-								var result = JSON.parse(response.result);
-								var values = result.data.values;
-								var taskId = response.taskId;
-								sessionStorage.setItem('taskId', taskId);
-								sessionStorage.setItem('business', JSON.stringify(response));
-								_this.taskId = taskId;
-								console.log('taskId:', _this.taskId);
-								_this.$data['JOB_BDCQK'] = values;
-								console.log('>>>:', _this.$data['JOB_BDCQK']);
-								_this.qtyy = _this.$data['JOB_BDCQK']['JOB_FDCQXXB.FQTYY'];
-								_this.bz = _this.$data['JOB_BDCQK']['JOB_FDCQXXB.FBZ'];
-
-								_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
-								_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
-								_this.querySubFormData('JOB_XGXXB_LINK.IXG');
-
-
-								//_this.startExactBusiness(rid, businessNumber);
-							}).catch(err => {
-								console.log('err:', err);
-								Toast.clear();
-							});
-							return;
-						} */
-
 			if (this.$route.query && this.$route.query.processInstanceId) {
 				Toast.loading({
 					mask: true,
@@ -1235,6 +1202,13 @@
 						_this.taskId = taskId;
 						console.log('taskId:', _this.taskId);
 						_this.$data['JOB_BDCQK'] = values;
+
+						// 获取镇区代码
+						var sBdcdyh = values['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
+						
 						console.log('>>>:', _this.$data['JOB_BDCQK']);
 						_this.qtyy = _this.$data['JOB_BDCQK']['JOB_FDCQXXB.FQTYY'];
 						_this.bz = _this.$data['JOB_BDCQK']['JOB_FDCQXXB.FBZ'];
