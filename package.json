@@ -22,6 +22,7 @@
     "jsonp": "^0.2.1",
     "moment": "^2.24.0",
     "pdfjs-dist": "^2.0.943",
+    "qrcodejs2": "^0.0.2",
     "register-service-worker": "^1.6.2",
     "sha1": "^1.1.1",
     "vant": "^1.6.11",
