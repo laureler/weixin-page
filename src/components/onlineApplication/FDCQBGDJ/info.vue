@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-10-23 10:26:35
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-10-23 17:00:44
+ * @LastEditTime: 2019-10-23 18:15:17
  * @Description: 房地产权（独幢、层、套、间房屋）变更登记
  -->
 <template>
@@ -1218,6 +1218,13 @@
 						_this.taskId = taskId;
 						console.log('taskId:', _this.taskId);
 						_this.$data['JOB_BDCQK'] = values;
+
+						// 获取镇区代码
+						var sBdcdyh = values['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
+						
 						console.log('>>>:', _this.$data['JOB_BDCQK']);
 						_this.qtyy = _this.$data['JOB_BDCQK']['JOB_FDCQXXB.FQTYY'];
 						_this.bz = _this.$data['JOB_BDCQK']['JOB_FDCQXXB.FBZ'];

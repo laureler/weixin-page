@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-10-16 19:21:13
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-10-23 15:39:02
+ * @LastEditTime: 2019-10-23 18:21:21
  * @Description: 文件注释
  -->
 <template>
@@ -75,8 +75,8 @@
 				estateType: '',
 				cqlx: '',
 				show: false,
-				qlr: '湖南建工相山房地产开发有限公司',  // 湖南建工相山房地产开发有限公司
-				cqzh: '湘（2017）苏仙不动产权第0022934号',  // 湘（2017）苏仙不动产权第0022934号
+				qlr: '',  // 湖南建工相山房地产开发有限公司
+				cqzh: '',  // 湘（2017）苏仙不动产权第0022934号
 				customStatus: '',
 				actions: [{
 						name: '房屋'

@@ -772,11 +772,8 @@
 				}
 				this.saveTaskFormData();
 			},
-			saveTaskFormData: function () {
-				/* 				this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'] = this.qtyy;
-								this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'] = this.bz; */
+			saveTaskFormData: function (next) {
 				console.log(this.$data['JOB_BDCQK']);
-
 				sessionStorage.setItem('formdata', JSON.stringify(this.$data['JOB_BDCQK']));
 				var _this = this;
 				Toast.loading({
@@ -825,8 +822,7 @@
 				var parentrid = result.data.values[link + '.RID'];
 				var templateid = result.data.controls[title].linkTplId;
 				var _this = this;
-				this
-					.$fetch('/formengineWebService/querySubFormData' + '?parentdomname=' + title + '&parentrid=' +
+				this.$fetch('/formengineWebService/querySubFormData' + '?parentdomname=' + title + '&parentrid=' +
 						parentrid + '&doms=' + domains + '&templateid=' + templateid + '&random=19')
 					.then(response => {
 						console.log('response:', response);
@@ -835,11 +831,6 @@
 							if (!response.rows || !showloading) return;
 							_this.applicantIndex = 0;
 							_this.applicant = response.rows[0];
-						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
-							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
-							if (!response.rows || !showloading) return;
-							_this.changeItemIndex = 0;
-							_this.changeItem = response.rows[0];
 						}
 					})
 					.catch(error => {
@@ -956,12 +947,9 @@
 
 						// 保存权利信息
 						this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response['JOB_GLQLXXB_LINK.OLD_IQLDJ']);
-						// 保存义务人
+						// 保存权利人
 						this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', response[
 							'JOB_SQRXXB_LINK.IQLR']);
-
-
-
 					})
 					.catch(error => {
 						Toast.clear();
@@ -1027,13 +1015,14 @@
 						sessionStorage.setItem('business', JSON.stringify(response));
 						_this.taskId = taskId;
 						_this.$data['JOB_BDCQK'] = values;
+						var sBdcdyh = _this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
 						sessionStorage.setItem('jid', businessNumber);
 						_this.qtyy = _this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'];
 						_this.bz = _this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'];
-						// _this.startExactBusiness(rid, businessNumber);
-						// 提取权利信息
-						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
-						// 提取受让人
+						// 权利人
 						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
 						console.log('taskId:', _this.taskId);
 					}).catch(err => {

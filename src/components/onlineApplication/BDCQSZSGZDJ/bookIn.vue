@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-10-16 19:21:13
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-10-23 11:11:44
+ * @LastEditTime: 2019-10-23 18:20:54
  * @Description: 不动产权利证书更正登记校验页面
  -->
 <template>
@@ -76,8 +76,8 @@
 				estateType: '',
 				cqlx: '',
 				show: false,
-				qlr: '杨智勇', // 杨智勇
-				cqzh: '湘（2017）苏仙不动产权第0022928号', // 湘（2017）苏仙不动产权第0022928号
+				qlr: '', // 杨智勇
+				cqzh: '', // 湘（2017）苏仙不动产权第0022928号
 				customStatus: '',
 				actions: [{
 						name: '房屋'

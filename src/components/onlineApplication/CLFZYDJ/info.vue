@@ -1621,6 +1621,12 @@
 							_this.propertySource = '房改房';
 						}
 
+						// 获取镇区代码
+						var sBdcdyh = values['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.valuesParams['JOB_SJDJB.FZQDM'] = zqmc;
+
 						sessionStorage.setItem('jid', businessNumber);
 
 

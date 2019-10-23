@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-10-16 19:32:10
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-10-23 17:01:28
+ * @LastEditTime: 2019-10-23 18:15:49
  * @Description: 房地产权（独幢、层、套、间房屋）首次登记
  -->
 	<template>
@@ -1360,6 +1360,13 @@
 						_this.taskId = taskId;
 						console.log('taskId:', _this.taskId);
 						_this.valuesParams = values;
+
+						// 获取镇区代码
+						var sBdcdyh = values['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.valuesParams['JOB_SJDJB.FZQDM'] = zqmc;
+
 						console.log('>>>:', _this.valuesParams);
 						sessionStorage.setItem('jid', businessNumber);
 						_this.startExactBusiness(rid, businessNumber);

@@ -1193,6 +1193,13 @@
 						console.log('taskId:', _this.taskId);
 						_this.$data['JOB_BDCQK'] = values;
 						console.log('>>>:', _this.$data['JOB_BDCQK']);
+
+						// 获取镇区代码
+						var sBdcdyh = values['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
+
 						_this.qtyy = _this.$data['JOB_BDCQK']['JOB_JSYDCQXXB.FQTYY'];
 						_this.bz = _this.$data['JOB_BDCQK']['JOB_JSYDCQXXB.FBZ'];
 						sessionStorage.setItem('jid', businessNumber);
