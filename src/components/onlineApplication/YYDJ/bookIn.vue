@@ -1,3 +1,13 @@
+<!--
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-16 19:21:13
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-23 15:39:02
+ * @Description: 文件注释
+ -->
 <template>
 	<div class="container">
 		<page-head title="异议登记"></page-head>
@@ -65,8 +75,8 @@
 				estateType: '',
 				cqlx: '',
 				show: false,
-				qlr: '',  // 湖南建工相山房地产开发有限公司
-				cqzh: '',  // 湘（2017）苏仙不动产权第0022934号
+				qlr: '湖南建工相山房地产开发有限公司',  // 湖南建工相山房地产开发有限公司
+				cqzh: '湘（2017）苏仙不动产权第0022934号',  // 湘（2017）苏仙不动产权第0022934号
 				customStatus: '',
 				actions: [{
 						name: '房屋'
@@ -151,13 +161,13 @@
 				this.show = false;
 			},
 			checkoutID: function () {
-				debugger;
 				if (!this.cqlx.length) {
 					Toast('请选择不动产类型!');
 					return;
 				}
 				this.customStatus = '';
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -182,7 +192,7 @@
 					_this.customStatus = '校验通过';
 					sessionStorage.setItem('rid', _this.checkout.cqxx[0].RID);
 					console.log(_this.checkout);
-
+					Toast.clear();
 				}).catch(err => {
 					
 					console.log(err)

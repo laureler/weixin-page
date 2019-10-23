@@ -1,3 +1,13 @@
+<!--
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-23 10:26:35
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-23 17:04:51
+ * @Description: 异议注销登记
+ -->
 <template>
 	<div class="container">
 		<page-head title="异议注销登记"></page-head>
@@ -102,7 +112,7 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							<span class="required-span">*</span>户籍所属省份
+							户籍所属省份
 						</div>
 						<van-field id="JOB_SQRXXB.FHJSZSS" v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow"
 							clickable placeholder="户籍所属省份"
@@ -118,6 +128,9 @@
 					<div class="buttons">
 						<van-button class="info-btn" size="small" type="info" 
 							@click.native="saveApplicant()" v-show="saveShow" >保存
+						</van-button>
+						<van-button class="info-btn" size="small" type="default" v-if="editApplicantState"
+							@click.native="delApplicant()">删除申请人
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -515,6 +528,7 @@
 				goBack: false,
 				emsNecessary: false,
 				saveShow: false,
+				editApplicantState: false,
 			}
 		},
 		methods: {
@@ -573,6 +587,9 @@
 					message: '确定要删除该申请人吗?'
 				}).then(() => {
 					console.log('删除');
+					this.delSubFormData('JOB_SQRXXB_LINK.IQLR', [this.$data['JOB_SQRXXB_LINK.IQLR'][this
+						.applicantIndex
+					]], true);
 					// on close
 				}).catch(() => {
 					// on cancel
@@ -604,10 +621,12 @@
 				} else if (!applicant['JOB_SQRXXB.FGJDQ'] || applicant['JOB_SQRXXB.FGJDQ'].length == 0) {
 					Toast('请选择权利人国家/地区!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
+				} 
+				/* else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
 					Toast('请选择权利人户籍所属省份!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
+				} */
+				 else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
 					Toast('请填写权利人联系电话!');
 					return;
 				} else if (!reg2.test(applicant['JOB_SQRXXB.FLXDH'])) {
@@ -619,10 +638,47 @@
 				this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant], true, true);
 				/* } */
 			},
+			// 删除子表内容
+			delSubFormData: function (title, params, showLoading = false) {
+				var business = JSON.parse(sessionStorage.getItem('business'));
+				var result = JSON.parse(business.result);
+				console.log(result);
+				var link = title.split('.')[0];
+				var domains = title.split('_LINK')[0]
+				var parentrid = result.data.values[link + '.RID'];
+				var templateid = result.data.controls[title].linkTplId;
+				console.log(result.data.values[link + '.RID']);
+				console.log(result.data.controls[title].linkTplId);
+				var _this = this;
+				if (showLoading) {
+					Toast.loading({
+						duration: 0,
+						mask: true,
+						message: '加载中...'
+					});
+				}
+				this.axios({
+					url: DEL_SUB_FORM_DATA + '?parentdomname=' + title + '&parentrid=' + parentrid +
+						'&domains=' + domains + '&templateid=' + templateid,
+					method: 'post',
+					data: params,
+				}).then(response => {
+					Toast.clear();
+					console.log(response);
+					this.$data['JOB_SQRXXB_LINK.IQLR'].splice(this.applicantIndex, 1);
+					this.applicantIndex = -1;
+					this.editApplicantState = false;
+					this.applicant = {};
+				}).catch(error => {
+					Toast.clear();
+					console.log(error);
+				});
+			},
 			editApplicant: function (item, index) { // 编辑申请人
 				this.applicant = item;
 				this.applicantIndex = index;
 				this.saveShow = true;
+				this.editApplicantState = true;
 			},
 			nextStep: function () {
 				var applicant = this.$data['JOB_SQRXXB_LINK.IQLR'][0] || {};
@@ -677,10 +733,12 @@
 				} else if (!applicant['JOB_SQRXXB.FGJDQ'] || applicant['JOB_SQRXXB.FGJDQ'].length == 0) {
 					Toast('请选择申请人国家/地区!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
+				} 
+				/* else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
 					Toast('请选择申请人户籍所属省份!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
+				} */
+				 else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
 					Toast('请填写申请人联系电话!');
 					return;
 				} else if (!reg2.test(applicant['JOB_SQRXXB.FLXDH'])) {
@@ -720,6 +778,7 @@
 				sessionStorage.setItem('formdata', JSON.stringify(this.$data['JOB_BDCQK']));
 				var _this = this;
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -799,6 +858,7 @@
 				var _this = this;
 				if (showLoading) {
 					Toast.loading({
+					duration: 0,
 						mask: true,
 						message: '加载中...'
 					});
@@ -915,8 +975,21 @@
 			}
 		},
 		created() {
+			var formdata = sessionStorage.getItem('formdata');
+			if (formdata) { // 不过本地存在业务则不创建
+				this.taskId = sessionStorage.getItem('taskId');
+				this.$data['JOB_BDCQK'] = JSON.parse(formdata);
+				// 提取权利信息
+				this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+				// 提取义务人
+				this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
+				// 提取权利人
+				this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+				return;
+			}
 			if (this.$route.query && this.$route.query.processInstanceId) {
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -947,6 +1020,8 @@
 						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
 						// 提取义务人
 						_this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
+						// 提取权利人
+						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();
@@ -959,6 +1034,7 @@
 			} else {
 				var _this = this;
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});

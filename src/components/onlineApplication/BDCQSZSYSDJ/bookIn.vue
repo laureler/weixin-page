@@ -1,3 +1,13 @@
+<!--
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-16 19:21:13
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-23 14:23:25
+ * @Description: 文件注释
+ -->
 <template>
 	<div class="container">
 		<page-head title="不动产权利证书遗失（换证）登记"></page-head>
@@ -65,8 +75,8 @@
 				estateType: '',
 				cqlx: '',
 				show: false,
-				qlr: '',  // 杨智勇
-				cqzh: '',  // 湘（2017）苏仙不动产权第0022928号
+				qlr: '杨智勇',  // 杨智勇
+				cqzh: '湘（2017）苏仙不动产权第0022928号',  // 湘（2017）苏仙不动产权第0022928号
 				customStatus: '',
 				actions: [{
 						name: '房屋'
@@ -157,6 +167,7 @@
 				}
 				this.customStatus = '';
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});

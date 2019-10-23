@@ -1,3 +1,13 @@
+<!--
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-16 19:21:13
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-23 17:03:46
+ * @Description: 建设用地使用权、宅基地使用权转移登记
+ -->
 <template>
 	<div class="container">
 		<page-head title="建设用地使用权、宅基地使用权转移登记"></page-head>
@@ -117,7 +127,7 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							<span class="required-span">*</span>户籍所属省份
+							户籍所属省份
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow" placeholder="请选择户籍所属省份"
 							clickable @click.native="provinceClicked(0)" />
@@ -234,8 +244,8 @@
 						<van-field v-model="assignor['JOB_SQRXXB_OLD.FQLBL']" clearable placeholder="权利比例" />
 					</van-cell-group>
 					<div class="buttons">
-						<van-button class="info-btn" size="small" type="info" 
-							@click.native="saveApplicant(1)" v-show="saveShow" >保存
+						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant(1)"
+							v-show="saveShow">保存
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -359,7 +369,7 @@
 		DEL_SUB_FORM_DATA,
 		TEST,
 		exchangeZqdm,
-    exchangeZqdmToZqmc
+		exchangeZqdmToZqmc
 	} from '../../../constants/index.js'
 	export default {
 		components: {
@@ -647,8 +657,8 @@
 					name: '其他'
 				}],
 				unitNatures: [{
-						name: '个人'
-					}],
+					name: '个人'
+				}],
 				situations: [{
 						name: '单独所有'
 					},
@@ -884,10 +894,12 @@
 					} else if (!_applicant['JOB_SQRXXB.FGJDQ'] || _applicant['JOB_SQRXXB.FGJDQ'].length == 0) {
 						Toast('请选择受让人国家/地区!');
 						return;
-					} else if (!_applicant['JOB_SQRXXB.FHJSZSS'] || _applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
+					} 
+					/* else if (!_applicant['JOB_SQRXXB.FHJSZSS'] || _applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
 						Toast('请选择受让人户籍所属省份!');
 						return;
-					} else if (!_applicant['JOB_SQRXXB.FLXDH'] || _applicant['JOB_SQRXXB.FLXDH'].length == 0) {
+					} */
+					 else if (!_applicant['JOB_SQRXXB.FLXDH'] || _applicant['JOB_SQRXXB.FLXDH'].length == 0) {
 						Toast('请填写受让人联系电话!');
 						return;
 					} else if (!reg2.test(_applicant['JOB_SQRXXB.FLXDH'])) {
@@ -942,11 +954,13 @@
 					} else if (!_assignor['JOB_SQRXXB_OLD.FGJDQ'] || _assignor['JOB_SQRXXB_OLD.FGJDQ'].length == 0) {
 						Toast('请选择转让人国家/地区!');
 						return;
-					} else if (!_assignor['JOB_SQRXXB_OLD.FHJSZSS'] || _assignor['JOB_SQRXXB_OLD.FHJSZSS'].length ==
+					} 
+					/* else if (!_assignor['JOB_SQRXXB_OLD.FHJSZSS'] || _assignor['JOB_SQRXXB_OLD.FHJSZSS'].length ==
 						0) {
 						Toast('请选择转让人户籍所属省份!');
 						return;
-					} else if (!_assignor['JOB_SQRXXB_OLD.FLXDH'] || _assignor['JOB_SQRXXB_OLD.FLXDH'].length == 0) {
+					} */
+					 else if (!_assignor['JOB_SQRXXB_OLD.FLXDH'] || _assignor['JOB_SQRXXB_OLD.FLXDH'].length == 0) {
 						Toast('请填写转让人联系电话!');
 						return;
 					} else if (!reg2.test(_assignor['JOB_SQRXXB_OLD.FLXDH'])) {
@@ -991,12 +1005,14 @@
 				var _this = this;
 				if (showLoading) {
 					Toast.loading({
+						duration: 0,
 						mask: true,
 						message: '加载中...'
 					});
 				}
 				this.axios({
-					url: DEL_SUB_FORM_DATA + '?parentdomname=' + title + '&parentrid=' + parentrid + '&domains=' + domains + '&templateid=' + templateid,
+					url: DEL_SUB_FORM_DATA + '?parentdomname=' + title + '&parentrid=' + parentrid +
+						'&domains=' + domains + '&templateid=' + templateid,
 					method: 'post',
 					data: params,
 				}).then(response => {
@@ -1106,11 +1122,13 @@
 							.length == 0) {
 							Toast('请选择转让人' + _assignors[i]['JOB_SQRXXB_OLD.FSQRMC'] + '的国家/地区!');
 							return;
-						} else if (!_assignors[i]['JOB_SQRXXB_OLD.FHJSZSS'] || _assignors[i]['JOB_SQRXXB_OLD.FHJSZSS']
+						} 
+						/* else if (!_assignors[i]['JOB_SQRXXB_OLD.FHJSZSS'] || _assignors[i]['JOB_SQRXXB_OLD.FHJSZSS']
 							.length == 0) {
 							Toast('请选择转让人' + _assignors[i]['JOB_SQRXXB_OLD.FSQRMC'] + '的户籍所属省份!');
 							return;
-						} else if (!_assignors[i]['JOB_SQRXXB_OLD.FLXDH'] || _assignors[i]['JOB_SQRXXB_OLD.FLXDH']
+						} */
+						 else if (!_assignors[i]['JOB_SQRXXB_OLD.FLXDH'] || _assignors[i]['JOB_SQRXXB_OLD.FLXDH']
 							.length == 0) {
 							Toast('请填写转让人' + _assignors[i]['JOB_SQRXXB_OLD.FSQRMC'] + '的联系电话!');
 							return;
@@ -1156,6 +1174,7 @@
 			saveTaskFormData: function (next) {
 				sessionStorage.setItem('formdata', JSON.stringify(this.valuesParams));
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -1206,12 +1225,11 @@
 						parentrid + '&doms=' + domains + '&templateid=' + templateid + '&random=19')
 					.then(response => {
 						console.log('response:', response);
-						debugger;
 						if (title === 'JOB_SQRXXB_OLD_LINK.OLD_IQLR') { // 转让人
 							_this.assignors = response.rows;
-						} else if (title === 'JOB_GLQLXXB_LINK.OLD_IQLDJ') {  // 权利信息
-							
-						} else if (title === 'JOB_SQRXXB_LINK.IQLR') {  // 受让人
+						} else if (title === 'JOB_GLQLXXB_LINK.OLD_IQLDJ') { // 权利信息
+
+						} else if (title === 'JOB_SQRXXB_LINK.IQLR') { // 受让人
 							_this.applicants = response.rows;
 						}
 					})
@@ -1232,6 +1250,7 @@
 				console.log(result.data.controls[title].linkTplId);
 				if (showLoading) {
 					Toast.loading({
+						duration: 0,
 						mask: true,
 						message: '加载中...'
 					});
@@ -1243,6 +1262,7 @@
 					method: 'post',
 					data: params,
 				}).then(response => {
+					Toast.clear();
 					console.log('FILL_SUB_FORM_DATA:', response);
 					this.editApplicantState = false;
 					if (saveTape) {
@@ -1250,6 +1270,7 @@
 					}
 				}).catch(error => {
 					console.log(error);
+					Toast.fail(error.message);
 				});
 
 			},
@@ -1313,8 +1334,21 @@
 			}
 		},
 		created() {
+			var formdata = sessionStorage.getItem('formdata');
+			if (formdata) { // 不过本地存在业务则不创建
+				this.taskId = sessionStorage.getItem('taskId');
+				this.valuesParams = JSON.parse(formdata);
+				// 提取权利信息
+				this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+				// 提取权利人
+				this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
+				// 提取受让人
+				this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+				return;
+			}
 			if (this.$route.query && this.$route.query.processInstanceId) {
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -1360,6 +1394,7 @@
 				console.log('cqxx:', this.$route.query.cqxx);
 				var _this = this;
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
