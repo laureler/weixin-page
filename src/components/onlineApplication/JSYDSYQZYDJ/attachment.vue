@@ -222,8 +222,8 @@
 			var djyy = JSON.parse(sessionStorage.getItem('formdata'))["JOB_JSYDCQXXB.FDJYY"];
 			if (qlxx.length==0) {
 				Toast("请先获取数据！");
-			return;}
-		    else if (djyy == ""||djyy == null) {
+				return;
+			} else if (djyy == ""||djyy == null) {
 				Toast("请先填写“不动产情况”中“登记原因”！");
 				return;
 			}

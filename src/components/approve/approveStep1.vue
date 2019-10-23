@@ -1,9 +1,9 @@
 <template>
 	<!-- 身份验证 -->
 	<div class="step1_1">
-		<page-head :title="faceTitle"></page-head>
+		<page-head  :title="faceTitle"></page-head>
 		<div class="space_between"></div>
-		<img src="../../../public/images/approve/face_checkout.png" class="face_checkout" />
+		<img src="../../../public/images/approve/face_checkout.png" class="face_checkout"/>
 		<van-cell-group>
 			<van-field v-model="username" @focus="hide(false)" @blur="hide(true)" id="username" label="姓名："
 				input-align="right" :readonly="!editable" center></van-field>
@@ -41,7 +41,7 @@
 			'page-head': Head,
 			tencentBottom
 		},
-		data() {
+		data () {
 			return {
 				faceTitle: '人脸核身',
 				faceVerifyType: 1,
@@ -73,11 +73,11 @@
 		},
 		methods: {
 			// 通过聚焦判断控制tencentBottom的显示隐藏
-			hide(param) {
+			hide (param) {
 				this.showType = param;
 			},
 			// 将显示信息加*
-			checkInfo(_name, _id) {
+			checkInfo (_name, _id) {
 				// 如果用户名长度大于二，则中间名字使用*号表示
 				if (_name.length > 2) {
 					_name = _name.substr(0, 1) + '*' + _name.substr(_name.length - 1, 1);
@@ -234,12 +234,12 @@
 					_this.dialogAlert('接口异常' + error);
 				});*/
 			},
-			dialogAlert(message) {
+			dialogAlert (message) {
 				Dialog.alert({
 					message: message
 				}).then({});
 			},
-			WeChatFaceCheck() {
+			WeChatFaceCheck () {
 				var _this = this;
 				var info = {
 					'request_verify_pre_info': '{"name":"' + _this.data_name + '","id_card_number":"' + _this.data_id +
@@ -332,12 +332,12 @@
 					});
 				}
 			},
-			nextPage() {
+			nextPage () {
 				if (this.checkID_number()) {
 					this.WeChatFaceCheck();
 				}
 			},
-			checkID_number() {
+			checkID_number () {
 				var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
 				// 如果data_id为空，则用户信息为手动输入，将用户输入的值用于验证
 				if (this.data_id == null) {
@@ -355,14 +355,16 @@
 				return true;
 			}
 		},
-		mounted() {
+		mounted () {
 			var _this = this;
-			// 微信标题
+			/*// 微信标题
 			_this.$fetch('/gdbdcWebService/WeChatConfig/public/getProtocolTitleInfomation')
 				.then(res => {
 					_this.faceTitle = res.WECHATTITLE;
 				})
 				.catch(erro => {})
+				.catch(erro => {
+			})*/
 			_this.$fetch('/gdbdcWebService/WeChatConfig/public/getFaceIdentificationInfomation')
 				.then(res => {
 					_this.faceVerifyType = (res.CHECKALIVETYPE == null || res.CHECKALIVETYPE == undefined) ? 1 : res

@@ -134,6 +134,9 @@
 					<div class="buttons">
 						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant()">保存
 						</van-button>
+						<van-button class="info-btn" size="small" type="default" v-if="editApplicantState"
+							@click.native="delApplicant()">删除申请人
+						</van-button>
 					</div>
 					<div class="applicants">
 						<div class="title">
@@ -253,6 +256,7 @@
 		SAVE_TASK_FORM_DATA,
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
+		DEL_SUB_FORM_DATA,
 		TEST,
 		exchangeZqdm,
     exchangeZqdmToZqmc
@@ -528,7 +532,8 @@
 				qtyy: '',
 				bz: '',
 				goBack: false,
-				emsNecessary: false
+				emsNecessary: false,
+				editApplicantState: false,
 			}
 		},
 		methods: {
@@ -583,10 +588,11 @@
 				this.actionsheetShow = false;
 			},
 			delApplicant: function () {
-				this.$dialog.confirm({
+				Dialog.confirm({
 					message: '确定要删除该申请人吗?'
 				}).then(() => {
 					console.log('删除');
+					this.delSubFormData('JOB_SQRXXB_LINK.IQLR', [this.$data['JOB_SQRXXB_LINK.IQLR'][this.applicantIndex]], true);
 					// on close
 				}).catch(() => {
 					// on cancel
@@ -633,9 +639,45 @@
 				this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant], true);
 				/* } */
 			},
+			// 删除子表内容
+			delSubFormData: function (title, params, showLoading = false) {
+				var business = JSON.parse(sessionStorage.getItem('business'));
+				var result = JSON.parse(business.result);
+				console.log(result);
+				var link = title.split('.')[0];
+				var domains = title.split('_LINK')[0]
+				var parentrid = result.data.values[link + '.RID'];
+				var templateid = result.data.controls[title].linkTplId;
+				console.log(result.data.values[link + '.RID']);
+				console.log(result.data.controls[title].linkTplId);
+				var _this = this;
+				if (showLoading) {
+					Toast.loading({
+						mask: true,
+						message: '加载中...'
+					});
+				}
+				this.axios({
+					url: DEL_SUB_FORM_DATA + '?parentdomname=' + title + '&parentrid=' + parentrid +
+						'&domains=' + domains + '&templateid=' + templateid,
+					method: 'post',
+					data: params,
+				}).then(response => {
+					Toast.clear();
+					console.log(response);
+					this.$data['JOB_SQRXXB_LINK.IQLR'].splice(this.applicantIndex, 1);
+					this.applicantIndex = -1;
+					this.editApplicantState = false;
+					this.applicant = {};
+				}).catch(error => {
+					Toast.clear();
+					console.log(error);
+				});
+			},
 			editApplicant: function (item, index) { // 编辑申请人
 				this.applicant = item;
 				this.applicantIndex = index;
+				this.editApplicantState = true;
 			},
 			nextStep: function () {
 				var applicant = this.$data['JOB_SQRXXB_LINK.IQLR'][0] || {};
@@ -818,6 +860,7 @@
 						_this.applicantIndex = -1;
 						_this.applicant = {};
 					}
+					this.editApplicantState = false;
 					console.log('FILL_SUB_FORM_DATA:', response);
 				}).catch(error => {
 					Toast.clear();

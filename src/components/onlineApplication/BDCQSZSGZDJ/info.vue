@@ -159,7 +159,8 @@
 							placeholder="权利比例" />
 					</van-cell-group>
 					<div class="buttons">
-						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant()">保存
+						<van-button class="info-btn" size="small" type="info" 
+							@click.native="saveApplicant()" v-show="saveShow">保存
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -635,7 +636,8 @@
 				qtyy: '',
 				bz: '',
 				goBack: false,
-				emsNecessary: false
+				emsNecessary: false,
+				saveShow: false,
 			}
 		},
 		methods: {
@@ -692,7 +694,7 @@
 				this.actionsheetShow = false;
 			},
 			delApplicant: function () {
-				this.$dialog.confirm({
+				Dialog.confirm({
 					message: '确定要删除该申请人吗?'
 				}).then(() => {
 					console.log('删除');
@@ -747,7 +749,7 @@
 						return;
 					}
 
-					this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant], true);
+					this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant], true, true);
 				}
 			},
 			saveChangeItem: function () {
@@ -772,6 +774,7 @@
 			editApplicant: function (item, index) { // 编辑申请人
 				this.applicant = item;
 				this.applicantIndex = index;
+				this.saveShow = true;
 			},
 			editChangeItem: function (item, index) { // 编辑申请人
 				this.changeItem = item;
@@ -780,7 +783,7 @@
 			},
 			delChangeItem: function () {
 				var _this = this;
-				this.$dialog.confirm({
+				Dialog.confirm({
 					message: '确定要删除该变更事项吗?'
 				}).then(() => {
 					console.log('删除');
@@ -864,6 +867,11 @@
 					return;
 				} else if (!this.$data['JOB_XGXXB_LINK.IXG'] || this.$data['JOB_XGXXB_LINK.IXG'].length == 0) {
 					Toast('请填写更正事项!');
+					return;
+				}
+
+				if (this.saveShow) {
+					Toast('权利人信息未保存!');
 					return;
 				}
 
@@ -962,7 +970,7 @@
 						console.log('error:', error);
 					});
 			},
-			fillSubFormData: function (title, params, showLoading = false) {
+			fillSubFormData: function (title, params, showLoading = false, saveTape = false) {
 				var business = JSON.parse(sessionStorage.getItem('business'));
 				var result = JSON.parse(business.result);
 				console.log(result);
@@ -989,6 +997,9 @@
 					Toast.clear();
 					console.log(response);
 					console.log('FILL_SUB_FORM_DATA:', response);
+					if (saveTape) {
+						this.saveShow = false;
+					}
 					if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
 						_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.data.result;
 						_this.applicantIndex = -1;

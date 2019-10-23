@@ -175,7 +175,7 @@
 							placeholder="权利比例" />
 					</van-cell-group>
 					<div class="buttons">
-						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant()">保存
+						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant()" v-show="saveShow" >保存
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -584,7 +584,8 @@
 				applicantIndex: -1,
 				optionsTitle: '',
 				goBack: false,
-				emsNecessary: false
+				emsNecessary: false,
+				saveShow: false,
 			}
 		},
 		methods: {
@@ -646,7 +647,7 @@
 				this.actionsheetShow = false;
 			},
 			delApplicant: function () {
-				this.$dialog.confirm({
+				Dialog.confirm({
 					message: '确定要删除该申请人吗?'
 				}).then(() => {
 					console.log('删除');
@@ -700,12 +701,13 @@
 						Toast('请填写权利人权利比例!');
 						return;
 					}
-					this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant], true);
+					this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant], true, true);
 				}
 			},
 			editApplicant: function (item, index) { // 编辑申请人
 				this.applicant = item;
 				this.applicantIndex = index;
+				this.saveShow = true;
 			},
 			nextStep: function () {
 				var applicant = this.$data['JOB_SQRXXB_LINK.IQLR'][0];
@@ -789,6 +791,11 @@
 					return;
 				} else if (!applicant['JOB_SQRXXB.FQLBL'] || applicant['JOB_SQRXXB.FQLBL'].length == 0) {
 					Toast('请填写权利人权利比例!');
+					return;
+				}
+
+				if (this.saveShow) {
+					Toast('申请人信息未保存!');
 					return;
 				}
 
@@ -885,7 +892,7 @@
 						console.log('error:', error);
 					});
 			},
-			fillSubFormData: function (title, params, showLoading = false) {
+			fillSubFormData: function (title, params, showLoading = false, saveTape = false) {
 				var business = JSON.parse(sessionStorage.getItem('business'));
 				var result = JSON.parse(business.result);
 				console.log(result);
@@ -910,6 +917,9 @@
 				}).then(response => {
 					Toast.clear();
 					console.log('FILL_SUB_FORM_DATA:', response);
+					if (saveTape) {
+						this.saveShow = false;
+					}
 				}).catch(error => {
 					Toast.clear();
 					console.log(error);
