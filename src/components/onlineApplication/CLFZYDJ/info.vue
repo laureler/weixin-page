@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-10-16 19:32:10
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-10-23 16:21:30
+ * @LastEditTime: 2019-10-24 09:21:55
  * @Description: 存量房（二手房）转移登记
  -->
 <template>
@@ -1637,6 +1637,8 @@
 						_this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
 						// 提取受让人
 						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+
+						Toast.clear();
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();

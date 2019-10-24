@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-10-23 10:26:35
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-10-23 16:18:07
+ * @LastEditTime: 2019-10-24 09:50:28
  * @Description: 不动产权利证书遗失（换证）登记 详情页面
  -->
 <template>
@@ -1025,6 +1025,7 @@
 						// 权利人
 						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
 						console.log('taskId:', _this.taskId);
+						Toast.clear();
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();

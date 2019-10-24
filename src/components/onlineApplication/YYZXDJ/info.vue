@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-10-23 10:26:35
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-10-23 18:19:04
+ * @LastEditTime: 2019-10-24 09:59:24
  * @Description: 异议注销登记
  -->
 <template>
@@ -1021,6 +1021,8 @@
 						_this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
 						// 提取权利人
 						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+
+						Toast.clear();
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();
@@ -1133,7 +1135,7 @@
 						// 保存权利人信息
 						_this.fillSubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR', ywrdata);
 
-
+						Toast.clear();
 					})
 					.catch(function (error) {
 						console.log(error);

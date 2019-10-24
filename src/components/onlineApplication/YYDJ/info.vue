@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-10-23 10:26:35
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-10-23 18:18:44
+ * @LastEditTime: 2019-10-24 09:56:45
  * @Description: 文件注释
  -->
 <template>
@@ -1034,6 +1034,7 @@
 						_this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
 						// 提取权利人
 						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+						
 						Toast.clear();
 					}).catch(err => {
 						console.log('err:', err);

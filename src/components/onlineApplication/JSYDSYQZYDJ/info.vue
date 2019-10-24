@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-10-16 19:21:13
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-10-23 17:03:46
+ * @LastEditTime: 2019-10-24 09:55:51
  * @Description: 建设用地使用权、宅基地使用权转移登记
  -->
 <template>
@@ -1387,6 +1387,8 @@
 						_this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
 						// 提取受让人
 						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+
+						Toast.clear();
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();

@@ -1,3 +1,13 @@
+<!--
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-16 19:32:10
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-24 09:31:56
+ * @Description: 文件注释
+ -->
 <template>
 	<div class="container">
 		<page-head title="上传附件材料"></page-head>
@@ -108,7 +118,11 @@
 				console.log(result.data.values[link + '.RID']);
 				console.log(result.data.controls[title].linkTplId);
 				var _this = this;
-				_this.loading1 = true;
+				Toast.loading({
+					duration: 0,
+					mask: true,
+					message: '上传中...'
+				});
 				this.axios({
 					url: FILL_SUB_FORM_DATA + '?jid=' + sessionStorage.getItem('jid') + '&type=0' +
 						'&parentdomname=' + title + '&parentrid=' + parentrid + '&domains=' + domains +
@@ -116,24 +130,22 @@
 					method: 'post',
 					data: params,
 				}).then(response => {
-					_this.loading1 = false;
+					Toast.clear();
 					console.log('FILL_SUB_FORM_DATA:', response);
 					if (response.status === 200) {
 						_this.JOB_FILES = response.data.result[0];
 						_this.endFillSub();
 					}
 				}).catch(error => {
-					_this.loading1 = false;
+					Toast.fail(error.message);
 					console.log(error);
 				});
 			},
 			endFillSub: function () {
-				if (this.loading1 === false) {
 					console.log('结束保存子表单');
 					this.$router.push({
 						path: '/onlineApplication/CLFZYDJ/verification'
 					});
-				}
 			},
 			nextStep: function () {
 				this.fillSubFormData('JOB_FILES_LINK.IFJQD', this.fjqd);

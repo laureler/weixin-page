@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-10-23 10:26:35
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-10-23 16:17:23
+ * @LastEditTime: 2019-10-24 10:09:28
  * @Description: 不动产权利证书更正登记详情页面
  -->
 <template>

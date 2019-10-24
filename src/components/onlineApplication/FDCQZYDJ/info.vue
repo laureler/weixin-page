@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-10-16 19:21:13
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-10-23 17:02:22
+ * @LastEditTime: 2019-10-24 09:54:23
  * @Description: 房地产权（独幢、层、套、间房屋）转移登记
  -->
 <template>
@@ -1403,6 +1403,8 @@
 						_this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
 						// 提取受让人
 						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+
+						Toast.clear();
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();

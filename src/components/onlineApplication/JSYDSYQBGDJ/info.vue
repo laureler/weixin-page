@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-10-23 10:26:35
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-10-23 17:02:54
+ * @LastEditTime: 2019-10-24 09:54:59
  * @Description: 建设用地使用权、宅基地使用权变更登记
  -->
 <template>
@@ -1207,6 +1207,8 @@
 						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
 						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
 						_this.querySubFormData('JOB_XGXXB_LINK.IXG');
+
+						Toast.clear();
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();

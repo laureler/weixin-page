@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-10-23 10:26:35
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-10-23 18:15:17
+ * @LastEditTime: 2019-10-24 09:53:00
  * @Description: 房地产权（独幢、层、套、间房屋）变更登记
  -->
 <template>
@@ -1233,7 +1233,7 @@
 						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
 						_this.querySubFormData('JOB_XGXXB_LINK.IXG');
 
-
+						Toast.clear();
 						//_this.startExactBusiness(rid, businessNumber);
 					}).catch(err => {
 						console.log('err:', err);
