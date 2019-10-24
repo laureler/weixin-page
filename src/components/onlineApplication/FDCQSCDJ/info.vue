@@ -1104,7 +1104,11 @@
 						console.log('response:', response);
 						debugger;
 						if (title === 'JOB_GLQLXXB_LINK.OLD_IQLDJ') {  // 权利信息
-							
+							// 获取镇区代码
+							var sBdcdyh = response.rows[0]['JOB_GLQLXXB.FBDCDYH'];
+							var zqdm = exchangeZqdm(sBdcdyh);
+							var zqmc = exchangeZqdmToZqmc(zqdm);
+							_this.valuesParams['JOB_SJDJB.FZQDM'] = zqmc;
 						}else if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
 							_this.applicants = response.rows;
 						}
@@ -1261,18 +1265,10 @@
 						_this.taskId = taskId;
 						console.log('taskId:', _this.taskId);
 						_this.valuesParams = values;
-
-						// 获取镇区代码
-						var sBdcdyh = values['JOB_BDCQK.FBDCDYH'];
-						var zqdm = exchangeZqdm(sBdcdyh);
-						var zqmc = exchangeZqdmToZqmc(zqdm);
-						_this.valuesParams['JOB_SJDJB.FZQDM'] = zqmc;
-
 						console.log('>>>:', _this.valuesParams);
 						sessionStorage.setItem('jid', businessNumber);
 						console.log('taskId:', _this.taskId);
 						
-						// _this.startExactBusiness(rid, businessNumber);
 						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
 						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
 						Toast.clear();

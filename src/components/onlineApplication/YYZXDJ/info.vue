@@ -776,6 +776,12 @@
 							if (!response.rows || !showloading) return;
 							_this.applicantIndex = 0;
 							_this.applicant = response.rows[0];
+						} else if (title === 'JOB_GLQLZMXXB_LINK.OLD_IQLDJ') { // 基本信息
+							//获取镇区名称
+							var sBdcdyh = response.rows[0]['JOB_GLQLZMXXB.FBDCDYH'];
+							var zqdm = exchangeZqdm(sBdcdyh);
+							var zqmc = exchangeZqdmToZqmc(zqdm);
+							_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
 						}
 					})
 					.catch(error => {
@@ -814,6 +820,12 @@
 						_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.data.result;
 						_this.applicantIndex = -1;
 						_this.applicant = {};
+					} else if (title === 'JOB_GLQLZMXXB_LINK.OLD_IQLDJ') { //基本信息
+						//获取镇区名称
+						var sBdcdyh = response.data.result[0]['JOB_GLQLZMXXB.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
 					}
 					console.log('FILL_SUB_FORM_DATA:', response);
 				}).catch(error => {
@@ -842,11 +854,6 @@
 						var bdclx = getBdcType(qllx);
 						_this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCLX'] = bdclx;
 
-						var sBdcdyh = response['JOB_GLQLZMXXB.FBDCDYH'];
-						var zqdm = exchangeZqdm(sBdcdyh);
-						var zqmc = exchangeZqdmToZqmc(zqdm);
-						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
-
 						//补充权利人信息
 						for (var key in response) {
 							if (key == "JOB_SQRXXB_OLD_LINK.OLD_IQLR") {
@@ -873,8 +880,13 @@
 							}
 						}
 
-						console.log("_this.$data['JOB_BDCQK']:", _this.$data['JOB_BDCQK']);
+						//获取镇区名称
+						var sBdcdyh = response['JOB_GLQLZMXXB.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
 
+						console.log("_this.$data['JOB_BDCQK']:", _this.$data['JOB_BDCQK']);
 
 						// 保存权利信息
 						this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response['JOB_GLQLXXB_LINK.OLD_IQLDJ']);
@@ -944,6 +956,8 @@
 						console.log('taskId:', _this.taskId);
 						// 提取权利人
 						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+						// 提取基本信息
+						_this.querySubFormData('JOB_GLQLZMXXB_LINK.OLD_IQLDJ');
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();
@@ -1048,7 +1062,7 @@
 						_this.$data['JOB_BDCQK']['JOB_BDCQK.FQLRMC'] = glqlxx["yyxx.FQLR"];
 						_this.$data['JOB_BDCQK']['JOB_BDCQK.FYBDCQSZH'] = glqlxx["yyxx.FBDCQZH"];
 
-						// 保存权利证明信息
+						// 保存权利证明信息 
 						_this.fillSubFormData('JOB_GLQLZMXXB_LINK.OLD_IQLDJ', [GLQLZMXXB]);
 						// 保存申请人信息
 						_this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', sqrdata);

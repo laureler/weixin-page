@@ -1340,7 +1340,7 @@
 						console.log('>>>:', _this.valuesParams);
 
 						// 获取镇区代码
-						var sBdcdyh = values['JOB_BDCQK.FBDCDYH'];
+						var sBdcdyh = values['JOB_JSYDCQXXB.FBDCDYH'];
 						var zqdm = exchangeZqdm(sBdcdyh);
 						var zqmc = exchangeZqdmToZqmc(zqdm);
 						_this.valuesParams['JOB_SJDJB.FZQDM'] = zqmc;

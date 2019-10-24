@@ -892,11 +892,6 @@
 						var bdclx = getBdcType(qllx);
 						_this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCLX'] = bdclx;
 
-						var sBdcdyh = response['JOB_BDCQK.FBDCDYH'];
-						var zqdm = exchangeZqdm(sBdcdyh);
-						var zqmc = exchangeZqdmToZqmc(zqdm);
-						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
-
 						//补充权利人信息
 						for (var key in response) {
 							if (key == "JOB_SQRXXB_OLD_LINK.OLD_IQLR") {
@@ -921,6 +916,13 @@
 								}
 							}
 						}
+
+						//获取镇区名称
+						var sBdcdyh = response['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
+						
 						console.log("_this.$data['JOB_BDCQK']:", _this.$data['JOB_BDCQK']);
 						// 保存权利信息
 						this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response['JOB_GLQLXXB_LINK.OLD_IQLDJ']);

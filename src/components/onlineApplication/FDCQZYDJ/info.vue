@@ -1283,6 +1283,7 @@
 						var bdclx = getBdcType(qllx);
 						//不动产类型
 						this.valuesParams['JOB_FDCQXXB.FBDCLX'] = bdclx;
+						//获取镇区名称
 						var sBdcdyh = response['JOB_FDCQXXB.FBDCDYH'];
 						var zqdm = exchangeZqdm(sBdcdyh);
 						var zqmc = exchangeZqdmToZqmc(zqdm);
@@ -1357,7 +1358,7 @@
 						console.log('>>>:', _this.valuesParams);
 
 						// 获取镇区代码
-						var sBdcdyh = values['JOB_BDCQK.FBDCDYH'];
+						var sBdcdyh = values['JOB_FDCQXXB.FBDCDYH'];
 						var zqdm = exchangeZqdm(sBdcdyh);
 						var zqmc = exchangeZqdmToZqmc(zqdm);
 						_this.valuesParams['JOB_SJDJB.FZQDM'] = zqmc;

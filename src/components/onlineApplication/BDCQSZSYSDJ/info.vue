@@ -886,11 +886,6 @@
 						var bdclx = getBdcType(qllx);
 						_this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCLX'] = bdclx;
 
-						var sBdcdyh = response['JOB_BDCQK.FBDCDYH'];
-						var zqdm = exchangeZqdm(sBdcdyh);
-						var zqmc = exchangeZqdmToZqmc(zqdm);
-						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
-
 						//补充权利人信息
 						for (var key in response) {
 							if (key == "JOB_SQRXXB_LINK.IQLR") {
@@ -926,6 +921,12 @@
 
 						_this.$data['JOB_BDCQK']['JOB_BDCQK.FMJ'] = response['JOB_BDCQK.FJZMJ'];
 						_this.$data['JOB_BDCQK']['JOB_BDCQK.FYT'] = response['JOB_BDCQK.FFWYT'];
+
+						//获取镇区名称
+						var sBdcdyh = response['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
 
 						console.log("_this.$data['JOB_BDCQK']:", _this.$data['JOB_BDCQK']);
 
@@ -987,10 +988,13 @@
 						sessionStorage.setItem('business', JSON.stringify(response));
 						_this.taskId = taskId;
 						_this.$data['JOB_BDCQK'] = values;
-						var sBdcdyh = _this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCDYH'];
+
+						//获取镇区名称
+						var sBdcdyh = values['JOB_BDCQK.FBDCDYH'];
 						var zqdm = exchangeZqdm(sBdcdyh);
 						var zqmc = exchangeZqdmToZqmc(zqdm);
 						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
+
 						sessionStorage.setItem('jid', businessNumber);
 						_this.qtyy = _this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'];
 						_this.bz = _this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'];
