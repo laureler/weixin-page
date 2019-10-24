@@ -1,3 +1,13 @@
+<!--
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-16 19:21:13
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-24 09:54:23
+ * @Description: 房地产权（独幢、层、套、间房屋）转移登记
+ -->
 <template>
 	<div class="container">
 		<page-head title="房地产权（独幢、层、套、间房屋）转移登记"></page-head>
@@ -129,7 +139,7 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							<span class="required-span">*</span>户籍所属省份
+							户籍所属省份
 						</div>
 						<van-field v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow" placeholder="请选择户籍所属省份"
 							  clickable 
@@ -906,10 +916,12 @@
 					} else if (!_applicant['JOB_SQRXXB.FGJDQ'] || _applicant['JOB_SQRXXB.FGJDQ'].length == 0) {
 						Toast('请选择受让人国家/地区!');
 						return;
-					} else if (!_applicant['JOB_SQRXXB.FHJSZSS'] || _applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
+					} 
+					/* else if (!_applicant['JOB_SQRXXB.FHJSZSS'] || _applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
 						Toast('请选择受让人户籍所属省份!');
 						return;
-					} else if (!_applicant['JOB_SQRXXB.FLXDH'] || _applicant['JOB_SQRXXB.FLXDH'].length == 0) {
+					} */
+					 else if (!_applicant['JOB_SQRXXB.FLXDH'] || _applicant['JOB_SQRXXB.FLXDH'].length == 0) {
 						Toast('请填写受让人联系电话!');
 						return;
 					} else if (!reg2.test(_applicant['JOB_SQRXXB.FLXDH'])) {
@@ -963,11 +975,13 @@
 					} else if (!_assignor['JOB_SQRXXB_OLD.FGJDQ'] || _assignor['JOB_SQRXXB_OLD.FGJDQ'].length == 0) {
 						Toast('请选择转让人国家/地区!');
 						return;
-					} else if (!_assignor['JOB_SQRXXB_OLD.FHJSZSS'] || _assignor['JOB_SQRXXB_OLD.FHJSZSS'].length ==
+					} 
+					/* else if (!_assignor['JOB_SQRXXB_OLD.FHJSZSS'] || _assignor['JOB_SQRXXB_OLD.FHJSZSS'].length ==
 						0) {
 						Toast('请选择转让人户籍所属省份!');
 						return;
-					} else if (!_assignor['JOB_SQRXXB_OLD.FLXDH'] || _assignor['JOB_SQRXXB_OLD.FLXDH'].length == 0) {
+					} */
+					 else if (!_assignor['JOB_SQRXXB_OLD.FLXDH'] || _assignor['JOB_SQRXXB_OLD.FLXDH'].length == 0) {
 						Toast('请填写转让人联系电话!');
 						return;
 					} else if (!reg2.test(_assignor['JOB_SQRXXB_OLD.FLXDH'])) {
@@ -1012,6 +1026,7 @@
 				var _this = this;
 				if (showLoading) {
 					Toast.loading({
+					duration: 0,
 						mask: true,
 						message: '加载中...'
 					});
@@ -1119,11 +1134,13 @@
 							.length == 0) {
 							Toast('请选择转让人' + _assignors[i]['JOB_SQRXXB_OLD.FSQRMC'] + '的国家/地区!');
 							return;
-						} else if (!_assignors[i]['JOB_SQRXXB_OLD.FHJSZSS'] || _assignors[i]['JOB_SQRXXB_OLD.FHJSZSS']
+						} 
+						/* else if (!_assignors[i]['JOB_SQRXXB_OLD.FHJSZSS'] || _assignors[i]['JOB_SQRXXB_OLD.FHJSZSS']
 							.length == 0) {
 							Toast('请选择转让人' + _assignors[i]['JOB_SQRXXB_OLD.FSQRMC'] + '的户籍所属省份!');
 							return;
-						} else if (!_assignors[i]['JOB_SQRXXB_OLD.FLXDH'] || _assignors[i]['JOB_SQRXXB_OLD.FLXDH']
+						} */
+						 else if (!_assignors[i]['JOB_SQRXXB_OLD.FLXDH'] || _assignors[i]['JOB_SQRXXB_OLD.FLXDH']
 							.length == 0) {
 							Toast('请填写转让人' + _assignors[i]['JOB_SQRXXB_OLD.FSQRMC'] + '的联系电话!');
 							return;
@@ -1169,6 +1186,7 @@
 			saveTaskFormData: function (next) {
 				sessionStorage.setItem('formdata', JSON.stringify(this.valuesParams));
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -1219,7 +1237,6 @@
 						parentrid + '&doms=' + domains + '&templateid=' + templateid + '&random=19')
 					.then(response => {
 						console.log('response:', response);
-						debugger;
 						if (title === 'JOB_SQRXXB_OLD_LINK.OLD_IQLR') { // 转让人
 							_this.assignors = response.rows;
 						} else if (title === 'JOB_GLQLXXB_LINK.OLD_IQLDJ') {  // 权利信息
@@ -1244,6 +1261,7 @@
 				console.log(result.data.controls[title].linkTplId);
 				if (showLoading) {
 					Toast.loading({
+					duration: 0,
 						mask: true,
 						message: '加载中...'
 					});
@@ -1260,8 +1278,10 @@
 					if (saveTape) {
 						this.saveShow = false;
 					}
+					Toast.clear();
 				}).catch(error => {
 					console.log(error);
+					Toast.fail(error.message);
 				});
 
 			},
@@ -1331,8 +1351,21 @@
 			}
 		},
 		created() {
+			var formdata = sessionStorage.getItem('formdata');
+				if (formdata) { // 不过本地存在业务则不创建
+					this.taskId = sessionStorage.getItem('taskId');
+					this.valuesParams = JSON.parse(formdata);
+					// 提取权利信息
+					this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+					// 提取权利人
+					this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
+					// 提取受让人
+					this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+					return;
+				}
 			if (this.$route.query && this.$route.query.processInstanceId) {
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -1371,6 +1404,8 @@
 						_this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
 						// 提取受让人
 						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+
+						Toast.clear();
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();
@@ -1387,6 +1422,7 @@
 					this.$route.query.businessDefinitionId);
 				var _this = this;
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});

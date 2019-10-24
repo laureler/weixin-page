@@ -1,3 +1,13 @@
+/*
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-16 19:21:13
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-23 10:56:54
+ * @Description: 文件注释
+ */
 // var url='https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=3Q0dARwnDHr3PlsgBie7oIaY&client_secret=4p5UrwCncRlsDED6B9QK0iZN4tN7AxET&';
 import axios from 'axios';
 import moment from 'moment';
@@ -60,9 +70,7 @@ var axiosFilter = function () {
 	// 添加响应拦截器
 	axios.interceptors.response.use(function (response) {
 		// 对响应数据做点什么
-		console.log(response);
 		console.log("响应拦截");
-		console.log(Cookies.get());
 		return response;
 	}, function (error) {
 		// 对响应错误做点什么

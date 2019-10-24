@@ -1,3 +1,13 @@
+<!--
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-16 19:21:12
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-16 19:21:12
+ * @Description: 文件注释
+ -->
 # wechat-auth
 
     基于Vue Cli3的微信公众号项目
@@ -206,7 +216,7 @@ server {
     }
 }
 ```
-
+中山业务使用`zhongshan`分支进行开发
 然后使用`npm run serve`启动项目，启动项目后将访问地址上的端口`3000`改为`8082`即可。
 目的：为了访问的接口和启动/部署的项目在同一域名下，解决跨域导致的问题，解决 cas 登录 cookies 保持一致的问题
 

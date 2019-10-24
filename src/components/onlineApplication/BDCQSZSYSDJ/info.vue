@@ -1,3 +1,13 @@
+<!--
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-23 10:26:35
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-24 09:50:28
+ * @Description: 不动产权利证书遗失（换证）登记 详情页面
+ -->
 <template>
 	<div class="container">
 		<page-head title="不动产权利证书遗失（换证）登记"></page-head>
@@ -120,7 +130,7 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							<span class="required-span">*</span>户籍所属省份
+							户籍所属省份
 						</div>
 						<van-field id="JOB_SQRXXB.FHJSZSS" v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow"
 							clickable placeholder="户籍所属省份" @click.native="actionsheetClicked('censusOptions')" />
@@ -147,8 +157,8 @@
 							placeholder="权利比例" />
 					</van-cell-group>
 					<div class="buttons">
-						<van-button class="info-btn" size="small" type="info" 
-							@click.native="saveApplicant()" v-show="saveShow" >保存
+						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant()"
+							v-show="saveShow">保存
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -635,10 +645,12 @@
 				} else if (!applicant['JOB_SQRXXB.FGJDQ'] || applicant['JOB_SQRXXB.FGJDQ'].length == 0) {
 					Toast('请选择申请人国家/地区!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
+				} 
+				/* else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
 					Toast('请选择申请人户籍所属省份!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
+				} */
+				 else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
 					Toast('请填写申请人联系电话!');
 					return;
 				} else if (!reg2.test(applicant['JOB_SQRXXB.FLXDH'])) {
@@ -714,10 +726,12 @@
 				} else if (!applicant['JOB_SQRXXB.FGJDQ'] || applicant['JOB_SQRXXB.FGJDQ'].length == 0) {
 					Toast('请选择申请人国家/地区!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
+				} 
+				/* else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
 					Toast('请选择申请人户籍所属省份!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
+				} */
+				 else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
 					Toast('请填写申请人联系电话!');
 					return;
 				} else if (!reg2.test(applicant['JOB_SQRXXB.FLXDH'])) {
@@ -763,6 +777,7 @@
 				sessionStorage.setItem('formdata', JSON.stringify(this.$data['JOB_BDCQK']));
 				var _this = this;
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -811,7 +826,6 @@
 						parentrid + '&doms=' + domains + '&templateid=' + templateid + '&random=19')
 					.then(response => {
 						console.log('response:', response);
-						debugger;
 						if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
 							_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.rows;
 							if (!response.rows || !showloading) return;
@@ -836,6 +850,7 @@
 				var _this = this;
 				if (showLoading) {
 					Toast.loading({
+						duration: 0,
 						mask: true,
 						message: '加载中...'
 					});
@@ -963,8 +978,21 @@
 			}
 		},
 		created() {
+			var formdata = sessionStorage.getItem('formdata');
+			if (formdata) { // 不过本地存在业务则不创建
+				this.taskId = sessionStorage.getItem('taskId');
+				this.$data['JOB_BDCQK'] = JSON.parse(formdata);
+				this.qtyy = this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'];
+				this.bz = this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'];
+				// 提取权利信息
+				this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+				// 提取受让人
+				this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+				return;
+			}
 			if (this.$route.query && this.$route.query.processInstanceId) {
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -1001,6 +1029,7 @@
 						// 权利人
 						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
 						console.log('taskId:', _this.taskId);
+						Toast.clear();
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();
@@ -1015,6 +1044,7 @@
 				console.log('cqxx:', this.$route.query.cqxx);
 				var _this = this;
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});

@@ -1,3 +1,13 @@
+<!--
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-16 19:32:10
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-23 14:21:06
+ * @Description: 我的业务入口
+ -->
 <template>
 	<div class="container">
 		<page-head title="我的业务"></page-head>
@@ -283,6 +293,7 @@
 				}
 				if (showLoading || this.pageIndex === 1) {
 					Toast.loading({
+					duration: 0,
 						mask: true,
 						message: '加载中...'
 					});
@@ -322,6 +333,7 @@
 			}
 		},
 		mounted() {
+			sessionStorage.clear();
 			// this.getProgressJobDataByMongodb();
 		},
 	}

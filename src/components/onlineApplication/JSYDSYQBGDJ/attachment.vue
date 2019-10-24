@@ -134,6 +134,7 @@
 			},
 			submitTaskFormData: function () {
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '提交中...'
 				});

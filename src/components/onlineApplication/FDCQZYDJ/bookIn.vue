@@ -1,3 +1,13 @@
+<!--
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-16 19:21:13
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-23 15:08:54
+ * @Description: 房地产权（独幢、层、套、间房屋）转移登记
+ -->
 <template>
 	<div class="container">
 		<page-head title="房地产权（独幢、层、套、间房屋）转移登记"></page-head>
@@ -111,6 +121,7 @@
 			checkoutID: function () {
 				this.customStatus = '';
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -163,9 +174,11 @@
 						if (state != '') {
 							this.customStatus = state.substring(0, state.length - 1);
 						}
+						Toast.clear();
 					}
 				}).catch(err => {
 					console.log(err)
+					Toast.fail(err.message);
 				})
 			},
 			nextStep: function () {

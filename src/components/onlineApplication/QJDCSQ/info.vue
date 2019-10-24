@@ -325,6 +325,7 @@
 			// saveTaskFormData: function () {
 			// 	sessionStorage.setItem('formdata', JSON.stringify(this.valuesParams));
 			// 	Toast.loading({
+					duration: 0,
 			// 		mask: true,
 			// 		message: '加载中...'
 			// 	});
@@ -357,6 +358,7 @@
 			// },
 			submitTaskFormData: function () {
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '提交中...'
 				});
@@ -393,6 +395,7 @@
 		created() {
 			var _this = this;
 			Toast.loading({
+					duration: 0,
 				mask: true,
 				message: '加载中...'
 			});
