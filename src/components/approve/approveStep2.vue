@@ -61,13 +61,13 @@
             }
         },
         mounted () {
-			// 微信标题
+			/*// 微信标题
 			this.$fetch('/gdbdcWebService/WeChatConfig/public/getProtocolTitleInfomation')
 				.then(res => {
 					this.faceTitle = res.WECHATTITLE;
 				})
 				.catch(erro => {
-				})
+				})*/
             // todo 接口需要调试，需要返回整数，0表示失败，1表示成功
             this.isSuccess = this.$route.query.isSuccess == undefined ? 0 : this.$route.query.isSuccess
             // 只有在 personInfo的时候才会有-10的效果
