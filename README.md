@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-10-16 19:21:12
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-10-16 19:21:12
+ * @LastEditTime: 2019-10-24 20:40:02
  * @Description: 文件注释
  -->
 # wechat-auth
@@ -216,6 +216,11 @@ server {
     }
 }
 ```
+
+windows 下如果代理 localhost 发现很慢的话可以改成 127.0.0.1，win10优先代理到 ipv6 下访问
+而且尽量不要多次启动 Nginx，使用命令行启动或停止 Nginx；如出现停止了 Nginx 但是端口还能正常访问
+则需要在 cmd 下执行 `taskkill /f /t /im nginx.exe` 杀死 Nginx 启动的所有端口再重新启动
+
 中山业务使用`zhongshan`分支进行开发
 然后使用`npm run serve`启动项目，启动项目后将访问地址上的端口`3000`改为`8082`即可。
 目的：为了访问的接口和启动/部署的项目在同一域名下，解决跨域导致的问题，解决 cas 登录 cookies 保持一致的问题

@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-10-16 19:32:10
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-10-23 14:21:06
+ * @LastEditTime: 2019-10-24 20:26:18
  * @Description: 我的业务入口
  -->
 <template>
@@ -24,7 +24,7 @@
 					@click="clickedItem(item)">
 					<div style="display: none;">{{ item }}</div>
 					<div class="item-title">
-						申请编号：{{ item.f2 }}
+						申请编号：{{ item['job_base-jid'] }}
 					</div>
 					<div class="item-content">
 						<div class="flex-box content-name">
