@@ -1322,7 +1322,6 @@
 							sessionStorage.setItem('jid', businessNumber);
 							console.log('taskId:', _this.taskId);
 
-							// _this.startExactBusiness(rid, businessNumber);
 							_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
 							_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
 							Toast.clear();
@@ -1368,10 +1367,7 @@
 						console.log('>>>:', _this.valuesParams);
 						sessionStorage.setItem('jid', businessNumber);
 						console.log('taskId:', _this.taskId);
-						
-						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
-						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
-						Toast.clear();
+						_this.startExactBusiness(rid, businessNumber);
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();

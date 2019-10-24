@@ -148,7 +148,8 @@ var businessPROD = {
 	}
 }
 
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = true;
+// process.env.NODE_ENV === 'production';
 
 export const business = isProd ? businessPROD : businessDEV;
 
