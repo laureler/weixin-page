@@ -75,20 +75,13 @@
 			cancelSure() {
 				const that = this;
 				// 验证该预约是否能被取消
-				var checkInfo = {
+				/*var checkInfo = {
 					"yyr": that.items[that.value].yyr,
 					"zjhm": that.items[that.value].zjhm,
 					"qzhm": that.items[that.value].qzhm,
 					"yyh": that.items[that.value].yyh,
 					"id": that.items[that.value].id
-				};
-				request({
-					url: '/CheckCancelYYInfoByID_ZS',
-					data: {strJson: JSON.stringify(checkInfo)},
-					success(response) {
-						if (Number(response.resultcode) === 1) {
-							// 验证能取消预约后，提交取消信息
-							// const openid = isWx() ? Cookies.get('openid') : '';
+				};*/
 							const form = {
 								yyr: that.items[that.value].yyr,
 								yyh: that.items[that.value].yyh,
@@ -112,13 +105,6 @@
 								fail(error) {
 								},
 							})
-						} else {
-							alert(response.resultmsg)
-						}
-					},
-					fail(error) {
-					},
-				});
 			},
 			requestQuery() {
 				const that = this;
