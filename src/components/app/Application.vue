@@ -431,6 +431,7 @@
             Toast('请完善个人信息！')
         }
     }
+		}
 		},
 		// 挂载元素时自动触发
 		mounted() {
@@ -443,7 +444,7 @@
 				fail(error) {},
 			})
 		},
-	}}
+	}
 </script>
 
 <style lang="css" scoped>
