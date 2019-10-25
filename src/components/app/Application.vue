@@ -70,7 +70,10 @@
 				name: '', // 预约人名称
 				cerNumber: '', // 当前输入的证件号码
 				phoNumber: '', // 当前输入的手机号码
-				cerTypeData: ['身份证', '港澳台身份证', '护照', '户口簿', '军官证（士兵证）']
+				cerTypeData: ['身份证', '港澳台身份证', '护照', '户口簿', '军官证（士兵证）'],
+				zmh:'',
+				dywzs: '',  // 抵押物清单的不动产宗数
+				showDYWZS: false
 			};
 		},
 		// 计算属性
@@ -326,7 +329,7 @@
 					zjlx: that.cerTypeValue, // 预约人证件种类
 					zjhm: that.cerNumber, // 预约人证件号码
 					sjhm: that.phoNumber, // 预约人手机号码
-					zmh: '', // zmh未明字段
+					zmh:  that.zmh, // zmh未明字段
 					dywzs: that.dywzs,
 				};
 				// 点击确定直接跳到预约成功/失败页面
