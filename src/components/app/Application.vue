@@ -315,16 +315,19 @@
 				var that = this;
 				const openid = isWx() ? Cookies.get('openid') : '';
 				const paramData = {
-					szwd: this.select1Value, // 办理网点
-					yysx: this.select2Value, // 预约事项
-					yyrq: this.select3Value, // 预约日期
-					yysd: this.select4Value, // 预约时段
-					yyr: this.name, // 预约人名称
-					yyfs: this.yyfs, // 预约方式
-					zjlx: this.cerTypeValue, // 预约人证件种类
-					zjhm: this.cerNumber, // 预约人证件号码
-					sjhm: this.phoNumber, // 预约人手机号码
+					openid: openid,
+					bdczl: '',
+					szwd: that.select1Value, // 办理网点
+					yysx: that.select2Value, // 预约事项
+					yyrq: that.select3Value, // 预约日期
+					yysd: that.select4Value, // 预约时段
+					yyr: that.name, // 预约人名称
+					yyfs: that.yyfs, // 预约方式
+					zjlx: that.cerTypeValue, // 预约人证件种类
+					zjhm: that.cerNumber, // 预约人证件号码
+					sjhm: that.phoNumber, // 预约人手机号码
 					zmh: '', // zmh未明字段
+					dywzs: that.dywzs,
 				};
 				// 点击确定直接跳到预约成功/失败页面
 				request({
