@@ -225,7 +225,7 @@
 				}).catch(err => {
 					Toast.clear();
 					console.log(err)
-					Toast.fail(err);
+					Toast.fail(err.message);
 				})
 			},
 			onCancel: function () {},
