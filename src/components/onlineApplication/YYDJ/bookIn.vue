@@ -5,7 +5,7 @@
  * @Github: https://github.com/CharlsPrince
  * @Date: 2019-10-16 19:21:13
  * @LastEditors: charls.fairy
- * @LastEditTime: 2019-10-23 18:21:21
+ * @LastEditTime: 2019-10-25 09:14:50
  * @Description: 文件注释
  -->
 <template>
@@ -196,7 +196,7 @@
 				}).catch(err => {
 					
 					console.log(err)
-					Toast.fail(err);
+					Toast.fail(err.message);
 				})
 			},
 			onCancel: function () {},
