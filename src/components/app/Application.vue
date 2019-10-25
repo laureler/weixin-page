@@ -351,6 +351,7 @@
 				})
 			},
 			check() {
+				debugger;
 				const aomenreg = /^[157][0-9]{6}\([0-9]\)$/;	// 补充澳门身份证正则
 				const taiwanreg = /^\d{8}|^[a-zA-Z0-9]{10}|^\d{18}$/;	// 台湾身份证正则
 				const GAReg = /^([A-Z]\d{6,10}(\(\w{1}\))?)$/;	// 港澳身份证正则
@@ -375,7 +376,7 @@
 								this.resq()
 							}
 						}
-					} else if (cerType == '港澳台身份证') {
+					   else if (cerType == '港澳台身份证') {
 						const aomenreg = /^[157][0-9]{6}\([0-9]\)$/;	// 补充澳门身份证正则
 						const taiwanreg = /^\d{8}|^[a-zA-Z0-9]{10}|^\d{18}$/;	// 台湾身份证正则
 						const GAReg = /^([A-Z]\d{6,10}(\(\w{1}\))?)$/;	// 港澳身份证正则
@@ -390,11 +391,12 @@
 						} else {
 							this.resq();
 						}
+					}else if (this.select3Data[0].yyrqinfo.length == 0) {
+						Toast('预约号数已用完，不能预约');
 					}
-					} else if (this.select3Data[0].yyrqinfo.length == 0) {
-					Toast('预约号数已用完，不能预约');
-				} else {
-					Toast('请完善个人信息！');
+				}else {
+						Toast('请完善个人信息！');
+					}
 				}
             if (this.showDYWZS == false) {
         if (this.name !== '' && this.cerNumber !== '' && this.phoNumber !== '' && this.zmh !== ''
@@ -437,7 +439,7 @@
             Toast('请完善个人信息！')
         }
     }
-		}
+		},
 		},
 		// 挂载元素时自动触发
 		mounted() {
