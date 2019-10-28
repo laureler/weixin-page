@@ -9,6 +9,7 @@
 			<div v-for="(item,i) in GridCellData"  class="branch_yuyue" @click="open(item.path)" v-bind:style="gridCellStyle(item.id)">
 				<span>{{item.title}}</span>
 			</div>
+			<div class="footerBar"></div>
 		</div>
 	</div>
 </template>
@@ -154,6 +155,12 @@
 		padding-bottom: 2rem;
 		width:100%;
 		height: 100%;
+		/*overflow: auto;*/
+	}
+	.footerBar{
+		 height: 20px;
+		 width: 100%;
+		 float: left;
 	}
 	.branch .branch_yuyue{
 		/*background: url(../../assets/images/person.png);*/
