@@ -2,7 +2,9 @@
     <div style="width:100%;height: 100%;position: relative;">
         <page-head title="个人业务详情"></page-head>
         <div v-show="showQrcode" @click="hide" class="qrCodeBox">
-            <div v-show="showQrcode" class="qrCode" id="qrcode"></div><!-- 创建一个div，并设置id为qrcode -->
+            <div v-show="showQrcode" class="qrCode" id="qrcode">
+				<img src="" alt="" id="arcodeImg">
+			</div><!-- 创建一个div，并设置id为qrcode -->
             <div class="hrefText">长按二维码识别跳转签名</div>
         </div>
         <div style="z-index:1">
@@ -80,7 +82,7 @@
 </template>
 <script>
 import Head from '@/components/app/head.vue';
-import QRCode from 'qrcodejs2'  // 引入qrcode二维码生成JS
+import QRCode from 'qrcode';
 export default {
     name:"businessView",
     data(){
@@ -103,23 +105,33 @@ export default {
             _this.showQrcode=false;
         },
         qrcode() {
-            document.getElementById('qrcode').innerHTML = "";
-            let qrcode = new QRCode('qrcode', { 
-                width: 200, 
-                height: 200, 
-                text: 'https://sign.dg.cn/?query=0d398e19-7bd9-45f5-b15e-5b864158a2a2', // 二维码地址 
-                colorDark : "#000", 
-                colorLight : "#fff",
-                correctLevel: QRCode.CorrectLevel.L//容错率，L/M/H 
-                });
-        let _this = this;
-        _this.showQrcode=true;
+            var canvas = document.getElementById('canvas')
+            var opts = {
+                errorCorrectionLevel: 'H',
+                type: 'image/jpeg',
+                quality: 0.3,
+                margin: 1,
+                color: {
+                    dark:"#000000",
+                    light:"#ffffff"
+                }
+            }
+            let _this = this;
+            let text= 'https://sign.dg.cn/?query=0d398e19-7bd9-45f5-b15e-5b864158a2a2'; // 二维码地址
+			QRCode.toDataURL(text, opts, function (error,url) {
+                if (error) console.error(error)
+                var img = document.getElementById("arcodeImg");
+                img.src=url;
+                console.log('QRCode success!');
+                _this.showQrcode=true;
+            })
+
         }
     },
     mounted(){
         let _this=this;
         _this.viewType=_this.$route.query.viewType;
-    },    
+    },
 }
 </script>
 <style scoped>
@@ -179,8 +191,8 @@ export default {
         margin-top:  5rem;
         position: relative;
         display: inline-block;
-        background-color: #fff; 
-        padding: 8px; 
+        background-color: #fff;
+        padding: 8px;
     }
     .hrefText{
         color: #fff;
