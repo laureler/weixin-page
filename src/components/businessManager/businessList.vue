@@ -6,29 +6,29 @@
                 <table>
                     <tr>
                         <td class="title">申请编号</td>
-                        <td class="count">{{dataRow.ywbh}}</td>
+                        <td class="count">{{dataRow.SQBH}}</td>
                     </tr>
                     <tr>
                         <td class="title">合同号</td>
-                        <td class="count">{{dataRow.hth}}</td>
+                        <td class="count">{{dataRow.HTBH}}</td>
                     </tr>
                     <tr>
                         <td class="title">坐落</td>
-                        <td class="count">{{dataRow.zl}}</td>
+                        <td class="count">{{dataRow.BDCZL}}</td>
                     </tr>
                     <tr>
                         <td class="title">是否按揭</td>
-                        <td class="count">{{dataRow.ajf}}</td>
+                        <td class="count">{{dataRow.SFAJ == 1?"是":"否"}}</td>
                     </tr>
                     <tr>
                         <td class="title">进度</td>
-                        <td class="count">{{dataRow.jd}}</td>
+                        <td class="count">{{dataRow.YWJD}}</td>
                     </tr>
                     <tr>
                         <td class="title">操作</td>
                         <td class="count">
-                            <van-button @click="showBusiness(1)" v-if="dataRow.jd=='待申请'" type="default" size="small" class="blue-button">申请</van-button>
-                            <van-button @click="showBusiness(0)" v-else type="default" size="small" class="blue-button">查看</van-button>
+                            <van-button @click="showBusiness(1,dataRow.HTBH)" v-if="dataRow.YWJD=='待申请' || dataRow.YWJD=='预受理' || dataRow.YWJD==''" type="default" size="small" class="blue-button">申请</van-button>
+                            <van-button @click="showBusiness(0,dataRow.HTBH)" v-else type="default" size="small" class="blue-button">查看</van-button>
                         </td>
                     </tr>
                 </table>
@@ -39,14 +39,12 @@
 </template>
 <script>
 import Head from '@/components/app/head.vue';
+import { Toast, Dialog } from 'vant';
 export default {
     name:"businessList",
     data(){
         return{
-            resultData:[{"ywbh":"","hth":"1231231","zl":"东莞市某某镇某某街","ajf":"是","jd":"待申请"},
-                {"ywbh":"212253345","hth":"1231231","zl":"东莞市某某镇某某街","ajf":"是","jd":"已出证"},
-                {"ywbh":"2133453","hth":"1231231","zl":"东莞市某某镇某某街","ajf":"是","jd":"已出证"},
-                {"ywbh":"","hth":"1231231","zl":"东莞市某某镇某某街","ajf":"是","jd":"待申请"}],
+            resultData:[{"ywbh":"","hth":"","zl":"","ajf":"","jd":""}],
             cardCode:null,
             userName:null
         }
@@ -58,8 +56,33 @@ export default {
         let _this=this;
         _this.cardCode=_this.$route.query.cardCode;
         _this.userName=_this.$route.query.userName;
-        if(!_this.cardCode || !_this.userName){
-            this.$router.push({
+        //_this.userName="蒲秀蓉";
+       // _this.cardCode="512921197609094225";
+        if(_this.cardCode && _this.userName){
+            Toast.loading({
+                duration:0,
+                mask: true,
+                message: '加载中...'
+            });
+            // 获取数据
+            this.$fetch('/gdbdcWebService/public/personalBusiness/findInformation?buyerName=' + _this.userName + '&idNumber=' + _this.cardCode)
+                .then(response => {
+                    if (response.code==1) {
+                        // 短信发送成功
+                        _this.resultData=response.data;
+                    Toast.clear();
+                    } else {
+                    Toast.clear();
+                        Toast('数据加载失败!');
+                    }
+                })
+                .catch(error => {
+                    Toast.clear();
+                    Toast('服务器请求错误!');
+                    console.log(error);
+                });
+        }else{
+             this.$router.push({
 					path: '/preApprovenew',
 					query: {
 						callbackUrl: '/businessList'
@@ -68,12 +91,31 @@ export default {
         }
     },
     methods:{
-        showBusiness(type){
+        showBusiness(type,htbh){
             let _this=this;
-            this.$router.push({
-                                path: '/businessView',
-                                query: { code: "", viewType: type },
-                            })
+            Toast.loading({
+                duration:0,
+                mask: true,
+                message: '加载中...'
+            });
+             this.$fetch('/workflowWebService/public/getBusiness?code=4000101-02&contractNumber=' +htbh + '&createType=2')
+                .then(response => {
+                    if (response.code==1) {
+                        Toast.clear();
+                        this.$router.push({
+                            name: 'businessView',
+                            params:{ code: "", viewType: type,data:response.data,nowUser:_this.userName }
+                        });
+                    } else {
+                        Toast.clear();
+                        Toast('数据加载失败!');
+                    }
+                })
+                .catch(error => {
+                    Toast.clear();
+                    Toast('服务器请求错误!');
+                    console.log(error);
+                });
         }
     }
 }
@@ -114,7 +156,8 @@ export default {
         width: 2.3rem;
     }
     .list-box .list .count{
-        padding-left: .2rem
+        padding-left: .2rem;
+        max-width: calc(100%-2.3rem);
     }
     .blue-button{
         background: linear-gradient(to right, #2db6ff, #2edbfd) !important;
