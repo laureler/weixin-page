@@ -8,15 +8,19 @@
 			</div><!-- 创建一个div，并设置id为qrcode -->
             <div class="hrefText">长按二维码识别跳转签名</div>
         </div>
-        <div  v-show="showImg" @click="viewImg" class="viewImgBox">
-            <img :src="imgPath"/>
+        <!--<div  v-show="showImg" @click="viewImg('')" class="viewImgBox">
+            <img :src="imgPath"/
+        </div>>-->
+        <div  v-show="showImg" class="viewImgBox">
+            <wimg :show="showImg" :imgs="imgPath" :currentImg="current" @close="showImg = false"></wimg>
         </div>
+        
         <div style="z-index:1">
             <div v-if="viewType==0" style="margin: 10px 0px">
-                <van-button type="default" size="default" class="fullButton">下载证照</van-button>
+                <van-button @click="downloadFiel" type="default" size="default" class="fullButton">下载证照</van-button>
             </div>
             <div v-else style="margin: 10px 0px;text-align:center">
-                <van-button type="default" size="default" class="fullButton">提交</van-button>
+                <van-button type="default" size="default" class="fullButton" @click="sublitBusiness">提交</van-button>
                 <div style="width:100%;height:.3rem"></div>
                 <van-button type="default" size="default" class="fullButton" @click="qrcode">电子签名</van-button>
             </div>
@@ -67,11 +71,14 @@
                     <template v-for="(qd,index) in formData.FJQD">
                         <tr :key="index">
                             <td>{{qd.ZLMC}}</td>
-                            <td style="width:4.6rem">
+                            <td v-if="viewType==1" style="width:4.6rem">
                                 <van-button :disabled="qd.FPATH==null?true:false" @click="viewImg(qd.FPATH)" type="info" size="small">预览</van-button>
-                                &nbsp;&nbsp;&nbsp;&nbsp;<van-button style="padding-left:.2rem" v-if="qd.ZLMC == '身份证明材料'" @click="uploadImg" type="info" size="small">上传</van-button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<van-button style="padding-left:.2rem" v-if="qd.ZLMC == '身份证明材料'" @click="uploadImg(index)" type="info" size="small">上传</van-button>
                                  <input :ref="'getPhoto'+index" @change="postImg('getPhoto'+index)" v-if="qd.ZLMC == '身份证明材料'" style="display:none;" type="file" id="upload" accept="image/*" size="30">
                             </td>
+                            <td v-if="viewType==0" style="width:2.2rem">
+                                <van-button :disabled="qd.FPATH==null?true:false" @click="viewImg(qd.FPATH)" type="info" size="small">预览</van-button>
+                               </td>
                         </tr>
                     </template>
                 </table>
@@ -83,6 +90,9 @@
 import Head from '@/components/app/head.vue';
 import QRCode from 'qrcode';
 import axios from 'axios'
+import qs from 'qs'
+import wimg from 'w-previewimg'
+import { Toast, Dialog } from 'vant';
 /*export function compress(img) {
   let canvas = document.createElement("canvas");
   let ctx = canvas.getContext("2d");
@@ -120,38 +130,99 @@ export default {
     name:"businessView",
     data(){
         return{
-            formData:{SQBH:"",GFRMC:"",GFRZJHM:"",lxdh:"",HTBH:"",BDCZL:"",FJZMJ:"",FJQD:[],ALLGFRXX:[]},
+            formData:{SQBH:"",QQJID:"",GFRMC:"",GFRZJHM:"",lxdh:"",HTBH:"",BDCZL:"",FJZMJ:"",FJQD:[],ALLGFRXX:[]},
             viewType:0,//视图类型 0：预览  1：在线申请
             showQrcode:false,
-            imgPath:"",
+            imgPath:["/view/preview/201911/proveWeChat/身份证明材料/2019110600031/18e39ca3-eaea-4638-9173-294ea16542ad.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/603db8af-5ea2-4c10-8ac7-f3695cd8259c.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/6574e16f-2eb1-4a15-b321-6273cf5b5085.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/8318bc15-e3cb-4b22-b11a-b69602896604.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/86cda428-f243-499f-bf91-2a3208d09c0d.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/9838855a-6d61-40ef-b761-768bb3f5f236.png","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/c403aad4-76a2-48ed-84cb-caeb8cd81e68.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/d5e32274-8542-484a-88c5-76514012f71b.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/d621f9c9-f551-45f9-acf9-cd7d664a24ce.jpg"],
             showImg:false,
             headerImage:'',
             picValue:'',
-            nowUser:{LXR:"",LXDH:"",SIGNLINK:""}
+            current: '',
+            nowUser:{LXR:"",LXDH:"",SIGNLINK:""},
+            currentIndex:-1
         }
     },
     components: {
-			'page-head': Head,
+			'page-head': Head,wimg
     },
     methods:{
-        test(){},
-        uploadImg(){
+        downloadFiel(){
+            let _this=this;
+             _this.$http({
+                      method:"get",
+                      url:"/gdbdcWebService/public/personalBusiness/downLoadCertification?jid="+_this.formData.SQBH+"&materialName=申请人身份证明",
+                      headers:{'Content-Type':'application/x-download'},
+                      responseType: 'blob',
+                  }).then(function(res){
+                    let resultData=res.data;
+                    if(resultData.code==1){
+                        window.open(resultData.url);
+                    }else{
+                        Toast(resultData.msg);
+                    }
+                    
+                   /* let url = window.URL.createObjectURL(new Blob([res.data]));  // new Blob([data])用来创建URL的file对象或者blob对象
+                        　　let link = document.createElement('a');
+                        　　link.style.display = 'none';
+                        　　link.href = url;
+                            link.download= '电子证照.pdf'; //docNumber 动态文件名
+                        　　document.body.appendChild(link);
+                        　　link.click();*/
+                  });
+        },
+        uploadImg(index){
+            this.currentIndex=index;
             document.getElementById("upload").click();
         },
+        setViewPath(filePath){
+            let _this=this;
+            Toast.loading({
+                duration:0,
+                mask: true,
+                message: '加载中...'
+            });
+            let params={rebuild:1,macroPath:filePath}
+            _this.$post('/formengineWebService/public/preview',qs.stringify(params))
+                .then(response => {
+                    if (response.code==0) {
+                        _this.imgPath=response.result;
+                        _this.current=_this.imgPath[0];
+                        _this.showImg=!this.showImg;
+                        Toast.clear();
+                    } else {
+                        Toast.clear();
+                        Toast('获取预览附件失败!');
+                    }
+                })
+                .catch(error => {
+                    Toast.clear();
+                    Toast('服务器请求错误!');
+                    console.log(error);
+                });
+        },
         submitModify(form){
-            debugger
+            let _this=this;
+            Toast.loading({
+                duration:0,
+                mask: true,
+                message: '加载中...'
+            });
             this.$post('/gdbdcWebService/public/personalBusiness/uploadProve',form,{
 				'Content-Type':'multipart/form-data;charset=UTF-8'
 			}).then(response => {
                     if (response.code==1) {
-                        
+                        _this.formData.FJQD[_this.currentIndex].FPATH=response.sFullFilePath
+                         Toast('上传成功!');
+                        Toast.clear();
                     } else {
-                        Toast('数据加载失败!');
+                        Toast('上传失败!');
+                        Toast.clear();
                     }
                 })
                 .catch(error => {
                    
                     Toast('服务器错误!');
+                    Toast.clear();
                     console.log(error);
                 });
         },
@@ -179,15 +250,91 @@ export default {
       },
         viewImg(path){
             if(path){
-                this.imgPath=path;
+                this.setViewPath(path);
+            }else{
+                this.showImg=!this.showImg;
             }
-            this.showImg=!this.showImg;
         },
         hide(){
             let _this = this;
             _this.showQrcode=false;
         },
+        async vailBusiness(){
+            let _this=this;
+            let json={"OLDJID":_this.formData.QQJID,"HTBH":_this.formData.HTBH};
+            let params={key:"$get_info",catalog:"外部服务",
+            strJson:JSON.stringify(json),url:"/ConvertService/CheckValidityData"};
+            var resultData=false;
+            await _this.$post('/gdbdcWebService/public/personalBusiness/getThirdPartyInfo',qs.stringify(params))
+                .then(response => {
+                   if(response.errcode=="1"){
+                       resultData = true;
+                   }else{
+                    Toast.clear();
+                    Toast('数据验证失败!');
+                    }
+                })
+                .catch(error => {
+                    Toast.clear();
+                    Toast('服务器请求错误!');
+                    console.error(error);
+                });
+            return resultData;
+        },
+        async sublitBusiness(){
+            Toast.loading({
+                duration:0,
+                mask: true,
+                message: '数据提交中...'
+            });
+            let _this=this;
+            let json={"OLDJID":_this.formData.QQJID,"HTBH":_this.formData.HTBH};
+            let params={key:"$get_info",catalog:"外部服务",
+            strJson:JSON.stringify(json),url:"/ConvertService/Get200Data"};
+            var resultData=null;
+            await _this.$post('/gdbdcWebService/public/personalBusiness/getThirdPartyInfo',qs.stringify(params))
+                .then(response => {
+                   if(response.errcode=="1"){
+                       resultData = response.data;
+                   }else{
+                    Toast('获取业务数据失败!');
+                    Toast.clear();
+                   }
+                })
+                .catch(error => {
+                    Toast.clear();
+                    Toast('服务器请求错误!');
+                    console.error(error);
+                });
+            if(resultData){
+                if(_this. vailBusiness()){
+                    var subParams={
+                        code:"20010001",
+                        jid:_this.formData.SQBH,
+                        contractNumber:_this.formData.HTBH,
+                        modifyDataJson:JSON.stringify(resultData),
+                    }
+                    _this.$post('/workflowWebService/public/saveFormInfo',qs.stringify(subParams))
+                    .then(response => {
+                        if(response.resultcode=="200"){
+                            _this.viewType=0;
+                            Toast('提交成功!');
+                            Toast.clear();
+                        }else{
+                            Toast('提交失败!');
+                            Toast.clear();
+                        }
+                    })
+                    .catch(error => {
+                        Toast.clear();
+                        Toast('服务器请求错误!');
+                        console.error(error);
+                    });
+                }
+            }
+        },
         qrcode() {
+            let _this = this;
             //var canvas = document.getElementById('canvas')
             var opts = {
                 errorCorrectionLevel: 'H',
@@ -213,7 +360,7 @@ export default {
     mounted(){
         let _this=this;
         let user=_this.$route.params.nowUser;
-        _this.viewType=_this.$route.query.viewType;
+        _this.viewType=_this.$route.params.viewType;
         _this.formData=_this.$route.params.data;
         let  allgfr=_this.formData.ALLGFRXX;
         for(var i=0;i<allgfr.length;i++){
@@ -307,7 +454,6 @@ export default {
         font-size: .5rem;
         font-weight: bolder;
     }
-<<<<<<< .mine
 
 
 .show {
@@ -327,24 +473,3 @@ export default {
   background-size: cover; 
 }
 </style>
-=======
-</style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> .theirs

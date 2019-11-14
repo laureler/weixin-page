@@ -54,10 +54,10 @@ export default {
     },
     mounted(){
         let _this=this;
-        _this.cardCode=_this.$route.query.cardCode;
-        _this.userName=_this.$route.query.userName;
-        //_this.userName="蒲秀蓉";
-       // _this.cardCode="512921197609094225";
+        //_this.cardCode=_this.$route.query.cardCode;
+        //_this.userName=_this.$route.query.userName;
+        _this.userName="蒲秀蓉";
+        _this.cardCode="512921197609094225";
         if(_this.cardCode && _this.userName){
             Toast.loading({
                 duration:0,
