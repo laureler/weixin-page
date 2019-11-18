@@ -16,7 +16,7 @@
 				</div>
 			</div>
 			<van-cell-group class="basic-info" :border="false">
-				<van-field :value="'权证号码：'+realEstateInfo.ysxlh" :border="false" readonly/>
+				<van-field :value="'证书编号：NO D'+realEstateInfo.ysxlh" :border="false" readonly/>
 				<van-field :value="'不动产状态：'+ realEstateInfo.zt" :border="false" readonly/>
 				<van-field :value="'面积：' + realEstateInfo.mj" :border="false" readonly/>
 				<van-field :value="'坐落：'+realEstateInfo.zl" :border="false" readonly/>
@@ -84,9 +84,9 @@
 					this.isShowZDT = false;
 					this.isShowFHT = true;
 				} else {
-					wx.previewImage({
+					/*wx.previewImage({
 						current: ''
-					});
+					});*/
 					this.changeImgSize();
 				}
 			},
