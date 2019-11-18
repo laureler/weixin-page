@@ -74,7 +74,7 @@
                             <td v-if="viewType==1" style="width:4.6rem">
                                 <van-button :disabled="qd.FPATH==null?true:false" @click="viewImg(qd.FPATH)" type="info" size="small">预览</van-button>
                                 &nbsp;&nbsp;&nbsp;&nbsp;<van-button style="padding-left:.2rem" v-if="qd.ZLMC == '身份证明材料'" @click="uploadImg(index)" type="info" size="small">上传</van-button>
-                                 <input :ref="'getPhoto'+index" @change="postImg('getPhoto'+index)" v-if="qd.ZLMC == '身份证明材料'" style="display:none;" type="file" id="upload" accept="image/*" size="30">
+                                 <input :ref="'getPhoto'+index" @change="postImg('getPhoto'+index)" v-if="qd.ZLMC == '身份证明材料'"  multiple="multiple" style="display:none;" type="file" id="upload" accept="image/*" size="30">
                             </td>
                             <td v-if="viewType==0" style="width:2.2rem">
                                 <van-button :disabled="qd.FPATH==null?true:false" @click="viewImg(qd.FPATH)" type="info" size="small">预览</van-button>
@@ -93,44 +93,11 @@ import axios from 'axios'
 import qs from 'qs'
 import wimg from 'w-previewimg'
 import { Toast, Dialog } from 'vant';
-/*export function compress(img) {
-  let canvas = document.createElement("canvas");
-  let ctx = canvas.getContext("2d");
-  let initSize = img.src.length;
-  let width = img.width;
-  let height = img.height;
-  canvas.width = width;
-  canvas.height = height;
-  // 铺底色
-  ctx.fillStyle = "#fff";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(img, 0, 0, width, height);
-
-  //进行最小压缩
-  let ndata = canvas.toDataURL("image/jpeg", 0.1);
-  return ndata;
-}
-
-export function dataURItoBlob(base64Data) {
-  var byteString;
-  if (base64Data.split(",")[0].indexOf("base64") >= 0)
-    byteString = atob(base64Data.split(",")[1]);
-  else byteString = unescape(base64Data.split(",")[1]);
-  var mimeString = base64Data
-    .split(",")[0]
-    .split(":")[1]
-    .split(";")[0];
-  var ia = new Uint8Array(byteString.length);
-  for (var i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
-  }
-  return new Blob([ia], { type: mimeString });
-}*/
 export default {
     name:"businessView",
     data(){
         return{
-            formData:{SQBH:"",QQJID:"",GFRMC:"",GFRZJHM:"",lxdh:"",HTBH:"",BDCZL:"",FJZMJ:"",FJQD:[],ALLGFRXX:[]},
+            formData:{SQBH:"",QQJID:"",GFRMC:"",GFRZJHM:"",lxdh:"",HTBH:"",BDCZL:"",FJZMJ:"",FJQD:[],ALLGFRXX:[],FWBM:""},
             viewType:0,//视图类型 0：预览  1：在线申请
             showQrcode:false,
             imgPath:["/view/preview/201911/proveWeChat/身份证明材料/2019110600031/18e39ca3-eaea-4638-9173-294ea16542ad.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/603db8af-5ea2-4c10-8ac7-f3695cd8259c.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/6574e16f-2eb1-4a15-b321-6273cf5b5085.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/8318bc15-e3cb-4b22-b11a-b69602896604.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/86cda428-f243-499f-bf91-2a3208d09c0d.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/9838855a-6d61-40ef-b761-768bb3f5f236.png","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/c403aad4-76a2-48ed-84cb-caeb8cd81e68.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/d5e32274-8542-484a-88c5-76514012f71b.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/d621f9c9-f551-45f9-acf9-cd7d664a24ce.jpg"],
@@ -138,8 +105,8 @@ export default {
             headerImage:'',
             picValue:'',
             current: '',
-            nowUser:{LXR:"",LXDH:"",SIGNLINK:""},
-            currentIndex:-1
+            nowUser:{LXR:"",LXDH:"",SIGNLINK:""},//纪律当前登录的账户信息
+            currentIndex:-1,//附件上传所在的附件列表
         }
     },
     components: {
@@ -151,8 +118,8 @@ export default {
              _this.$http({
                       method:"get",
                       url:"/gdbdcWebService/public/personalBusiness/downLoadCertification?jid="+_this.formData.SQBH+"&materialName=申请人身份证明",
-                      headers:{'Content-Type':'application/x-download'},
-                      responseType: 'blob',
+                      //headers:{'Content-Type':'application/x-download'},
+                      //responseType: 'blob',
                   }).then(function(res){
                     let resultData=res.data;
                     if(resultData.code==1){
@@ -174,24 +141,29 @@ export default {
             this.currentIndex=index;
             document.getElementById("upload").click();
         },
-        setViewPath(filePath){
+        //获取并设置预览图
+        async setViewPath(filePath){
             let _this=this;
+            _this.imgPath=[];
             Toast.loading({
                 duration:0,
                 mask: true,
                 message: '加载中...'
             });
-            let params={rebuild:1,macroPath:filePath}
-            _this.$post('/formengineWebService/public/preview',qs.stringify(params))
+            let filepaths=[];
+            if(filePath.indexOf("::")>-1){
+                filepaths=filePath.split("::");
+            }else{
+                filepaths.push(filePath);
+            }
+            for(var i = 0;i < filepaths.length;i++){
+                let fileAllPath=filepaths[i].split("|");
+                let params={rebuild:1,macroPath:fileAllPath[1]}
+                await _this.$post('/formengineWebService/public/preview',qs.stringify(params))
                 .then(response => {
                     if (response.code==0) {
-                        _this.imgPath=response.result;
-                        _this.current=_this.imgPath[0];
-                        _this.showImg=!this.showImg;
-                        Toast.clear();
-                    } else {
-                        Toast.clear();
-                        Toast('获取预览附件失败!');
+                        _this.imgPath.push(response.result);
+                        
                     }
                 })
                 .catch(error => {
@@ -199,41 +171,64 @@ export default {
                     Toast('服务器请求错误!');
                     console.log(error);
                 });
+            }
+            _this.current=_this.imgPath[0];
+            _this.showImg=!this.showImg;
+            Toast.clear();
         },
+        //图片上传方法
         submitModify(form){
             let _this=this;
             Toast.loading({
                 duration:0,
                 mask: true,
-                message: '加载中...'
+                message: '正在上传...'
             });
             this.$post('/gdbdcWebService/public/personalBusiness/uploadProve',form,{
 				'Content-Type':'multipart/form-data;charset=UTF-8'
 			}).then(response => {
                     if (response.code==1) {
-                        _this.formData.FJQD[_this.currentIndex].FPATH=response.sFullFilePath
-                         Toast('上传成功!');
+                        _this.formData.FJQD[_this.currentIndex].FPATH=response.sFullFilePath;
+                        let filePath=response.sFullFilePath;
+                        let filepaths=[];
+                         if(filePath.indexOf("::")>-1){
+                                filepaths=filePath.split("::");
+                            }else{
+                                filepaths.push(filePath);
+                            }
+                            for(var i = 0;i < filepaths.length;i++){
+                                let fileAllPath=filepaths[i].split("|");
+                                let params={rebuild:1,macroPath:fileAllPath[1]}
+                                _this.$post('/formengineWebService/public/preview',qs.stringify(params))
+                                .then(response => {
+                                })
+                                .catch(error => {
+                                });
+                            }
                         Toast.clear();
+                        Toast('上传成功!');
                     } else {
-                        Toast('上传失败!');
                         Toast.clear();
+                        Toast('上传失败!');
                     }
                 })
                 .catch(error => {
-                   
-                    Toast('服务器错误!');
                     Toast.clear();
+                    Toast('服务器错误!');
                     console.log(error);
                 });
         },
+        //上传图片设置form
       postImg (node) {
         let _this = this;
         //这里写接口
         let $node = this.$refs[node];
-        let file = $node[0].files[0];//获取当前选择的照片
+        let file = $node[0].files;//获取当前选择的照片
         let formData = new FormData();
-        if(!file) return;
-            formData.append("multipartFile", file);
+        if(file.length == 0) return;
+            for(var i=0;i<file.length;i++){
+                formData.append("multipartFile", file[i]);
+            }
             formData.append("jid", _this.formData.SQBH);
             formData.append("materialName", "身份证明材料");
             _this.submitModify(formData); //上传方法
@@ -248,6 +243,7 @@ export default {
             }
         };*/
       },
+        //设置图片预览路径显示图片
         viewImg(path){
             if(path){
                 this.setViewPath(path);
@@ -255,50 +251,32 @@ export default {
                 this.showImg=!this.showImg;
             }
         },
+        //隐藏二维码
         hide(){
             let _this = this;
             _this.showQrcode=false;
         },
-        async vailBusiness(){
-            let _this=this;
-            let json={"OLDJID":_this.formData.QQJID,"HTBH":_this.formData.HTBH};
-            let params={key:"$get_info",catalog:"外部服务",
-            strJson:JSON.stringify(json),url:"/ConvertService/CheckValidityData"};
-            var resultData=false;
-            await _this.$post('/gdbdcWebService/public/personalBusiness/getThirdPartyInfo',qs.stringify(params))
-                .then(response => {
-                   if(response.errcode=="1"){
-                       resultData = true;
-                   }else{
-                    Toast.clear();
-                    Toast('数据验证失败!');
-                    }
-                })
-                .catch(error => {
-                    Toast.clear();
-                    Toast('服务器请求错误!');
-                    console.error(error);
-                });
-            return resultData;
-        },
-        async sublitBusiness(){
+        //提交数据
+        sublitBusiness(){
             Toast.loading({
                 duration:0,
                 mask: true,
                 message: '数据提交中...'
             });
             let _this=this;
-            let json={"OLDJID":_this.formData.QQJID,"HTBH":_this.formData.HTBH};
-            let params={key:"$get_info",catalog:"外部服务",
-            strJson:JSON.stringify(json),url:"/ConvertService/Get200Data"};
+            let json={"OLDJID":_this.formData.QQJID,"JID":_this.formData.SQBH,"FWBM":_this.formData.FWBM};
+            let params={contractNumber:_this.formData.HTBH,jid:_this.formData.SQBH,
+            strJson:JSON.stringify(json)};
             var resultData=null;
-            await _this.$post('/gdbdcWebService/public/personalBusiness/getThirdPartyInfo',qs.stringify(params))
+            _this.$post('/workflowWebService/public/businessSubmit',qs.stringify(params))
                 .then(response => {
                    if(response.errcode=="1"){
-                       resultData = response.data;
-                   }else{
-                    Toast('获取业务数据失败!');
+                    _this.viewType=0;
                     Toast.clear();
+                    Toast('提交成功!');
+                   }else{
+                    Toast.clear();
+                    Toast('提交失败!');
                    }
                 })
                 .catch(error => {
@@ -306,33 +284,8 @@ export default {
                     Toast('服务器请求错误!');
                     console.error(error);
                 });
-            if(resultData){
-                if(_this. vailBusiness()){
-                    var subParams={
-                        code:"20010001",
-                        jid:_this.formData.SQBH,
-                        contractNumber:_this.formData.HTBH,
-                        modifyDataJson:JSON.stringify(resultData),
-                    }
-                    _this.$post('/workflowWebService/public/saveFormInfo',qs.stringify(subParams))
-                    .then(response => {
-                        if(response.resultcode=="200"){
-                            _this.viewType=0;
-                            Toast('提交成功!');
-                            Toast.clear();
-                        }else{
-                            Toast('提交失败!');
-                            Toast.clear();
-                        }
-                    })
-                    .catch(error => {
-                        Toast.clear();
-                        Toast('服务器请求错误!');
-                        console.error(error);
-                    });
-                }
-            }
         },
+        //设置二维码
         qrcode() {
             let _this = this;
             //var canvas = document.getElementById('canvas')

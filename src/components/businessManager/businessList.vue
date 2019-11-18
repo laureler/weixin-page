@@ -27,8 +27,8 @@
                     <tr>
                         <td class="title">操作</td>
                         <td class="count">
-                            <van-button @click="showBusiness(1,dataRow.HTBH)" v-if="dataRow.YWJD=='待申请' || dataRow.YWJD=='预受理' || dataRow.YWJD==''" type="default" size="small" class="blue-button">申请</van-button>
-                            <van-button @click="showBusiness(0,dataRow.HTBH)" v-else type="default" size="small" class="blue-button">查看</van-button>
+                            <van-button @click="showBusiness(1,dataRow)" v-if="dataRow.YWJD=='预申请' || dataRow.YWJD=='待申请' || dataRow.YWJD=='预受理' || dataRow.YWJD==''" type="default" size="small" class="blue-button">申请</van-button>
+                            <van-button @click="showBusiness(0,dataRow)" v-else type="default" size="small" class="blue-button">查看</van-button>
                         </td>
                     </tr>
                 </table>
@@ -54,10 +54,10 @@ export default {
     },
     mounted(){
         let _this=this;
-        //_this.cardCode=_this.$route.query.cardCode;
-        //_this.userName=_this.$route.query.userName;
-        _this.userName="蒲秀蓉";
-        _this.cardCode="512921197609094225";
+        _this.cardCode=_this.$route.query.cardCode;
+        _this.userName=_this.$route.query.userName;
+        //_this.userName="蒲秀蓉";
+        //_this.cardCode="512921197609094225";
         if(_this.cardCode && _this.userName){
             Toast.loading({
                 duration:0,
@@ -91,20 +91,20 @@ export default {
         }
     },
     methods:{
-        showBusiness(type,htbh){
+        showBusiness(type,dataRow){
             let _this=this;
             Toast.loading({
                 duration:0,
                 mask: true,
                 message: '加载中...'
             });
-             this.$fetch('/workflowWebService/public/getBusiness?code=4000101-02&contractNumber=' +htbh + '&createType=2')
+             this.$fetch('/workflowWebService/public/getBusiness?code='+dataRow.BCODE+'&contractNumber=' +dataRow.HTBH + '&createType=2')
                 .then(response => {
-                    if (response.code==1) {
+                    if (response.resultcode==1) {
                         Toast.clear();
                         this.$router.push({
                             name: 'businessView',
-                            params:{ code: "", viewType: type,data:response.data,nowUser:_this.userName }
+                            params:{ code: "", viewType: type,data:response.resultdata,nowUser:_this.userName }
                         });
                     } else {
                         Toast.clear();
