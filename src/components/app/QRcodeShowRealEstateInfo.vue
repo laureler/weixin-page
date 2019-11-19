@@ -42,10 +42,12 @@
 	import { request } from '../../utils/http.js'
 	/*import { baiduMap } from '../../utils/map'*/
 	import { Dialog } from 'vant'
+	import { ImagePreview } from 'vant';
 
 	export default {
 		data () {
 			return {
+				showImg:false,
 				realEstateInfo: {},	// 不动产位置信息
 				isShow: true,
 				isShowInfo: false,
@@ -73,22 +75,31 @@
 				}
 			},
 			btnClick(value) {
-				this.isShowPhoto = true;
+				let _this=this;
+			//	this.isShowPhoto = true;
 				// 0表示宗地图，1表示分户图
 				if (value === 0) {
-					this.newImgClass = 'show-img-size';
-					this.isShowFHT = false;
-					this.isShowZDT = true;
+					ImagePreview({
+						images:[_this.mapData.zdt],
+						showIndex:false
+					});
+					//this.newImgClass = 'show-img-size';
+					//this.isShowFHT = false;
+					//this.isShowZDT = true;
 				} else if (value === 1) {
-					this.newImgClass = 'show-img-size';
-					this.isShowZDT = false;
-					this.isShowFHT = true;
-				} else {
-					/*wx.previewImage({
+					//this.newImgClass = 'show-img-size';
+					//this.isShowZDT = false;
+					//this.isShowFHT = true;
+					ImagePreview({
+						images:[_this.mapData.fht],
+						showIndex:false
+					});
+				}/* else {
+					/!*wx.previewImage({
 						current: ''
-					});*/
+					});*!/
 					this.changeImgSize();
-				}
+				}*/
 			},
 			closeInfoWindow() {
 				this.isShowInfo = false;
@@ -98,13 +109,15 @@
 				const  _this = this;
 				const ysxlh = uiScript.getParam('ysxlh') || '';
 
-				request({
-					url: '/GetBdcMapInfo',
+				/*request({
+					url: '/photoCompression',
 					data: { strJson: JSON.stringify({ ysxlh: ysxlh }) },
 					success(response) {
 						if (Number(response.resultcode) === 1) {
-							_this.mapData.zdt = URL.createObjectURL(_this.base64ToBlob('data:image/jpg;base64,' + response.result.zdt));
-							_this.mapData.fht = URL.createObjectURL(_this.base64ToBlob('data:image/jpg;base64,' + response.result.fht));
+							//_this.mapData.zdt = URL.createObjectURL(_this.base64ToBlob('data:image/jpg;base64,' + response.result.zdt));
+							//_this.mapData.fht = URL.createObjectURL(_this.base64ToBlob('data:image/jpg;base64,' + response.result.fht));
+							_this.mapData.zdt=response.result.zdt;
+							_this.mapData.fht=response.result.fht;
 						} else {
 							console.log('获取宗地图和分户图数据失败：' + response.resultmsg);
 						}
@@ -112,7 +125,17 @@
 					fail(error) {
 						console.log(error);
 					}
-				})
+				})*/
+				const config={ headers: { 'Content-Type': 'application/x-www-form-urlencoded' } };
+				const data=JSON.stringify({ ysxlh: ysxlh });
+				let formData = new FormData();
+				formData.append('strJson', data);
+				_this.$post('/pubWeb/system/public/photoCompression', formData,config).then(response => {
+					_this.mapData.zdt ='/'+response.zdtPicturePath;
+					_this.mapData.fht ='/'+response.fhtPicturePath;
+				}).catch(error => {
+					console.log(error);
+				});
 			},
 			// base64转blob
 			base64ToBlob(base64Code) {
