@@ -54,11 +54,19 @@ export default {
     },
     mounted(){
         let _this=this;
+        let isBusinessVerify=_this.$store.state.businessVerify;
         _this.cardCode=_this.$route.query.cardCode;
         _this.userName=_this.$route.query.userName;
         //_this.userName="蒲秀蓉";
         //_this.cardCode="512921197609094225";
-        if(_this.cardCode && _this.userName){
+        if(!isBusinessVerify){
+             this.$router.push({
+					path: '/preApprovenew',
+					query: {
+						callbackUrl: '/businessList'
+					}
+				})
+        }else if(_this.cardCode && _this.userName){
             Toast.loading({
                 duration:0,
                 mask: true,

@@ -72,8 +72,8 @@
                         <tr :key="index">
                             <td>{{qd.ZLMC}}</td>
                             <td v-if="viewType==1" style="width:4.6rem">
-                                <van-button :disabled="qd.FPATH==null?true:false" @click="viewImg(qd.FPATH)" type="info" size="small">预览</van-button>
-                                &nbsp;&nbsp;&nbsp;&nbsp;<van-button style="padding-left:.2rem" v-if="qd.ZLMC == '身份证明材料'" @click="uploadImg(index)" type="info" size="small">上传</van-button>
+                                <van-button style="padding-left:.2rem" v-if="qd.ZLMC == '身份证明材料'" @click="uploadImg(index)" type="info" size="small">上传</van-button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<van-button :disabled="qd.FPATH==null?true:false" @click="viewImg(qd.FPATH)" type="info" size="small">预览</van-button>
                                  <input :ref="'getPhoto'+index" @change="postImg('getPhoto'+index)" v-if="qd.ZLMC == '身份证明材料'"  multiple="multiple" style="display:none;" type="file" id="upload" accept="image/*" size="30">
                             </td>
                             <td v-if="viewType==0" style="width:2.2rem">
@@ -97,7 +97,7 @@ export default {
     name:"businessView",
     data(){
         return{
-            formData:{SQBH:"",QQJID:"",GFRMC:"",GFRZJHM:"",lxdh:"",HTBH:"",BDCZL:"",FJZMJ:"",FJQD:[],ALLGFRXX:[],FWBM:""},
+            formData:{SQBH:"",QQJID:"",GFRMC:"",GFRZJHM:"",lxdh:"",HTBH:"",BDCZL:"",FJZMJ:"",FJQD:[],ALLGFRXX:[],FWBM:"",YWJD:""},
             viewType:0,//视图类型 0：预览  1：在线申请
             showQrcode:false,
             imgPath:["/view/preview/201911/proveWeChat/身份证明材料/2019110600031/18e39ca3-eaea-4638-9173-294ea16542ad.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/603db8af-5ea2-4c10-8ac7-f3695cd8259c.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/6574e16f-2eb1-4a15-b321-6273cf5b5085.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/8318bc15-e3cb-4b22-b11a-b69602896604.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/86cda428-f243-499f-bf91-2a3208d09c0d.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/9838855a-6d61-40ef-b761-768bb3f5f236.png","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/c403aad4-76a2-48ed-84cb-caeb8cd81e68.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/d5e32274-8542-484a-88c5-76514012f71b.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/d621f9c9-f551-45f9-acf9-cd7d664a24ce.jpg"],

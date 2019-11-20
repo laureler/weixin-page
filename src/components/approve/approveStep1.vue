@@ -120,6 +120,7 @@
 								}
 							});
 						} else if(_this.$store.state.callbackUrl == '/businessList'){
+							_this.$store.state.businessVerify=true;
 							_this.$router.push({
 								path: '/businessList',
 								query: {
