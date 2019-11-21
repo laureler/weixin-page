@@ -19,7 +19,7 @@
             <div v-if="viewType==0" style="margin: 10px 0px">
                 <van-button @click="downloadFiel" type="default" size="default" class="fullButton">下载证照</van-button>
             </div>
-            <div v-else style="margin: 10px 0px;text-align:center">
+            <div v-else-if="viewType==1" style="margin: 10px 0px;text-align:center">
                 <van-button type="default" size="default" class="fullButton" @click="sublitBusiness">提交</van-button>
                 <div style="width:100%;height:.3rem"></div>
                 <van-button type="default" size="default" class="fullButton" @click="qrcode">电子签名</van-button>
@@ -72,12 +72,12 @@
                         <tr :key="index">
                             <td>{{qd.ZLMC}}</td>
                             <td v-if="viewType==1" style="width:4.6rem">
-                                <van-button style="padding-left:.2rem" v-if="qd.ZLMC == '身份证明材料'" @click="uploadImg(index)" type="info" size="small">上传</van-button>
-                                &nbsp;&nbsp;&nbsp;&nbsp;<van-button :disabled="qd.FPATH==null?true:false" @click="viewImg(qd.FPATH)" type="info" size="small">预览</van-button>
+                                <van-button  v-if="qd.ZLMC == '身份证明材料'" @click="uploadImg(index)" type="info" size="small">上传</van-button>
+                                <van-button style="float:right;margin-right:.2rem" :disabled="qd.FPATH==null?true:false" @click="viewImg(qd.FPATH)" type="info" size="small">预览</van-button>
                                  <input :ref="'getPhoto'+index" @change="postImg('getPhoto'+index)" v-if="qd.ZLMC == '身份证明材料'"  multiple="multiple" style="display:none;" type="file" id="upload" accept="image/*" size="30">
                             </td>
                             <td v-if="viewType==0" style="width:2.2rem">
-                                <van-button :disabled="qd.FPATH==null?true:false" @click="viewImg(qd.FPATH)" type="info" size="small">预览</van-button>
+                                <van-button style="float:right;margin-right:.2rem" :disabled="qd.FPATH==null?true:false" @click="viewImg(qd.FPATH)" type="info" size="small">预览</van-button>
                                </td>
                         </tr>
                     </template>
@@ -98,9 +98,9 @@ export default {
     data(){
         return{
             formData:{SQBH:"",QQJID:"",GFRMC:"",GFRZJHM:"",lxdh:"",HTBH:"",BDCZL:"",FJZMJ:"",FJQD:[],ALLGFRXX:[],FWBM:"",YWJD:""},
-            viewType:0,//视图类型 0：预览  1：在线申请
+            viewType:-1,//视图类型 0：预览  1：在线申请
             showQrcode:false,
-            imgPath:["/view/preview/201911/proveWeChat/身份证明材料/2019110600031/18e39ca3-eaea-4638-9173-294ea16542ad.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/603db8af-5ea2-4c10-8ac7-f3695cd8259c.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/6574e16f-2eb1-4a15-b321-6273cf5b5085.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/8318bc15-e3cb-4b22-b11a-b69602896604.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/86cda428-f243-499f-bf91-2a3208d09c0d.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/9838855a-6d61-40ef-b761-768bb3f5f236.png","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/c403aad4-76a2-48ed-84cb-caeb8cd81e68.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/d5e32274-8542-484a-88c5-76514012f71b.jpg","/view/preview/201911/proveWeChat/身份证明材料/2019110600031/d621f9c9-f551-45f9-acf9-cd7d664a24ce.jpg"],
+            imgPath:["/view/preview/201911/proveWeChat/身份证明材料/2019110600031/18e39ca3-eaea-4638-9173-294ea16542ad.jpg"],
             showImg:false,
             headerImage:'',
             picValue:'',
@@ -117,13 +117,21 @@ export default {
             let _this=this;
              _this.$http({
                       method:"get",
-                      url:"/gdbdcWebService/public/personalBusiness/downLoadCertification?jid="+_this.formData.SQBH+"&materialName=申请人身份证明",
+                      url:"/gdbdcWebService/public/personalBusiness/downLoadCertification?qqJid="+_this.formData.SQBH+"&materialName=申请人身份证明",
                       //headers:{'Content-Type':'application/x-download'},
                       //responseType: 'blob',
                   }).then(function(res){
                     let resultData=res.data;
                     if(resultData.code==1){
-                        window.open(resultData.url);
+                        debugger
+                        //window.top.location.href=resultData.url;
+                         _this.$router.push({
+                            path: '/fileDownload',
+                            query: {
+                                fileUrl: resultData.url
+                            }
+                        })
+                        //window.open(resultData.url);
                     }else{
                         Toast(resultData.msg);
                     }
@@ -158,23 +166,52 @@ export default {
             }
             for(var i = 0;i < filepaths.length;i++){
                 let fileAllPath=filepaths[i].split("|");
-                let params={rebuild:1,macroPath:fileAllPath[1]}
+                let fileMacroPath=fileAllPath[1];
+                let isBack=false;
+                let params={rebuild:1,macroPath:fileMacroPath};
                 await _this.$post('/formengineWebService/public/preview',qs.stringify(params))
                 .then(response => {
                     if (response.code==0) {
-                        _this.imgPath.push(response.result);
-                        
+                        let resultFile=response.result;
+                        for(var resultIndex = 0;resultIndex < resultFile.length;resultIndex++){
+                            let resultFileType=resultFile[resultIndex].substring(resultFile[resultIndex].lastIndexOf("."),resultFile[resultIndex].length);
+                            resultFileType=resultFileType.toLowerCase();
+                            if(resultFileType==".jpg" || resultFileType==".jpeg" || resultFileType==".png" || resultFileType==".gif"){
+                                _this.imgPath.push(resultFile[resultIndex]);
+                            }else {
+                                if(i==0){
+                                    isBack=true;
+                                    Toast.clear();
+                                    _this.$router.push({
+                                        path: '/fileDownload',
+                                        query: {
+                                            fileUrl:resultFile[resultIndex]
+                                        }
+                                    })
+                                    //window.top.location.href=resultFile[resultIndex];
+                                }
+                            }
+                        }
                     }
+                        
                 })
                 .catch(error => {
                     Toast.clear();
                     Toast('服务器请求错误!');
                     console.log(error);
                 });
+                if(isBack){
+                    return;
+                }
             }
-            _this.current=_this.imgPath[0];
-            _this.showImg=!this.showImg;
-            Toast.clear();
+            if(_this.imgPath.length>0){
+                _this.current=_this.imgPath[0];
+                _this.showImg=!this.showImg;
+                Toast.clear();
+            }else{
+                Toast('文件转换出错!');
+            }
+            
         },
         //图片上传方法
         submitModify(form){
@@ -248,7 +285,7 @@ export default {
             if(path){
                 this.setViewPath(path);
             }else{
-                this.showImg=!this.showImg;
+                Toast('无附件可预览!');
             }
         },
         //隐藏二维码
@@ -312,15 +349,40 @@ export default {
     },
     mounted(){
         let _this=this;
-        let user=_this.$route.params.nowUser;
-        _this.viewType=_this.$route.params.viewType;
-        _this.formData=_this.$route.params.data;
-        let  allgfr=_this.formData.ALLGFRXX;
-        for(var i=0;i<allgfr.length;i++){
-            if(allgfr[i].GFRMC==user){
-                _this.nowUser=allgfr[i];
+        Toast.loading({
+            duration:0,
+            mask: true,
+            message: '加载中...'
+        });
+        let htbh=_this.$route.query.HTBH;
+        let bcode=_this.$route.query.BCODE;
+        this.$fetch('/workflowWebService/public/getBusiness?code='+_this.$route.query.BCODE+'&contractNumber=' +_this.$route.query.HTBH + '&createType=2')
+        .then(response => {
+            if (response.resultcode==1) {
+                let user=_this.$route.query.nowUser;
+                if(response.resultdata.YWJD=='预申请' || response.resultdata.YWJD=='待申请' || response.resultdata.YWJD=='预受理' || response.resultdata.YWJD==''){
+                    _this.viewType=1;
+                }else{
+                    _this.viewType=0;
+                }
+                _this.formData=response.resultdata;
+                let  allgfr=_this.formData.ALLGFRXX;
+                for(var i=0;i<allgfr.length;i++){
+                    if(allgfr[i].GFRMC==user){
+                        _this.nowUser=allgfr[i];
+                    }
+                }
+                Toast.clear();
+            } else {
+                Toast.clear();
+                Toast('数据加载失败!');
             }
-        }
+        })
+        .catch(error => {
+            Toast.clear();
+            Toast('服务器请求错误!');
+            console.log(error);
+        });
     },    
 }
 </script>

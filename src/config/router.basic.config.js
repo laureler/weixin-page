@@ -281,4 +281,10 @@ export const BasicRouterMap = [
 		name: 'businessView',
 		component: resolve => require(['@/components/businessManager/businessView'], resolve),
 	},
+	//业务附件下载
+	{
+		path: '/fileDownload',
+		name: 'fileDownload',
+		component: resolve => require(['@/components/businessManager/fileDownload'], resolve),
+	},
 ]
