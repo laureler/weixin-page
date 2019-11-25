@@ -142,7 +142,7 @@
 		font-weight: 500;
 		font-family: STXingkai, serif;
 		color: dodgerblue;
-		top: calc(4% - 13px);
+		top: calc(4% - 7px);
 		left: 19px;
 		width: 45%;
 		text-align: right;
