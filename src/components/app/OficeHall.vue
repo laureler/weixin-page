@@ -1,6 +1,6 @@
 <template lang="html">
     <div style="height: 100%">
-		<page-head title="办事大厅"></page-head>
+	<!--	<page-head title="办事大厅"></page-head>-->
 		<div style="position: relative; height: 150px">
 			<img src="../../assets/images/topImg.png" class="img"/>
 			<span class="title_name">{{headTitle}}</span>
@@ -74,11 +74,7 @@
 				})
 			},
 			open (path) {
-				if(path.indexOf('http')!=-1){
 					window.location.href=path;
-				}else{
-				this.$router.push(path)
-				}
 			}
 	 },
 		computed:{
