@@ -154,7 +154,7 @@
                 const that = this;
                 request({
                     url: '/SubmitQHInfo',
-                    data: { strJson: JSON.stringify({ wxh: that.openid, sfzh: '' }) },
+                    data: { strJson: JSON.stringify({ wxh: that.openid === undefined?"":that.openid, sfzh: '' }) },
                     success (data) {
                         console.log(data);
 						that.isSuccess = true;
