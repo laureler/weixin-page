@@ -27,8 +27,8 @@
                     <tr>
                         <td class="title">操作</td>
                         <td class="count">
-                            <van-button @click="showBusiness(1,dataRow.HTBH)" v-if="dataRow.YWJD=='待申请' || dataRow.YWJD=='预受理' || dataRow.YWJD==''" type="default" size="small" class="blue-button">申请</van-button>
-                            <van-button @click="showBusiness(0,dataRow.HTBH)" v-else type="default" size="small" class="blue-button">查看</van-button>
+                            <van-button @click="showBusiness(dataRow)" v-if="dataRow.YWJD=='预申请' || dataRow.YWJD=='待申请' || dataRow.YWJD=='预受理' || dataRow.YWJD==''" type="default" size="small" class="blue-button">申请</van-button>
+                            <van-button @click="showBusiness(dataRow)" v-else type="default" size="small" class="blue-button">查看</van-button>
                         </td>
                     </tr>
                 </table>
@@ -54,11 +54,20 @@ export default {
     },
     mounted(){
         let _this=this;
+        let isBusinessVerify=_this.$store.state.businessVerify;
         _this.cardCode=_this.$route.query.cardCode;
         _this.userName=_this.$route.query.userName;
         //_this.userName="蒲秀蓉";
-       // _this.cardCode="512921197609094225";
-        if(_this.cardCode && _this.userName){
+        //_this.cardCode="512921197609094225";
+        //let isBusinessVerify=true;
+        if(!isBusinessVerify){
+             this.$router.push({
+					path: '/preApprovenew',
+					query: {
+						callbackUrl: '/businessList'
+					}
+				})
+        }else if(_this.cardCode && _this.userName){
             Toast.loading({
                 duration:0,
                 mask: true,
@@ -91,31 +100,12 @@ export default {
         }
     },
     methods:{
-        showBusiness(type,htbh){
+        showBusiness(dataRow){
             let _this=this;
-            Toast.loading({
-                duration:0,
-                mask: true,
-                message: '加载中...'
+            this.$router.push({
+                path: '/businessView',
+                query:{ nowUser:_this.userName,BCODE:dataRow.BCODE,HTBH:dataRow.HTBH }
             });
-             this.$fetch('/workflowWebService/public/getBusiness?code=4000101-02&contractNumber=' +htbh + '&createType=2')
-                .then(response => {
-                    if (response.code==1) {
-                        Toast.clear();
-                        this.$router.push({
-                            name: 'businessView',
-                            params:{ code: "", viewType: type,data:response.data,nowUser:_this.userName }
-                        });
-                    } else {
-                        Toast.clear();
-                        Toast('数据加载失败!');
-                    }
-                })
-                .catch(error => {
-                    Toast.clear();
-                    Toast('服务器请求错误!');
-                    console.log(error);
-                });
         }
     }
 }

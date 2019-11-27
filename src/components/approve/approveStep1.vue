@@ -120,10 +120,11 @@
 								}
 							});
 						} else if(_this.$store.state.callbackUrl == '/businessList'){
+							_this.$store.state.businessVerify=true;
 							_this.$router.push({
 								path: '/businessList',
 								query: {
-									cardCode: _this.data_id,
+									cardCode: _this.cardCode,
 									userName: _this.data_name
 								}
 							});
