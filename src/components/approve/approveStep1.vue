@@ -124,7 +124,7 @@
 							_this.$router.push({
 								path: '/businessList',
 								query: {
-									cardCode: _this.cardCode,
+									cardCode: _this.data_id,
 									userName: _this.data_name
 								}
 							});
