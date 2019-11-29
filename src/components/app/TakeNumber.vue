@@ -47,6 +47,7 @@
                 result: '',
                 form: {
                     sfzh: '',
+	                wxh:"",
                 },
             }
         },
@@ -59,7 +60,7 @@
                     if (!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(that.form.sfzh))) {
                         Toast('身份证格式不正确!')
                     } else {
-                        that.form = { ...that.form, wxh: openid }
+                        that.form = { ...that.form, wxh: openid===undefined?"":openid }
                         that.$nextTick(() => {
                             that.pushForm(that.form)
                         })
