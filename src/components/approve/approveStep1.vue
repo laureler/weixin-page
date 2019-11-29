@@ -27,7 +27,8 @@
 		Dialog,
 		CellGroup,
 		Field,
-		Uploader
+		Uploader,
+		Toast
 	} from 'vant';
 
 	import Vue from 'vue';
@@ -121,13 +122,32 @@
 							});
 						} else if(_this.$store.state.callbackUrl == '/businessList'){
 							_this.$store.state.businessVerify=true;
-							_this.$router.push({
-								path: '/businessList',
-								query: {
-									cardCode: _this.data_id,
-									userName: _this.data_name
-								}
+							Toast.loading({
+								duration:0,
+								mask: true,
+								message: '数据校验中...'
 							});
+							this.$fetch('/gdbdcWebService/public/personalBusiness/findInformation?buyerName=' + _this.data_name + '&idNumber=' + _this.data_id)
+								.then(response => {
+									if (response.code==1) {
+										_this.$router.push({
+											path: '/businessList',
+											query: {
+												cardCode: _this.data_id,
+												userName: _this.data_name
+											}
+										});
+									Toast.clear();
+									} else {
+									Toast.clear();
+									Toast('数据校验失败!');
+									}
+								})
+								.catch(error => {
+									Toast.clear();
+									Toast('服务器请求错误!');
+									console.log(error);
+								});
 						} else {
 							console.log(_this.$store.state.callbackUrl);
 						}
