@@ -1,3 +1,13 @@
+<!--
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-16 19:32:10
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-23 14:20:26
+ * @Description: 在线申办入口
+ -->
 <template>
 	<div class="container">
 		<page-head title="在线申办"></page-head>
@@ -47,7 +57,10 @@
 					Toast('功能尚未开发!');
 				}
 			}
-		}
+		},
+		created() {
+			sessionStorage.clear();
+		},
 	}
 
 </script>

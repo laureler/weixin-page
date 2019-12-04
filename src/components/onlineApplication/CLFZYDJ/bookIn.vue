@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<page-head title="存量房转移登记"></page-head>
+		<page-head title="存量房（二手房）转移登记"></page-head>
 
 		<div class="box-body">
 			<van-cell-group>
@@ -158,6 +158,7 @@
 			checkoutID: function () {
 				this.customStatus = '';
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -227,7 +228,7 @@
 				}).catch(err => {
 					Toast.clear();
 					console.log(err)
-					Toast.fail(err);
+					Toast.fail(err.message);
 				})
 			},
 			nextStep: function () {

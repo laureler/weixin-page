@@ -1,3 +1,13 @@
+<!--
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-16 19:21:13
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-25 09:15:09
+ * @Description: 文件注释
+ -->
 <template>
 	<div class="container">
 		<page-head title="建设用地使用权、宅基地使用权转移登记"></page-head>
@@ -106,6 +116,7 @@
 			checkoutID:function(){
 				this.customStatus = '';
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -163,7 +174,7 @@
 				}).catch(err => {
 					Toast.clear();
 					console.log(err)
-					Toast.fail(err);
+					Toast.fail(err.message);
 				})
 			},
 			nextStep: function() {

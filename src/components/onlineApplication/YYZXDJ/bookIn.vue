@@ -150,6 +150,7 @@
 			checkoutID: function () {
 				this.customStatus = '';
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});

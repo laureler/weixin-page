@@ -29,7 +29,7 @@
 </template>
 
 <script>
-    import Head from './head.vue'
+	import Head from './head.vue'
 
     import { request } from '../../utils/http'
     import { Dialog } from 'vant'

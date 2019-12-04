@@ -1,3 +1,13 @@
+/*
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-24 20:19:25
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-24 20:20:38
+ * @Description: 文件注释
+ */
 var businessDEV = {
 	'1000402': {
 		'job_base-bcode': '1000402',

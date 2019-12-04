@@ -67,7 +67,7 @@
         //在$el被替换的时候调用钩子函数
         mounted () {
 			this.$store.commit('SET_MESSAGESTEP', 1);
-			this.PageData = this.$store.state.messageData;
+            this.PageData = this.$store.state.messageData;
         }
     }
 </script>

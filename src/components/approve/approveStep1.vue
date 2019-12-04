@@ -94,24 +94,47 @@
 					}
 				};
 				var formData = new FormData();
-				formData.append('token', sessionStorage.getItem('token')); // 扫码的值
+				formData.append('token', sessionStorage.getItem('token')); // 扫码的值 || 或者是业务号
 				formData.append('openId', Cookies.get('openid')); // openid
 				formData.append('fullName', _this.data_name); // 验证填入的姓名
 				formData.append('idNumber', _this.data_id); // 验证填入的身份证号
 				formData.append('verifyResult', verify_result);
+				// 存人脸核身结果
+				// 刷新业务确认状态 （业务号要求纯数字）
 				_this.$post('/pubWeb/public/faceRecognition/setAuthenticationResult', formData, config).then(data => {
-					// 如果存在callbackUrl，则按callbackUrl重定向处理
+                    // 如果存在callbackUrl，则按callbackUrl重定向处理
+                    console.log("当前callbackurl回调地址");
+					console.log(_this.$store.state.callbackUrl);
 					if (_this.$store.state.callbackUrl) {
 						// TODO 如果是核验功能，实现核验逻辑
 						if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/onlineApplication/CLFZYDJ/verification') {
 							_this.$router.push({
 								path: '/onlineApplication/CLFZYDJ/verification'
 							});
-						} else if (_this.$store.state.callbackUrl == '/pubWeb/system/public/WeChatRemoteCheck') {
-							// 如果callbackUrl是WeChatRemoteCheck接口则请求PDF数据给用户
+						}
+						// fiexme 合并核验功能callBack处理
+						//如果callbackUrl是WeChatRemoteCheck接口则请求PDF数据给用户
+						if (_this.$store.state.callbackUrl == '/pubWeb/system/public/WeChatRemoteCheck') {
+							console.log("跳转至住房证明查询！");
 							_this.getGrantDeep();
 						} else if (_this.$store.state.callbackUrl ==
-							'/pubWeb/public/weChatPublic/personInfo') {
+							'/pubWeb/public/weChatPublic/GetPersonDataInfo') {
+							console.log("跳转至不动产登记资料查询！");
+							// _this.getArchiveDataInfoPage();
+							_this.$router.push({
+								path: '/arcl',
+								query: {
+									inter: '/GetPersonDataInfo',
+									title: '不动产登记资料查询',
+									filter: {
+										strJson: JSON.stringify({
+											qlr: this.data_name,
+											zjhm: this.data_id
+										})
+									}
+								}
+							});
+						} else if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/personInfo') {
 							_this.$router.push({
 								path: '/approveStep2',
 								query: {
@@ -149,7 +172,7 @@
 									console.log(error);
 								});
 						} else {
-							console.log(_this.$store.state.callbackUrl);
+							console.log("跳转路径：" + _this.$store.state.callbackUrl);
 						}
 					} else {
 						// 默认验证成功页面
@@ -172,12 +195,30 @@
 					});
 				});
 			},
+			// 跳转至 不动产登记资料查询
+			getArchiveDataInfoPage() {
+				this.$router.push({
+					path: '/arcl',
+					query: {
+						inter: '/GetPersonDataInfo',
+						title: '不动产登记资料查询',
+						filter: {
+							strJson: JSON.stringify({
+								qlr: this.data_name,
+								zjhm: this.data_id
+							})
+						}
+					}
+				})
+			},
 			// 住房证明查询
 			getGrantDeep() {
 				const _this = this;
-				let strJson = JSON.stringify({
+				// 加入微信openId，用于记录查档
+				const strJson = JSON.stringify({
 					qlr: _this.data_name,
-					zjhm: _this.data_id
+					zjhm: _this.data_id,
+					openId: Cookies.get('openid')
 				}) + '';
 				let stringUrl = _this.$store.state.callbackUrl;
 				let config = {
@@ -186,8 +227,17 @@
 					}
 				};
 				var formData = new FormData();
-				formData.append('strJson', strJson); // 扫码的值
-				_this.$post(stringUrl, formData, config).then(rs => {
+				formData.append('strJson', strJson);
+				const url = stringUrl + '?strJson=' + encodeURIComponent(strJson);
+				this.$router.push({
+					path: '/arcd',
+					query: {
+						filter: '',
+						title: '住房证明查询',
+						inter: url
+					}
+				});
+				/*_this.$post(stringUrl, formData, config).then(rs => {
 					if (rs) {
 						switch (Number(rs.status)) {
 							case -1 || undefined:
@@ -197,7 +247,12 @@
 								_this.dialogAlert('没有权限下载');
 								break;
 							case 1:
-								window.location.href = stringUrl + '?strJson=' + encodeURIComponent(strJson);
+								// window.location.href = stringUrl + '?strJson=' + encodeURIComponent(strJson);
+								const url = stringUrl + '?strJson=' + encodeURIComponent(strJson);
+								_this.$router.push({
+									path: '/arcd',
+									query: {filter: '', title: '住房证明查询', inter: url}
+								});
 								break;
 							default:
 								_this.dialogAlert('接口返回数据异常！');
@@ -206,7 +261,7 @@
 					}
 				}).catch(error => {
 					_this.dialogAlert('接口异常' + error);
-				});
+				});*/
 			},
 			dialogAlert (message) {
 				Dialog.alert({

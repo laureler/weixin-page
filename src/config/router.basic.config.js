@@ -55,11 +55,35 @@ export const BasicRouterMap = [
 		name: 'ApplicationResult',
 		component: resolve => require(['@/components/app/ApplicationResult'], resolve)
 	},
+	// 个人预约界面
+	{
+		path: '/apprd',
+		name: 'ApplicationRemind',
+		component: resolve => require(['@/components/app/ApplicationRemind'], resolve)
+	},
+	// 新的进度查询
+	{
+		path: '/newschq',
+		name: 'NewScheduleQuery',
+		component: resolve => require(['@/components/app/NewScheduleQuery'], resolve)
+	},
 	{
 		path: '/schq',
 		name: 'ScheduleQuery',
 		meta: { title: "进度查询", desc: "进度查询页面" },
 		component: resolve => require(['@/components/app/ScheduleQuery'], resolve),
+	},
+	//档案列表
+	{
+		path: '/arcl',
+		name: 'ArchivesList',
+		component: resolve => require(['@/components/app/ArchivesList'], resolve)
+	},
+	//档案详情
+	{
+		path: '/arcd',
+		name: 'ArchiveDetail',
+		component: resolve => require(['@/components/app/ArchiveDetail'], resolve)
 	},
 	// 在线查档
 	{
@@ -107,6 +131,11 @@ export const BasicRouterMap = [
 		name: 'gui',
 		path: '/gui',
 		component: resolve => require(['@/components/app/Guide'], resolve)
+	},
+	{
+		name: 'newgui',
+		path: '/newgui',
+		component: resolve => require(['@/components/app/NewGuide'], resolve)
 	},
 	{
 		path: '/guid',
@@ -268,6 +297,11 @@ export const BasicRouterMap = [
 		path: '/houseCertifyDownload',
 		name: 'houseCertifyDownload',
 		component: resolve => require(['@/components/personalCenter/houseCertifyDownload'], resolve),
+	},
+	{
+		path: '/showRealEstateInfo',
+		name: 'QRcodeShowRealEstateInfo',
+		component: resolve => require(['@/components/app/QRcodeShowRealEstateInfo'], resolve),
 	},
 	//业务查询列表页面
 	{
