@@ -387,7 +387,8 @@
                 }
             },
 			haveKyys(selectedTimeFrame) {
-				this.isShowYYSL = true;
+            	this.isShowYYSL = true;	// 当预约日期变更的时候显示可预约数量行
+
             	if (Number(selectedTimeFrame) === 0) {
 					return;
 				}

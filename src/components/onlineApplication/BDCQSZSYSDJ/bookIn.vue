@@ -1,3 +1,13 @@
+<!--
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-16 19:21:13
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-23 18:21:12
+ * @Description: 文件注释
+ -->
 <template>
 	<div class="container">
 		<page-head title="不动产权利证书遗失（换证）登记"></page-head>
@@ -157,6 +167,7 @@
 				}
 				this.customStatus = '';
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -214,7 +225,7 @@
 				}).catch(err => {
 					Toast.clear();
 					console.log(err)
-					Toast.fail(err);
+					Toast.fail(err.message);
 				})
 			},
 			onCancel: function () {},

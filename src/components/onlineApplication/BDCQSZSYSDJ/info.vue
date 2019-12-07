@@ -1,3 +1,13 @@
+<!--
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-23 10:26:35
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-24 09:50:28
+ * @Description: 不动产权利证书遗失（换证）登记 详情页面
+ -->
 <template>
 	<div class="container">
 		<page-head title="不动产权利证书遗失（换证）登记"></page-head>
@@ -120,7 +130,7 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							<span class="required-span">*</span>户籍所属省份
+							户籍所属省份
 						</div>
 						<van-field id="JOB_SQRXXB.FHJSZSS" v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow"
 							clickable placeholder="户籍所属省份" @click.native="actionsheetClicked('censusOptions')" />
@@ -147,7 +157,8 @@
 							placeholder="权利比例" />
 					</van-cell-group>
 					<div class="buttons">
-						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant()">保存
+						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant()"
+							v-show="saveShow">保存
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -543,7 +554,8 @@
 				qtyy: '',
 				bz: '',
 				goBack: false,
-				emsNecessary: false
+				emsNecessary: false,
+				saveShow: false,
 			}
 		},
 		methods: {
@@ -598,7 +610,7 @@
 				this.actionsheetShow = false;
 			},
 			delApplicant: function () {
-				this.$dialog.confirm({
+				Dialog.confirm({
 					message: '确定要删除该申请人吗?'
 				}).then(() => {
 					console.log('删除');
@@ -633,10 +645,12 @@
 				} else if (!applicant['JOB_SQRXXB.FGJDQ'] || applicant['JOB_SQRXXB.FGJDQ'].length == 0) {
 					Toast('请选择申请人国家/地区!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
+				} 
+				/* else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
 					Toast('请选择申请人户籍所属省份!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
+				} */
+				 else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
 					Toast('请填写申请人联系电话!');
 					return;
 				} else if (!reg2.test(applicant['JOB_SQRXXB.FLXDH'])) {
@@ -651,12 +665,13 @@
 				}
 				this.applicant['JOB_SQRXXB.XH'] = 1; // 序号
 				this.applicant['JOB_SQRXXB.FSQRLX'] = '其他'; // 申请人类型
-				this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant], true);
+				this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant], true, true);
 				/* } */
 			},
 			editApplicant: function (item, index) { // 编辑申请人
 				this.applicant = item;
 				this.applicantIndex = index;
+				this.saveShow = true;
 			},
 			nextStep: function () {
 				var applicant = this.$data['JOB_SQRXXB_LINK.IQLR'][0] || {};
@@ -711,10 +726,12 @@
 				} else if (!applicant['JOB_SQRXXB.FGJDQ'] || applicant['JOB_SQRXXB.FGJDQ'].length == 0) {
 					Toast('请选择申请人国家/地区!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
+				} 
+				/* else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
 					Toast('请选择申请人户籍所属省份!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
+				} */
+				 else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
 					Toast('请填写申请人联系电话!');
 					return;
 				} else if (!reg2.test(applicant['JOB_SQRXXB.FLXDH'])) {
@@ -725,6 +742,11 @@
 					return;
 				} else if (!applicant['JOB_SQRXXB.FQLBL'] || applicant['JOB_SQRXXB.FQLBL'].length == 0) {
 					Toast('请填写申请人权利比例!');
+					return;
+				}
+
+				if (this.saveShow) {
+					Toast('申请人信息未保存!');
 					return;
 				}
 
@@ -750,14 +772,12 @@
 				}
 				this.saveTaskFormData();
 			},
-			saveTaskFormData: function () {
-				/* 				this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'] = this.qtyy;
-								this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'] = this.bz; */
+			saveTaskFormData: function (next) {
 				console.log(this.$data['JOB_BDCQK']);
-
 				sessionStorage.setItem('formdata', JSON.stringify(this.$data['JOB_BDCQK']));
 				var _this = this;
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -802,29 +822,22 @@
 				var parentrid = result.data.values[link + '.RID'];
 				var templateid = result.data.controls[title].linkTplId;
 				var _this = this;
-				this
-					.$fetch('/formengineWebService/querySubFormData' + '?parentdomname=' + title + '&parentrid=' +
+				this.$fetch('/formengineWebService/querySubFormData' + '?parentdomname=' + title + '&parentrid=' +
 						parentrid + '&doms=' + domains + '&templateid=' + templateid + '&random=19')
 					.then(response => {
 						console.log('response:', response);
-						debugger;
 						if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
 							_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.rows;
 							if (!response.rows || !showloading) return;
 							_this.applicantIndex = 0;
 							_this.applicant = response.rows[0];
-						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
-							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
-							if (!response.rows || !showloading) return;
-							_this.changeItemIndex = 0;
-							_this.changeItem = response.rows[0];
 						}
 					})
 					.catch(error => {
 						console.log('error:', error);
 					});
 			},
-			fillSubFormData: function (title, params, showLoading = false) {
+			fillSubFormData: function (title, params, showLoading = false, saveTape = false) {
 				var business = JSON.parse(sessionStorage.getItem('business'));
 				var result = JSON.parse(business.result);
 				console.log(result);
@@ -837,6 +850,7 @@
 				var _this = this;
 				if (showLoading) {
 					Toast.loading({
+						duration: 0,
 						mask: true,
 						message: '加载中...'
 					});
@@ -849,6 +863,9 @@
 					data: params,
 				}).then(response => {
 					Toast.clear();
+					if (saveTape) {
+						this.saveShow = false;
+					}
 					if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
 						_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.data.result;
 						_this.applicantIndex = -1;
@@ -883,11 +900,6 @@
 						var qllx = response["JOB_GLQLXXB_LINK.OLD_IQLDJ"][0]["JOB_GLQLXXB.FQLLX"]
 						var bdclx = getBdcType(qllx);
 						_this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCLX'] = bdclx;
-
-						var sBdcdyh = response['JOB_BDCQK.FBDCDYH'];
-						var zqdm = exchangeZqdm(sBdcdyh);
-						var zqmc = exchangeZqdmToZqmc(zqdm);
-						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
 
 						//补充权利人信息
 						for (var key in response) {
@@ -925,17 +937,20 @@
 						_this.$data['JOB_BDCQK']['JOB_BDCQK.FMJ'] = response['JOB_BDCQK.FJZMJ'];
 						_this.$data['JOB_BDCQK']['JOB_BDCQK.FYT'] = response['JOB_BDCQK.FFWYT'];
 
+						//获取镇区名称
+						var sBdcdyh = response['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
+
 						console.log("_this.$data['JOB_BDCQK']:", _this.$data['JOB_BDCQK']);
 
 
 						// 保存权利信息
 						this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response['JOB_GLQLXXB_LINK.OLD_IQLDJ']);
-						// 保存义务人
+						// 保存权利人
 						this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', response[
 							'JOB_SQRXXB_LINK.IQLR']);
-
-
-
 					})
 					.catch(error => {
 						Toast.clear();
@@ -963,8 +978,21 @@
 			}
 		},
 		created() {
+			var formdata = sessionStorage.getItem('formdata');
+			if (formdata) { // 不过本地存在业务则不创建
+				this.taskId = sessionStorage.getItem('taskId');
+				this.$data['JOB_BDCQK'] = JSON.parse(formdata);
+				this.qtyy = this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'];
+				this.bz = this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'];
+				// 提取权利信息
+				this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+				// 提取受让人
+				this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+				return;
+			}
 			if (this.$route.query && this.$route.query.processInstanceId) {
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -988,15 +1016,20 @@
 						sessionStorage.setItem('business', JSON.stringify(response));
 						_this.taskId = taskId;
 						_this.$data['JOB_BDCQK'] = values;
+
+						//获取镇区名称
+						var sBdcdyh = values['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
+
 						sessionStorage.setItem('jid', businessNumber);
 						_this.qtyy = _this.$data['JOB_BDCQK']['JOB_BDCQK.FQTYY'];
 						_this.bz = _this.$data['JOB_BDCQK']['JOB_BDCQK.FBZ'];
-						// _this.startExactBusiness(rid, businessNumber);
-						// 提取权利信息
-						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
-						// 提取受让人
+						// 权利人
 						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
 						console.log('taskId:', _this.taskId);
+						Toast.clear();
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();
@@ -1011,6 +1044,7 @@
 				console.log('cqxx:', this.$route.query.cqxx);
 				var _this = this;
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});

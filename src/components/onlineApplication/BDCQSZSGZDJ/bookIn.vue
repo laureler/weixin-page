@@ -1,3 +1,13 @@
+<!--
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-16 19:21:13
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-23 18:20:54
+ * @Description: 不动产权利证书更正登记校验页面
+ -->
 <template>
 	<div class="container">
 		<page-head title="不动产权利证书更正登记"></page-head>
@@ -5,7 +15,7 @@
 			<div class="cell-title">
 				<span class="required-span">*</span>不动产类型
 			</div>
-			<van-field v-model="estateType" right-icon="arrow" placeholder="请输入不动产类型"  clickable 
+			<van-field v-model="estateType" right-icon="arrow" placeholder="请输入不动产类型" clickable
 				@click.native="estateTypeClicked()" />
 		</van-cell-group>
 		<van-cell-group>
@@ -61,13 +71,13 @@
 		components: {
 			'page-head': Head
 		},
-		data () {
+		data() {
 			return {
 				estateType: '',
 				cqlx: '',
 				show: false,
-				qlr: '',  // 杨智勇
-				cqzh: '',  // 湘（2017）苏仙不动产权第0022928号
+				qlr: '', // 杨智勇
+				cqzh: '', // 湘（2017）苏仙不动产权第0022928号
 				customStatus: '',
 				actions: [{
 						name: '房屋'
@@ -158,6 +168,7 @@
 				}
 				this.customStatus = '';
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -171,50 +182,58 @@
 						path: '/WSYY/GetPropertyRightInfo'
 					}
 				}).then(res => {
-					Toast.clear();
 					console.log(res)
-					this.checkout = res.data;
+					// debugger;
+					if (res.status === 200) {
 
-					if (this.checkout.resultcode === '0') {
-						Toast(this.checkout.resultmsg);
-						this.customStatus = this.checkout.resultmsg;
-						return;
+						this.checkout = res.data;
+
+						if (this.checkout.resultcode === '0') {
+							Toast(this.checkout.resultmsg);
+							this.customStatus = this.checkout.resultmsg;
+							return;
+						}
+
+						sessionStorage.setItem('rid', this.checkout.cqxx[0].RID);
+						if (this.checkout.cqxx.length == 0) {
+							Toast('证书不存在!');
+							this.customStatus = '证书不存在!';
+						} else if (this.checkout.cqxx.length == 1) {
+							var state = '';
+							if (this.checkout.cqxx[0].SFYG == 1) {
+								state += '已预告、'
+							} else if (this.checkout.cqxx[0].SFYDY == 1) {
+								state += '已抵押、'
+							} else if (this.checkout.cqxx[0].SFBGL == 1) {
+								state += '已被其他业务关联、'
+							} else if (this.checkout.cqxx[0].SFCF == 1) {
+								state += '已查封、'
+							} else if (this.checkout.cqxx[0].SFDY == 1) {
+								state += '已抵押、'
+							} else if (this.checkout.cqxx[0].SFYY == 1) {
+								state += '已异议、'
+							} else if (this.checkout.cqxx[0].SFDJ == 1) {
+								state += '已冻结、'
+							} else if (this.checkout.cqxx[0].SFLZ == 0) {
+								state += '未落宗、'
+							} else if (this.checkout.cqxx[0].SFXZXZ == 1) {
+								state += '已行政限制、'
+							} else {
+								state += "校验通过、"
+							}
+							setTimeout(() => {
+								if (state != '') {
+									this.customStatus = state.substring(0, state.length - 1);
+								}
+							}, 0);
+							Toast.clear();
+						}
+
 					}
 
-					sessionStorage.setItem('rid', this.checkout.cqxx[0].RID);
-					if (this.checkout.cqxx.length == 0) {
-						Toast('证书不存在!');
-						this.customStatus = '证书不存在!';
-					} else if (this.checkout.cqxx.length == 1) {
-						var state = '';
-						if (this.checkout.cqxx[0].SFYG == 1) {
-							state += '已预告、'
-						} else if (this.checkout.cqxx[0].SFYDY == 1) {
-							state += '已抵押、'
-						} else if (this.checkout.cqxx[0].SFBGL == 1) {
-							state += '已被其他业务关联、'
-						} else if (this.checkout.cqxx[0].SFCF == 1) {
-							state += '已查封、'
-						} else if (this.checkout.cqxx[0].SFDY == 1) {
-							state += '已抵押、'
-						} else if (this.checkout.cqxx[0].SFYY == 1) {
-							state += '已异议、'
-						} else if (this.checkout.cqxx[0].SFDJ == 1) {
-							state += '已冻结、'
-						} else if (this.checkout.cqxx[0].SFLZ == 0) {
-							state += '未落宗、'
-						} else if (this.checkout.cqxx[0].SFXZXZ == 1) {
-							state += '已行政限制、'
-						} else {
-							state += "校验通过、"
-						}
-						if (state != '') {
-							this.customStatus = state.substring(0, state.length - 1);
-						}
-					}
 				}).catch(err => {
-					Toast.clear();
-					console.log(err)
+					// Toast.clear();
+					// console.log(err)
 					Toast.fail(err);
 				})
 			},
@@ -234,7 +253,7 @@
 				}
 			}
 		},
-		mounted () {
+		mounted() {
 			console.log('bookIn');
 		},
 	}

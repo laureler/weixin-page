@@ -3,7 +3,7 @@
 		<page-head title="政务资讯"></page-head>
 		<van-cell-group>
 			<van-cell @click="open('gui',666,'通知公告')" title="通知公告"/>
-			<van-cell @click="open('gui',666,'办事指南')" title="办事指南"/>
+			<van-cell @click="open('newgui',666,'办事指南')" title="办事指南"/>
 			<van-cell @click="open('gui',666,'政策法规')" title="政策法规"/>
 		</van-cell-group>
 	</div>

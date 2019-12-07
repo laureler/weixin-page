@@ -120,7 +120,9 @@
 				const isPHC = _this.$route.query.isPersonalHomeCheck;
 				if (!this.isCheck) { return; }
 				// 如果有回调地址，准备跳转回去
-				if (this.$store.state.callbackUrl) {
+                let callbackUrl = this.$store.state.callbackUrl;
+				console.log("callbackUrl地址：",callbackUrl);
+				if (callbackUrl) {
 					if (isPHC) {
 						_this.$router.push({ path: '/approvenew',
 							query: {
@@ -130,7 +132,12 @@
 					} else {
 						_this.$router.push({ path: '/approvenew' });
 					}
-					sessionStorage.setItem('token', this.uuid(20, 16));
+					if(callbackUrl === "/pubWeb/public/weChatPublic/onlineApplication/CLFZYDJ/verification"){
+                        const token = uiScript.getParam('token') || '';
+                        sessionStorage.setItem('token', token);
+					}else {
+                        sessionStorage.setItem('token', this.uuid(20, 16));
+					}
 					// 人脸识别首页初始化配置（针对ios系统）
 					_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
 						wx.config(res);

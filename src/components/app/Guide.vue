@@ -9,7 +9,8 @@
 		</div>
 		<div class="contain">
 			<van-cell-group>
-				<cell-line @click.native="open(item.gid)" v-for="(item, index) in calcItems" :title="item.title" :label="item.date"/>
+				<cell-line @click.native="open(item.gid)" v-for="(item,index) in calcItems" :title="item.title"
+						   :label="item.createtime"/>
 			</van-cell-group>
 			<van-pagination
 				v-model="currentPage"
@@ -65,15 +66,16 @@
 				const that = this;
 				request({
 					url: '/GetTitleList',
-					data: { strJson: JSON.stringify({ filter: decodeURI(that.searchData), bname: decodeURI(that.$route.query.response) }) },
+					data: {strJson:JSON.stringify({filter:decodeURI(that.searchData),bname:decodeURI(that.$route.query.response)})},
 					success (data) {
 						that.datas = data.noInfo;
-						that.currentPage = 1;
-						that.totalDataNumber = data.total;
+						that.totalDataNumber=data.total;
+						that.currentPage=1;
 					},
 					fail (error) {
-						if (error.status == '404') {
+						if(error.status == '404'){
 							Toast("找不到该接口！");
+							return;
 						}
 					},
 				})
@@ -128,7 +130,7 @@
             } else {
                 request({
                     url: '/GetTitleList',
-                    data: { strJson: JSON.stringify({ bname: decodeURI(that.$route.query.response), filter: '', page: '0', count: '10000' }) },
+                    data: { strJson: JSON.stringify({ bname: decodeURI(that.$route.query.response), page: '0', filter: '', count: '10000' }) },
                     success (response) {
                         console.log(response)
                         for (let i = 0; i < response.noInfo.length; i++) {
@@ -189,6 +191,7 @@
 		border-radius: 5px;
 		border: 1px solid #E5E5E5;
 	}
+
 	.s-input {
 		width: 90%;
 		border: none;
@@ -201,7 +204,6 @@
 		padding: 5px 10px;
 		color: rgb(181,181,181)!important;
 	}
-
 	.s-query:focus {
 		background: white;
 	}
@@ -209,5 +211,4 @@
 	.s-query:hover {
 		background: white;
 	}
-
 </style>

@@ -123,9 +123,9 @@ Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/GetYYBSWD/, 'post', bswd)
 // mock: '/pubWeb/public/doIntranetRequest/GetYYSX' 【POST】获取预约事项
 Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/GetYYSX/, 'post', yysx)
 // mock: '/pubWeb/public/doIntranetRequest/GetYYRQ' 【POST】获取预约日期
-Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/GetYYRQ/, 'post', yyrq)
+Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/GetYyrq_ZS/, 'post', yyrq)
 // mock: '/pubWeb/public/doIntranetRequest/GetYYSD' 【POST】获取预约时段
-Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/GetYYSD/, 'post', yysd)
+Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/GetYysd_ZS/, 'post', yysd)
 // mock: '/pubWeb/public/doIntranetRequest/CheckYYRInfo' 【POST】检查预约申请
 Mock.mock(/\/pubWeb\/public\/doIntranetRequest\/CheckYYRInfo/, 'post', checkYYRInfo)
 // mock: '/pubWeb/public/doIntranetRequest/CheckYYRInfo' 【POST】检查预约申请

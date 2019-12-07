@@ -1,3 +1,13 @@
+<!--
+ * @Author: charls.fairy
+ * @Motto: Your smile is my rainbow.
+ * @Website: https://www.fairy520.top/
+ * @Github: https://github.com/CharlsPrince
+ * @Date: 2019-10-23 10:26:35
+ * @LastEditors: charls.fairy
+ * @LastEditTime: 2019-10-24 09:56:45
+ * @Description: 文件注释
+ -->
 <template>
 	<div class="container">
 		<page-head title="异议登记"></page-head>
@@ -25,13 +35,13 @@
 						<van-field id="JOB_BDCQK.FQLRMC" v-model="JOB_BDCQK['JOB_BDCQK.FQLRMC']" placeholder="权利人名称"
 							clickable disabled class="disabled-field" />
 					</van-cell-group>
-					<van-cell-group>
+					<!-- <van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>不动产单元号
 						</div>
 						<van-field id="JOB_BDCQK.FBDCDYH" v-model="JOB_BDCQK['JOB_BDCQK.FBDCDYH']" placeholder="不动产单元号"
 							clickable disabled class="disabled-field" />
-					</van-cell-group>
+					</van-cell-group> -->
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>坐落
@@ -39,20 +49,20 @@
 						<van-field id="JOB_BDCQK.FFDZL" v-model="JOB_BDCQK['JOB_BDCQK.FFDZL']" placeholder="坐落"
 							clickable disabled class="disabled-field" />
 					</van-cell-group>
-					<van-cell-group>
+					<!-- <van-cell-group>
 						<div class="cell-title">
 							面积
 						</div>
 						<van-field id="JOB_BDCQK.FMJ" v-model="JOB_BDCQK['JOB_BDCQK.FMJ']" placeholder="面积" clickable
 							disabled class="disabled-field" />
-					</van-cell-group>
-					<van-cell-group>
+					</van-cell-group> -->
+					<!-- <van-cell-group>
 						<div class="cell-title">
 							用途
 						</div>
 						<van-field id="JOB_BDCQK.FYT" v-model="JOB_BDCQK['JOB_BDCQK.FYT']" placeholder="用途" clickable
 							disabled class="disabled-field" />
-					</van-cell-group>
+					</van-cell-group> -->
 					<van-cell-group>
 						<div class="cell-title">
 							<span class="required-span">*</span>原不动产权证号
@@ -119,7 +129,7 @@
 					</van-cell-group>
 					<van-cell-group>
 						<div class="cell-title">
-							<span class="required-span">*</span>户籍所属省份
+							户籍所属省份
 						</div>
 						<van-field id="JOB_SQRXXB.FHJSZSS" v-model="applicant['JOB_SQRXXB.FHJSZSS']" right-icon="arrow"
 							clickable placeholder="户籍所属省份" @click.native="actionsheetClicked('censusOptions')" />
@@ -133,6 +143,9 @@
 					</van-cell-group>
 					<div class="buttons">
 						<van-button class="info-btn" size="small" type="info" @click.native="saveApplicant()">保存
+						</van-button>
+						<van-button class="info-btn" size="small" type="default" v-if="editApplicantState"
+							@click.native="delApplicant()">删除申请人
 						</van-button>
 					</div>
 					<div class="applicants">
@@ -253,9 +266,10 @@
 		SAVE_TASK_FORM_DATA,
 		FILL_SUB_FORM_DATA,
 		ADD_SUB_FORM_DATA,
+		DEL_SUB_FORM_DATA,
 		TEST,
 		exchangeZqdm,
-    exchangeZqdmToZqmc
+		exchangeZqdmToZqmc
 	} from '../../../constants/index.js';
 	import {
 		Toast,
@@ -528,7 +542,8 @@
 				qtyy: '',
 				bz: '',
 				goBack: false,
-				emsNecessary: false
+				emsNecessary: false,
+				editApplicantState: false,
 			}
 		},
 		methods: {
@@ -583,10 +598,13 @@
 				this.actionsheetShow = false;
 			},
 			delApplicant: function () {
-				this.$dialog.confirm({
+				Dialog.confirm({
 					message: '确定要删除该申请人吗?'
 				}).then(() => {
 					console.log('删除');
+					this.delSubFormData('JOB_SQRXXB_LINK.IQLR', [this.$data['JOB_SQRXXB_LINK.IQLR'][this
+						.applicantIndex
+					]], true);
 					// on close
 				}).catch(() => {
 					// on cancel
@@ -618,10 +636,12 @@
 				} else if (!applicant['JOB_SQRXXB.FGJDQ'] || applicant['JOB_SQRXXB.FGJDQ'].length == 0) {
 					Toast('请选择权利人国家/地区!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
+				} 
+				/* else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
 					Toast('请选择权利人户籍所属省份!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
+				} */
+				 else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
 					Toast('请填写权利人联系电话!');
 					return;
 				} else if (!reg2.test(applicant['JOB_SQRXXB.FLXDH'])) {
@@ -633,30 +653,75 @@
 				this.fillSubFormData('JOB_SQRXXB_LINK.IQLR', [this.applicant], true);
 				/* } */
 			},
+			// 删除子表内容
+			delSubFormData: function (title, params, showLoading = false) {
+				var business = JSON.parse(sessionStorage.getItem('business'));
+				var result = JSON.parse(business.result);
+				console.log(result);
+				var link = title.split('.')[0];
+				var domains = title.split('_LINK')[0]
+				var parentrid = result.data.values[link + '.RID'];
+				var templateid = result.data.controls[title].linkTplId;
+				console.log(result.data.values[link + '.RID']);
+				console.log(result.data.controls[title].linkTplId);
+				var _this = this;
+				if (showLoading) {
+					Toast.loading({
+						duration: 0,
+						mask: true,
+						message: '加载中...'
+					});
+				}
+				this.axios({
+					url: DEL_SUB_FORM_DATA + '?parentdomname=' + title + '&parentrid=' + parentrid +
+						'&domains=' + domains + '&templateid=' + templateid,
+					method: 'post',
+					data: params,
+				}).then(response => {
+					Toast.clear();
+					console.log(response);
+					this.$data['JOB_SQRXXB_LINK.IQLR'].splice(this.applicantIndex, 1);
+					this.applicantIndex = -1;
+					this.editApplicantState = false;
+					this.applicant = {};
+				}).catch(error => {
+					Toast.clear();
+					console.log(error);
+				});
+			},
 			editApplicant: function (item, index) { // 编辑申请人
 				this.applicant = item;
 				this.applicantIndex = index;
+				this.editApplicantState = true;
 			},
 			nextStep: function () {
 				var applicant = this.$data['JOB_SQRXXB_LINK.IQLR'][0] || {};
 				var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
 				var reg2 = /(^[1]+[3-9]+\d{9}$)/;
-				if (!this.$data['JOB_BDCQK']['JOB_SJDJB.FDJLX'] || this.$data['JOB_BDCQK']['JOB_SJDJB.FDJLX'].length == 0) {
+				if (!this.$data['JOB_BDCQK']['JOB_SJDJB.FDJLX'] || this.$data['JOB_BDCQK']['JOB_SJDJB.FDJLX'].length ==
+					0) {
 					Toast('请选择申请事项!');
 					return;
-				} else if (!this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] || this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'].length == 0) {
+				} else if (!this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] || this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM']
+					.length == 0) {
 					Toast('请选择镇区!');
 					return;
-				} else if (!this.$data['JOB_BDCQK']['JOB_BDCQK.FQLRMC'] || this.$data['JOB_BDCQK']['JOB_BDCQK.FQLRMC'].length == 0) {
+				} else if (!this.$data['JOB_BDCQK']['JOB_BDCQK.FQLRMC'] || this.$data['JOB_BDCQK']['JOB_BDCQK.FQLRMC']
+					.length == 0) {
 					Toast('请填写权利人名称!');
 					return;
-				} else if (!this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCDYH'] || this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCDYH'].length == 0) {
+				} else if (!this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCDYH'] || this.$data['JOB_BDCQK'][
+						'JOB_BDCQK.FBDCDYH'
+					].length == 0) {
 					Toast('请填写不动产单元号!');
 					return;
-				} else if (!this.$data['JOB_BDCQK']['JOB_BDCQK.FFDZL'] || this.$data['JOB_BDCQK']['JOB_BDCQK.FFDZL'].length == 0) {
+				} else if (!this.$data['JOB_BDCQK']['JOB_BDCQK.FFDZL'] || this.$data['JOB_BDCQK']['JOB_BDCQK.FFDZL']
+					.length == 0) {
 					Toast('请填写坐落!');
 					return;
-				} else if (!this.$data['JOB_BDCQK']['JOB_BDCQK.FYBDCQSZH'] || this.$data['JOB_BDCQK']['JOB_BDCQK.FYBDCQSZH'].length == 0) {
+				} else if (!this.$data['JOB_BDCQK']['JOB_BDCQK.FYBDCQSZH'] || this.$data['JOB_BDCQK'][
+						'JOB_BDCQK.FYBDCQSZH'
+					].length == 0) {
 					Toast('请填写原不动产权证号!');
 					return;
 				} else if (!this.$data['JOB_BDCQK']['JOB_BDCQK.FDJYY'] || this.$data['JOB_BDCQK'][
@@ -685,10 +750,12 @@
 				} else if (!applicant['JOB_SQRXXB.FGJDQ'] || applicant['JOB_SQRXXB.FGJDQ'].length == 0) {
 					Toast('请选择申请人国家/地区!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
+				} 
+				/* else if (!applicant['JOB_SQRXXB.FHJSZSS'] || applicant['JOB_SQRXXB.FHJSZSS'].length == 0) {
 					Toast('请选择申请人户籍所属省份!');
 					return;
-				} else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
+				} */
+				 else if (!applicant['JOB_SQRXXB.FLXDH'] || applicant['JOB_SQRXXB.FLXDH'].length == 0) {
 					Toast('请填写申请人联系电话!');
 					return;
 				} else if (!reg2.test(applicant['JOB_SQRXXB.FLXDH'])) {
@@ -718,11 +785,12 @@
 				}
 				this.saveTaskFormData();
 			},
-			saveTaskFormData: function () {
+			saveTaskFormData: function (next) {
 				console.log(this.$data['JOB_BDCQK']);
 				sessionStorage.setItem('formdata', JSON.stringify(this.$data['JOB_BDCQK']));
 				var _this = this;
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
@@ -745,6 +813,7 @@
 					Toast.clear();
 					if (_this.goBack) {
 						_this.goBack = false;
+						next();
 						return;
 					}
 					_this.$router.push({
@@ -771,17 +840,11 @@
 						parentrid + '&doms=' + domains + '&templateid=' + templateid + '&random=19')
 					.then(response => {
 						console.log('response:', response);
-						debugger;
 						if (title === 'JOB_SQRXXB_LINK.IQLR') { // 权利人
 							_this.$data['JOB_SQRXXB_LINK.IQLR'] = response.rows;
 							if (!response.rows || !showloading) return;
 							_this.applicantIndex = 0;
 							_this.applicant = response.rows[0];
-						} else if (title === 'JOB_XGXXB_LINK.IXG') { // 修改事项
-							_this.$data['JOB_XGXXB_LINK.IXG'] = response.rows;
-							if (!response.rows || !showloading) return;
-							_this.changeItemIndex = 0;
-							_this.changeItem = response.rows[0];
 						}
 					})
 					.catch(error => {
@@ -801,6 +864,7 @@
 				var _this = this;
 				if (showLoading) {
 					Toast.loading({
+						duration: 0,
 						mask: true,
 						message: '加载中...'
 					});
@@ -818,6 +882,7 @@
 						_this.applicantIndex = -1;
 						_this.applicant = {};
 					}
+					this.editApplicantState = false;
 					console.log('FILL_SUB_FORM_DATA:', response);
 				}).catch(error => {
 					Toast.clear();
@@ -853,11 +918,6 @@
 						var bdclx = getBdcType(qllx);
 						_this.$data['JOB_BDCQK']['JOB_BDCQK.FBDCLX'] = bdclx;
 
-						var sBdcdyh = response['JOB_BDCQK.FBDCDYH'];
-						var zqdm = exchangeZqdm(sBdcdyh);
-						var zqmc = exchangeZqdmToZqmc(zqdm);
-						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
-
 						//补充权利人信息
 						for (var key in response) {
 							if (key == "JOB_SQRXXB_OLD_LINK.OLD_IQLR") {
@@ -882,12 +942,20 @@
 								}
 							}
 						}
+
+						//获取镇区名称
+						var sBdcdyh = response['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
+						
 						console.log("_this.$data['JOB_BDCQK']:", _this.$data['JOB_BDCQK']);
 						// 保存权利信息
 						this.fillSubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ', response['JOB_GLQLXXB_LINK.OLD_IQLDJ']);
 						// 保存义务人
 						this.fillSubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR', response[
 							'JOB_SQRXXB_OLD_LINK.OLD_IQLR']);
+						Toast.clear();
 					})
 					.catch(error => {
 						Toast.clear();
@@ -915,22 +983,28 @@
 			}
 		},
 		created() {
-			if ((this.$route.query && this.$route.query.processInstanceId) || sessionStorage.getItem('business')) {
+			var formdata = sessionStorage.getItem('formdata');
+			if (formdata) { // 不过本地存在业务则不创建
+				this.taskId = sessionStorage.getItem('taskId');
+				this.$data['JOB_BDCQK'] = JSON.parse(formdata);
+				// 提取权利信息
+				this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
+				// 提取义务人
+				this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
+				// 提取权利人
+				this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+				return;
+			}
+			if (this.$route.query && this.$route.query.processInstanceId) {
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
-				var processInstanceId = '';
-				if (this.$route.query && this.$route.query.processInstanceId) {
-					processInstanceId = this.$route.query.processInstanceId
-				} else {
-					var business = JSON.parse(sessionStorage.getItem('business'));
-					processInstanceId =  business.processInstanceId;
-				}
 				// 查询首环节？
 				var _this = this;
 				this.$fetch('/workflowWebService/getFirstLinkInfoByProcessInstanceId', {
-					processInstanceId: processInstanceId
+					processInstanceId: this.$route.query.processInstanceId
 				}).then(res => {
 					console.log('res:', res);
 
@@ -947,13 +1021,23 @@
 						sessionStorage.setItem('business', JSON.stringify(response));
 						_this.taskId = taskId;
 						_this.$data['JOB_BDCQK'] = values;
+
+						// 获取镇区代码
+						var sBdcdyh = values['JOB_BDCQK.FBDCDYH'];
+						var zqdm = exchangeZqdm(sBdcdyh);
+						var zqmc = exchangeZqdmToZqmc(zqdm);
+						_this.$data['JOB_BDCQK']['JOB_SJDJB.FZQDM'] = zqmc;
+						
 						sessionStorage.setItem('jid', businessNumber);
-						// _this.startExactBusiness(result.data.rid, businessNumber);
 						console.log('taskId:', _this.taskId);
 						// 提取权利信息
 						_this.querySubFormData('JOB_GLQLXXB_LINK.OLD_IQLDJ');
 						// 提取义务人
 						_this.querySubFormData('JOB_SQRXXB_OLD_LINK.OLD_IQLR');
+						// 提取权利人
+						_this.querySubFormData('JOB_SQRXXB_LINK.IQLR');
+						
+						Toast.clear();
 					}).catch(err => {
 						console.log('err:', err);
 						Toast.clear();
@@ -968,6 +1052,7 @@
 				console.log('cqxx:', this.$route.query.cqxx);
 				var _this = this;
 				Toast.loading({
+					duration: 0,
 					mask: true,
 					message: '加载中...'
 				});
