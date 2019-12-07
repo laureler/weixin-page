@@ -204,7 +204,6 @@ export default {
 				.then(function(res) {
 					let resultData = res.data;
 					if (resultData.code == 1) {
-						debugger;
 						//window.top.location.href=resultData.url;
 						_this.$router.push({
 							path: "/fileDownload",
@@ -508,7 +507,7 @@ export default {
 					Toast.clear();
 				} else {
 					Toast.clear();
-					Toast("数据加载失败!");
+					Toast(response.resultmsg);
 				}
 			})
 			.catch(error => {

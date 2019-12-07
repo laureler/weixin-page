@@ -10,7 +10,7 @@ import './registerServiceWorker.js';
 // 移动端屏幕适配
 import '@/assets/lib-flexible/flexible.js';
 // todo 重构请求方式为标准的 post请求
-import { request, post, fetch, patch, put } from './utils/http.js';
+import { request, post, fetch, patch, put, postFrom } from './utils/http.js';
 // vue 网络环境
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -79,6 +79,7 @@ overwritePrototype();
 
 Vue.prototype.$jsonp = jsonp;
 Vue.prototype.$post = post;
+Vue.prototype.$postFrom = postFrom;
 Vue.prototype.$fetch = fetch;
 Vue.prototype.$patch = patch;
 Vue.prototype.$put = put;

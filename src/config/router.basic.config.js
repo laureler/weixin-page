@@ -287,4 +287,22 @@ export const BasicRouterMap = [
 		name: 'fileDownload',
 		component: resolve => require(['@/components/businessManager/fileDownload'], resolve),
 	},
+	//查询须知页面
+	{
+		path: '/searchInfo',
+		name: 'searchInfo',
+		component: resolve => require(['@/components/approve/searchInfo'], resolve),
+	},
+	//档案详情
+	{
+		path: '/arcd',
+		name: 'ArchiveDetail',
+		component: resolve => require(['@/components/app/ArchiveDetail'], resolve)
+	},
+	//base64文件下载页
+	{
+		path: '/base64FileDownload',
+		name: 'base64FileDownload',
+		component: resolve => require(['@/components/approve/base64FileDownload'], resolve),
+	}
 ]

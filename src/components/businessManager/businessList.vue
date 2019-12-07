@@ -2,6 +2,7 @@
 	<div style="width:100%">
 		<page-head title="个人业务列表"></page-head>
 		<div class="list-box">
+			<template v-if="resultData.length>0">
 			<div
 				class="list"
 				v-for="(dataRow, index) in resultData"
@@ -60,6 +61,12 @@
 
 				<div class="spilt"><div></div></div>
 			</div>
+			</template>
+			<template v-else>
+				<div style="color:#333;width:100%;padding-top:3rem;text-align:center">
+					查询无数据
+				</div>
+			</template>
 		</div>
 	</div>
 </template>
@@ -114,7 +121,7 @@ export default {
 					} else {
 						Toast.clear();
 						_this.resultData = [];
-						Toast("数据加载失败!");
+						Toast(response.msg);
 					}
 				})
 				.catch(error => {

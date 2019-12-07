@@ -3,6 +3,7 @@ import axios from 'axios';
 import moment from 'moment';
 // cookie解析模块
 import Cookies from 'js-cookie';
+import qs from "qs";
 // 登出接口
 import {
 	LOG_OUT
@@ -155,6 +156,27 @@ export function fetch(url, params = {}) {
 export function post(url, data = {}) {
 	return new Promise((resolve, reject) => {
 		axios.post(url, data)
+			.then(response => {
+				resolve(response.data);
+			}, err => {
+				reject(err);
+			});
+	});
+}
+
+
+/**
+ * 封装postFrom请求
+ * @param url
+ * @param data
+ * @returns {Promise}
+ */
+export function postFrom(url, data = {}) {
+	return new Promise((resolve, reject) => {
+		var instance = axios.create({
+			headers: {'content-type': 'application/x-www-form-urlencoded'}
+		});
+		instance.post(url, qs.stringify(data))
 			.then(response => {
 				resolve(response.data);
 			}, err => {

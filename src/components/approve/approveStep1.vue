@@ -175,9 +175,11 @@
 			// 住房证明查询
 			getGrantDeep() {
 				const _this = this;
-				let strJson = JSON.stringify({
+				// 加入微信openId，用于记录查档
+				const strJson = JSON.stringify({
 					qlr: _this.data_name,
-					zjhm: _this.data_id
+					zjhm: _this.data_id,
+					openId: Cookies.get('openid')
 				}) + '';
 				let stringUrl = _this.$store.state.callbackUrl;
 				let config = {
@@ -186,8 +188,17 @@
 					}
 				};
 				var formData = new FormData();
-				formData.append('strJson', strJson); // 扫码的值
-				_this.$post(stringUrl, formData, config).then(rs => {
+				formData.append('strJson', strJson);
+				const url = stringUrl + '?strJson=' + encodeURIComponent(strJson);
+				this.$router.push({
+					path: '/arcd',
+					query: {
+						filter: '',
+						title: '住房证明查询',
+						inter: url
+					}
+				});
+				/*_this.$post(stringUrl, formData, config).then(rs => {
 					if (rs) {
 						switch (Number(rs.status)) {
 							case -1 || undefined:
@@ -197,7 +208,12 @@
 								_this.dialogAlert('没有权限下载');
 								break;
 							case 1:
-								window.location.href = stringUrl + '?strJson=' + encodeURIComponent(strJson);
+								// window.location.href = stringUrl + '?strJson=' + encodeURIComponent(strJson);
+								const url = stringUrl + '?strJson=' + encodeURIComponent(strJson);
+								_this.$router.push({
+									path: '/arcd',
+									query: {filter: '', title: '住房证明查询', inter: url}
+								});
 								break;
 							default:
 								_this.dialogAlert('接口返回数据异常！');
@@ -206,7 +222,7 @@
 					}
 				}).catch(error => {
 					_this.dialogAlert('接口异常' + error);
-				});
+				});*/
 			},
 			dialogAlert (message) {
 				Dialog.alert({
