@@ -48,12 +48,13 @@ export default {
 		agree: function() {
 			let _this = this;
 			let callbackurl = _this.$route.query.callbackUrl;
-			_this.$router.push({
+			window.location.href = "/pubWeb/public/weChatPublic/preApprovenew?callbackUrl="+callbackurl;
+			/*_this.$router.push({
 				path: "/preApprovenew",
 				query: {
 					callbackUrl: callbackurl
 				}
-			});
+			});*/
 		}
 	},
 	mounted() {
@@ -112,6 +113,7 @@ export default {
 				Toast("服务器资源请求错误！");
 				console.log(error);
 			});
+			console.log("微信配置参数" + '/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0])
 		_this.$fetch('/pubWeb/public/getWeChatConfig?url=' + window.location.href.split('#')[0]).then(res => {
 				console.log("微信配置结果")
 				console.log(res);

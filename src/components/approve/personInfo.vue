@@ -52,6 +52,7 @@
 								<van-button
 									type="info"
 									size="small"
+									style="z-index:100"
 									@click="fileDown(info)"
 									>下载证照</van-button
 								>
