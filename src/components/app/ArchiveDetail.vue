@@ -47,10 +47,10 @@
 				            that.obj = response.cqxx;
 				            that.showBtn = true;
 			            }else {
-				            Toast("接口异常！")
+				            Toast(response.resultmsg);
 			            }
 		            }).catch(e=>{
-		            	Toast("接口异常！")
+		            	Toast("接口服务异常！")
 	            })
 			} else {
 				let params = '?strJson=' + encodeURIComponent(this.filter.strJson);
@@ -64,7 +64,7 @@
 							}
 						})
 						.catch(error => {
-							Toast("接口异常！");
+							Toast("接口访问异常！");
 							console.log(error);
 							if(Number(error.status) === 404){
 								Toast("找不到该接口！");
