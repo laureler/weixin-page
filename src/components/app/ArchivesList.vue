@@ -32,7 +32,7 @@
                 resultmsg: '未查询到结果',
                 title: '',
                 //查询条件
-                filter: {},
+                strJson: '',
                 //档案查询接口
                 archiveInter: '/getArchiveDataInfo'
             }
@@ -58,13 +58,13 @@
         created(){
             this.title = this.$route.query.title;
             this.inter = this.$route.query.inter;
-            this.filter = this.$route.query.filter;
+            this.strJson = this.$route.query.strJson;
         },
         mounted(){
             const that = this;
             request({
                 url: that.inter,
-                data: that.filter,
+                data: {strJson:that.strJson},
                 success(data){
                     if (Number(data.resultcode) === 1) {
                         that.isShow = !that.isShow;

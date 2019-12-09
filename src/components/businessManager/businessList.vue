@@ -2,68 +2,70 @@
 	<div style="width:100%">
 		<page-head title="个人业务列表"></page-head>
 		<div class="list-box">
-			<template v-if="resultData.length>0">
-			<div
-				class="list"
-				v-for="(dataRow, index) in resultData"
-				:key="index"
-			>
-				<table>
-					<tr>
-						<td class="title">申请编号</td>
-						<td class="count">{{ dataRow.SQBH }}</td>
-					</tr>
-					<tr>
-						<td class="title">合同号</td>
-						<td class="count">{{ dataRow.HTBH }}</td>
-					</tr>
-					<tr>
-						<td class="title">坐落</td>
-						<td class="count">{{ dataRow.BDCZL }}</td>
-					</tr>
-					<tr>
-						<td class="title">是否按揭</td>
-						<td class="count">
-							{{ dataRow.SFAJ == 1 ? "是" : "否" }}
-						</td>
-					</tr>
-					<tr>
-						<td class="title">进度</td>
-						<td class="count">{{ dataRow.YWJD }}</td>
-					</tr>
-					<tr>
-						<td class="title">操作</td>
-						<td class="count">
-							<van-button
-								@click="showBusiness(dataRow)"
-								v-if="
-									dataRow.YWJD == '预申请' ||
-										dataRow.YWJD == '待申请' ||
-										dataRow.YWJD == '预受理' ||
-										dataRow.YWJD == ''
-								"
-								type="default"
-								size="small"
-								class="blue-button"
-								>申请</van-button
-							>
-							<van-button
-								@click="showBusiness(dataRow)"
-								v-else
-								type="default"
-								size="small"
-								class="blue-button"
-								>查看</van-button
-							>
-						</td>
-					</tr>
-				</table>
+			<template v-if="resultData.length > 0">
+				<div
+					class="list"
+					v-for="(dataRow, index) in resultData"
+					:key="index"
+				>
+					<table>
+						<tr>
+							<td class="title">申请编号</td>
+							<td class="count">{{ dataRow.SQBH }}</td>
+						</tr>
+						<tr>
+							<td class="title">合同号</td>
+							<td class="count">{{ dataRow.HTBH }}</td>
+						</tr>
+						<tr>
+							<td class="title">坐落</td>
+							<td class="count">{{ dataRow.BDCZL }}</td>
+						</tr>
+						<tr>
+							<td class="title">是否按揭</td>
+							<td class="count">
+								{{ dataRow.SFAJ == 1 ? "是" : "否" }}
+							</td>
+						</tr>
+						<tr>
+							<td class="title">进度</td>
+							<td class="count">{{ dataRow.YWJD }}</td>
+						</tr>
+						<tr>
+							<td class="title">操作</td>
+							<td class="count">
+								<van-button
+									@click="showBusiness(dataRow)"
+									v-if="
+										dataRow.YWJD == '预申请' ||
+											dataRow.YWJD == '待申请' ||
+											dataRow.YWJD == '预受理' ||
+											dataRow.YWJD == ''
+									"
+									type="default"
+									size="small"
+									class="blue-button"
+									>申请</van-button
+								>
+								<van-button
+									@click="showBusiness(dataRow)"
+									v-else
+									type="default"
+									size="small"
+									class="blue-button"
+									>查看</van-button
+								>
+							</td>
+						</tr>
+					</table>
 
-				<div class="spilt"><div></div></div>
-			</div>
+					<div class="spilt"><div></div></div>
+				</div>
 			</template>
 			<template v-else>
-				<div style="color:#333;width:100%;padding-top:3rem;text-align:center">
+				<div
+					style="color:#333;width:100%;padding-top:3rem;text-align:center"
+				>
 					查询无数据
 				</div>
 			</template>

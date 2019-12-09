@@ -126,12 +126,10 @@
 								query: {
 									inter: '/GetPersonDataInfo',
 									title: '不动产登记资料查询',
-									filter: {
-										strJson: JSON.stringify({
-											qlr: this.data_name,
-											zjhm: this.data_id
-										})
-									}
+									strJson: JSON.stringify({
+										qlr: this.data_name,
+										zjhm: this.data_id
+									})
 								}
 							});
 						} else if (_this.$store.state.callbackUrl == '/pubWeb/public/weChatPublic/personInfo') {
@@ -202,12 +200,10 @@
 					query: {
 						inter: '/GetPersonDataInfo',
 						title: '不动产登记资料查询',
-						filter: {
-							strJson: JSON.stringify({
-								qlr: this.data_name,
-								zjhm: this.data_id
-							})
-						}
+						strJson: JSON.stringify({
+							qlr: this.data_name,
+							zjhm: this.data_id
+						})
 					}
 				})
 			},

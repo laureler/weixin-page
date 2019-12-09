@@ -105,7 +105,9 @@
 							<td>{{ qd.ZLMC }}</td>
 							<td v-if="viewType == 1" style="width:4.6rem">
 								<van-button
-									v-if="qd.ZLMC == '身份证明材料'"
+									v-if="
+										qd.ZLMC == '身份证明材料_' + nowUser.LXR
+									"
 									@click="uploadImg(index)"
 									type="info"
 									size="small"
@@ -121,8 +123,12 @@
 								>
 								<input
 									:ref="'getPhoto' + index"
-									@change="postImg('getPhoto' + index)"
-									v-if="qd.ZLMC == '身份证明材料'"
+									@change="
+										postImg('getPhoto' + index, qd.ZLMC)
+									"
+									v-if="
+										qd.ZLMC == '身份证明材料_' + nowUser.LXR
+									"
 									multiple="multiple"
 									style="display:none;"
 									type="file"
@@ -361,7 +367,7 @@ export default {
 				});
 		},
 		//上传图片设置form
-		postImg(node) {
+		postImg(node, zlmc) {
 			let _this = this;
 			//这里写接口
 			let $node = this.$refs[node];
@@ -378,7 +384,7 @@ export default {
 				formData.append("multipartFile", file[i]);
 			}
 			formData.append("jid", _this.formData.SQBH);
-			formData.append("materialName", "身份证明材料");
+			formData.append("materialName", zlmc);
 			_this.submitModify(formData); //上传方法
 			/* let reader = new FileReader();
         reader.readAsDataURL(file);
