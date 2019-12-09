@@ -12,6 +12,18 @@
 				label="身份证号：" input-align="right" center oninput="if(value.length>18)value=value.slice(0,18)"
 				onafterpaste="this.value=this.value.replace(/\D/g,'')"></van-field>
 		</van-cell-group>
+
+		<van-row class="checkType" v-if="faceVerifyType === 3">
+			<van-radio-group v-model="radio">
+				<van-col span="12" class="radioBox">
+					<van-radio name="1">反光识别</van-radio>
+				</van-col>
+				<van-col span="12" class="radioBox">
+					<van-radio name="0">读数识别</van-radio>
+				</van-col>
+			</van-radio-group>
+		</van-row>
+
 		<p v-model="errorMessage" class="errorC">{{errorMessage}}</p>
 
 		<div style="height: 40px"></div>
@@ -24,6 +36,8 @@
 
 <script>
 	import {
+		Radio,
+		RadioGroup,
 		Dialog,
 		CellGroup,
 		Field,
@@ -44,7 +58,13 @@
 		},
 		data () {
 			return {
+				//默认选中第一个
+				radio: '1',
 				faceTitle: '人脸核身',
+				// 0 读数字
+				// 1 屏幕闪烁
+				// 2 优先屏幕闪烁，不行就读数字
+				// 3 用户自行选择
 				faceVerifyType: 1,
 				editable: true,
 				// 显示用户信息
@@ -266,10 +286,18 @@
 			},
 			WeChatFaceCheck () {
 				var _this = this;
+				var type = '1';
+				// 如果 人脸核身是3 ，则让用户自己选择，
+				if(this.faceVerifyType === 3){
+					this.type = this.radio;
+				}
+				else { //如果不是3，则由返回的类型来判断
+					this.type = this.faceVerifyType;
+				}
 				var info = {
 					'request_verify_pre_info': '{"name":"' + _this.data_name + '","id_card_number":"' + _this.data_id +
 						'"}',
-					'check_alive_type': '1'
+					'check_alive_type': type
 				};
 				let invokeCallback = function (res) {
 					// 人脸识别成功
@@ -392,11 +420,15 @@
 			})*/
 			_this.$fetch('/gdbdcWebService/WeChatConfig/public/getFaceIdentificationInfomation')
 				.then(res => {
-					_this.faceVerifyType = (res.CHECKALIVETYPE == null || res.CHECKALIVETYPE == undefined) ? 1 : res
+					_this.faceVerifyType = (res.CHECKALIVETYPE == null || res.CHECKALIVETYPE == undefined) ? 3 : res
 						.CHECKALIVETYPE;
+					this.radio = '1';
 				})
 				.catch(error => {
-					_this.faceVerifyType = 1;
+					// 默认为自己选择
+					_this.faceVerifyType = 3;
+					// 默认选中反光识别
+					this.radio = '1'
 					console.log(error);
 				})
 			this.token = sessionStorage.getItem('token');
@@ -440,6 +472,18 @@
 </script>
 
 <style lang="less" type="text/less" scoped>
+	.radioBox:first-child{
+		border-right: 1px solid #0000000a;
+	}
+	.radioBox{
+		text-align: center;
+		padding-left: 10px;
+	}
+	.checkType{
+		border-bottom: 1px solid #0000000a;
+		font-size: 14px;
+		padding: 12px;
+	}
 	.space_between {
 		background-color: #eff7f7;
 		height: 8px;
