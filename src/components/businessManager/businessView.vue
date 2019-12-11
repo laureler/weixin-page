@@ -14,11 +14,20 @@
         </div>>-->
 		<div v-show="showImg" class="viewImgBox">
 			<wimg
-				:show="showImg"
-				:imgs="imgPath"
-				:currentImg="current"
+				:show.sync="showImg"
+				:imgs.sync="imgPath"
+				:currentImg.sync="current"
+				ref="viewImgShow"
 				@close="showImg = false"
 			></wimg>
+			<van-button
+				v-if="isDelete"
+				class="btnAddr"
+				@click="deleteFile()"
+				type="info"
+				size="small"
+				>删除</van-button
+			>
 		</div>
 
 		<div style="z-index:1">
@@ -116,7 +125,7 @@
 								<van-button
 									style="float:right;margin-right:.2rem"
 									:disabled="qd.FPATH == null ? true : false"
-									@click="viewImg(qd.FPATH)"
+									@click="viewImg(qd.FPATH, qd.ZLMC)"
 									type="info"
 									size="small"
 									>预览</van-button
@@ -129,7 +138,6 @@
 									v-if="
 										qd.ZLMC == '身份证明材料_' + nowUser.LXR
 									"
-									multiple="multiple"
 									style="display:none;"
 									type="file"
 									id="upload"
@@ -141,7 +149,7 @@
 								<van-button
 									style="float:right;margin-right:.2rem"
 									:disabled="qd.FPATH == null ? true : false"
-									@click="viewImg(qd.FPATH)"
+									@click="viewImg(qd.FPATH, qd.ZLMC)"
 									type="info"
 									size="small"
 									>预览</van-button
@@ -160,6 +168,7 @@ import QRCode from "qrcode";
 import axios from "axios";
 import qs from "qs";
 import wimg from "w-previewimg";
+import lrz from "lrz";
 import { Toast, Dialog } from "vant";
 export default {
 	name: "businessView",
@@ -189,7 +198,10 @@ export default {
 			picValue: "",
 			current: "",
 			nowUser: { LXR: "", LXDH: "", SIGNLINK: "" }, //纪律当前登录的账户信息
-			currentIndex: -1 //附件上传所在的附件列表
+			currentIndex: -1, //附件上传所在的附件列表
+			isDelete: false, //控制是否可以删除附件
+			currentFilePath: "", //预览的文件宏路径
+			preViewZlmc: "" //当前预览的资料名称
 		};
 	},
 	components: {
@@ -197,6 +209,71 @@ export default {
 		wimg
 	},
 	methods: {
+		deleteFile() {
+			let _this = this;
+			/*debugger;
+			console.log(this.imgPath);
+			console.log(this.$refs.viewImgShow.current);
+			return;*/
+			let paths = _this.currentFilePath.split("::");
+			let params = {
+				fpath: paths[_this.$refs.viewImgShow.currentIndex],
+				jid: _this.formData.SQBH,
+				materialName: _this.preViewZlmc
+			};
+			Toast.loading({
+				duration: 0,
+				mask: true,
+				message: "正在删除..."
+			});
+			_this
+				.$post(
+					"/gdbdcWebService/public/personalBusiness/delectFileWeChat",
+					qs.stringify(params)
+				)
+				.then(response => {
+					if (response.code == 0) {
+						Toast.clear();
+						let arrFile = new Array(_this.imgPath);
+						arrFile[0].splice(
+							_this.$refs.viewImgShow.currentIndex,
+							1
+						);
+						_this.imgPath = arrFile[0];
+
+						if (_this.imgPath.length == 0) {
+							_this.showImg = false;
+						}
+						let showIndexImg =
+							_this.$refs.viewImgShow.currentIndex > 0
+								? _this.$refs.viewImgShow.currentIndex - 1
+								: 0;
+						_this.$refs.viewImgShow.current =
+							_this.imgPath[showIndexImg];
+						_this.$refs.viewImgShow.currentImg =
+							_this.imgPath[showIndexImg];
+						let fjqd = _this.formData.FJQD;
+						for (var i = 0; i < fjqd.length; i++) {
+							if (_this.preViewZlmc == fjqd[i].ZLMC) {
+								fjqd[i].FPATH = response.result
+									? response.result
+									: null;
+								_this.currentFilePath = response.result
+									? response.result
+									: null;
+							}
+						}
+						Toast("删除成功！");
+					} else {
+						Toast.clear();
+						Toast(response.msg);
+					}
+				})
+				.catch(error => {
+					Toast.clear();
+					Toast("服务器请求错误!");
+				});
+		},
 		downloadFiel() {
 			let _this = this;
 			_this
@@ -366,23 +443,49 @@ export default {
 					console.log(error);
 				});
 		},
+		dataURLtoFile(dataurl, filename) {
+			var arr = dataurl.split(","),
+				mime = arr[0].match(/:(.*?);/)[1],
+				bstr = atob(arr[1]),
+				n = bstr.length,
+				u8arr = new Uint8Array(n);
+			while (n--) {
+				u8arr[n] = bstr.charCodeAt(n);
+			}
+			return new File([u8arr], filename, { type: mime });
+		},
 		//上传图片设置form
-		postImg(node, zlmc) {
+		async postImg(node, zlmc) {
 			let _this = this;
 			//这里写接口
 			let $node = this.$refs[node];
-			let file = $node[0].files; //获取当前选择的照片
+			var file = $node[0].files; //获取当前选择的照片
 			let formData = new FormData();
 			if (file.length == 0) return;
+			Toast.loading({
+				duration: 0,
+				mask: true,
+				message: "图片处理中..."
+			});
 			for (var i = 0; i < file.length; i++) {
-				let fileSize = file[i].size;
-				fileSize = Math.round((fileSize / 1024 / 1024) * 100) / 100;
-				if (fileSize > 1) {
-					Toast("单个上传文件不得大于1M！");
-					return;
-				}
-				formData.append("multipartFile", file[i]);
+				await lrz(file[i], { quality: 0.3 })
+					.then(function(rst) {
+						//成功时执行
+						let newFile = _this.dataURLtoFile(
+							rst.base64,
+							file[i].name
+						);
+						formData.append("multipartFile", newFile);
+					})
+					.catch(function(error) {
+						//失败时执行
+						console.error(error);
+					})
+					.always(function() {
+						//不管成功或失败，都会执行
+					});
 			}
+			Toast.clear();
 			formData.append("jid", _this.formData.SQBH);
 			formData.append("materialName", zlmc);
 			_this.submitModify(formData); //上传方法
@@ -398,8 +501,15 @@ export default {
         };*/
 		},
 		//设置图片预览路径显示图片
-		viewImg(path) {
+		viewImg(path, zlmc) {
+			if (zlmc == "身份证明材料_" + this.nowUser.LXR) {
+				this.isDelete = true;
+			} else {
+				this.isDelete = false;
+			}
 			if (path) {
+				this.preViewZlmc = zlmc;
+				this.currentFilePath = path;
 				this.setViewPath(path);
 			} else {
 				Toast("无附件可预览!");
@@ -497,7 +607,7 @@ export default {
 						response.resultdata.YWJD == "预申请" ||
 						response.resultdata.YWJD == "待申请" ||
 						response.resultdata.YWJD == "预受理" ||
-						response.resultdata.YWJD == ""
+						!response.resultdata.YWJD
 					) {
 						_this.viewType = 1;
 					} else {
@@ -586,6 +696,11 @@ export default {
 	z-index: 999;
 	background: rgba(0, 0, 0, 0.5);
 	text-align: center;
+}
+.btnAddr {
+	position: fixed;
+	bottom: 0.3rem;
+	left: calc(50% - 29px);
 }
 .viewImgBox img {
 	max-width: 90%;

@@ -40,7 +40,7 @@
 										dataRow.YWJD == '预申请' ||
 											dataRow.YWJD == '待申请' ||
 											dataRow.YWJD == '预受理' ||
-											dataRow.YWJD == ''
+											!dataRow.YWJD
 									"
 									type="default"
 									size="small"
@@ -92,9 +92,9 @@ export default {
 		let isBusinessVerify = _this.$store.state.businessVerify;
 		_this.cardCode = _this.$route.query.cardCode;
 		_this.userName = _this.$route.query.userName;
-		//_this.userName="蒲秀蓉";
-		//_this.cardCode="512921197609094225";
-		//let isBusinessVerify=true;
+		//_this.userName = "蒲秀蓉";
+		//_this.cardCode = "512921197609094225";
+		//let isBusinessVerify = true;
 		if (!isBusinessVerify) {
 			this.$router.push({
 				path: "/preApprovenew",
@@ -144,10 +144,21 @@ export default {
 	methods: {
 		showBusiness(dataRow) {
 			let _this = this;
+			let msg = "";
+			if (
+				dataRow.YWJD == "预申请" ||
+				dataRow.YWJD == "待申请" ||
+				dataRow.YWJD == "预受理" ||
+				!dataRow.YWJD
+			) {
+				msg = "数据提交中...";
+			} else {
+				msg = "数据获取中...";
+			}
 			Toast.loading({
 				duration: 0,
 				mask: true,
-				message: "正在获取数据..."
+				message: msg
 			});
 			_this
 				.$fetch(
@@ -170,7 +181,7 @@ export default {
 						Toast.clear();
 					} else {
 						Toast.clear();
-						Toast("数据获取失败!");
+						Toast(response.resultmsg);
 					}
 				})
 				.catch(error => {
