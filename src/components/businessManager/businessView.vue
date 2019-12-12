@@ -114,9 +114,7 @@
 							<td>{{ qd.ZLMC }}</td>
 							<td v-if="viewType == 1" style="width:4.6rem">
 								<van-button
-									v-if="
-										qd.ZLMC == '身份证明材料_' + nowUser.LXR
-									"
+									v-if="isUpload(qd.ZLMC)"
 									@click="uploadImg(index)"
 									type="info"
 									size="small"
@@ -135,9 +133,7 @@
 									@change="
 										postImg('getPhoto' + index, qd.ZLMC)
 									"
-									v-if="
-										qd.ZLMC == '身份证明材料_' + nowUser.LXR
-									"
+									v-if="isUpload(qd.ZLMC)"
 									style="display:none;"
 									type="file"
 									id="upload"
@@ -209,6 +205,13 @@ export default {
 		wimg
 	},
 	methods: {
+		isUpload(fileListName) {
+			fileListName = fileListName.replace(/\s+/g, "");
+			let loginName = this.$store.getters.getPersonCardInfo.cardName;
+			loginName = loginName.replace(/\s+/g, "");
+			let isUser = fileListName == "身份证明材料_" + loginName; //"身份证明材料_" + this.nowUser.LXR;
+			return isUser;
+		},
 		deleteFile() {
 			let _this = this;
 			/*debugger;
@@ -252,6 +255,7 @@ export default {
 							_this.imgPath[showIndexImg];
 						_this.$refs.viewImgShow.currentImg =
 							_this.imgPath[showIndexImg];
+						_this.$refs.viewImgShow.currentIndex = showIndexImg;
 						let fjqd = _this.formData.FJQD;
 						for (var i = 0; i < fjqd.length; i++) {
 							if (_this.preViewZlmc == fjqd[i].ZLMC) {
@@ -502,7 +506,10 @@ export default {
 		},
 		//设置图片预览路径显示图片
 		viewImg(path, zlmc) {
-			if (zlmc == "身份证明材料_" + this.nowUser.LXR) {
+			zlmc = zlmc.replace(/\s+/g, "");
+			let loginName = this.$store.getters.getPersonCardInfo.cardName;
+			loginName = loginName.replace(/\s+/g, "");
+			if (zlmc == "身份证明材料_" + loginName) {
 				this.isDelete = true;
 			} else {
 				this.isDelete = false;
@@ -551,7 +558,7 @@ export default {
 						Toast("提交成功!");
 					} else {
 						Toast.clear();
-						Toast("提交失败!");
+						Toast(response.message);
 					}
 				})
 				.catch(error => {
