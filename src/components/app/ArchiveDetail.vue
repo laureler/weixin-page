@@ -39,6 +39,8 @@
 	    },
         mounted(){
             let that = this;
+	        // this.obj = "http://172.16.42.76:3000/view/preview/201912/44130019121700001/116a0511-5597-415a-8e0c-912bf16fbac0/downloadPdf.pdf";
+	        // this.obj = "http://172.16.42.76:3000/view/preview/201912/44130019121700001/116a0511-5597-415a-8e0c-912bf16fbac0/downloadPdf.pdf";
             if (this.title === '住房证明查询') {
             	// wechatRemoteCheck
 				this.$fetch(that.inter)

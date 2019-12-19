@@ -17,7 +17,7 @@
 
 	import { Toast } from 'vant'
 
-	import PDFJS from 'pdfjs-dist'
+	import PDFJS from 'pdfjs-dist-show-signature'
 
 	export default {
 		name: 'preview-pdf',
@@ -55,12 +55,11 @@
 		methods: {
 			showPDF (obj) {
 				let _this = this;
-
 				if (/base64/.test(obj)) {
 					obj = { data: 'data:application/pdf;base64,' + atob(obj.substr(obj.indexOf("base64,") + 7, obj.length)) };
 				}
 				// PDF下载示例：http://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf
-				// obj = "/mainWeb/index/downloadPdf";
+
 				PDFJS.getDocument(obj).then(pdf => {
 					_this.pdfObj = pdf;
 					if (pdf.numPages <= 1) {
