@@ -245,7 +245,7 @@
 				const that = this;
 				const param = {szwd: that.select1Value, yyfs: '2'};
 				request({
-					url: '/GetYYSX_ZS',
+					url: '/GetYYSX',
 					data: {strJson: JSON.stringify(param)},
 					success(response) {
 						that.select2Data = [];
@@ -263,7 +263,7 @@
 				const that = this;
 				const param = {szwd: that.select1Value, yyfs: '2'};
 				request({
-					url: '/GetYyrq_ZS',
+					url: '/GetYyrq',
 					data: {strJson: JSON.stringify(param)},
 					success(response) {
 						that.select3Data = [];
@@ -288,7 +288,7 @@
 				const that = this;
 				const param = {szwd: that.select1Value, yysx: that.select2Value, yyrq: that.select3Value, yyfs: '2'};
 				request({
-					url: '/GetYysd_ZS',
+					url: '/GetYysd',
 					data: {strJson: JSON.stringify(param)},
 					success(response) {
 						that.select4Data = [];
@@ -334,7 +334,7 @@
 				};
 				// 点击确定直接跳到预约成功/失败页面
 				request({
-					url: '/SubmitYYInfo_ZS',
+					url: '/SubmitYYInfo',
 					data: {strJson: JSON.stringify(paramData)},
 					success(response) {
 						console.log(response);
@@ -445,7 +445,7 @@
 		mounted() {
 			const that = this;
 			request({
-				url: '/GetYYBSWD_ZS',
+				url: '/GetYYBSWD',
 				success(response) {
 					that.select1Data.push(response)
 				},

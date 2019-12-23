@@ -299,6 +299,8 @@
 						'"}',
 					'check_alive_type': type
 				};
+				console.log("微信人脸核身的信息")
+				console.log(info);
 				let invokeCallback = function (res) {
 					// 人脸识别成功
 					_this.$store.commit('CARD_CODE', _this.data_id);

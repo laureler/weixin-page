@@ -60,7 +60,7 @@ try {
                                 return;
                             }
                         }
-						//获取镇区代码              
+						//获取镇区代码
 						var zqdm = exchangeZqdm(sBdcdyh);
 						data["JOB_SJDJB.FZQDM"] = zqdm;
 						//获取不动产类型
@@ -187,7 +187,7 @@ try {
 		};
 		var queryParams = {
 			"strJson": JSON.stringify(jsonData),
-			"path": "/WSYY/GetBdcdyInfo_ZS"
+			"path": "/WSYY/GetBdcdyInfo"
 		};
 		$.ajax({
 			url: "/pubWeb/public/system/getExtractInfo",

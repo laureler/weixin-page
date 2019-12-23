@@ -91,7 +91,7 @@
 								// openid: openid
 							};
 							request({
-								url: '/CancelYYInfoByID_ZS',
+								url: '/CancelYYInfoByID',
 								data: {strJson: JSON.stringify(form)},
 								success(response) {
 									console.log(response);
@@ -110,7 +110,7 @@
 				const that = this;
 				const openid = isWx() ? Cookies.get('openid') : '';
 				request({
-					url: '/SearchYYInfoListByOpenId_ZS',
+					url: '/SearchYYInfoListByOpenId',
 					data: {strJson: JSON.stringify({openid})},
 					success(response) {
 						console.log(response);
