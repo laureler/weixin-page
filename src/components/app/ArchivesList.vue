@@ -10,9 +10,11 @@
             <div v-show="!isShow" style="font-size:0.42rem;color:#999999;margin-left: 0.5rem">{{resultmsg}}</div>
             <div v-show="isShow" class="container" v-for="result in results" :key="result.id">
                 <div>权利人：{{result.qlrmc}}</div>
-                <van-button  type="info" slot="button" size="small" plain @click="queryArchives(result.rid,result.jid,result.cqzh)" class="query-btn">查档</van-button>
+                <van-button  type="info" slot="button" size="small" plain @click="queryArchives(result.rid,result.jid,result.cqzh,result.bdcdyh)" class="query-btn">查档</van-button>
                 <div style="width:78%;white-space:wrap;">坐落：{{result.zl}}</div>
+                <div>用途：{{result.yt}}</div>
                 <div>面积：{{result.mj}}</div>
+                <div>证件号码：{{result.zjhm}}</div>
             </div>
         </div>
     </div>
@@ -43,7 +45,7 @@
 
         methods: {
             //查档按钮点击事件
-            queryArchives(rid,jid,cqzh){
+            queryArchives(rid,jid,cqzh,bdcdyh){
 	            let filter = {
 	            	strJson: JSON.stringify({
 						rid: rid,
@@ -51,7 +53,8 @@
                         qlr: this.$store.getters.getPersonCardInfo.cardName,
                     	zjhm: this.$store.getters.getPersonCardInfo.cardCode,
 			            jid:jid,
-			            cqzh:cqzh
+			            cqzh:cqzh,
+			            bdcdyh:bdcdyh
 	            	})
 	            };
 	            this.$router.push({
