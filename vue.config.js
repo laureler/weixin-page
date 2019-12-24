@@ -149,25 +149,24 @@ module.exports = {
 		hotOnly: true,
 		 proxy: {
 		       '/pubWeb/public/doIntranetRequest/GetTitleList' : {
-				   target: 'http://localhost:8080', ws: true, followRedirects: false, hostRewrite: '172.16.42.76:3000'
+				   target: 'http://192.168.10.103:8095', ws: true, followRedirects: false, hostRewrite: 'localhost:3000'
 			   },
-
 			 '/pubWeb/public/doIntranetRequest/GetWeChatPublicName' : {
-				 target: 'http://bdc.qylr.gov.cn', ws: true, followRedirects: false, hostRewrite: '172.16.42.76:3000'
+				 target: 'http://192.168.10.103:8095', ws: true, followRedirects: false, hostRewrite: 'localhost:3000'
 			 },
 			 '/pubWeb/public/doIntranetRequest/GetRuleDetail' : {
-				 target: 'http://localhost:8080', ws: true, followRedirects: false, hostRewrite: '172.16.42.76:3000'
+				 target: 'http://192.168.10.103:8095', ws: true, followRedirects: false, hostRewrite: 'localhost:3000'
 			 },
 			 '/pubWeb/public/doIntranetRequest/SearchYYInfoByOpenId': {
-				 target: 'http://bdc.qylr.gov.cn', ws: true, followRedirects: false, hostRewrite: '172.16.42.76:3000'
+				 target: 'http://192.168.10.103:8095', ws: true, followRedirects: false, hostRewrite: 'localhost:3000'
 			 },
 			// 开发模式下 代理网络请求
-			// '/cas': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
-			// '/mainWeb': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			'/cas': { target: 'http://192.168.10.103:8095', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			'/mainWeb': { target: 'http://192.168.10.103:8095', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
 			// '/gdbdcWebService': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
 			// '/pubWeb/public/getWeChatConfig': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' }
-			// '/pubWeb': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
-			// '/public': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			'/pubWeb': { target: 'http://192.168.10.103:8095', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
+			'/public': { target: 'http://192.168.10.103:8095', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
 			// '/workflowWebService': { target: 'http://www.aiwandoudou.com', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },
 		/*	'/pubWeb/public/doIntranetRequest/GetAllNo': { target: 'http://bdc.qylr.gov.cn/pubWeb/public/doIntranetRequest/GetAllNo', ws: true, followRedirects: false, hostRewrite: 'localhost:3000' },*/
 			'/view': { target: 'http://192.168.10.103:8095', ws: true, followRedirects: false, hostRewrite: '172.16.42.76:3000' }

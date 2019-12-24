@@ -5,7 +5,7 @@
 			<div v-if="pageNum > 1" style="display: inline-block;">
 				<van-button class='pdf-btn' size="small" @click="onPrevPage">上一页</van-button>
 			</div>
-			<van-button class='pdf-btn' size="small" @click="pdfDownload">下载</van-button>
+			<van-button type="info" class='pdf-btn' size="small" @click="pdfDownload">下载</van-button>
 			<!--<van-button class='pdf-btn' size="small" @click="scalePlus">放大</van-button>-->
 			<div v-if="pageNum < pdfObj.numPages" style="display: inline-block;">
 				<van-button class='pdf-btn' size="small" @click="onNextPage">下一页</van-button>

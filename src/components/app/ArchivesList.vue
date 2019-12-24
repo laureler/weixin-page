@@ -2,12 +2,15 @@
 	<div style="display:flex;flex-direction:column">
 		<page-head :title="title"></page-head>
         <div style="background: #F0F5F8;width: 100%;height: 10px;border-bottom: 1px solid #E5E5E5;"></div>
-        <div style="width: 100%;height: 24px;background-color: #e5e5e5;text-align: center;font-size: 11px;color: #FFF;line-height: 24px;">共 {{results.length}} 条记录</div>
+
+<!--		<div v-if="results.length === 0" style="width: 100%;height: 24px;background-color: #ff976a;text-align: center;font-size: 11px;color: #FFF;line-height: 24px;">共 {{results.length}} 条记录</div>-->
+		<div v-if="results.length === 0" style="width: 100%;height: 24px;background-color: #1989fa;text-align: center;font-size: 11px;color: #FFF;line-height: 24px;">共 {{results.length}} 条记录</div>
+
         <div class="content">
             <div v-show="!isShow" style="font-size:0.42rem;color:#999999;margin-left: 0.5rem">{{resultmsg}}</div>
             <div v-show="isShow" class="container" v-for="result in results" :key="result.id">
                 <div>权利人：{{result.qlrmc}}</div>
-                <van-button slot="button" size="small" plain @click="queryArchives(result.rid)" class="query-btn">查档</van-button>
+                <van-button  type="info" slot="button" size="small" plain @click="queryArchives(result.rid,result.jid,result.cqzh)" class="query-btn">查档</van-button>
                 <div style="width:78%;white-space:wrap;">坐落：{{result.zl}}</div>
                 <div>面积：{{result.mj}}</div>
             </div>
@@ -40,13 +43,15 @@
 
         methods: {
             //查档按钮点击事件
-            queryArchives(rid){
+            queryArchives(rid,jid,cqzh){
 	            let filter = {
 	            	strJson: JSON.stringify({
 						rid: rid,
                         openId: Cookies.get('openid'),
                         qlr: this.$store.getters.getPersonCardInfo.cardName,
-                    	zjhm: this.$store.getters.getPersonCardInfo.cardCode
+                    	zjhm: this.$store.getters.getPersonCardInfo.cardCode,
+			            jid:jid,
+			            cqzh:cqzh
 	            	})
 	            };
 	            this.$router.push({
@@ -105,14 +110,14 @@
 	}
 
     .query-btn{
-        width: 55px;
-        height: 35px;
-        border-radius: 5px;
-        background-color: #e6edf3;
-        color: #4d9ed7;
+        /*width: 55px;*/
+        /*height: 35px;*/
+        /*border-radius: 5px;*/
+        /*background: linear-gradient(to right, #2db6ff, #2edbfd) !important;*/
+        /*color: #4d9ed7;*/
         font-size: 14px;
         float: right;
         right: 10px;
-        bottom: 20px;
+        bottom: -18px;
     }
 </style>
