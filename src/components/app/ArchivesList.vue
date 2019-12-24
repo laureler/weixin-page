@@ -10,7 +10,7 @@
             <div v-show="!isShow" style="font-size:0.42rem;color:#999999;margin-left: 0.5rem">{{resultmsg}}</div>
             <div v-show="isShow" class="container" v-for="result in results" :key="result.id">
                 <div>权利人：{{result.qlrmc}}</div>
-                <van-button  type="info" slot="button" size="small" plain @click="queryArchives(result.rid,result.jid,result.cqzh,result.bdcdyh)" class="query-btn">查档</van-button>
+                <van-button  type="info" slot="button" size="small" plain @click="queryArchives(result.rid,result.jid,result.cqzh,result.bdcdyh,result.qlrmc,result.zjh)" class="query-btn">查档</van-button>
                 <div style="width:78%;white-space:wrap;">坐落：{{result.zl}}</div>
                 <div>用途：{{result.yt}}</div>
                 <div>面积：{{result.mj}}</div>
@@ -45,16 +45,29 @@
 
         methods: {
             //查档按钮点击事件
-            queryArchives(rid,jid,cqzh,bdcdyh){
+            queryArchives(rid,jid,cqzh,bdcdyh,qlrmc,zjh){
 	            let filter = {
 	            	strJson: JSON.stringify({
-						rid: rid,
+
                         openId: Cookies.get('openid'),
+			            // 人脸核身 身份证 姓名
                         qlr: this.$store.getters.getPersonCardInfo.cardName,
+			            // 人脸核身 身份证 号码
                     	zjhm: this.$store.getters.getPersonCardInfo.cardCode,
+
+			            // 返回数据取值
+			            // rid 唯一标识字段
+			            rid: rid,
+			            // jid
 			            jid:jid,
+			            // 产权证号
 			            cqzh:cqzh,
-			            bdcdyh:bdcdyh
+			            // 不动产单元号
+			            bdcdyh:bdcdyh,
+			            //权利人名称
+			            qlrmc:qlrmc,
+			            // 证件号
+			            zjh:zjh
 	            	})
 	            };
 	            this.$router.push({
