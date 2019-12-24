@@ -46,14 +46,16 @@
         methods: {
             //查档按钮点击事件
             queryArchives(rid,jid,cqzh,bdcdyh,qlrmc,zjh){
+	            console.log(qlrmc);
+	            console.log(qlrmc);
 	            let filter = {
 	            	strJson: JSON.stringify({
 
                         openId: Cookies.get('openid'),
 			            // 人脸核身 身份证 姓名
-                        qlr: this.$store.getters.getPersonCardInfo.cardName,
+                        // qlr: this.$store.getters.getPersonCardInfo.cardName,
 			            // 人脸核身 身份证 号码
-                    	zjhm: this.$store.getters.getPersonCardInfo.cardCode,
+                    	// zjhm: this.$store.getters.getPersonCardInfo.cardCode,
 
 			            // 返回数据取值
 			            // rid 唯一标识字段
@@ -65,9 +67,9 @@
 			            // 不动产单元号
 			            bdcdyh:bdcdyh,
 			            //权利人名称
-			            qlrmc:qlrmc,
-			            // 证件号
-			            zjh:zjh
+			            qlr:qlrmc,
+			            // 证件号码（取用证件号）
+			            zjhm:zjh,
 	            	})
 	            };
 	            this.$router.push({
