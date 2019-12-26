@@ -44,13 +44,6 @@
 				v-else-if="viewType == 1"
 				style="margin: 10px 0px;text-align:center"
 			>
-				<van-button
-					type="default"
-					size="default"
-					class="fullButton"
-					@click="sublitBusiness"
-					>提交</van-button
-				>
 				<div style="width:100%;height:.3rem"></div>
 				<van-button
 					type="default"
@@ -76,11 +69,23 @@
 					</tr>
 					<tr>
 						<td class="title">联系人</td>
-						<td class="count">{{ nowUser.LXR }}</td>
+						<td class="count">
+							<van-field
+								v-model="nowUser.LXR"
+								:error="nowUser.LXR == ''"
+								placeholder="请输入联系人"
+							/>
+						</td>
 					</tr>
 					<tr>
 						<td class="title">联系电话</td>
-						<td class="count">{{ nowUser.LXDH }}</td>
+						<td class="count">
+							<van-field
+								v-model="nowUser.LXDH"
+								:error="nowUser.LXDH == ''"
+								placeholder="请输入联系电话"
+							/>
+						</td>
 					</tr>
 					<tr>
 						<td class="title">合同号</td>
@@ -98,6 +103,64 @@
 					</tr>
 				</table>
 
+				<div
+					style="border-bottom: 1px solid #333;margin-top:.5rem;width:3.8rem;font-size:.6rem;font-weight: bolder"
+				>
+					EMS寄件信息
+				</div>
+				<div style="width:100%;border-top: 1px solid #bbb;"></div>
+				<div style="color:red">
+					系统支持下载电子证明，具有同等法律效力，申请人如需纸质证明，请填写寄送信息，快递费用自行承担，
+					港澳台地区暂不支持邮寄。
+					<van-row class="checkType">
+						<van-radio-group
+							v-model="ems.FSFKDJZ"
+							@change="kdjzchange"
+						>
+							<div
+								style="color:#000;font-size: 0.5rem"
+								class="radioBox van-col van-col--8"
+							>
+								<label style="padding-left:15px"
+									>快递寄证</label
+								>
+							</div>
+							<van-col span="8" class="radioBox">
+								<van-radio name="是">是</van-radio>
+							</van-col>
+							<van-col span="8" class="radioBox">
+								<van-radio name="否">否</van-radio>
+							</van-col>
+						</van-radio-group>
+					</van-row>
+					<template v-if="ems.FSFKDJZ == '是'">
+						<van-field
+							v-model="ems.FDXLXR"
+							label="联系人"
+							:error="ems.FDXLXR == ''"
+							placeholder="请输入联系人"
+						/>
+						<van-field
+							v-model="ems.FDXTZDH"
+							label="联系电话"
+							:error="ems.FDXTZDH == ''"
+							placeholder="请输入联系电话"
+						/>
+						<van-field
+							v-model="ems.FDZ"
+							label="联系地址"
+							:error="ems.FDZ == ''"
+							placeholder="请输入联系地址"
+						/>
+						<van-button
+							type="default"
+							size="default"
+							class="fullButton"
+							@click="saveEms"
+							>暂存</van-button
+						>
+					</template>
+				</div>
 				<div
 					style="border-bottom: 1px solid #333;margin-top:.5rem;width:2.5rem;font-size:.6rem;font-weight: bolder"
 				>
@@ -154,6 +217,36 @@
 						</tr>
 					</template>
 				</table>
+
+				<div
+					v-if="viewType == 1"
+					style="margin: 10px 0px;text-align:center"
+				>
+					<div class="home_approve_container">
+						<div class="home_approve">
+							<div
+								class="message_check_box"
+								@click="aggreeOnChange"
+							>
+								<span
+									:class="{
+										message_check: true,
+										message_isCheck: ckAggree
+									}"
+								></span>
+							</div>
+							本人同意将附件材料作为一手房办证的申请材料
+						</div>
+					</div>
+					<van-button
+						type="default"
+						size="default"
+						class="fullButton"
+						:disabled="!ckAggree"
+						@click="sublitBusiness"
+						>提交</van-button
+					>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -165,7 +258,7 @@ import axios from "axios";
 import qs from "qs";
 import wimg from "w-previewimg";
 import lrz from "lrz";
-import { Toast, Dialog } from "vant";
+import { Toast, Dialog, Radio, RadioGroup } from "vant";
 export default {
 	name: "businessView",
 	data() {
@@ -175,7 +268,8 @@ export default {
 				QQJID: "",
 				GFRMC: "",
 				GFRZJHM: "",
-				lxdh: "",
+				LXDH: "",
+				LXR: "",
 				HTBH: "",
 				BDCZL: "",
 				FJZMJ: "",
@@ -197,7 +291,14 @@ export default {
 			currentIndex: -1, //附件上传所在的附件列表
 			isDelete: false, //控制是否可以删除附件
 			currentFilePath: "", //预览的文件宏路径
-			preViewZlmc: "" //当前预览的资料名称
+			preViewZlmc: "", //当前预览的资料名称
+			ckAggree: false, //同意提交
+			ems: {
+				FDXLXR: "",
+				FDXTZDH: "",
+				FDZ: "",
+				FSFKDJZ: "否"
+			}
 		};
 	},
 	components: {
@@ -205,6 +306,64 @@ export default {
 		wimg
 	},
 	methods: {
+		saveEms: function() {
+			let _this = this;
+			if (!_this.ems.FDXLXR) {
+				Toast("联系人不能为空！");
+				return;
+			}
+			if (!_this.ems.FDXTZDH) {
+				Toast("联系电话不能为空！");
+				return;
+			}
+			if (!_this.ems.FDZ) {
+				Toast("联系地址不能为空！");
+				return;
+			}
+			let params = {
+				jid: _this.formData.SQBH,
+				flag: _this.ems.FSFKDJZ,
+				emsContact: _this.ems.FDXLXR,
+				emsPhoneNumber: _this.ems.FDXTZDH,
+				emsAddress: _this.ems.FDZ
+			};
+			Toast.loading({
+				duration: 0,
+				mask: true,
+				message: "正在暂存..."
+			});
+			_this
+				.$post(
+					"/workflowWebService/public/saveEms",
+					qs.stringify(params)
+				)
+				.then(response => {
+					if (response.code == 1) {
+						Toast.clear();
+						Toast("暂存成功！");
+					} else {
+						Toast.clear();
+						Toast(response.message);
+					}
+				})
+				.catch(error => {
+					Toast.clear();
+					Toast("服务器请求错误!");
+				});
+		},
+		kdjzchange: function(val) {
+			if (
+				val == "是" &&
+				this.ems.FDXLXR == "" &&
+				this.ems.FDXTZDH == ""
+			) {
+				this.ems.FDXLXR = this.nowUser.LXR;
+				this.ems.FDXTZDH = this.nowUser.LXDH;
+			}
+		},
+		aggreeOnChange: function() {
+			this.ckAggree = !this.ckAggree;
+		},
 		isUpload(fileListName) {
 			fileListName = fileListName.replace(/\s+/g, "");
 			let loginName = this.$store.getters.getPersonCardInfo.cardName;
@@ -529,12 +688,34 @@ export default {
 		},
 		//提交数据
 		sublitBusiness() {
+			let _this = this;
+			if (!_this.nowUser.LXR) {
+				Toast("联系人不能为空!");
+				return;
+			}
+			if (!_this.nowUser.LXDH) {
+				Toast("联系电话不能为空!");
+				return;
+			}
+			if (_this.ems.FSFKDJZ == "是") {
+				if (!_this.ems.FDXLXR) {
+					Toast("寄件联系人不能为空！");
+					return;
+				}
+				if (!_this.ems.FDXTZDH) {
+					Toast("寄件联系电话不能为空！");
+					return;
+				}
+				if (!_this.ems.FDZ) {
+					Toast("寄件联系地址不能为空！");
+					return;
+				}
+			}
 			Toast.loading({
 				duration: 0,
 				mask: true,
 				message: "数据提交中..."
 			});
-			let _this = this;
 			let json = {
 				OLDJID: _this.formData.QQJID,
 				JID: _this.formData.SQBH,
@@ -542,8 +723,14 @@ export default {
 			};
 			let params = {
 				contractNumber: _this.formData.HTBH,
-				jid: _this.formData.SQBH,
-				strJson: JSON.stringify(json)
+				strJson: JSON.stringify(json),
+				idCard: _this.$store.getters.getPersonCardInfo.cardCode,
+				contact: _this.nowUser.LXR,
+				phoneNumber: _this.nowUser.LXDH,
+				flag: _this.ems.FSFKDJZ,
+				emsContact: _this.ems.FDXLXR,
+				emsPhoneNumber: _this.ems.FDXTZDH,
+				emsAddress: _this.ems.FDZ
 			};
 			var resultData = null;
 			_this
@@ -609,7 +796,9 @@ export default {
 		)
 			.then(response => {
 				if (response.resultcode == 1) {
-					let user = _this.$route.query.nowUser;
+					let user = _this.$store.getters.getPersonCardInfo.cardName;
+					let cardCode =
+						_this.$store.getters.getPersonCardInfo.cardCode;
 					if (
 						response.resultdata.YWJD == "预申请" ||
 						response.resultdata.YWJD == "待申请" ||
@@ -621,9 +810,13 @@ export default {
 						_this.viewType = 0;
 					}
 					_this.formData = response.resultdata;
+					_this.ems = response.resultdata.SJDJB;
 					let allgfr = _this.formData.ALLGFRXX;
 					for (var i = 0; i < allgfr.length; i++) {
-						if (allgfr[i].GFRMC == user) {
+						if (
+							allgfr[i].GFRMC == user &&
+							allgfr[i].GFRZJHM == cardCode
+						) {
 							_this.nowUser = allgfr[i];
 						}
 					}
@@ -664,7 +857,7 @@ export default {
 }
 .fromTable table tr {
 	border-top: 1px solid #bbb;
-	height: 1rem;
+	height: 46px;
 }
 .fromTable table tr td {
 	font-size: 0.5rem;
@@ -680,6 +873,9 @@ export default {
 	word-break: break-all;
 	white-space: normal;
 	max-width: calc(100%-2.3rem);
+}
+.fromTable .count .van-cell {
+	border: solid 1px #dfdfdf;
 }
 .fromTable .count-defult {
 	padding-left: 0.2rem;
@@ -745,5 +941,32 @@ export default {
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: cover;
+}
+.home_approve_container {
+	position: relative;
+	width: 100%;
+	text-align: center;
+	height: 32px;
+}
+
+.message_check_box {
+	width: 30px;
+	height: 25px;
+	display: inline-block;
+}
+
+.message_check {
+	padding: 0 8px;
+	border-radius: 20px;
+	border: 1px solid #9a9a9a;
+}
+
+.message_isCheck {
+	border: none;
+	background-image: url("../../../public/images/home/icon_gouxuan@2x.png");
+	background-repeat: no-repeat;
+	background-size: 16px 16px;
+}
+.checkType {
 }
 </style>
