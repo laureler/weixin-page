@@ -1,0 +1,11 @@
+# 添加eslint 忽略文件
+
+/src
+
+#/.electron-vue
+#/build
+#/dist
+#/docs
+#/src
+#/static
+#/test

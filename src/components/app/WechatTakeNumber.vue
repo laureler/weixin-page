@@ -154,7 +154,7 @@
                 const that = this;
                 request({
                     url: '/SubmitQHInfo',
-                    data: { strJson: JSON.stringify({ wxh: that.openid, sfzh: '' }) },
+                    data: { strJson: JSON.stringify({ wxh: that.openid === undefined?"":that.openid, sfzh: '' }) },
                     success (data) {
                         console.log(data);
 						that.isSuccess = true;
@@ -240,10 +240,12 @@
 	.timeoutText {
 		width: 84%;
 		font-size: 0.375rem;
-		color: red;
+		color: black;
 		padding: 0.3rem 0;
 		font-weight: bold;
 		line-height: 0.525rem;
+		margin:0 auto;
+		text-align:center;
 	}
 
 	.osubmit {

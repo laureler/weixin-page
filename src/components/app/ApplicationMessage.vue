@@ -37,7 +37,6 @@
 	</div>
 </template>
 
-
 <script>
     import Head from './head.vue'
     import { Dialog, Toast } from 'vant'
@@ -82,6 +81,14 @@
                 let i
                 let value
                 const openid = isWx() ? Cookies.get('openid') : ''
+	            cnsole.log("无法获取到openid,取值：");
+	            console.log(JSON.stringify(this.item));
+	            if (openid === '') {
+	            	openid = this.item.zjhm;
+	            }
+	            console.log("当前的openid赋值为:" + this.item.zjhm);
+	            console.log(openid);
+	            // yyfs 预约方式
                 if (isWx()) {
                     i = '2'
                     value = Object.assign(that.item, { yyfs: i, openid })

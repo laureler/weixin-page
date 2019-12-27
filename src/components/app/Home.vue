@@ -77,7 +77,19 @@
 					<van-col :span="8">
 						<div class="home-item" @click="open('/personalCenter')">
 							<p class="iconfont icon-yuyue orange"></p>
-							<p class="title">个人中心</p>
+							<p class="title">在线查档</p>
+						</div>
+					</van-col>
+					<van-col :span="8">
+						<div class="home-item" @click="open('/oqarc')">
+							<p class="iconfont icon-yuyue orange"></p>
+							<p class="title">在线查档</p>
+						</div>
+					</van-col>
+					<van-col :span="8">
+						<div class="home-item last" @click="open('/newschq')">
+							<p class="iconfont icon-jindu blue"></p>
+							<p class="title">进度查询</p>
 						</div>
 					</van-col>
 					<van-col :span="8">

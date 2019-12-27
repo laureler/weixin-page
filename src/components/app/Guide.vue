@@ -1,10 +1,16 @@
 <template lang="html">
 	<div style="display:flex;flex-direction:column;background-color:#F0F5F8">
 		<page-head :title="bname"></page-head>
+		<div class="search-div">
+			<div class="s-div">
+				<input v-model="searchData" type="text" class="s-input"/>
+				<van-icon name="search" size="20px" color="#6cccff" v-on:click="query" class="s-query" ></van-icon>
+			</div>
+		</div>
 		<div class="contain">
 			<van-cell-group>
-				<cell-line @click.native="open(index)" v-for="(item,index) in calcItems" :title="item.title"
-						   :label="item.date"/>
+				<cell-line @click.native="open(item.gid)" v-for="(item,index) in calcItems" :title="item.title"
+						   :label="item.createtime"/>
 			</van-cell-group>
 			<van-pagination
 				v-model="currentPage"
@@ -29,12 +35,12 @@
         },
         data () {
             return {
-                //当前页码
+                // 当前页码
                 currentPage: 1,
                 items: [],
                 // 全部数据
                 datas: [],
-                //标题名称
+                // 标题名称
                 bname: '',
                 pageSize: 10,
                 totalDataNumber: 0,
@@ -50,12 +56,30 @@
             changeData: function (PageNumber) {
 
             },
-            open (index) {
+            open (gid) {
                 this.$router.push({
                     path: '/guid',
-                    query: { response: this.items[index].gid },
+                    query: { response: gid },
                 })
             },
+			query () {
+				const that = this;
+				request({
+					url: '/GetTitleList',
+					data: {strJson:JSON.stringify({filter:decodeURI(that.searchData),bname:decodeURI(that.$route.query.response)})},
+					success (data) {
+						that.datas = data.noInfo;
+						that.totalDataNumber=data.total;
+						that.currentPage=1;
+					},
+					fail (error) {
+						if(error.status == '404'){
+							Toast("找不到该接口！");
+							return;
+						}
+					},
+				})
+			},
             loadData (pageNum, pageSize) {
                 const that = this
                 that.items = []
@@ -106,7 +130,7 @@
             } else {
                 request({
                     url: '/GetTitleList',
-                    data: { strJson: JSON.stringify({ bname: decodeURI(that.$route.query.response) }) },
+                    data: { strJson: JSON.stringify({ bname: decodeURI(that.$route.query.response), page: '0', filter: '', count: '10000' }) },
                     success (response) {
                         console.log(response)
                         for (let i = 0; i < response.noInfo.length; i++) {
@@ -124,7 +148,7 @@
                             }
                         }
                         that.bname = response.noInfo[0].bname
-                        that.totalDataNumber = that.datas.length
+                        that.totalDataNumber = response.total;
                         that.record()
                     },
                     fail (error) {
@@ -143,10 +167,48 @@
 
 	.contain {
 		background-color: #ffffff;
-		margin-top: 0.25rem;
+		margin-top: 1.65rem;
 	}
 
 	.paging {
 		padding: 0.15rem;
+	}
+	.search-div {
+		background: #f0f5f8;
+		width: 100%;
+		height: 1.7rem;
+		position: fixed;
+		top: 1.2rem;
+		left: 0;
+		z-index: 2001;
+	}
+	.s-div {
+		padding: 0.15rem 0rem 0.15rem 0.15rem;
+		display: flex;
+		margin: 0.25rem 0.25rem 0.25rem 0.25rem;
+		background-color: #ffffff;
+		height: 1.2rem;
+		border-radius: 5px;
+		border: 1px solid #E5E5E5;
+	}
+
+	.s-input {
+		width: 90%;
+		border: none;
+		font-size: 0.373333rem;
+		color: #333;
+		outline: none;
+		margin-right: 0.31rem;
+	}
+	.s-query {
+		padding: 5px 10px;
+		color: rgb(181,181,181)!important;
+	}
+	.s-query:focus {
+		background: white;
+	}
+
+	.s-query:hover {
+		background: white;
 	}
 </style>

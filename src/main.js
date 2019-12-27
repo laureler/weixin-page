@@ -10,7 +10,7 @@ import './registerServiceWorker.js';
 // 移动端屏幕适配
 import '@/assets/lib-flexible/flexible.js';
 // todo 重构请求方式为标准的 post请求
-import { request, post, fetch, patch, put } from './utils/http.js';
+import { request, post, fetch, patch, put, postFrom } from './utils/http.js';
 // vue 网络环境
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -47,7 +47,7 @@ FastClick.attach(document.body);
 
 Vue.config.productionTip = false;
 
-// todo 抽取到JS文件封装
+/*// todo 抽取到JS文件封装
 request({
 	url: '/GetWeChatPublicName',
 	data: {},
@@ -61,7 +61,7 @@ request({
 		console.log('/WSYYUSER接口错误');
 		console.log(error);
 	},
-});
+});*/
 
 // todo 抽取到JS文件封装
 if (/;jsessionid/i.test(window.location.href)) {
@@ -79,6 +79,14 @@ overwritePrototype();
 
 Vue.prototype.$jsonp = jsonp;
 Vue.prototype.$post = post;
+Vue.prototype.$postFrom = postFrom;
 Vue.prototype.$fetch = fetch;
 Vue.prototype.$patch = patch;
 Vue.prototype.$put = put;
+Vue.prototype.$fetch('/gdbdcWebService/WeChatConfig/public/getProtocolTitleInfomation').then(res=>{
+	window['titleValue'] = res.WECHATTITLE;
+	document.getElementsByTagName('title')[0].innerHTML = res.WECHATTITLE;
+}).catch(error=>{
+	console.log('/WSYYUSER接口错误');
+	console.log(error);
+})

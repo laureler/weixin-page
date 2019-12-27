@@ -29,7 +29,7 @@
 </template>
 
 <script>
-    import Head from './head.vue'
+	import Head from './head.vue'
 
     import { request } from '../../utils/http'
     import { Dialog } from 'vant'
@@ -71,6 +71,7 @@
                 request({
                     url: '/SubmitTSYYInfo',
                     data: { strJson: JSON.stringify(that.item) },
+					timeout:300000,
                     success (response) {
                         console.log(that.item);
                         if (Number(response.resultcode) === 1) {

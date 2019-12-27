@@ -42,5 +42,14 @@ let wechatRemoteCheck = () => {
 	}
 	return wechatRemoteCheck
 }
+let jidSmsCodeInfo = () => {
+	return {
+		code: "true"
+	};
+}
 Mock.mock(/\/pubWeb\/public\/getWeChatConfig2/, 'get', wechatConfig)
 Mock.mock(/\/pubWeb\/public\/system\/WeChatRemoteCheck/, 'post', wechatRemoteCheck)
+// mock "/pubWeb/system/public/jidSmsCode"
+
+// /pubWeb/system/public/jidSmsCode?jid=9&number=13121679989
+Mock.mock(/\/pubWeb\/system\/public\/jidSmsCode/, 'get', jidSmsCodeInfo)

@@ -19,7 +19,7 @@ if (process.env.VUE_APP_PREVIEW === 'true') {
 	// require('./services/user.js');
 	require('./services/doIntranetRequest.js');
 	require('./services/pubWeb-public.js');
-
+	require("./services/formengineWebService.js");
 	Mock.setup({
 		timeout: 800 // setter delay time
 	});

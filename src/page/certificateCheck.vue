@@ -11,18 +11,18 @@
 					<van-cell value="证件号码"/>
 					<van-field class="lineBox" v-model="cardNumber" placeholder="请填写证件号码"/>
 					<van-cell value="证书号"/>
-					<div style="display: flex;flex-direction: row;margin: 2px 14px; font-size: 16px;color: #989898">
+					<div style="display: flex;flex-direction: row;margin: 2px 0px 2px 14px; font-size: 16px;color: #989898">
 						<div style="transform: translateY(0%)">
 							<div @click="selectYear" style="display: inline">
 								<span style="margin-right: 10px;">粤</span>
 								<input type="text" v-model="year" disabled
-								       style="border: 1px solid #989898;width: 78px;height: 40px;text-align: left;background: white;padding-left: 5px !important">
+								       style="border: 1px solid #989898;width: 68px;height: 40px;text-align: left;background: white;padding-left: 5px !important">
 								<i data-v-03a2a6a8="" style="margin-left: -20px" class="van-icon van-icon-arrow van-cell__right-icon"><!----></i>
 							</div>
 							<span style="margin: 0 6px;">中山市不动产权第</span>
 							<input type="text" v-model="budongchanquanzheng_number"
 							       style="border: 1px solid #989898;width: 78px;height: 40px;text-align: left;padding-left: 5px !important;">
-							<span style="margin: 0 10px;">号</span>
+							<span style="margin: 0 2px;">号</span>
 						</div>
 					</div>
 					<!--					<van-field class="lineBox" label="验证码"  placeholder="请输入验证码" />-->
@@ -70,12 +70,12 @@
 					<van-cell value="证件号码"/>
 					<van-field class="lineBox" v-model="cardNumber2" placeholder="请填写证件号码"/>
 					<van-cell value="证明号"/>
-					<div style="display: flex;flex-direction: row;margin: 2px 14px; font-size: 16px;color: #989898">
+					<div style="display: flex;flex-direction: row;margin: 2px 0px 2px 14px; font-size: 16px;color: #989898">
 						<div style="transform: translateY(0%)">
 							<div @click="selectYear2" style="display: inline">
 								<span style="margin-right: 2px;">粤</span>
 								<input type="text" v-model="year2"
-								       style="border: 1px solid #989898;width: 78px;height: 40px;text-align: left;background: white;padding-left: 5px !important">
+								       style="border: 1px solid #989898;width: 68px;height: 40px;text-align: left;background: white;padding-left: 5px !important">
 								<i data-v-03a2a6a8="" style="margin-left: -20px" class="van-icon van-icon-arrow van-cell__right-icon"><!----></i>
 							</div>
 							<span style="margin: 0 4px;">中山市不动产证明第</span>
@@ -95,7 +95,7 @@
 					<div style="display: flex;flex-direction: row;justify-content: center;width: 80%;margin: 0 auto"
 					     class="buttonArea">
 						<!--<van-loading />-->
-						<van-button :loading="loading" type="info" @click="find_zhengshu">查询</van-button>
+						<van-button :loading="loading" type="info" @click="find_zhengshu2">查询</van-button>
 						<van-button type="default" @click="resetValue(1)">重置</van-button>
 					</div>
 
@@ -301,11 +301,11 @@
 					qlr: this.quanliren, // 权利人
 					zjzl: this.cardTypeNumber, // 证件种类
 					zjhm: this.cardNumber, // 证件号码
-					cqzh: `粤 （${this.year}） 中山市 不动产权第 ${this.budongchanquanzheng_number} 号`, // 不动产权证号/不动产登记证明号
-					zlx: this.active + 1, // 正类型(1 不动产权证）（2 不动产登记证明）
+					cqzh: `粤（${this.year}）中山市不动产权第${this.budongchanquanzheng_number}号`, //不动产权证号/不动产登记证明号
+					zlx: this.active + 1, // 正类型(1不动产权证）（2不动产登记证明）
 				}
 				if (this.active == 1) {
-					strJson.cqzh = `粤 （${this.year}） 中山市 不动产证明第 ${this.budongchanquanzheng_number} 号`; // 不动产权证号/不动产登记证明号
+					strJson.cqzh = `粤（${this.year}）中山市不动产证明第${this.budongchanquanzheng_number}号`; //不动产权证号/不动产登记证明号
 				}
 				// 最后一位 是其他
 				if (this.cardTypeNumber == 8) {
@@ -314,7 +314,7 @@
 				var that = this;
 				this.loading = true;
 				request({
-					// http://bdcdj.zsfdc.gov.cn/WSYY/CheckCert?strJson={"username":"nfdj","password":"nfdj1234","qlr":"郑潮平","zjzl":"1","zjhm":"440582199108241557","cqzh":"粤（2017）中山市不动产权第 0251548 号","zlx":"1"}
+					// http://bdcdj.zsfdc.gov.cn/WSYY/CheckCert?strJson={"username":"nfdj","password":"nfdj1234","qlr":"郑潮平","zjzl":"1","zjhm":"440582199108241557","cqzh":"粤（2017）中山市不动产权第 0251548号","zlx":"1"}
 					url: '/CheckCert',
 					data: { strJson: JSON.stringify(strJson) },
 					success (response) {
@@ -323,7 +323,7 @@
 							// Toast('不存在该产权证书，请确认输入信息是否准确');
 							that.failDiv = true;
 							console.log('返回结果为0' + response.resultcode);
-						} else if (response.resultcode == 0 || response.resultcode == "0") {
+						} else if (response.resultcode == 1 || response.resultcode == "1") {
 							if (response.result == "true" || response.resultcode == true) {
 								that.successDiv = true;
 							}
@@ -418,11 +418,11 @@
 					qlr: this.quanliren2, // 权利人
 					zjzl: this.cardTypeNumber2, // 证件种类
 					zjhm: cardNumber2_string, // 证件号码
-					cqzh: `粤 （${this.year2}） 中山市 不动产权第 ${budongchanquanzhengNumber} 号`, // 不动产权证号/不动产登记证明号
-					zlx: this.active + 1, // 正类型(1 不动产权证）（2 不动产登记证明）
+					cqzh: `粤（${this.year2}）中山市不动产权第${budongchanquanzhengNumber}号`, //不动产权证号/不动产登记证明号
+					zlx: this.active + 1, // 正类型(1不动产权证）（2不动产登记证明）
 				}
 				if (this.active == 1) {
-					strJson.cqzh = `粤 （${this.year2}） 中山市 不动产证明第 ${budongchanquanzhengNumber} 号`; // 不动产权证号/不动产登记证明号
+					strJson.cqzh = `粤（${this.year2}）中山市不动产证明第${budongchanquanzhengNumber}号`; //不动产权证号/不动产登记证明号
 				}
 				// 最后一位 是其他
 				if (this.cardTypeNumber == 8) {
@@ -439,7 +439,7 @@
 							// Toast('不存在该产权证书，请确认输入信息是否准确');
 							that.failDiv = true;
 							console.log('返回结果为0' + response.resultcode);
-						} else if (response.resultcode == 0 || response.resultcode == "0") {
+						} else if (response.resultcode == 1 || response.resultcode == "1") {
 							if (response.result == "true" || response.resultcode == true) {
 								that.successDiv = true;
 							}

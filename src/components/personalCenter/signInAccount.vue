@@ -7,43 +7,47 @@
 				账号信息
 			</div>
 			<van-cell-group>
-				<van-field id="loginName" label="账号" placeholder="ibase账号名"
-						   v-model.trim="loginName" type="text" :error-message="accountHintInfo" clearable />
-				<van-field id="password" label="密码" placeholder="密********码" v-model.trim="password" type="password" clearable />
+				<van-field required id="loginName" label="登录账号" placeholder="请输入6-20位字符，仅包含数字、字母、下划线中的两种或以上的组合"
+					v-model.trim="loginName" type="text" :error-message="accountHintInfo" clearable />
+				<van-field required id="password" label="登录密码" placeholder="请输入8-20位字符，必须包含数字、大写字母、小写字母、下划线中的三种"
+					v-model.trim="password" type="password" clearable />
+				<van-field required id="comfirm-password" label="确认密码" placeholder="请再次输入密码"
+					v-model.trim="confirmPassword" type="password" clearable />
 			</van-cell-group>
 
 			<div class="title-bg-div">
 				个人信息
 			</div>
 			<van-cell-group>
-				<van-field id="username" label="姓名" v-model.trim="username" type="text" label-align="left" clearable readonly />
-				<van-field id="cerNumber" label="身份证号" v-model.trim="cerNumber" type="text" clearable readonly />
-				<van-field id="cardAddress" label="证件地址" placeholder="证件地址"
-						   v-model.trim="cardAddress" type="text" @click="showOrHideAreaPopup" clearable readonly/>
+				<van-field required id="username" label="用户姓名" v-model.trim="username" type="text" label-align="left"
+					placeholder="请输入身份证上用户姓名" clearable />
+				<van-field required id="cerNumber" label="身份证号" v-model.trim="cerNumber" type="text"
+					placeholder="请输入身份证号码" clearable />
+				<van-field required id="cardAddress" label="证件地址" placeholder="证件地址" v-model.trim="cardAddress"
+					type="text" @click="showOrHideAreaPopup" clearable readonly />
 				<!--证件地址选择弹出框-->
 				<van-popup v-model="isSelectedAreaPopup" position="bottom">
-					<van-picker show-toolbar :columns="showAreaList"  @confirm="onChangeArea" @cancel="showOrHideAreaPopup"/>
+					<van-picker show-toolbar :columns="showAreaList" @confirm="onChangeArea"
+						@cancel="showOrHideAreaPopup" />
 				</van-popup>
 
-				<van-field id="mAddress" label="详细地址" placeholder="请输入详细地址" v-model.trim="mAddress" type="text" clearable />
+				<van-field required id="mAddress" label="详细地址" placeholder="请输入详细地址" v-model.trim="mAddress" type="text"
+					clearable />
+				<!-- 
 				<van-cell id="sex" title="性别" :value="sex" @click="selectSex" data-type="list" value-class="change-cell"
-						  is-link/>
+							is-link/>
+				-->
 				<!-- 性别选择弹框 -->
+				<!-- 
 				<van-popup v-model="isSexPopup" position="bottom">
 					<van-picker show-toolbar :columns="columns" @confirm="confirmSex" @cancel="selectSex"/>
 				</van-popup>
-
-				<van-field id="phoneNumber" label="手机号码" placeholder="请输入手机号码" v-model.trim="phoneNumber"
-						   type="text" clearable/>
-				<van-field
-					v-model="smsCode"
-					clearable
-					label="短信验证码"
-					type="number"
-					placeholder="请输入验证码"
-				>
+ 				-->
+				<van-field required id="phoneNumber" label="手机号码" placeholder="请输入手机号码" v-model.trim="phoneNumber"
+					type="text" clearable />
+				<van-field required v-model="smsCode" clearable label="短信验证码" type="number" placeholder="请输入验证码">
 					<van-button slot="button" size="small" type="default" @click="sendSmsCode" class="blue-color"
-								:disabled="curCount!=0">{{smsCodeBtnValue}}
+						:disabled="curCount!=0">{{smsCodeBtnValue}}
 					</van-button>
 				</van-field>
 			</van-cell-group>
@@ -55,11 +59,14 @@
 </template>
 
 <script>
-
-	import { Toast } from 'vant';
+	import {
+		Toast
+	} from 'vant';
 	import Head from '../app/head';
 
-	import { isWx } from '../../utils/ua';
+	import {
+		isWx
+	} from '../../utils/ua';
 	import Cookies from 'js-cookie';
 
 	const sha1 = require('sha1');
@@ -68,24 +75,24 @@
 		components: {
 			'page-head': Head
 		},
-		data () {
+		data() {
 			return {
-				loginName: '',	// 账号
-				password: '',	// 密码
-
+				loginName: '', // 账号
+				password: '', // 密码	
+				confirmPassword: '', // 确认密码
 				sex: '男',
 				columns: ['男', '女'],
 				username: '',
-				cerNumber: '',  // 证件号码
-				cardAddress: '',	// 证件地址
-				mAddress: '',	// 详细地址
+				cerNumber: '', // 证件号码
+				cardAddress: '', // 证件地址
+				mAddress: '', // 详细地址
 				phoneNumber: '',
-				sendSmsNumber: '',	// 发送短信的号码
+				sendSmsNumber: '', // 发送短信的号码
 
-				smsCode: '',	// 短信验证码
-				smsCodeBtnValue: '获取验证码',	// 验证码按钮值
-				countdownSize: 60,	// 设置倒计时大小 默认60秒
-				curCount: 0,	// 倒计时，当前剩余秒数
+				smsCode: '', // 短信验证码
+				smsCodeBtnValue: '获取验证码', // 验证码按钮值
+				countdownSize: 60, // 设置倒计时大小 默认60秒
+				curCount: 0, // 倒计时，当前剩余秒数
 
 				isSexPopup: false,
 
@@ -93,23 +100,34 @@
 					province_list: [],
 					city_list: [],
 					county_list: []
-				},	// 省市区信息
-				provinceData: [],	// 省份name数据
-				showAreaList: [],	// 省市区显示信息列表
-				countGetArea: 1,	// 跟踪省市区，1表示已获取省数据
-				selectedArea: [],	// 用户选中的证件地址
+				}, // 省市区信息
+				provinceData: [], // 省份name数据
+				showAreaList: [], // 省市区显示信息列表
+				countGetArea: 1, // 跟踪省市区，1表示已获取省数据
+				selectedArea: [], // 用户选中的证件地址
 				isSelectedAreaPopup: false,
-				accountHintInfo: '',	// 账户唯一性提示信息
+				accountHintInfo: '', // 账户唯一性提示信息
 			};
 		},
 		methods: {
-			checkInfo () {
+			checkInfo() {
 				if (this.loginName === '' || this.password === '' || this.username === '' || this.cerNumber === '' ||
 					this.cardAddress === '' || this.phoneNumber === '' || this.sex === '' || this.mAddress === '') {
 					Toast('请完善个人信息！');
 					return;
 				} else {
 					var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+					var loginNameReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[_0-9A-Za-z]{6,12}$/;
+					var passwordReg =
+						/^(?![0-9]+$)(?![a-zA-Z]+$)(?![0-9A-Z]+$)(?![0-9a-z]+$)(?![0-9_]+$)(?![A-Z_]+$)(?![a-z_]+$)[_0-9A-Za-z]{8,12}$/;
+					if (!loginNameReg.test(this.loginName)) {
+						Toast('请输入6-20位字符，仅包含数字、字母、下划线中的两种或以上的组合');
+						return;
+					}
+					if (!passwordReg.test(this.password)) {
+						Toast('请输入8-20位字符，必须包含数字、大写字母、小写字母、下划线中的三种');
+						return;
+					}
 					if (!reg.test(this.cerNumber)) {
 						Toast('请输入正确的身份证号码！');
 						return;
@@ -127,7 +145,7 @@
 				}
 			},
 			// 保存个人信息的修改
-			saveInfo () {
+			saveInfo() {
 				const _this = this;
 				// 验证账号名是否唯一
 				_this.$fetch('/mainWeb/public/system/register/verifyUserName?loginName=' + _this.loginName)
@@ -135,10 +153,14 @@
 						if (response) {
 							_this.accountHintInfo = '';
 							/*
-							* 验证通过，保存信息
-							* */
+							 * 验证通过，保存信息
+							 * */
 							const openId = isWx() ? Cookies.get('openid') : '';
-							const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+							const config = {
+								headers: {
+									'Content-Type': 'multipart/form-data'
+								}
+							};
 							const idAddress = _this.cardAddress.replace(/\//g, '::');
 
 							let formData = new FormData();
@@ -156,21 +178,25 @@
 							formData.append('code', _this.smsCode);
 
 							// 注册并关联微信
-							_this.$post('/pubWeb/public/faceRecognition/weChatOnlineRegister', formData, config).then(response => {
-								if (Number(response.code) === 0) {
-									Toast('注册成功！');
+							_this.$post('/pubWeb/public/faceRecognition/weChatOnlineRegister', formData, config).then(
+								response => {
+									if (Number(response.code) === 0) {
+										Toast('注册成功！');
 
-									_this.$store.commit('IBASE_ACCOUNT_ID', response.result);
-									_this.$store.commit('SET_VERIFY_STATE', true);
+										_this.$store.commit('IBASE_ACCOUNT_ID', response.result);
+										_this.$store.commit('SET_VERIFY_STATE', true);
 
-									// 验证结束，进入个人中心
-									setTimeout(() => {
-										_this.$router.push({ path: '/personalCenter' });
-									}, 1000);
-								} else {
-									Toast(response.msg);
-								}
-							}).catch(error => {
+										// 验证结束，进入个人中心 --  TODO 修改为跳转到登录页面
+										setTimeout(() => {
+											_this.$router.push({
+												path: '/checkLogin',
+												query: _this.$route.query
+											});
+										}, 1000);
+									} else {
+										Toast(response.msg);
+									}
+								}).catch(error => {
 								console.log(error);
 							});
 						} else {
@@ -190,13 +216,14 @@
 				this.areaList.city_list = [];
 				this.areaList.county_list = [];
 				this.isSelectedAreaPopup = !this.isSelectedAreaPopup;
+				this.selectedArea = [];
 			},
 			onChangeArea(value, index) {
 				const _this = this;
 				_this.selectedArea.push(value);
 				// 3表示已获取区数据
 				if (_this.countGetArea === 3) {
-					_this.cardAddress = _this.selectedArea[0] + '/' +  _this.selectedArea[1] + '/' + _this.selectedArea[2];
+					_this.cardAddress = _this.selectedArea[0] + '/' + _this.selectedArea[1] + '/' + _this.selectedArea[2];
 					_this.showOrHideAreaPopup();
 					return;
 				}
@@ -237,12 +264,13 @@
 					});
 			},
 			// 发送短信获取验证码
-			sendSmsCode () {
+			sendSmsCode() {
 				const _this = this;
 				if (_this.phoneNumber === '') {
 					Toast('请输入手机号码！');
 					return false;
-				} else if (!(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(_this.phoneNumber))) {
+				} else if (!(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(_this
+						.phoneNumber))) {
 					Toast('手机号码格式不正确！');
 					return false;
 				}
@@ -272,20 +300,20 @@
 			/*
 				选择性别
 			 */
-			selectSex () {
+			selectSex() {
 				if (this.allowEdit === 'disabled') {
 					// 不允许的话也不允许修改性别
 					return;
 				}
 				this.isSexPopup = !this.isSexPopup;
 			},
-			confirmSex (value, index) {
+			confirmSex(value, index) {
 				this.sex = value;
 				this.isSexPopup = false;
 			},
 
 		},
-		mounted () {
+		mounted() {
 			let cardInfo = this.$store.getters.getPersonCardInfo;
 			if (cardInfo.cardName) {
 				this.username = cardInfo.cardName;
@@ -314,7 +342,7 @@
 		height: 30px;
 		padding: 5px 10px;
 		letter-spacing: 1px;
-		background:#f3f3f3;
+		background: #f3f3f3;
 	}
 
 	.blue-color {

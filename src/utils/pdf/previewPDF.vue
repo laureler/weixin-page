@@ -5,7 +5,7 @@
 			<div v-if="pageNum > 1" style="display: inline-block;">
 				<van-button class='pdf-btn' size="small" @click="onPrevPage">上一页</van-button>
 			</div>
-			<van-button class='pdf-btn' size="small" @click="pdfDownload">下载</van-button>
+			<van-button type="info" class='pdf-btn' size="small" @click="pdfDownload">下载</van-button>
 			<!--<van-button class='pdf-btn' size="small" @click="scalePlus">放大</van-button>-->
 			<div v-if="pageNum < pdfObj.numPages" style="display: inline-block;">
 				<van-button class='pdf-btn' size="small" @click="onNextPage">下一页</van-button>
@@ -17,7 +17,7 @@
 
 	import { Toast } from 'vant'
 
-	import PDFJS from 'pdfjs-dist'
+	import PDFJS from 'pdfjs-dist-show-signature'
 
 	export default {
 		name: 'preview-pdf',
@@ -29,7 +29,7 @@
 			},
 		},
 		watch: {
-			obj: function (newVal) {
+			obj: function (newVal) { // ''  -> wechatRemotecheck
 				if (!newVal) {
 					this.pdfObj = null;
 					return;
@@ -55,10 +55,10 @@
 		methods: {
 			showPDF (obj) {
 				let _this = this;
-
 				if (/base64/.test(obj)) {
 					obj = { data: 'data:application/pdf;base64,' + atob(obj.substr(obj.indexOf("base64,") + 7, obj.length)) };
 				}
+				// PDF下载示例：http://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf
 
 				PDFJS.getDocument(obj).then(pdf => {
 					_this.pdfObj = pdf;
@@ -66,6 +66,10 @@
 						_this.newClass = 'new-pdf-content';
 					}
 					_this.renderPage(1);
+				}).catch(function (e) {
+					Toast("预览PDF错误");
+					console.log("预览PDF错误");
+					console.error(e);
 				});
 			},
 			pdfDownload() {

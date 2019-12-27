@@ -15,7 +15,8 @@ export default new Vuex.Store({
 		stepUrl: '',
 		showDialog: false,
 		finishedVerify: '', // 完成验证
-		ibaseAccountId: ''	// 存储绑定的ibase账号ID
+		ibaseAccountId: '',	// 存储绑定的ibase账号ID
+		businessVerify:false //一手房人脸验证通过识别
 	},
 	mutations: {
 		[types.SET_STEP] (state, res) {
