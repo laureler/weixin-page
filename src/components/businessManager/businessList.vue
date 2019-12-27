@@ -90,8 +90,8 @@ export default {
 	mounted() {
 		let _this = this;
 		let isBusinessVerify = _this.$store.state.businessVerify;
-		_this.cardCode = _this.$route.query.cardCode;
-		_this.userName = _this.$route.query.userName;
+		_this.cardCode = _this.$store.getters.getPersonCardInfo.cardName;
+		_this.userName = _this.$store.getters.getPersonCardInfo.cardCode;
 		//_this.userName = "蒲秀蓉";
 		//_this.cardCode = "512921197609094225";
 		//let isBusinessVerify = true;
@@ -117,7 +117,6 @@ export default {
 			)
 				.then(response => {
 					if (response.code == 1) {
-						// 短信发送成功
 						_this.resultData = response.data;
 						Toast.clear();
 					} else {
